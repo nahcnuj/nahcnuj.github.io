@@ -21,9 +21,12 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Build
+      env:
+        IMAGE_TAG: builder
+        IMAGE_VER: '1.0.0'
       run: |
-        docker build -t nahcnuj.github.io:dev .
-        docker run -v $(pwd)/build:/var/src/build nahcnuj.github.io:dev
+        echo ${{ secrets.GITHUB_TOKEN }} | docker pull docker.pkg.github.com/${{GITHUB_REPOSITORY}}/${IMAGE_TAG}:${IMAGE_VER}
+        docker run -v $(pwd)/build:/var/src/build ${IMAGE_TAG}:${IMAGE_VER}
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3.6.1
