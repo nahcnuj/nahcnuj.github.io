@@ -22,7 +22,7 @@ jobs:
 
     - name: Build
       run: |
-        docker build nahcnuj.github.io:dev .
+        docker build -t nahcnuj.github.io:dev .
         docker run -v $(pwd)/build:/var/src/build nahcnuj.github.io:dev
 
     - name: Deploy
