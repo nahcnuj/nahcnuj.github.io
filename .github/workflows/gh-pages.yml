@@ -22,7 +22,7 @@ jobs:
 
     - name: Build
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PACKAGES_AUTH }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         IMAGE_TAG: builder
         IMAGE_VER: '1.0.0'
