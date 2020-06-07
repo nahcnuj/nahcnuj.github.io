@@ -1,10 +1,4 @@
-FROM rakudo-star:2020.01-alpine
-
-RUN apk --update add \
-    curl \
-    git
-
-RUN zef install Uzu
+FROM nahcnuj/alpine-uzu:1.0.0
 
 WORKDIR /var/src
 
