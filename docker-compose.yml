@@ -1,6 +1,0 @@
-version: '3.5'
-services:
-  html-builder:
-    build: .
-    volumes:
-      - ./build:/var/src/build
