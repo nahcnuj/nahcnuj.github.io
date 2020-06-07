@@ -27,7 +27,8 @@ jobs:
         IMAGE_TAG: builder
         IMAGE_VER: '1.0.0'
       run: |
-        echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com --username nahcnuj --password-stdin
+        USERNAME=$(echo ${GITHUB_REPOSITORY} | sed -e 's,\(.*\)/.*,\1,')
+        echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com --username ${USERNAME} --password-stdin
         docker pull docker.pkg.github.com/${GITHUB_REPOSITORY}/${IMAGE_TAG}:${IMAGE_VER}
         docker run -v $(pwd)/build:/var/src/build docker.pkg.github.com/${GITHUB_REPOSITORY}/${IMAGE_TAG}:${IMAGE_VER}
 
