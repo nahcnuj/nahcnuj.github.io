@@ -29,8 +29,11 @@ jobs:
       run: |
         USERNAME=$(echo ${GITHUB_REPOSITORY} | sed -e 's,\(.*\)/.*,\1,')
         echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com --username ${USERNAME} --password-stdin
-        docker pull docker.pkg.github.com/${GITHUB_REPOSITORY}/${IMAGE_TAG}:${IMAGE_VER}
-        docker run -v $(pwd)/build:/var/src/build docker.pkg.github.com/${GITHUB_REPOSITORY}/${IMAGE_TAG}:${IMAGE_VER}
+        DOCKER_IMAGE=docker.pkg.github.com/${GITHUB_REPOSITORY}/${IMAGE_TAG}:${IMAGE_VER}
+        docker pull ${DOCKER_IMAGE}
+        docker build -t ${DOCKER_IMAGE} .
+        docker run -v $(pwd)/build:/var/src/build ${DOCKER_IMAGE}
+        docker push ${DOCKER_IMAGE}
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3.6.1
