@@ -29,7 +29,7 @@ jobs:
       run: |
         echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com --username nahcnuj --password-stdin
         docker pull docker.pkg.github.com/${GITHUB_REPOSITORY}/${IMAGE_TAG}:${IMAGE_VER}
-        docker run -v $(pwd)/build:/var/src/build ${GITHUB_REPOSITORY}/${IMAGE_TAG}:${IMAGE_VER}
+        docker run -v $(pwd)/build:/var/src/build docker.pkg.github.com/${GITHUB_REPOSITORY}/${IMAGE_TAG}:${IMAGE_VER}
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3.6.1
