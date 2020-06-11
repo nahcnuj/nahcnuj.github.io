@@ -1,5 +1,7 @@
 ---
-name: "nahcnuj.work"
+name: 'nahcnuj.work'
 template_engine: mustache
 theme: default
 language: ja
+years: '2020'
+author: 'Junichi Hayashi'
