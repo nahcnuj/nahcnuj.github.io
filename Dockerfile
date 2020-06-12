@@ -9,4 +9,8 @@ COPY partials/  ./partials/
 COPY public/    ./public/
 COPY themes/    ./themes/
 
-CMD [ "uzu", "build" ]
+EXPOSE 3000
+STOPSIGNAL SIGKILL
+
+ENTRYPOINT [ "uzu" ]
+CMD [ "build" ]
