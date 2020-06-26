@@ -2,7 +2,6 @@ FROM nahcnuj/alpine-sassc:3.6.1 AS sass-builder
 
 WORKDIR /var/src
 
-COPY Makefile .
 COPY sass/   ./
 
 RUN find -name '*.scss' \
