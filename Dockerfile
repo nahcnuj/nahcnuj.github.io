@@ -4,8 +4,9 @@ WORKDIR /var/src
 
 COPY sass/   ./
 
-RUN find -name '*.scss' \
-        | sed -e 's,\(.*\)\.scss,\1.scss \1.css,' \
+RUN mkdir css && \
+    find -name '*.scss' \
+        | sed -e 's,\(.*\)/\(.*\)\.scss,\1/\2.scss \1/css/\2.css,' \
         | xargs -n2 sassc
 
 FROM nahcnuj/alpine-uzu:1.0.0
@@ -19,7 +20,7 @@ COPY partials/  ./partials/
 COPY public/    ./public/
 COPY themes/    ./themes/
 
-COPY --from=sass-builder /var/src/*.css ./public/css/
+COPY --from=sass-builder /var/src/css/ ./public/css/
 
 EXPOSE 3000
 STOPSIGNAL SIGKILL
