@@ -1,7 +1,6 @@
-@import '_mixin';
 @import '_color';
-
-$pc-width: 50rem;
+@import '_mixin';
+@import '_var';
 
 html, body {
     width: 100%;
