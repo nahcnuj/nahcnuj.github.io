@@ -1,0 +1,65 @@
+@import '_color';
+@import '_var';
+
+body {
+    > header {
+        position: relative;
+        height: 40%;
+
+        $img-margin-left: calc(13% - 100px);
+
+        > img {
+            width: 200px;
+            height: 200px;
+            margin-top: calc(16.5% - 100px);
+            margin-left: $img-margin-left;
+            border-radius: 50%;
+            border: 3pt solid $base-light-color;
+        }
+
+        > h1,
+        > p {
+            position: absolute;
+            left: calc(2 * #{$img-margin-left});
+            height: 3rem;
+            margin: 0;
+            padding-left: 23%;
+        }
+
+        > h1 {
+            bottom: 50%;
+            font-size: 2.2rem;
+        }
+
+        > p {
+            top: 50%;
+            font-size: 1.4rem;
+            line-height: 3rem;
+            vertical-align: bottom;
+        }
+    }
+
+    > main,
+    > aside,
+    > footer {
+        height: 20%;
+    }
+
+    > main,
+    > aside {
+        nav {
+            width: 100%;
+            height: 100%;
+            display: table;
+            table-layout: fixed;
+
+            ul {
+                display: table-row;
+
+                li {
+                    display: table-cell;
+                }
+            }
+        }
+    }
+}
