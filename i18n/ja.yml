@@ -1,2 +1,24 @@
 ---
 site_name: nahcnuj.work
+main_contents:
+  - title: プロフィール
+    href: /profile.html
+  - title: 日記
+    href: /diary/
+  - title: 製作物
+    href: /works/
+  - title: 連絡先
+    href: /contact.html
+sns_links:
+  - title: Twitter
+    href: https://twitter.com/nahcnuj
+  - title: Facebook
+    href: https://www.facebook.com/nahcnuj
+  - title: GitHub
+    href: https://github.com/nahcnuj
+  - title: AtCoder
+    href: https://atcoder.jp/users/nahcnuj
+  - title: Annict
+    href: https://annict.jp/@nahcnuj
+  - title: Blog
+    href: https://nahcnuj.hatenablog.jp/

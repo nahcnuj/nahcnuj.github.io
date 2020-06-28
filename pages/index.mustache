@@ -1,7 +1,27 @@
 ---
 title: Home
 ---
-<h1>Welcome to nahcnuj's web site!</h1>
-<p>
-  This site is under construction.
-</p>
+<header>
+  <h1>{{ site.author }}</h1>
+  <p>
+    A web engineer at <a href="https://www.seesaa.co.jp/" target="_blank">Seesaa Inc.</a>
+  </p>
+</header>
+<main>
+  <nav id="main-contents">
+    <ul>
+      {{#i18n.main_contents}}
+      <li><a href="{{ href }}">{{ title }}</a></li>
+      {{/i18n.main_contents}}
+    </ul>
+  </nav>
+</main>
+<aside>
+  <nav>
+    <ul>
+      {{#i18n.sns_links}}
+      <li><a href="{{ href }}">{{ title }}</a></li>
+      {{/i18n.sns_links}}
+    </ul>
+  </nav>
+</aside>
