@@ -6,6 +6,7 @@ COPY sass/   ./
 
 RUN mkdir css && \
     find -name '*.scss' \
+        | grep -v '.*/_.*\.scss$' \
         | sed -e 's,\(.*\)/\(.*\)\.scss,\1/\2.scss \1/css/\2.css,' \
         | xargs -n2 sassc
 
