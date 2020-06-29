@@ -33,14 +33,17 @@ sns_links:
     href: https://nahcnuj.hatenablog.jp/
     img_icon:
       src: /img/hatenablog-logo.svg
-      size: 50
+      size: 70
+      id: hatena-blog
   - title: Pixiv
     href: https://www.pixiv.net/users/9386089
     img_icon:
       src: /img/pixiv_logo_icon.png
-      size: 35
+      size: 45
+      id: pixiv
   - title: Annict
     href: https://annict.jp/@nahcnuj
     img_icon:
       src: /img/annict-logo-ver3.png
-      size: 35
+      size: 45
+      id: annict
