@@ -2,15 +2,15 @@ FROM nahcnuj/alpine-sassc:3.6.1 AS sass-builder
 
 WORKDIR /var/src
 
-COPY sass/   ./
+COPY bin/sass-compile.sh /usr/local/bin/sass-compile.sh
+COPY sass/ ./sass/
 
-RUN mkdir css && \
-    find -name '*.scss' \
-        | grep -v '.*/_.*\.scss$' \
-        | sed -e 's,\(.*\)/\(.*\)\.scss,\1/\2.scss \1/css/\2.css,' \
-        | xargs -n2 sassc
+RUN sass-compile.sh
 
-FROM nahcnuj/alpine-uzu:1.0.0
+ENTRYPOINT [ "sass-compile.sh" ]
+
+
+FROM nahcnuj/alpine-uzu:1.0.0 AS html-builder
 
 WORKDIR /var/src
 

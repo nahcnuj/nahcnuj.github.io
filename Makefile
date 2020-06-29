@@ -1,19 +1,25 @@
 HTML_BUILDER_TAG=html-builder:latest
+SASS_BUILDER_TAG=sass-builder:latest
 
 .PHONY: all
-all: clean build html-lint preview
+all: clean build html-lint
 
 .PHONY: clean
 clean:
 	@docker images -q $(HTML_BUILDER_TAG) \
 		| xargs docker rmi || :
 
-.PHONY: docker-build
-docker-build:
-	@docker build --no-cache -t $(HTML_BUILDER_TAG) .
+.PHONY: css
+css:
+	@docker build -t $(SASS_BUILDER_TAG) --target sass-builder .
+	@docker run --rm \
+		-v $(PWD)/sass:/var/src/sass \
+		-v $(PWD)/build/css:/var/src/css \
+		$(SASS_BUILDER_TAG)
 
 .PHONY: build
-build: docker-build
+build: css
+	@docker build -t $(HTML_BUILDER_TAG) --target html-builder .
 	@docker run --rm -v $(PWD)/build:/var/src/build $(HTML_BUILDER_TAG)
 
 
