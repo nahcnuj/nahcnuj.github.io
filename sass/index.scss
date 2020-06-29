@@ -80,13 +80,17 @@ body {
         nav ul li {
             vertical-align: middle;
 
-            i.fas {
-                width: 10rem;
-                @include padding-y( 1.5rem );
-                border-radius: 0.3rem;
-                background-color: $base-dark-color;
-                color: $base-light-color;
-                font-size: 5rem;
+            a {
+                font-size: 1.2rem;
+
+                > i.fas {
+                    width: 10rem;
+                    @include padding-y( 1.5rem );
+                    border-radius: 0.3rem;
+                    background-color: $base-dark-color;
+                    color: $base-light-color;
+                    font-size: 5rem;
+                }
             }
 
             div {

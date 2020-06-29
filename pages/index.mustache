@@ -16,7 +16,12 @@ custom_css:
       {{#i18n.main_contents}}
       <li><a href="{{ href }}">
         <i class="fas fa-{{ icon_name }}" title="{{ title }}"></i>
-        <div>{{ title }}</div>
+        <div>
+          {{ title }}
+          {{#under_construction}}
+          <i class="fas fa-exclamation-triangle" style="color:#F90" title="{{ i18n.under_construction }}"></i>
+          {{#under_construction}}
+        </div>
       </a></li>
       {{/i18n.main_contents}}
     </ul>

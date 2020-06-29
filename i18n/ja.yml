@@ -4,15 +4,19 @@ main_contents:
   - title: プロフィール
     href: /profile.html
     icon_name: address-card
+    under_construction: true
   - title: 日記
     href: /diary/
     icon_name: calendar-day
+    under_construction: true
   - title: 製作物
     href: /works/
     icon_name: shapes
+    under_construction: true
   - title: 連絡先
     href: /contact.html
     icon_name: paper-plane
+    under_construction: true
 sns_links:
   - title: Twitter
     href: https://twitter.com/nahcnuj
@@ -47,3 +51,4 @@ sns_links:
       src: /img/annict-logo-ver3.png
       size: 45
       id: annict
+under_construction: 工事中
