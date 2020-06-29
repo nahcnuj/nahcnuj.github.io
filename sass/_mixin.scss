@@ -1,0 +1,13 @@
+@mixin padding-x($width) {
+    padding-left: $width;
+    padding-right: $width;
+}
+@mixin padding-y($height) {
+    padding-top: $height;
+    padding-bottom: $height;
+}
+
+@mixin margin-y($height) {
+    margin-top: $height;
+    margin-bottom: $height;
+}

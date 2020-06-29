@@ -1,0 +1,48 @@
+@import '_color';
+@import '_mixin';
+@import '_var';
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Roboto&display=swap');
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: $base-light-color;
+    font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+}
+
+body {
+    > header,
+    > footer,
+    > main,
+    > aside {
+        @include padding-x( calc(50% - #{$pc-width}/2) );
+        overflow-y: hidden;
+    }
+
+    > header {
+        background-color: $base-dark-color;
+        color: $base-light-color;
+        font-family: 'Noto Sans JP', sans-serif;
+
+        a {
+            &,
+            &:active,
+            &:hover,
+            &:visited,
+            &:focus {
+                color: inherit;
+                text-decoration: none;
+            }
+        }
+    }
+
+    > footer {
+        @include padding-y( 1rem );
+        border-top: 1pt solid $base-dark-color;
+        font-size: 0.9rem;
+    }
+}

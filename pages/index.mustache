@@ -1,7 +1,45 @@
 ---
-title: Home
+title: Junichi Hayashi's Portfolio
+custom_css:
+  href: /css/index.css
 ---
-<h1>Welcome to nahcnuj's web site!</h1>
-<p>
-  This site is under construction.
-</p>
+<header>
+  <img src="/img/author.jpg" width="200" height="200" alt="an author's photo">
+  <h1>{{ site.author }}</h1>
+  <p>
+    A web engineer at <a href="https://www.seesaa.co.jp/" target="_blank">Seesaa Inc.</a>
+  </p>
+</header>
+<main>
+  <nav id="main-contents">
+    <ul>
+      {{#i18n.main_contents}}
+      <li><a href="{{ href }}">
+        <i class="fas fa-{{ icon_name }}" title="{{ title }}"></i>
+        <div>
+          {{ title }}
+          {{#under_construction}}
+          <i class="fas fa-exclamation-triangle" style="color:#F90" title="{{ i18n.under_construction }}"></i>
+          {{#under_construction}}
+        </div>
+      </a></li>
+      {{/i18n.main_contents}}
+    </ul>
+  </nav>
+</main>
+<aside>
+  <nav>
+    <ul>
+      {{#i18n.sns_links}}
+      <li><a href="{{ href }}">
+        {{#fontawesome_icon}}
+        <i class="fab fa-{{ name }}" style="color:{{ color }}" title="{{ title }}"></i>
+        {{/fontawesome_icon}}
+        {{#img_icon}}
+        <img id="{{ id }}" src="{{ src }}" width="{{ size }}" height="{{ size }}" alt="{{ title }}" title="{{ title }}">
+        {{/img_icon}}
+      </a></li>
+      {{/i18n.sns_links}}
+    </ul>
+  </nav>
+</aside>

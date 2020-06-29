@@ -1,2 +1,54 @@
 ---
 site_name: nahcnuj.work
+main_contents:
+  - title: プロフィール
+    href: /profile.html
+    icon_name: address-card
+    under_construction: true
+  - title: 日記
+    href: /diary/
+    icon_name: calendar-day
+    under_construction: true
+  - title: 製作物
+    href: /works/
+    icon_name: shapes
+    under_construction: true
+  - title: 連絡先
+    href: /contact.html
+    icon_name: paper-plane
+    under_construction: true
+sns_links:
+  - title: Twitter
+    href: https://twitter.com/nahcnuj
+    fontawesome_icon:
+      name: twitter
+      color: '#1DA1F2'
+  - title: Facebook
+    href: https://www.facebook.com/nahcnuj
+    fontawesome_icon:
+      name: facebook
+      color: '#4267B2'
+  - title: GitHub
+    href: https://github.com/nahcnuj
+    fontawesome_icon:
+      name: github
+      color: '#333'
+  - title: Blog
+    href: https://nahcnuj.hatenablog.jp/
+    img_icon:
+      src: /img/hatenablog-logo.svg
+      size: 70
+      id: hatena-blog
+  - title: Pixiv
+    href: https://www.pixiv.net/users/9386089
+    img_icon:
+      src: /img/pixiv_logo_icon.png
+      size: 45
+      id: pixiv
+  - title: Annict
+    href: https://annict.jp/@nahcnuj
+    img_icon:
+      src: /img/annict-logo-ver3.png
+      size: 45
+      id: annict
+under_construction: 工事中

@@ -9,7 +9,7 @@ make build
 ## Preview the site
 
 ```sh
-make preview
+make server-start
 ```
 
-After executing the command above, open http://localhost/ with your browser.
+After executing the command above, open http://localhost:3000/ with your browser.
