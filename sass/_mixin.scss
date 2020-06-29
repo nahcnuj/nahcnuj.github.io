@@ -6,3 +6,8 @@
     padding-top: $height;
     padding-bottom: $height;
 }
+
+@mixin margin-y($height) {
+    margin-top: $height;
+    margin-bottom: $height;
+}

@@ -3,12 +3,16 @@ site_name: nahcnuj.work
 main_contents:
   - title: プロフィール
     href: /profile.html
+    icon_name: address-card
   - title: 日記
     href: /diary/
+    icon_name: calendar-day
   - title: 製作物
     href: /works/
+    icon_name: shapes
   - title: 連絡先
     href: /contact.html
+    icon_name: paper-plane
 sns_links:
   - title: Twitter
     href: https://twitter.com/nahcnuj

@@ -73,15 +73,38 @@ body {
         }
     }
 
-    > aside nav ul li {
-        vertical-align: middle;
+    > main {
+        @include margin-y( 2rem );
 
-        img {
-            display: inline-block;
+        nav ul li {
+            vertical-align: middle;
+
+            i.fas {
+                padding: 1.5rem;
+                background-color: $base-dark-color;
+                color: $base-light-color;
+                font-size: 5rem;
+            }
+
+            div {
+                margin-top: 0.5em;
+            }
         }
+    }
 
-        i.fab {
-            font-size: 35px;
+    > aside {
+        @include margin-y( 1rem );
+
+        nav ul li {
+            vertical-align: middle;
+
+            img {
+                display: inline-block;
+            }
+
+            i.fab {
+                font-size: 35px;
+            }
         }
     }
 }

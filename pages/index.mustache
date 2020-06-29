@@ -14,7 +14,10 @@ custom_css:
   <nav id="main-contents">
     <ul>
       {{#i18n.main_contents}}
-      <li><a href="{{ href }}">{{ title }}</a></li>
+      <li><a href="{{ href }}">
+        <i class="fas fa-{{ icon_name }}" title="{{ title }}"></i>
+        <div>{{ title }}</div>
+      </a></li>
       {{/i18n.main_contents}}
     </ul>
   </nav>
