@@ -91,6 +91,10 @@ body {
                     color: $base-light-color;
                     font-size: 5rem;
                 }
+
+                &:hover > i.fas {
+                    background-color: #336;
+                }
             }
 
             div {
