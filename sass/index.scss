@@ -5,14 +5,15 @@
 body {
     > header {
         position: relative;
-        height: 40%;
+        height: 20rem;
 
-        $img-margin-left: calc(13% - 100px);
+        $img-size: 12.5rem;
+        $img-margin-left: calc(13% - #{$img-size}/2);
 
         > img {
-            width: 200px;
-            height: 200px;
-            margin-top: calc(16.5% - 100px);
+            width: $img-size;
+            height: $img-size;
+            margin-top: calc(16.5% - #{$img-size}/2);
             margin-left: $img-margin-left;
             border-radius: 50%;
             border: 3pt solid $base-light-color;

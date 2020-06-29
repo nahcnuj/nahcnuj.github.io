@@ -19,6 +19,7 @@ body {
     > footer,
     > main,
     > aside {
+        max-width: $pc-width;
         @include padding-x( calc(50% - #{$pc-width}/2) );
         overflow-y: hidden;
     }
