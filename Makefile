@@ -16,9 +16,18 @@ docker-build:
 build: docker-build
 	@docker run --rm -v $(PWD)/build:/var/src/build $(HTML_BUILDER_TAG)
 
-.PHONY: preview
-preview:
-	@docker run --rm -v $(PWD):/var/src -p 3000:3000 -it $(HTML_BUILDER_TAG) watch || :
+
+NGINX_CONTAINER_NAME=nahcnuj-work-test
+.PHONY: server-start server-stop server-log
+server-start:
+	@docker run --rm -v $(PWD)/build:/usr/share/nginx/html -p 3000:80 --name $(NGINX_CONTAINER_NAME) nginx >/dev/null 2>&1 &
+
+server-stop:
+	@docker stop $(NGINX_CONTAINER_NAME) >/dev/null
+
+server-log:
+	@docker logs -f --tail 10 $(NGINX_CONTAINER_NAME)
+
 
 .PHONY: html-lint
 html-lint: bin/html5check.py
