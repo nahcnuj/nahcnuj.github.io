@@ -18,14 +18,17 @@ sns_links:
     href: https://twitter.com/nahcnuj
     fontawesome_icon:
       name: twitter
+      color: '#1DA1F2'
   - title: Facebook
     href: https://www.facebook.com/nahcnuj
     fontawesome_icon:
       name: facebook
+      color: '#4267B2'
   - title: GitHub
     href: https://github.com/nahcnuj
     fontawesome_icon:
       name: github
+      color: '#333'
   - title: Blog
     href: https://nahcnuj.hatenablog.jp/
     img_icon:
