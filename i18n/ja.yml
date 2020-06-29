@@ -12,13 +12,28 @@ main_contents:
 sns_links:
   - title: Twitter
     href: https://twitter.com/nahcnuj
+    fontawesome_icon:
+      name: twitter
   - title: Facebook
     href: https://www.facebook.com/nahcnuj
+    fontawesome_icon:
+      name: facebook
   - title: GitHub
     href: https://github.com/nahcnuj
-  - title: AtCoder
-    href: https://atcoder.jp/users/nahcnuj
-  - title: Annict
-    href: https://annict.jp/@nahcnuj
+    fontawesome_icon:
+      name: github
   - title: Blog
     href: https://nahcnuj.hatenablog.jp/
+    img_icon:
+      src: /img/hatenablog-logo.svg
+      size: 50
+  - title: Pixiv
+    href: https://www.pixiv.net/users/9386089
+    img_icon:
+      src: /img/pixiv_logo_icon.png
+      size: 35
+  - title: Annict
+    href: https://annict.jp/@nahcnuj
+    img_icon:
+      src: /img/annict-logo-ver3.png
+      size: 35

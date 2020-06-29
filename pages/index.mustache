@@ -23,7 +23,14 @@ custom_css:
   <nav>
     <ul>
       {{#i18n.sns_links}}
-      <li><a href="{{ href }}">{{ title }}</a></li>
+      <li><a href="{{ href }}">
+        {{#fontawesome_icon}}
+        <i class="fab fa-{{ name }}" title="{{ title }}"></i>
+        {{/fontawesome_icon}}
+        {{#img_icon}}
+        <img src="{{ src }}" width="{{ size }}" height="{{ size }}" alt="{{ title }}" title="{{ title }}">
+        {{/img_icon}}
+      </a></li>
       {{/i18n.sns_links}}
     </ul>
   </nav>
