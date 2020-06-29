@@ -16,7 +16,7 @@ body {
             margin-top: calc(16.5% - #{$img-size}/2);
             margin-left: $img-margin-left;
             border-radius: 50%;
-            border: 3pt solid $base-light-color;
+            border: thick solid $base-light-color;
         }
 
         > h1,

@@ -42,7 +42,7 @@ body {
 
     > footer {
         @include padding-y( 1rem );
-        border-top: 1pt solid $base-dark-color;
+        border-top: thin solid $base-dark-color;
         font-size: 0.9rem;
     }
 }
