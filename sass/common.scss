@@ -138,6 +138,18 @@ body {
         @include padding-y( 1rem );
     }
 
+    > main article header {
+        border-left: thick solid $base-dark-color;
+        background-color: #CCF;
+
+        > * {
+            @include margin-y( 0 );
+            @include padding-y( 0.25rem );
+            padding-left: 0.3rem;
+            border-left: medium solid $base-light-color;
+        }
+    }
+
     > footer {
         border-top: thin solid $base-dark-color;
         font-size: 0.9rem;
