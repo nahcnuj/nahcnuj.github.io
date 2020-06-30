@@ -22,6 +22,10 @@ body {
         max-width: $pc-width;
         @include padding-x( calc(50% - #{$pc-width}/2) );
         overflow-y: hidden;
+
+        > article {
+            @include padding-x( 3rem );
+        }
     }
 
     > header {
@@ -127,9 +131,18 @@ body {
         }
     }
 
+    > main,
+    > aside,
     > footer {
         @include padding-y( 1rem );
+    }
+
+    > footer {
         border-top: thin solid $base-dark-color;
         font-size: 0.9rem;
+
+        > p {
+            @include padding-x( 3rem );
+        }
     }
 }
