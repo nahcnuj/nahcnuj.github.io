@@ -12,7 +12,7 @@ FROM nahcnuj/alpine-uzu:1.0.0 AS html-builder
 WORKDIR /var/src
 
 RUN curl -L 'https://github.com/annict/annict-logo/raw/master/annict-logo-ver3.png' \
-        --create-dirs -o ./public/img/annict-logo-ver3.png
+        --create-dirs -o ./build/img/annict-logo-ver3.png
 
 EXPOSE 3000
 STOPSIGNAL SIGKILL
