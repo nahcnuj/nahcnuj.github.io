@@ -25,7 +25,7 @@ build:
 	@docker run --rm -v $(PWD):/var/src $(HTML_BUILDER_TAG)
 
 .PHONY: rebuild
-rebuild: clean build
+rebuild: clean all
 
 NGINX_CONTAINER_NAME=nahcnuj-work-test
 .PHONY: server-start server-stop server-log
