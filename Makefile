@@ -17,11 +17,14 @@ css:
 		-v $(PWD)/build/css:/var/src/css \
 		$(SASS_BUILDER_TAG)
 
-.PHONY: build
+.PHONY: build rebuild
 build: css
 	@docker build -t $(HTML_BUILDER_TAG) --target html-builder .
 	@docker run --rm -v $(PWD)/build:/var/src/build $(HTML_BUILDER_TAG)
 
+rebuild:
+	@docker build --no-cache -t $(HTML_BUILDER_TAG) --target html-builder .
+	@docker run --rm -v $(PWD)/build:/var/src/build $(HTML_BUILDER_TAG)
 
 NGINX_CONTAINER_NAME=nahcnuj-work-test
 .PHONY: server-start server-stop server-log
