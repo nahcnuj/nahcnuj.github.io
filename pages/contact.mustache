@@ -3,6 +3,16 @@ title: Contact
 ---
 <main>
   <article>
-    <p>工事中...</p>
+    <header>
+      <h2>{{ i18n.dict.contact_page_head_text }}</h2>
+      <p>{{ i18n.dict.contact_page_lead_text }}</p>
+    </header>
+
+    <dl>
+      {{#site.contact_list}}
+      <dt>{{ title }}</dt>
+      <dd><a href="{{ href }}">{{ address }}</a></dd>
+      {{/site.contact_list}}
+    </dl>
   </article>
 </main>

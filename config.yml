@@ -5,3 +5,13 @@ theme: default
 language: ja
 years: '2020'
 author: 'Junichi Hayashi'
+contact_list:
+  - title: Twitter
+    href: https://twitter.com/nahcnuj
+    address: '@nahcnuj'
+  - title: Facebook
+    href: https://www.facebook.com/nahcnuj
+    address: '{{ site.author }}'
+  - title: Email
+    href: '#'
+    address: nahcnuj.work [at] gmail.com

@@ -16,7 +16,6 @@ main_contents:
   - title: 連絡先
     href: /contact.html
     icon_name: paper-plane
-    under_construction: true
 sns_links:
   - title: Twitter
     href: https://twitter.com/nahcnuj
@@ -68,6 +67,8 @@ biography:
     event: シーサー株式会社 入社
 dict:
   biography: 略歴
+  contact_page_head_text: 連絡先
+  contact_page_lead_text: お問い合わせ等はこちらに記載のいずれかよりお願いします。
   date: 日付
   event: 出来事
   now: 現在

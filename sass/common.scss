@@ -15,6 +15,11 @@ html, body {
     color: $base-dark-color;
 }
 
+p, dd {
+    text-align: justify;
+    line-height: 1.5;
+}
+
 body {
     > header,
     > footer,
@@ -149,11 +154,6 @@ body {
         h5 {
             font-size: 1.1rem;
         }
-
-        p {
-            text-align: justify;
-            line-height: 1.5;
-        }
     }
 
     > main,
@@ -190,4 +190,24 @@ body {
 
 table {
     margin: 1rem auto;
+}
+
+dl {
+    margin: 1rem;
+
+    dt {
+        margin-top: 1.5rem;
+        font-weight: bold;
+    }
+
+    dd {
+        margin-top: 0.5rem;
+    }
+}
+
+.at-mark {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: thin solid inherit;
 }
