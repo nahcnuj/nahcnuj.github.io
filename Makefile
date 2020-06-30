@@ -21,7 +21,7 @@ css:
 		$(SASS_BUILDER_TAG)
 
 .PHONY: build
-build:
+build: public/img/annict-logo-ver3.png
 	@docker run --rm -v $(PWD):/var/src $(HTML_BUILDER_TAG)
 
 .PHONY: rebuild
@@ -47,3 +47,7 @@ html-lint: bin/html5check.py
 bin/html5check.py:
 	@curl -L https://raw.githubusercontent.com/mozilla/html5-lint/master/html5check.py -o $@
 	@chmod +x $@
+
+public/img/annict-logo-ver3.png:
+	@curl -L 'https://github.com/annict/annict-logo/raw/master/annict-logo-ver3.png' \
+        --create-dirs -o $@
