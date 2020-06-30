@@ -5,9 +5,9 @@
 body {
     > header {
         position: relative;
-        height: 20rem;
+        height: 16rem;
 
-        $img-size: 12.5rem;
+        $img-size: 10.5rem;
         $img-margin-left: calc(13% - #{$img-size}/2);
 
         > img {
@@ -23,20 +23,20 @@ body {
         > p {
             position: absolute;
             left: calc(2 * #{$img-margin-left});
-            height: 3rem;
+            height: 2.5rem;
             margin: 0;
             padding-left: 23%;
         }
 
         > h1 {
             bottom: 50%;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
         }
 
         > p {
             top: 50%;
-            font-size: 1.4rem;
-            line-height: 3rem;
+            font-size: 1.2rem;
+            line-height: 2.5rem;
             vertical-align: bottom;
         }
     }
@@ -85,12 +85,12 @@ body {
                 font-size: 1.2rem;
 
                 > i.fas {
-                    width: 10rem;
+                    width: 9rem;
                     @include padding-y( 1.5rem );
                     border-radius: 0.3rem;
                     background-color: $base-dark-color;
                     color: $base-light-color;
-                    font-size: 5rem;
+                    font-size: 4rem;
                 }
 
                 &:hover > i.fas {
