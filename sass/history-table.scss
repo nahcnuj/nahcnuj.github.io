@@ -1,0 +1,45 @@
+@import '_color';
+@import '_mixin';
+
+table.history {
+    border-spacing: 0;
+
+    tr {
+        th, td {
+            padding: 0;
+            height: 1rem;
+        }
+    
+        th {
+            height: 3.5rem;
+            padding: 0;
+            border-right: thin solid $base-dark-color;
+            text-align: right;
+            
+            span {
+                height: 2rem;
+                @include padding-y( 0.2rem );
+                padding-left: 1rem;
+                padding-right: 0.6rem;
+                background-color: $base-dark-color;
+                border-right: thin solid $base-dark-color;
+                vertical-align: middle;
+                color: $base-light-color;
+            }
+        }
+
+        &:last-of-type {
+            th, td {
+                height: unset;
+                border-top: medium solid $base-dark-color;
+                border-right: unset;
+                border-left: unset;
+            }
+        }
+        
+        td {
+            padding-left: 0.5rem;
+            border-left: medium solid $base-dark-color;
+        }
+    }
+}

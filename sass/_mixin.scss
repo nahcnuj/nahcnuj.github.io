@@ -7,6 +7,10 @@
     padding-bottom: $height;
 }
 
+@mixin margin-x($width) {
+    margin-left: $width;
+    margin-right: $width;
+}
 @mixin margin-y($height) {
     margin-top: $height;
     margin-bottom: $height;
