@@ -4,40 +4,37 @@
 
 body {
     > header {
-        position: relative;
-        height: 20rem;
+        display: flex;
+        height: 16rem;
 
-        $img-size: 12.5rem;
-        $img-margin-left: calc(13% - #{$img-size}/2);
+        div#photo {
+            margin: auto;
+            @include padding-x( 3rem );
 
-        > img {
-            width: $img-size;
-            height: $img-size;
-            margin-top: calc(16.5% - #{$img-size}/2);
-            margin-left: $img-margin-left;
-            border-radius: 50%;
-            border: thick solid $base-light-color;
+            img {
+                border-radius: 50%;
+                border: thick solid $base-light-color;
+            }
         }
 
-        > h1,
-        > p {
-            position: absolute;
-            left: calc(2 * #{$img-margin-left});
-            height: 3rem;
-            margin: 0;
-            padding-left: 23%;
-        }
+        div#title {
+            flex: auto;
+            margin: auto;
 
-        > h1 {
-            bottom: 50%;
-            font-size: 2.2rem;
-        }
+            > * {
+                margin: 0;
+                @include padding-y( 0.5rem );
+                line-height: 1;
+            }
 
-        > p {
-            top: 50%;
-            font-size: 1.4rem;
-            line-height: 3rem;
-            vertical-align: bottom;
+            > h1 {
+                font-size: 2.5rem;
+                letter-spacing: 0.1rem;
+            }
+
+            > p {
+                font-size: 1.5rem;
+            }
         }
     }
 
@@ -75,8 +72,8 @@ body {
     }
 
     > main {
-        margin-top: 3rem;
-        margin-bottom: 2rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
 
         nav ul li {
             vertical-align: middle;
@@ -85,12 +82,12 @@ body {
                 font-size: 1.2rem;
 
                 > i.fas {
-                    width: 10rem;
+                    width: 9rem;
                     @include padding-y( 1.5rem );
                     border-radius: 0.3rem;
                     background-color: $base-dark-color;
                     color: $base-light-color;
-                    font-size: 5rem;
+                    font-size: 4rem;
                 }
 
                 &:hover > i.fas {

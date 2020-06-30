@@ -1,8 +1,27 @@
 ---
 title: Junichi Hayashi's Profile
+custom_css:
+  href: /css/history-table.css
 ---
 <main>
   <article>
-    <p>工事中...</p>
+    <header>
+      <h1>{{ i18n.dict.profile_page_head_text }}</h1>
+      <p>{{ i18n.dict.profile_page_lead_text }}</p>
+    </header>
+
+    <h2>{{ i18n.dict.biography }}</h2>
+    <table class="history">
+      {{#i18n.biography}}
+      <tr>
+        <th><span>{{ date }}</span></th>
+        <td>{{ event }}</td>
+      </tr>
+      {{/i18n.biography}}
+      <tr>
+        <th>{{ i18n.dict.now }}</th>
+        <td></td>
+      </tr>
+    </table>
   </article>
 </main>
