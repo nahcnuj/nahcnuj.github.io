@@ -48,7 +48,7 @@ sns_links:
   - title: Annict
     href: https://annict.jp/@nahcnuj
     img_icon:
-      src: /img/annict-logo-ver3.png
+      src: https://raw.githubusercontent.com/annict/annict-logo/master/annict-logo-ver3.png
       size: 45
       id: annict
 biography:
