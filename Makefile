@@ -2,30 +2,30 @@ HTML_BUILDER_TAG=html-builder:latest
 SASS_BUILDER_TAG=sass-builder:latest
 
 .PHONY: all
-all: clean build html-lint
+all: css build
 
 .PHONY: clean
 clean:
 	@sudo rm -rf build/*
-	@docker images -q $(HTML_BUILDER_TAG) $(SASS_BUILDER_TAG) \
-		| xargs docker rmi || :
+
+.PHONY: docker-build
+docker-build:
+	@docker build -t $(SASS_BUILDER_TAG) --target sass-builder .
+	@docker build -t $(HTML_BUILDER_TAG) --target html-builder .
 
 .PHONY: css
 css:
-	@docker build --no-cache -t $(SASS_BUILDER_TAG) --target sass-builder .
 	@docker run --rm \
 		-v $(PWD)/sass:/var/src/sass \
 		-v $(PWD)/build/css:/var/src/css \
 		$(SASS_BUILDER_TAG)
 
-.PHONY: build rebuild
+.PHONY: build
 build:
-	@docker build -t $(HTML_BUILDER_TAG) .
-	@docker run --rm -v $(PWD)/build:/var/src/build $(HTML_BUILDER_TAG)
+	@docker run --rm -v $(PWD):/var/src $(HTML_BUILDER_TAG)
 
-rebuild: clean
-	@docker build --no-cache -t $(HTML_BUILDER_TAG) .
-	@docker run --rm -v $(PWD)/build:/var/src/build $(HTML_BUILDER_TAG)
+.PHONY: rebuild
+rebuild: clean build
 
 NGINX_CONTAINER_NAME=nahcnuj-work-test
 .PHONY: server-start server-stop server-log
