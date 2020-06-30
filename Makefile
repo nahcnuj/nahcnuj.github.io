@@ -6,22 +6,26 @@ all: clean build html-lint
 
 .PHONY: clean
 clean:
-	@docker images -q $(HTML_BUILDER_TAG) \
+	@sudo rm -rf build/*
+	@docker images -q $(HTML_BUILDER_TAG) $(SASS_BUILDER_TAG) \
 		| xargs docker rmi || :
 
 .PHONY: css
 css:
-	@docker build -t $(SASS_BUILDER_TAG) --target sass-builder .
+	@docker build --no-cache -t $(SASS_BUILDER_TAG) --target sass-builder .
 	@docker run --rm \
 		-v $(PWD)/sass:/var/src/sass \
 		-v $(PWD)/build/css:/var/src/css \
 		$(SASS_BUILDER_TAG)
 
-.PHONY: build
-build: css
-	@docker build -t $(HTML_BUILDER_TAG) --target html-builder .
+.PHONY: build rebuild
+build:
+	@docker build -t $(HTML_BUILDER_TAG) .
 	@docker run --rm -v $(PWD)/build:/var/src/build $(HTML_BUILDER_TAG)
 
+rebuild: clean
+	@docker build --no-cache -t $(HTML_BUILDER_TAG) .
+	@docker run --rm -v $(PWD)/build:/var/src/build $(HTML_BUILDER_TAG)
 
 NGINX_CONTAINER_NAME=nahcnuj-work-test
 .PHONY: server-start server-stop server-log

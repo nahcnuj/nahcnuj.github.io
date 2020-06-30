@@ -2,6 +2,9 @@
 <html lang="{{ language }}">
   {{> head }}
   <body>
+    {{^custom_header}}
+    {{> header }}
+    {{/custom_header}}
     {{> content }}
     {{> footer }}
   </body>

@@ -1,0 +1,10 @@
+<header>
+  <h1><a href="/"><img src="/img/author.jpg" width="50" height="50" alt="{{ site.author }}'s photo"></a></h1>
+  <nav>
+    <ul>
+      {{#i18n.main_contents}}
+      <li><a href="{{ href }}"><i class="fas fa-{{ icon_name }}" title="{{ title }}"></i></a></li>
+      {{/i18n.main_contents}}
+    </ul>
+  </nav>
+</header>
