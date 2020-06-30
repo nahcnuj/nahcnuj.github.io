@@ -3,6 +3,27 @@ title: Junichi Hayashi's Profile
 ---
 <main>
   <article>
-    <p>工事中...</p>
+    <header>
+      <h1>{{ i18n.dict.profile_page_head_text }}</h1>
+      <p>{{ i18n.dict.profile_page_lead_text }}</p>
+    </header>
+
+    <h2>{{ i18n.dict.biography }}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>{{ i18n.dict.date }}</th>
+          <th>{{ i18n.dict.event }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#i18n.biography}}
+        <tr>
+          <th>{{ date }}</th>
+          <td>{{ event }}</td>
+        </tr>
+        {{/i18n.biography}}
+      </tbody>
+    </table>
   </article>
 </main>
