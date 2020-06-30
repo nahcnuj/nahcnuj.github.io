@@ -133,6 +133,16 @@ body {
     }
 
     > main,
+    > aside {
+        h2 {
+            height: 2rem;
+            padding-left: 0.5rem;
+            border-left: 2rem solid $base-dark-color;
+            line-height: 2rem;
+        }
+    }
+
+    > main,
     > aside,
     > footer {
         @include padding-y( 1rem );
