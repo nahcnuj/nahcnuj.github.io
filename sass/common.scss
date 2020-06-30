@@ -2,7 +2,7 @@
 @import '_mixin';
 @import '_var';
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 html, body {
     width: 100%;
@@ -27,7 +27,6 @@ body {
     > header {
         background-color: $base-dark-color;
         color: $base-light-color;
-        font-family: 'Noto Sans JP', sans-serif;
 
         a {
             &,
