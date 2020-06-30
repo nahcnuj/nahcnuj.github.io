@@ -51,4 +51,5 @@ sns_links:
       src: /img/annict-logo-ver3.png
       size: 45
       id: annict
-under_construction: 工事中
+dict:
+  under_construction: 工事中
