@@ -70,6 +70,7 @@ dict:
   biography: 略歴
   date: 日付
   event: 出来事
+  now: 現在
   profile_page_head_text: プロフィール
   profile_page_lead_text: 当サイト製作者のプロフィールです。
   under_construction: 工事中

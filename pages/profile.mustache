@@ -1,5 +1,7 @@
 ---
 title: Junichi Hayashi's Profile
+custom_css:
+  href: /css/history-table.css
 ---
 <main>
   <article>
@@ -9,21 +11,17 @@ title: Junichi Hayashi's Profile
     </header>
 
     <h2>{{ i18n.dict.biography }}</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>{{ i18n.dict.date }}</th>
-          <th>{{ i18n.dict.event }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#i18n.biography}}
-        <tr>
-          <th>{{ date }}</th>
-          <td>{{ event }}</td>
-        </tr>
-        {{/i18n.biography}}
-      </tbody>
+    <table class="history">
+      {{#i18n.biography}}
+      <tr>
+        <th><span>{{ date }}</span></th>
+        <td>{{ event }}</td>
+      </tr>
+      {{/i18n.biography}}
+      <tr>
+        <th>{{ i18n.dict.now }}</th>
+        <td></td>
+      </tr>
     </table>
   </article>
 </main>
