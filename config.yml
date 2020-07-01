@@ -4,7 +4,7 @@ template_engine: mustache
 theme: default
 language: ja
 host_url: https://www.nahcnuj.work
-meta_ogp:
+twitter_ogp:
   - property: twitter:card
     content: summary
   - property: twitter:site
