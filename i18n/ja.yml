@@ -4,7 +4,6 @@ main_contents:
   - title: プロフィール
     href: /profile.html
     icon_name: address-card
-    under_construction: true
   - title: 日記
     href: /diary/
     icon_name: calendar-day
