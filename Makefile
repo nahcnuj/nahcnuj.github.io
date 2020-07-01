@@ -28,12 +28,14 @@ build: public/img/annict-logo-ver3.png
 rebuild: clean all
 
 NGINX_CONTAINER_NAME=nahcnuj-work-test
-.PHONY: server-start server-stop server-log
+.PHONY: server-start server-stop server-restart server-log
 server-start:
 	@docker run --rm -v $(PWD)/build:/usr/share/nginx/html -p 3000:80 --name $(NGINX_CONTAINER_NAME) nginx >/dev/null 2>&1 &
 
 server-stop:
 	@docker stop $(NGINX_CONTAINER_NAME) >/dev/null
+
+server-restart: server-stop server-start
 
 server-log:
 	@docker logs -f --tail 10 $(NGINX_CONTAINER_NAME)
