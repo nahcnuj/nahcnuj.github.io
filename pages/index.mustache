@@ -1,12 +1,24 @@
 ---
-title: Junichi Hayashi's Portfolio
+title: Junichi Hayashi's Portfolio Site
+description: '{{ i18n.dict.site_description }}'
+overwrite_title: true
 custom_header: true
 custom_css:
   href: /css/index.css
+meta_ogp:
+  basic:
+    - property: type
+      content: website
+    - property: image
+      content: '{{ site.host_url }}/img/author.jpg'
+    - property: image:alt
+      content: '{{ i18n.dict.author_image_alt }}'
+    - property: url
+      content: '{{ site.host_url }}/'
 ---
 <header>
   <div id="photo">
-    <img src="/img/author.jpg" width="200" height="200" alt="an author's photo">
+    <img src="/img/author.jpg" width="200" height="200" alt="{{ i18n.dict.author_image_alt }}">
   </div>
   <div id="title">
     <h1>{{ site.author }}</h1>

@@ -1,5 +1,11 @@
 ---
 site_name: nahcnuj.work
+meta_ogp:
+  - property: locale
+    content: ja_JP
+  - property: locale:alternate
+    content: en_US
+    hidden: true
 main_contents:
   - title: 自己紹介
     href: /profile.html
@@ -80,12 +86,18 @@ biography:
   - date: '2020-04-01'
     event: シーサー株式会社 入社
 dict:
+  author_first_name: 純一
+  author_image_alt: 林純一の顔写真
+  author_last_name: 林
   biography: 略歴
+  contact_page_description: シーサー株式会社で web エンジニアとして働いている、林純一の連絡先一覧です。
   contact_page_head_text: 連絡先
   contact_page_lead_text: お問い合わせ等はこちらに記載のいずれかよりお願いします。
   date: 日付
   event: 出来事
   now: 現在
+  profile_page_description: シーサー株式会社で web エンジニアとして働いている、林純一のプロフィールページです。
   profile_page_head_text: プロフィール
   profile_page_lead_text: 当サイト製作者のプロフィールです。
+  site_description: シーサー株式会社で web エンジニアとして働いている、林純一のポートフォリオサイトです。
   under_construction: 工事中

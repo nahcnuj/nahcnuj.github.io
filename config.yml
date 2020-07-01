@@ -3,6 +3,7 @@ name: 'nahcnuj.work'
 template_engine: mustache
 theme: default
 language: ja
+host_url: https://www.nahcnuj.work
 years: '2020'
 author: 'Junichi Hayashi'
 contact_list:

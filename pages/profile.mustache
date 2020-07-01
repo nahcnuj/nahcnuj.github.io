@@ -1,8 +1,25 @@
 ---
 title: Junichi Hayashi's Profile
+description: '{{ i18n.dict.profile_page_description }}'
 custom_css:
   - href: /css/history-table.css
   - href: /css/profile-table.css
+meta_ogp:
+  basic:
+    - property: type
+      content: profile
+    - property: profile:first_name
+      content: '{{ i18n.dict.author_first_name }}'
+    - property: profile:last_name
+      content: '{{ i18n.dict.author_last_name }}'
+    - property: profile:username
+      content: nahcnuj
+    - property: image
+      content: '{{ site.host_url }}/img/author.jpg'
+    - property: image:alt
+      content: '{{ i18n.dict.author_image_alt }}'
+    - property: url
+      content: '{{ site.host_url }}/profile.html'
 ---
 <main>
   <article>
