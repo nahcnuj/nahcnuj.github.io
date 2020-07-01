@@ -1,6 +1,8 @@
 ---
 title: Contact information
 description: '{{ i18n.dict.contact_page_description }}'
+headline: '{{ i18n.dict.contact_page_head_text }}'
+lead: '{{ i18n.dict.contact_page_lead_text }}'
 meta_ogp:
   basic:
     - property: type
@@ -14,10 +16,7 @@ meta_ogp:
 ---
 <main>
   <article>
-    <header>
-      <h2>{{ i18n.dict.contact_page_head_text }}</h2>
-      <p>{{ i18n.dict.contact_page_lead_text }}</p>
-    </header>
+    {{> article-header }}
 
     <dl>
       {{#site.contact_list}}
