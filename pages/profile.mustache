@@ -23,31 +23,25 @@ meta_ogp:
     - property: url
       content: '{{ site.host_url }}/profile.html'
 ---
-<main>
-  <article>
-    {{> article-header }}
+<table class="profile">
+  {{#i18n.profile}}
+  <tr>
+    <th>{{ key }}</th>
+    <td>{{ value }}</td>
+  </tr>
+  {{/i18n.profile}}
+</table>
 
-    <table class="profile">
-      {{#i18n.profile}}
-      <tr>
-        <th>{{ key }}</th>
-        <td>{{ value }}</td>
-      </tr>
-      {{/i18n.profile}}
-    </table>
-
-    <h3>{{ i18n.dict.biography }}</h3>
-    <table class="history">
-      {{#i18n.biography}}
-      <tr>
-        <th><span>{{ date }}</span></th>
-        <td>{{ event }}</td>
-      </tr>
-      {{/i18n.biography}}
-      <tr>
-        <th>{{ i18n.dict.now }}</th>
-        <td></td>
-      </tr>
-    </table>
-  </article>
-</main>
+<h3>{{ i18n.dict.biography }}</h3>
+<table class="history">
+  {{#i18n.biography}}
+  <tr>
+    <th><span>{{ date }}</span></th>
+    <td>{{ event }}</td>
+  </tr>
+  {{/i18n.biography}}
+  <tr>
+    <th>{{ i18n.dict.now }}</th>
+    <td></td>
+  </tr>
+</table>

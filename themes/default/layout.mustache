@@ -5,7 +5,15 @@
     {{^custom_header}}
     {{> header }}
     {{/custom_header}}
-    {{> content }}
+    {{^custom_content}}
+    <main>
+      <article>
+        {{> article-header }}
+
+        {{> content }}
+      </article>
+    </main>
+    {{/custom_content}}
     {{> footer }}
   </body>
 </html>

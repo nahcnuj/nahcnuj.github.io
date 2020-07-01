@@ -14,15 +14,9 @@ meta_ogp:
     - property: url
       content: '{{ site.host_url }}/contact.html'
 ---
-<main>
-  <article>
-    {{> article-header }}
-
-    <dl>
-      {{#site.contact_list}}
-      <dt>{{ title }}</dt>
-      <dd><a href="{{ href }}">{{ address }}</a></dd>
-      {{/site.contact_list}}
-    </dl>
-  </article>
-</main>
+<dl>
+  {{#site.contact_list}}
+  <dt>{{ title }}</dt>
+  <dd><a href="{{ href }}">{{ address }}</a></dd>
+  {{/site.contact_list}}
+</dl>
