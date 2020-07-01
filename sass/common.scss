@@ -52,7 +52,7 @@ body {
             a {
                 display: inline-block;
                 height: 100%;
-                @include padding-x( 1.5rem );
+                @include padding-x( 1rem );
                 line-height: calc(0.9 * #{$header-height});
 
                 img {
@@ -85,7 +85,7 @@ body {
                 list-style: none;
 
                 li {
-                    flex: auto;
+                    flex: 1;
                     height: 100%;
                     margin-left: 1.5rem;
                     line-height: calc(0.9 * #{$header-height});
