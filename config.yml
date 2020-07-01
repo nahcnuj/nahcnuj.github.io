@@ -4,6 +4,13 @@ template_engine: mustache
 theme: default
 language: ja
 host_url: https://www.nahcnuj.work
+meta_ogp:
+  - property: twitter:card
+    content: summary
+  - property: twitter:site
+    content: '@nahcnuj'
+  - property: twitter:creator
+    content: '@nahcnuj'
 years: '2020'
 author: 'Junichi Hayashi'
 contact_list:
