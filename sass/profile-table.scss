@@ -1,0 +1,21 @@
+@import '_color';
+@import '_mixin';
+
+table.profile {
+    border-spacing: 0;
+
+    tr {
+        th, td {
+            padding-top: 1rem;
+        }
+
+        th {
+            @include padding-x( 1rem );
+            border-bottom: medium solid $base-dark-color;
+        }
+        
+        td {
+            padding-left: 1rem;
+        }
+    }
+}
