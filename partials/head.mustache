@@ -17,6 +17,9 @@
   <meta property="og:{{ property }}" content="{{ content }}">
   {{/hidden}}
   {{/i18n.meta_ogp}}
+  {{#site.twitter_ogp}}
+  <meta property="{{ property }}" content="{{ content }}">
+  {{/site.twitter_ogp}}
   <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin>
   <script src="https://kit.fontawesome.com/08f6e2d41a.js" crossorigin="anonymous"></script>
   <link href="/css/common.css" rel="stylesheet">
