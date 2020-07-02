@@ -85,6 +85,19 @@ biography:
     event: 大阪大学大学院 情報科学研究科 コンピュータサイエンス専攻 中退
   - date: '2020-04-01'
     event: シーサー株式会社 入社
+skills:
+  - name: アルゴリズム
+    certifications:
+      - title: アルゴリズム実技検定
+        grade: 中級
+        when:
+          text: 2020 年 6 月 1 日
+          datetime: '2020-06-01'
+      - title: AtCoder レーティング
+        grade: 1019（緑色）、5 級
+        when:
+          text: 2019 年 6 月 29 日
+          datetime: '2020-06-29'
 dict:
   author_first_name: 純一
   author_image_alt: 林純一の顔写真

@@ -45,3 +45,23 @@ meta_ogp:
     <td></td>
   </tr>
 </table>
+
+<h3>スキル</h3>
+<ul>
+  {{#i18n.skills}}
+  <li>
+    {{ name }}
+    <ul>
+      {{#certifications}}
+      <li>
+        {{ title }}
+        {{ grade }}
+        {{#when}}
+        （<time datetime="{{ datetime }}">{{ text }}</time>）
+        {{/when}}
+      </li>
+      {{/certifications}}
+    </ul>
+  </li>
+  {{/i18n.skills}}
+</ul>
