@@ -40,7 +40,7 @@ body {
 
     > main,
     > aside {
-        @include padding-y( 1rem );
+        margin-top: 1rem;
 
         nav {
             width: 100%;
@@ -72,9 +72,6 @@ body {
     }
 
     > main {
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-
         nav ul li {
             vertical-align: middle;
 
@@ -102,8 +99,6 @@ body {
     }
 
     > aside {
-        @include margin-y( 1rem );
-
         nav ul li {
             vertical-align: middle;
 
