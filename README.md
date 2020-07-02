@@ -3,8 +3,10 @@
 ## Build the site
 
 ```sh
-make build
+make
 ```
+
+To remove files generated under `build` directory before building, run `make rebuild`.
 
 ## Preview the site
 
@@ -13,3 +15,4 @@ make server-start
 ```
 
 After executing the command above, open http://localhost:3000/ with your browser.
+To stop and restart the server, and watch its log, use `server-stop`, `server-restart`, and `server-log` respectively instead of `server-start`.

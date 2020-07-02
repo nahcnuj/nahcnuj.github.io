@@ -2,7 +2,7 @@ HTML_BUILDER_TAG=html-builder:latest
 SASS_BUILDER_TAG=sass-builder:latest
 
 .PHONY: all
-all: css build
+all: docker-build css build
 
 .PHONY: clean
 clean:
