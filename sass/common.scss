@@ -100,8 +100,9 @@ body {
                 li {
                     flex: 1;
                     height: 100%;
+                    @include margin-y( unset );
                     margin-left: 1.5rem;
-                    line-height: calc(0.9 * #{$header-height});
+                    line-height: $header-height;
 
                     a {
                         display: inline-block;
