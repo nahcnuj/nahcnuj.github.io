@@ -69,7 +69,7 @@ profile:
   - key: 職業
     value: Web エンジニア
   - key: 好き
-    value: プログラミング、Perl、東山奈央（声優・歌手）
+    value: プログラミング、Perl、アニメ、東山奈央（声優・歌手）
 biography:
   - date: '2011-04-01'
     event: 神戸市立工業高等専門学校 電気工学科 入学
@@ -112,5 +112,6 @@ dict:
   profile_page_description: シーサー株式会社で web エンジニアとして働いている、林純一のプロフィールページです。
   profile_page_head_text: プロフィール
   profile_page_lead_text: 当サイト製作者のプロフィールです。
+  skill: スキル
   site_description: シーサー株式会社で web エンジニアとして働いている、林純一のポートフォリオサイトです。
   under_construction: 工事中
