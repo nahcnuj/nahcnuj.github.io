@@ -15,9 +15,22 @@ html, body {
     color: $base-dark-color;
 }
 
-p, dd {
+p, li, dd {
     text-align: justify;
     line-height: 1.5;
+}
+
+ul {
+    margin-top: 1rem;
+
+    ul {
+        margin-top: unset;
+        margin-bottom: 1rem;
+    }
+}
+
+li {
+    @include margin-y( 0.5rem );
 }
 
 body {
