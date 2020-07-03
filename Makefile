@@ -1,4 +1,3 @@
-HTML_BUILDER_TAG=html-builder:latest
 SASS_BUILDER_TAG=sass-builder:latest
 
 .PHONY: all
@@ -11,7 +10,6 @@ clean:
 .PHONY: docker-build
 docker-build:
 	@docker build -t $(SASS_BUILDER_TAG) --target sass-builder .
-	@docker build -t $(HTML_BUILDER_TAG) --target html-builder .
 
 .PHONY: css
 css:
@@ -22,7 +20,7 @@ css:
 
 .PHONY: build
 build: public/img/annict-logo-ver3.png
-	@docker run --rm -v $(PWD):/var/src $(HTML_BUILDER_TAG)
+	@docker run --rm -v $(PWD):/var/src -w /var/src nahcnuj/alpine-uzu:1.0.1
 
 .PHONY: rebuild
 rebuild: clean all
