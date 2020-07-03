@@ -53,6 +53,10 @@ body {
                 li {
                     display: table-cell;
 
+                    &:before {
+                        content: unset;
+                    }
+
                     a {
                         display: block;
                         text-align: center;

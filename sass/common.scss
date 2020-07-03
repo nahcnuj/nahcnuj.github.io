@@ -22,10 +22,26 @@ p, li, dd {
 
 ul {
     margin-top: 1rem;
+    list-style: none;
+
+    li:before {
+        content: "•";
+
+        vertical-align: middle;
+        line-height: 1.5rem;
+        font-size: 2rem;
+        color: $base-dark-color;
+    }
 
     ul {
         margin-top: unset;
         margin-bottom: 1rem;
+
+        li:before {
+            content: "◦";
+
+            font-size: 1.5rem;
+        }
     }
 }
 
@@ -103,6 +119,10 @@ body {
                     @include margin-y( unset );
                     margin-left: 1.5rem;
                     line-height: $header-height;
+
+                    &:before {
+                        content: unset;
+                    }
 
                     a {
                         display: inline-block;
