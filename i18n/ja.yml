@@ -86,6 +86,13 @@ biography:
   - date: '2020-04-01'
     event: シーサー株式会社 入社
 skills:
+  - name: プログラミング
+    certifications:
+      - title: Perl
+      - title: JavaScript
+      - title: jQuery
+      - title: C++
+      - title: Java
   - name: アルゴリズム
     certifications:
       - title: アルゴリズム実技検定
