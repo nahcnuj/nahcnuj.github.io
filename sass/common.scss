@@ -27,6 +27,7 @@ ul {
     li:before {
         content: "•";
 
+        margin-right: 0.2rem;
         vertical-align: middle;
         line-height: 1.5rem;
         font-size: 2rem;
@@ -40,6 +41,7 @@ ul {
         li:before {
             content: "◦";
 
+            margin-right: unset;
             font-size: 1.5rem;
         }
     }
