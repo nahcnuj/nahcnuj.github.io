@@ -13,7 +13,7 @@ twitter_ogp:
     content: '@nahcnuj'
   - property: twitter:creator
     content: '@nahcnuj'
-years: '2020'
+years: 2020
 author: Junichi Hayashi
 contact_list:
   - title: Twitter
