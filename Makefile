@@ -5,7 +5,7 @@ all: docker-build css build
 
 .PHONY: clean
 clean:
-	@sudo rm -rf build/*
+	@docker run --rm -v $(PWD):/var/src -w /var/src nahcnuj/alpine-uzu:1.0.1 clear
 
 .PHONY: docker-build
 docker-build:
