@@ -1,8 +1,10 @@
 ---
-name: 'nahcnuj.work'
+name: nahcnuj.work
 template_engine: mustache
 theme: default
-language: ja
+i18n_scheme: directory
+language:
+  - ja
 host_url: https://www.nahcnuj.work
 twitter_ogp:
   - property: twitter:card
@@ -12,7 +14,7 @@ twitter_ogp:
   - property: twitter:creator
     content: '@nahcnuj'
 years: '2020'
-author: 'Junichi Hayashi'
+author: Junichi Hayashi
 contact_list:
   - title: Twitter
     href: https://twitter.com/nahcnuj
