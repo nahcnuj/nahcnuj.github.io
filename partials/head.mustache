@@ -1,4 +1,4 @@
-<head prefix="og: http://ogp.me/ns#">
+<head prefix="og: http://ogp.me/ns#{{#profile_ogp}} profile: http://ogp.me/ns/profile#{{/profile_ogp}}">
   <meta charset="utf-8">
   <title>{{ title }}{{^overwrite_title}} | {{ i18n.site_name }}{{/overwrite_title}}</title>
   <meta name="description" content="{{ description }}">
@@ -10,6 +10,9 @@
   {{#meta_ogp}}
   <meta property="og:{{ property }}" content="{{ content }}">
   {{/meta_ogp}}
+  {{#profile_ogp}}
+  <meta property="profile:{{ property }}" content="{{ content }}">
+  {{/profile_ogp}}
   {{#i18n.meta_ogp}}
   {{^hidden}}
   <meta property="og:{{ property }}" content="{{ content }}">
