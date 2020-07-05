@@ -47,6 +47,7 @@ sub USAGE {
         EOS
 }
 
+use Text::Markdown;
 use YAMLish;
 
 multi sub convert-to-mustache(
@@ -58,7 +59,7 @@ multi sub convert-to-mustache(
     my %merged-yaml;
     my $content-part;
     for @rmds -> %parts {
-        my $lang = shift @langs;
+        my $lang = shift @langs or last;
         my $lang-start = "\{\{#lang_{$lang}}}";
         my $lang-end   = "\{\{/lang_{$lang}}}";
 
@@ -69,7 +70,7 @@ multi sub convert-to-mustache(
 
         $content-part ~= qq:to/EOS/;
             {$lang-start}
-            {%parts<md>}
+            {convert-md-to-html(%parts<md>)}
             {$lang-end}
             EOS
     }
@@ -93,8 +94,15 @@ multi sub convert-to-mustache(
         ---
         {$rmd<yaml>}
         ---
-        {$rmd<md>}
+        {convert-md-to-html($rmd<md>)}
         EOS
+}
+
+sub convert-md-to-html(
+    Str $md,
+    Int $heading-offset where { $heading-offset >= 0 } = 2,
+) {
+    return parse-markdown($md.subst(/^\#/, '#' x ($heading-offset + 1), :g)).to-html;
 }
 
 sub split-multiple-rmds(
