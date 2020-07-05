@@ -7,17 +7,17 @@
   {{#site.meta_ogp}}
   <meta property="og:{{ property }}" content="{{ content }}">
   {{/site.meta_ogp}}
+  {{#i18n.meta_ogp}}
+  {{^hidden}}
+  <meta property="og:{{ property }}" content="{{ content }}">
+  {{/hidden}}
+  {{/i18n.meta_ogp}}
   {{#meta_ogp}}
   <meta property="og:{{ property }}" content="{{ content }}">
   {{/meta_ogp}}
   {{#profile_ogp}}
   <meta property="profile:{{ property }}" content="{{ content }}">
   {{/profile_ogp}}
-  {{#i18n.meta_ogp}}
-  {{^hidden}}
-  <meta property="og:{{ property }}" content="{{ content }}">
-  {{/hidden}}
-  {{/i18n.meta_ogp}}
   {{#site.twitter_ogp}}
   <meta property="{{ property }}" content="{{ content }}">
   {{/site.twitter_ogp}}
