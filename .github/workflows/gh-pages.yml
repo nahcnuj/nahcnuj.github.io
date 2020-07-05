@@ -31,9 +31,7 @@ jobs:
         push_to=docker.pkg.github.com/${github_repository}
         #echo "${images}" | tr " " "\n" | xargs -n 1 -IXXXX echo "docker pull ${push_to}/XXXX && docker tag ${push_to}/XXXX XXXX"
         echo "${images}" | tr " " "\n" | xargs -n 1 -IXXXX sh -c "docker pull ${push_to}/XXXX && docker tag ${push_to}/XXXX XXXX"
-        make all
-        #echo "${images}" | tr " " "\n" | xargs -n 1 -IXXXX echo "docker tag XXXX ${push_to}/XXXX && docker push ${push_to}/XXXX"
-        echo "${images}" | tr " " "\n" | xargs -n 1 -IXXXX sh -c "docker tag XXXX ${push_to}/XXXX && docker push ${push_to}/XXXX"
+        make css build
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3.6.1
@@ -41,3 +39,25 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: master
         publish_dir: ./build
+
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Build
+      env:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_repository: ${{ github.repository }}
+        images: page-builder:latest sass-builder:latest
+      run: |
+        username=$(echo ${github_repository} | sed -e 's,\(.*\)/.*,\1,')
+        echo ${github_token} | docker login docker.pkg.github.com --username ${username} --password-stdin
+        push_to=docker.pkg.github.com/${github_repository}
+        #echo "${images}" | tr " " "\n" | xargs -n 1 -IXXXX echo "docker pull ${push_to}/XXXX && docker tag ${push_to}/XXXX XXXX"
+        echo "${images}" | tr " " "\n" | xargs -n 1 -IXXXX sh -c "docker pull ${push_to}/XXXX && docker tag ${push_to}/XXXX XXXX"
+        make docker-build
+        #echo "${images}" | tr " " "\n" | xargs -n 1 -IXXXX echo "docker tag XXXX ${push_to}/XXXX && docker push ${push_to}/XXXX"
+        echo "${images}" | tr " " "\n" | xargs -n 1 -IXXXX sh -c "docker tag XXXX ${push_to}/XXXX && docker push ${push_to}/XXXX"
