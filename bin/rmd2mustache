@@ -60,19 +60,13 @@ multi sub convert-to-mustache(
     my $content-part;
     for @rmds -> %parts {
         my $lang = shift @langs or last;
-        my $lang-start = "\{\{#lang_{$lang}}}";
-        my $lang-end   = "\{\{/lang_{$lang}}}";
 
         my %yaml = load-yaml(%parts<yaml>);
         for %yaml.kv -> $key, $value {
-            %merged-yaml{$key} ~= $lang-start ~ $value ~ $lang-end;
+            %merged-yaml{$key} = get-merged-value(%merged-yaml{$key}, $value, $lang);
         }
 
-        $content-part ~= qq:to/EOS/;
-            {$lang-start}
-            {convert-md-to-html(%parts<md>)}
-            {$lang-end}
-            EOS
+        $content-part = get-merged-value($content-part, convert-md-to-html(%parts<md>), $lang);
     }
 
     if (@langs) {
@@ -98,11 +92,63 @@ multi sub convert-to-mustache(
         EOS
 }
 
+multi sub get-merged-value(
+    $prev-value where * ~~ Str|Any,
+    Str $value,
+    Str $lang,
+    --> Str
+) {
+    my $lang-start = "\{\{#lang_{$lang}}}";
+    my $lang-end   = "\{\{/lang_{$lang}}}";
+    return $prev-value ~~ Str ?? $prev-value !! '' ~ $lang-start ~ $value ~ $lang-end;
+}
+
+multi sub get-merged-value(
+    $prev-value where * ~~ Array|Any,
+    Array $value,
+    Str $lang,
+    --> Array
+) {
+    my @new-values;
+
+    for @$value -> $v {
+        my $pv = $prev-value ~~ Array ?? @$prev-value.shift !! Any;
+        @new-values.push(get-merged-value($pv, $v, $lang));
+    }
+
+    return @new-values;
+}
+
+multi sub get-merged-value(
+    $prev-value where * ~~ Hash|Any,
+    Hash $value,
+    Str $lang,
+    --> Hash
+) {
+    my %new-value;
+
+    for %$value.kv -> $k, $v {
+        my $pv = $prev-value ~~ Hash ?? %$prev-value{$k} !! Any;
+        %new-value{$k} = get-merged-value($pv, $v, $lang);
+    }
+
+    return %new-value;
+}
+
+multi sub get-merged-value(
+    $prev-value,
+    $value,
+    Str $lang,
+) {
+    note "{$prev-value.raku},\t{$value.raku}";
+    warn "prev: {$prev-value.^name}\tvalue: {$value.^name}";
+}
+
 sub convert-md-to-html(
     Str $md,
     Int $heading-offset where { $heading-offset >= 0 } = 2,
 ) {
-    return parse-markdown($md.subst(/^\#/, '#' x ($heading-offset + 1), :g)).to-html;
+    return parse-markdown($md.subst(/^^\#/, '#' x ($heading-offset + 1), :g)).to-html;
 }
 
 sub split-multiple-rmds(
