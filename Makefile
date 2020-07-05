@@ -1,3 +1,9 @@
+AVAILABLE_LANGS=ja
+RMD_DIR=rmd
+RMD_FILES=$(shell find "$(RMD_DIR)" -type f)
+DEST_DIR=pages
+DEST_FILES=$(patsubst $(RMD_DIR)/%.rmd, $(DEST_DIR)/%.mustache, $(RMD_FILES))
+
 SASS_BUILDER_TAG=sass-builder:latest
 
 .PHONY: all
@@ -5,6 +11,7 @@ all: docker-build css build
 
 .PHONY: clean
 clean:
+	@rm -rf $(dir $(DEST_FILES))
 	@docker run --rm -v $(PWD):/var/src -w /var/src nahcnuj/alpine-uzu:1.0.1 clear
 
 .PHONY: docker-build
@@ -18,8 +25,15 @@ css:
 		-v $(PWD)/build/css:/var/src/css \
 		$(SASS_BUILDER_TAG)
 
+$(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
+	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
+	@bin/rmd2mustache --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
+
+.PHONY: gen-page
+gen-page: $(DEST_FILES)
+
 .PHONY: build
-build: public/img/annict-logo-ver3.png
+build: public/img/annict-logo-ver3.png gen-page
 	@docker run --rm -v $(PWD):/var/src -w /var/src nahcnuj/alpine-uzu:1.0.1
 
 .PHONY: rebuild
