@@ -6,6 +6,7 @@ i18n_scheme: directory
 language:
   - ja
 host_url: https://www.nahcnuj.work
+img_host_url: https://img.nahcnuj.work
 twitter_ogp:
   - property: twitter:card
     content: summary

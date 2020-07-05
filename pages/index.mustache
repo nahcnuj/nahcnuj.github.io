@@ -10,7 +10,7 @@ meta_ogp:
   - property: type
     content: website
   - property: image
-    content: '{{ site.host_url }}/img/author.jpg'
+    content: '{{ site.img_host_url }}/author.jpg'
   - property: image:alt
     content: '{{ i18n.dict.author_image_alt }}'
   - property: url
@@ -18,7 +18,7 @@ meta_ogp:
 ---
 <header>
   <div id="photo">
-    <img src="/img/author.jpg" width="200" height="200" alt="{{ i18n.dict.author_image_alt }}">
+    <img src="{{ site.img_host_url }}/author.jpg" width="200" height="200" alt="{{ i18n.dict.author_image_alt }}">
   </div>
   <div id="title">
     <h1>{{ site.author }}</h1>

@@ -6,7 +6,7 @@ meta_ogp:
   - property: type
     content: article
   - property: image
-    content: '{{ site.host_url }}/img/author.jpg'
+    content: '{{ site.img_host_url }}/author.jpg'
   - property: image:alt
     content: '{{ i18n.dict.author_image_alt }}'
   - property: url
