@@ -148,7 +148,7 @@ sub convert-md-to-html(
     Str $md,
     Int $heading-offset where { $heading-offset >= 0 } = 2,
 ) {
-    return parse-markdown($md.subst(/^\#/, '#' x ($heading-offset + 1), :g)).to-html;
+    return parse-markdown($md.subst(/^^\#/, '#' x ($heading-offset + 1), :g)).to-html;
 }
 
 sub split-multiple-rmds(
