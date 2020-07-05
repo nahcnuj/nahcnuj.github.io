@@ -24,13 +24,14 @@ jobs:
       env:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         github_repository: ${{ github.repository }}
-        images: page-builder:latest
+        images: page-builder:latest sass-builder:latest
       run: |
         username=$(echo ${github_repository} | sed -e 's,\(.*\)/.*,\1,')
         echo ${github_token} | docker login docker.pkg.github.com --username ${username} --password-stdin
         push_to=docker.pkg.github.com/${github_repository}
-        echo ${images} | xargs -n1 -IXXXX sh -c "docker pull ${push_to}/XXXX && docker tag ${push_to}/XXXX XXXX"
-        make css build
+        echo ${images} | xargs -n1 -IXXXX sh -c "docker pull ${push_to}/XXXX && docker tag ${push_to}/XXXX XXXX" || :
+        make all
+        echo ${images} | xargs -n1 -IXXXX sh -c "docker tag XXXX ${push_to}/XXXX && docker push ${push_to}/XXXX"
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3.6.1
