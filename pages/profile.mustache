@@ -7,21 +7,21 @@ custom_css:
   - href: /css/history-table.css
   - href: /css/profile-table.css
 meta_ogp:
-  basic:
-    - property: type
-      content: profile
-    - property: profile:first_name
-      content: '{{ i18n.dict.author_first_name }}'
-    - property: profile:last_name
-      content: '{{ i18n.dict.author_last_name }}'
-    - property: profile:username
-      content: nahcnuj
-    - property: image
-      content: '{{ site.host_url }}/img/author.jpg'
-    - property: image:alt
-      content: '{{ i18n.dict.author_image_alt }}'
-    - property: url
-      content: '{{ site.host_url }}/profile.html'
+  - property: type
+    content: profile
+  - property: image
+    content: '{{ site.host_url }}/img/author.jpg'
+  - property: image:alt
+    content: '{{ i18n.dict.author_image_alt }}'
+  - property: url
+    content: '{{ site.host_url }}/profile.html'
+profile_ogp:
+  - property: first_name
+    content: '{{ i18n.dict.author_first_name }}'
+  - property: last_name
+    content: '{{ i18n.dict.author_last_name }}'
+  - property: username
+    content: nahcnuj
 ---
 <table class="profile">
   {{#i18n.profile}}
