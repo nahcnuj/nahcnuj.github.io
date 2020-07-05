@@ -4,6 +4,7 @@ RMD_FILES=$(shell find "$(RMD_DIR)" -type f)
 DEST_DIR=pages
 DEST_FILES=$(patsubst $(RMD_DIR)/%.rmd, $(DEST_DIR)/%.mustache, $(RMD_FILES))
 
+PAGE_BUILDER_TAG=page-builder:latest
 SASS_BUILDER_TAG=sass-builder:latest
 
 .PHONY: all
@@ -17,6 +18,7 @@ clean:
 .PHONY: docker-build
 docker-build:
 	@docker build -t $(SASS_BUILDER_TAG) --target sass-builder .
+	@docker build -t $(PAGE_BUILDER_TAG) -f docker/page-builder/Dockerfile .
 
 .PHONY: css
 css:
@@ -27,7 +29,8 @@ css:
 
 $(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
-	@bin/rmd2mustache --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
+	@docker run --rm -v $(PWD):/var/src -w /var/src $(PAGE_BUILDER_TAG) \
+		bin/rmd2mustache --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
 
 .PHONY: gen-page
 gen-page: $(DEST_FILES)
