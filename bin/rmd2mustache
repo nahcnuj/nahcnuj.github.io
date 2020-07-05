@@ -1,0 +1,20 @@
+#!/usr/bin/env raku
+
+sub MAIN(
+    Str $rmd-file where *.IO.f && *.IO.r,
+    Str $dest-dir where *.IO.e.flip || *.IO.d && *.IO.w,
+) {
+    my $dest-file = $dest-dir.IO.add($rmd-file.IO.basename).extension('mustache');
+    $dest-file.say;
+}
+
+sub USAGE {
+    say qq:to/EOS/;
+        Usage:
+          {$*PROGRAM.basename} <rmd-file> <dest-dir>
+        Convert R Markdown file into Mustache.
+
+        <rmd-file> must be a readable file and <dest-dir> must be a writable directory.
+        A basename of output file is the same as one of <rmd-file>, but its extension will be 'mustache'.
+        EOS
+}
