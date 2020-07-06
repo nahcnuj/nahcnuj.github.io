@@ -13,13 +13,21 @@
   {{/hidden}}
   {{/i18n.meta_ogp}}
   {{#meta_ogp}}
-  <meta property="og:{{ property }}" content="{{ content }}">
+  <meta property="og:type" content="{{ type }}">
+  {{#image}}
+  <meta property="og:image" content="{{ site.img_host_url }}{{ path }}">
+  <meta property="og:image:alt" content="{{ alt }}">
+  {{/image}}
+  {{^image}}
+  <meta property="og:image" content="{{ site.img_host_url }}/author.jpg">
+  <meta property="og:image:alt" content="{{ i18n.dict.author_image_alt }}">
+  {{/image}}
+  <meta property="og:url" content="{{ site.host_url }}{{ path }}">
   {{/meta_ogp}}
   {{#profile_ogp}}
   <meta property="profile:{{ property }}" content="{{ content }}">
   {{/profile_ogp}}
   {{#article_ogp}}
-  <meta property="og:type" content="article">
   <meta property="article:author" content="{{ i18n.dict.author_name }}">
   <meta property="article:published_time" content="{{ published_time }}">
   <meta property="article:modified_time" content="{{ modified_time }}">

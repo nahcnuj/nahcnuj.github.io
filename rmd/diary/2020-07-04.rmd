@@ -3,12 +3,11 @@ title: 2020 年 7 月 4 日の日記
 description: 浜弓場双先生の作品展に行ってきた。初めて休日出勤をした。
 headline: 2020 年 7 月 4 日
 meta_ogp:
-  - property: image
-    content: '{{ site.img_host_url }}/author.jpg'
-  - property: image:alt
-    content: '{{ i18n.dict.author_image_alt }}'
-  - property: url
-    content: '{{ site.host_url }}/diary/2020-07-04.html'
+  type: article
+  path: /diary/2020-07-04.html
+  image:
+    path: /author.jpg
+    alt: '{{ i18n.dict.author_image_alt }}'
 article_ogp:
   published_time: 2020-07-05T15:13+09:00
   modified_time: 2020-07-05T17:05+09:00
