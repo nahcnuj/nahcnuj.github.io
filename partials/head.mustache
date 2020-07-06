@@ -1,4 +1,4 @@
-<head prefix="og: http://ogp.me/ns# profile: http://ogp.me/ns/profile#">
+<head prefix="og: http://ogp.me/ns# profile: http://ogp.me/ns/profile# article: http://ogp.me/ns/article#">
   <meta charset="utf-8">
   <title>{{ title }}{{^overwrite_title}} | {{ i18n.site_name }}{{/overwrite_title}}</title>
   <meta name="description" content="{{ description }}">
@@ -19,7 +19,14 @@
   <meta property="profile:{{ property }}" content="{{ content }}">
   {{/profile_ogp}}
   {{#article_ogp}}
-  <meta property="article:{{ property }}" content="{{ content }}">
+  <meta property="og:type" content="article">
+  <meta property="article:author" content="{{ i18n.dict.author_name }}">
+  <meta property="article:published_time" content="{{ published_time }}">
+  <meta property="article:modified_time" content="{{ modified_time }}">
+  <meta property="article:section" content="{{ section }}">
+  {{#tag}}
+  <meta property="article:tag" content="{{ name }}">
+  {{/tag}}
   {{/article_ogp}}
   {{#site.twitter_ogp}}
   <meta property="{{ property }}" content="{{ content }}">

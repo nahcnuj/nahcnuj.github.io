@@ -3,8 +3,6 @@ title: 2020 年 7 月 4 日の日記
 description: 浜弓場双先生の作品展に行ってきた。初めて休日出勤をした。
 headline: 2020 年 7 月 4 日
 meta_ogp:
-  - property: type
-    content: article
   - property: image
     content: '{{ site.img_host_url }}/author.jpg'
   - property: image:alt
@@ -12,30 +10,18 @@ meta_ogp:
   - property: url
     content: '{{ site.host_url }}/diary/2020-07-04.html'
 article_ogp:
-  - property: published_time
-    content: 2020-07-05T15:13+09:00
-  - property: modified_time
-    content: 2020-07-05T17:05+09:00
-  - property: author
-    content: '{{ i18n.dict.author_name }}'
-  - property: section
-    content: 日記
-  - property: tag
-    content: ハナヤマタ
-  - property: tag
-    content: おちこぼれフルーツタルト
-  - property: tag
-    content: 浜弓場双
-  - property: tag
-    content: イベント
-  - property: tag
-    content: 作品展
-  - property: tag
-    content: 漫画
-  - property: tag
-    content: アニメ
-  - property: tag
-    content: 仕事
+  published_time: 2020-07-05T15:13+09:00
+  modified_time: 2020-07-05T17:05+09:00
+  section: 日記
+  tag:
+    - name: ハナヤマタ
+    - name: おちこぼれフルーツタルト
+    - name: 浜弓場双
+    - name: イベント
+    - name: 作品展
+    - name: 漫画
+    - name: アニメ
+    - name: 仕事
 ---
 # 浜弓場双作品展
 
