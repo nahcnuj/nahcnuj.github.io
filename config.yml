@@ -8,14 +8,10 @@ language:
 host_url: https://www.nahcnuj.work
 img_host_url: https://img.nahcnuj.work
 twitter_ogp:
-  - property: twitter:card
-    content: summary
-  - property: twitter:site
-    content: '@nahcnuj'
-  - property: twitter:creator
-    content: '@nahcnuj'
+  card_type: summary
 years: 2020
 author: Junichi Hayashi
+username: nahcnuj
 contact_list:
   - title: Twitter
     href: https://twitter.com/nahcnuj
