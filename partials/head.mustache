@@ -17,10 +17,12 @@
   {{#image}}
   <meta property="og:image" content="{{ site.img_host_url }}{{ path }}">
   <meta property="og:image:alt" content="{{ alt }}">
+  <meta property="twitter:card" content="summary_large_image">
   {{/image}}
   {{^image}}
   <meta property="og:image" content="{{ site.img_host_url }}/author.jpg">
   <meta property="og:image:alt" content="{{ i18n.dict.author_image_alt }}">
+  <meta property="twitter:card" content="summary">
   {{/image}}
   <meta property="og:url" content="{{ site.host_url }}{{ path }}">
   {{/meta_ogp}}
@@ -38,9 +40,6 @@
   {{/article_ogp}}
   {{#twitter_ogp}}
   <meta property="twitter:card" content="{{ card_type }}">
-  {{/twitter_ogp}}
-  {{^twitter_ogp}}
-  <meta property="twitter:card" content="summary">
   {{/twitter_ogp}}
   <meta property="twitter:site" content="@{{ site.username }}">
   <meta property="twitter:creator" content="@{{ site.username }}">

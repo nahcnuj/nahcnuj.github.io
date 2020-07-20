@@ -5,9 +5,6 @@ headline: 2020 年 7 月 4 日
 meta_ogp:
   type: article
   path: /diary/2020-07-04.html
-  image:
-    path: /author.jpg
-    alt: '{{ i18n.dict.author_image_alt }}'
 article_ogp:
   published_time: 2020-07-05T15:13+09:00
   modified_time: 2020-07-05T17:05+09:00

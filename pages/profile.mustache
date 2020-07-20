@@ -9,6 +9,9 @@ custom_css:
 meta_ogp:
   type: profile
   path: /profile.html
+  image:
+    path: /author.jpg
+    alt: '{{ i18n.dict.author_image_alt }}'
 profile_ogp:
   - property: first_name
     content: '{{ i18n.dict.author_first_name }}'
@@ -16,8 +19,6 @@ profile_ogp:
     content: '{{ i18n.dict.author_last_name }}'
   - property: username
     content: nahcnuj
-twitter_ogp:
-  card_type: summary_large_image
 ---
 <table class="profile">
   {{#i18n.profile}}
