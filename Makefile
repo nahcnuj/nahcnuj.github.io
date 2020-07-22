@@ -8,12 +8,12 @@ PAGE_BUILDER_TAG=page-builder:latest
 SASS_BUILDER_TAG=sass-builder:latest
 
 .PHONY: all
-all: docker-build css build
+all: docker-build build css
 
 .PHONY: clean
 clean:
 	@rm -rf $(dir $(DEST_FILES))
-	@docker run --rm -v $(PWD):/var/src -w /var/src nahcnuj/alpine-uzu:1.0.1 clear
+	@docker run --rm -v $(PWD):/var/src -w /var/src nahcnuj/alpine-uzu:1.1.1 clear
 
 .PHONY: docker-build
 docker-build:
@@ -37,7 +37,11 @@ gen-page: $(DEST_FILES)
 
 .PHONY: build
 build: public/img/annict-logo-ver3.png gen-page
-	@docker run --rm -v $(PWD):/var/src -w /var/src nahcnuj/alpine-uzu:1.0.1
+	@docker run --rm \
+		-v $(PWD):/home/user \
+		-e LOCAL_UID=$(shell id -u $${USER}) \
+		-e LOCAL_GID=$(shell id -g $${USER}) \
+		nahcnuj/alpine-uzu:1.1.1
 
 .PHONY: rebuild
 rebuild: clean all
