@@ -43,12 +43,13 @@
   {{/twitter_ogp}}
   <meta property="twitter:site" content="@{{ site.username }}">
   <meta property="twitter:creator" content="@{{ site.username }}">
-  <link href="{{ site.img_host_url }}" rel="dns-prefetch">
-  <link href="https://fonts.gstatic.com/" rel="preconnect" crossorigin>
+  <link rel="canonical" href="{{ site.host_url }}{{ meta_ogp.path }}">
+  <link rel="dns-prefetch" href="{{ site.img_host_url }}">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
   <script src="https://kit.fontawesome.com/08f6e2d41a.js" crossorigin="anonymous"></script>
-  <link href="/css/common.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/common.css">
   {{#custom_css}}
-  <link href="{{ href }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ href }}">
   {{/custom_css}}
   {{> gtag }}
 </head>
