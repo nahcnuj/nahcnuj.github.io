@@ -8,7 +8,7 @@ PAGE_BUILDER_TAG=page-builder:latest
 SASS_BUILDER_TAG=nahcnuj/alpine-sassc:3.6.1
 
 .PHONY: all
-all: docker-build build css
+all: docker-build html css
 
 .PHONY: clean
 clean:
@@ -40,8 +40,8 @@ $(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 .PHONY: gen-page
 gen-page: $(DEST_FILES)
 
-.PHONY: build
-build: public/img/annict-logo-ver3.png gen-page
+.PHONY: html
+html: public/img/annict-logo-ver3.png gen-page
 	@docker run --rm \
 		-v $(PWD):/home/user \
 		-e LOCAL_UID=$(shell id -u $${USER}) \
