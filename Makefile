@@ -5,7 +5,7 @@ DEST_DIR=pages
 DEST_FILES=$(patsubst $(RMD_DIR)/%.rmd, $(DEST_DIR)/%.mustache, $(RMD_FILES))
 
 PAGE_BUILDER_TAG=page-builder:latest
-SASS_BUILDER_TAG=sass-builder:latest
+SASS_BUILDER_TAG=nahcnuj/alpine-sassc:3.6.1
 
 .PHONY: all
 all: docker-build build css
@@ -17,15 +17,20 @@ clean:
 
 .PHONY: docker-build
 docker-build:
-	@docker build -t $(SASS_BUILDER_TAG) --target sass-builder .
 	@docker build -t $(PAGE_BUILDER_TAG) -f docker/page-builder/Dockerfile .
 
 .PHONY: css
 css:
-	@docker run --rm \
-		-v $(PWD)/sass:/var/src/sass \
-		-v $(PWD)/build/css:/var/src/css \
-		$(SASS_BUILDER_TAG)
+	@mkdir -p build/css
+	@find -name '*.scss' \
+		| grep -v '.*/_.*\.scss$$' \
+		| sed -e 's,^\./sass/\(.*\)\.scss,sass/\1.scss css/\1.css,' \
+		| xargs -n2 docker run --rm \
+			-v $(PWD)/sass:/home/user/sass \
+			-v $(PWD)/build/css:/home/user/css \
+			-e LOCAL_UID=$(shell id -u $${USER}) \
+			-e LOCAL_GID=$(shell id -g $${USER}) \
+			$(SASS_BUILDER_TAG) -t compressed
 
 $(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
