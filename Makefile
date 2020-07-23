@@ -17,7 +17,10 @@ clean:
 
 .PHONY: docker-build
 docker-build:
-	@docker build -t $(PAGE_BUILDER_TAG) -f docker/page-builder/Dockerfile .
+	@docker build --cache-from $(PAGE_BUILDER_TAG) \
+		-t $(PAGE_BUILDER_TAG) \
+		-f docker/page-builder/Dockerfile \
+		.
 
 .PHONY: css
 css:
