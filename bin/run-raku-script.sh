@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-if [ ! -z ${LOCAL_UID} -o ! -z ${LOCAL_GID} ]; then
+if [ ! -z "${LOCAL_UID}" -o ! -z "${LOCAL_GID}" ]; then
     USER_ID=${LOCAL_UID:-1000}
     GROUP_ID=${LOCAL_GID:-1000}
 
