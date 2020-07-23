@@ -4,8 +4,9 @@ RUN apk add --update \
         git \
         su-exec
 
-COPY bin/run-raku-script.sh /usr/local/bin/
 COPY META6.json .
 RUN zef install --deps-only .
+
+COPY bin/run-raku-script.sh /usr/local/bin/
 
 ENTRYPOINT [ "run-raku-script.sh" ]
