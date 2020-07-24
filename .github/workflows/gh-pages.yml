@@ -30,7 +30,13 @@ jobs:
         dockerfile: docker/page-builder/Dockerfile
 
     - name: Build
-      run:
+      env:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_repository: ${{ github.repository }}
+        builder_tag: page-builder:latest
+      run: |
+        username=$(echo ${github_repository} | sed -e 's,\(.*\)/.*,\1,')
+        echo ${github_token} | docker login docker.pkg.github.com --username ${username} --password-stdin
         make css html
 
     - name: Deploy
