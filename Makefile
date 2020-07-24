@@ -4,7 +4,7 @@ RMD_FILES=$(shell find "$(RMD_DIR)" -type f)
 DEST_DIR=pages
 DEST_FILES=$(patsubst $(RMD_DIR)/%.rmd, $(DEST_DIR)/%.mustache, $(RMD_FILES))
 
-PAGE_BUILDER_TAG=docker.pkg.github.com/nahcnuj/page-builder:latest
+PAGE_BUILDER_TAG?=page-builder:latest
 SASS_BUILDER_TAG=nahcnuj/alpine-sassc:3.6.1
 
 .PHONY: all

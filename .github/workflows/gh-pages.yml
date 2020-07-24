@@ -24,10 +24,12 @@ jobs:
       uses: whoan/docker-build-with-cache-action@v5
       with:
         registry: docker.pkg.github.com
-        username: nahcnuj
+        username: whoan
         password: "${{ secrets.GITHUB_TOKEN }}"
         image_name: page-builder
         dockerfile: docker/page-builder/Dockerfile
+      run:
+        export PAGE_BUILDER_TAG=${FULL_IMAGE_NAME}
 
     - name: Build
       env:
