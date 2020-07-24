@@ -20,17 +20,18 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - name: Build docker images using cache
+      uses: whoan/docker-build-with-cache-action@v5
+      with:
+        registry: docker.pkg.github.com
+        username: nahcnuj
+        password: "${{ secrets.GITHUB_TOKEN }}"
+        image_name: page-builder
+        dockerfile: docker/page-builder/Dockerfile
+
     - name: Build
-      env:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        github_repository: ${{ github.repository }}
-        builder_tag: page-builder:latest
-      run: |
-        username=$(echo ${github_repository} | sed -e 's,\(.*\)/.*,\1,')
-        echo ${github_token} | docker login docker.pkg.github.com --username ${username} --password-stdin
-        push_to=docker.pkg.github.com/${github_repository}
-        docker pull "${push_to}/${builder_tag}"
-        make all
+      run:
+        make css html
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3.6.1
@@ -38,12 +39,3 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: master
         publish_dir: ./build
-
-    - name: Push new container
-      env:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        github_repository: ${{ github.repository }}
-        builder_tag: page-builder:latest
-      run: |
-        push_to=docker.pkg.github.com/${github_repository}
-        docker push "${push_to}/${builder_tag}"
