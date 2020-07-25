@@ -71,7 +71,7 @@ server-log:
 .PHONY: html-lint
 html-lint: bin/html5check.py
 	@find build -name '*.html' \
-		| xargs -n1 $<
+		| xargs -n1 -I% sh -c "echo %; $< %"
 
 bin/html5check.py:
 	@curl -L https://raw.githubusercontent.com/mozilla/html5-lint/master/html5check.py -o $@
