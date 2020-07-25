@@ -15,3 +15,16 @@
     margin-top: $height;
     margin-bottom: $height;
 }
+
+@mixin text-stroke($width, $blur-width: '', $color: black) {
+    letter-spacing: calc(2 * #{$width});
+    text-shadow:
+         #{$width}  #{$width} $blur-width $color,
+         #{$width} -#{$width} $blur-width $color,
+        -#{$width}  #{$width} $blur-width $color,
+        -#{$width} -#{$width} $blur-width $color,
+         #{$width}          0 $blur-width $color,
+                 0  #{$width} $blur-width $color,
+        -#{$width}          0 $blur-width $color,
+                 0 -#{$width} $blur-width $color;
+}

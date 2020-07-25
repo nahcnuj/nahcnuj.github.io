@@ -28,12 +28,14 @@ css:
 	@find -name '*.scss' \
 		| grep -v '.*/_.*\.scss$$' \
 		| sed -e 's,^\./sass/\(.*\)\.scss,sass/\1.scss css/\1.css,' \
-		| xargs -n2 docker run --rm \
+		| xargs -n2 -I% sh -c "\
+			echo %; \
+			docker run --rm \
 			-v $(PWD)/sass:/home/user/sass \
 			-v $(PWD)/build/css:/home/user/css \
 			-e LOCAL_UID=$(shell id -u $${USER}) \
 			-e LOCAL_GID=$(shell id -g $${USER}) \
-			$(SASS_BUILDER_TAG) -t compressed
+			$(SASS_BUILDER_TAG) -t compressed %"
 
 $(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
@@ -44,7 +46,7 @@ $(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 gen-page: $(DEST_FILES)
 
 .PHONY: html
-html: public/img/annict-logo-ver3.png gen-page
+html: public/img/annict-logo-ver3.png public/img/kkn.svg gen-page
 	@docker run --rm \
 		-v $(PWD):/home/user \
 		-e LOCAL_UID=$(shell id -u $${USER}) \
@@ -80,3 +82,11 @@ bin/html5check.py:
 public/img/annict-logo-ver3.png:
 	@curl -L 'https://github.com/annict/annict-logo/raw/master/annict-logo-ver3.png' \
         --create-dirs -o $@
+
+.PHONY: update-kkn
+update-kkn: public/img/kkn.svg ;
+public/img/kkn.svg:
+	@curl -L 'https://uub.jp/kkn/km_new.cgi?MAP=00410040103552000031114014554400341410040030044&CAT=%E7%94%9F%E6%B6%AF%E7%B5%8C%E7%9C%8C%E5%80%A4' \
+		| tr -d '\r\n' \
+		| grep -o -E '<svg.*?</svg>' >$@
+	@sed -E 's,(fill="#[0-9a-fA-F]{6}")",\1,g' -i $@
