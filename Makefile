@@ -40,7 +40,7 @@ css:
 $(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
 	@docker run --rm -v $(PWD):/var/src -w /var/src $(PAGE_BUILDER_TAG) \
-		bin/rmd2mustache --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
+		bin/rmd2mustache.raku --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
 
 .PHONY: gen-page
 gen-page: $(DEST_FILES)
