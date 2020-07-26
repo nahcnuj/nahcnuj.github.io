@@ -1,0 +1,10 @@
+---
+title: 日記
+description: 林純一の他愛ない日常を綴った日記です。
+headline: 日記
+---
+<ul>
+  {{#_pages}}
+  <li><a href="{{ url }}">{{ title }}</a></li>
+  {{/_pages}}
+</ul>

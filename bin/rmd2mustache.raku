@@ -14,7 +14,7 @@ multi sub MAIN(
     }
 
     my @langs = $langs.split(/\s+/);
-    my $mustache = convert-to-mustache($rmd-file.IO.slurp, @langs);
+    my $mustache = convert-to-mustache($rmd-file.IO, @langs);
 
     $dest-file.spurt($mustache);
 }
@@ -28,7 +28,7 @@ multi sub MAIN(
         die "The file {$dest-file} is not writable.";
     }
 
-    my $mustache = convert-to-mustache($rmd-file.IO.slurp);
+    my $mustache = convert-to-mustache($rmd-file.IO);
 
     $dest-file.spurt($mustache);
 }
@@ -51,9 +51,10 @@ use Text::Markdown;
 use YAMLish;
 
 multi sub convert-to-mustache(
-    Str $rmd,
+    IO $rmd-file,
     @langs,
 ) {
+    my $rmd = $rmd-file.slurp;
     my @rmds = split-multiple-rmds($rmd);
 
     my %merged-yaml;
@@ -64,6 +65,11 @@ multi sub convert-to-mustache(
         my %yaml = load-yaml(%parts<yaml>);
         for %yaml.kv -> $key, $value {
             %merged-yaml{$key} = get-merged-value(%merged-yaml{$key}, $value, ($key ~~ /'_pages' $$/ ?? '' !! $lang));
+        }
+
+        if ($rmd-file.basename eq 'index.rmd') {
+            my @files = $rmd-file.parent.dir>>.relative('rmd'.IO)>>.path>>.extension('')>>.path;
+            %merged-yaml<_pages> = map { page => $_ }, @files.grep( ! *.ends-with('/index'));
         }
 
         $content-part = get-merged-value($content-part, convert-md-to-html(%parts<md>), $lang);
@@ -81,8 +87,9 @@ multi sub convert-to-mustache(
 }
 
 multi sub convert-to-mustache(
-    Str $rmds,
+    IO $rmd-file,
 ) {
+    my $rmds = $rmd-file.slurp;
     my ($rmd) = split-multiple-rmds($rmds);
     return qq:to/EOS/;
         ---
