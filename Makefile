@@ -39,7 +39,13 @@ css:
 
 $(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
-	@docker run --rm -v $(PWD):/var/src -w /var/src $(PAGE_BUILDER_TAG) \
+	@echo $<
+	@docker run --rm \
+		-w /home/user \
+		-v $(PWD):/home/user \
+		-e LOCAL_UID=$(shell id -u $${USER}) \
+		-e LOCAL_GID=$(shell id -g $${USER}) \
+		$(PAGE_BUILDER_TAG) \
 		bin/rmd2mustache.raku --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
 
 .PHONY: gen-page
