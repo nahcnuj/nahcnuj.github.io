@@ -63,7 +63,7 @@ multi sub convert-to-mustache(
 
         my %yaml = load-yaml(%parts<yaml>);
         for %yaml.kv -> $key, $value {
-            %merged-yaml{$key} = get-merged-value(%merged-yaml{$key}, $value, $lang);
+            %merged-yaml{$key} = get-merged-value(%merged-yaml{$key}, $value, ($key ~~ /'_pages' $$/ ?? '' !! $lang));
         }
 
         $content-part = get-merged-value($content-part, convert-md-to-html(%parts<md>), $lang);
@@ -98,9 +98,11 @@ multi sub get-merged-value(
     Str $lang,
     --> Str
 ) {
-    my $lang-start = "\{\{#lang_{$lang}}}";
-    my $lang-end   = "\{\{/lang_{$lang}}}";
-    return $prev-value ~~ Str ?? $prev-value !! '' ~ $lang-start ~ $value ~ $lang-end;
+    my $wrapped-value = ''
+        ~ ($lang.chars ?? "\{\{#lang_{$lang}}}" !! '')
+        ~ $value
+        ~ ($lang.chars ?? "\{\{/lang_{$lang}}}" !! '');
+    return $prev-value ~~ Str ?? $prev-value !! '' ~ $wrapped-value;
 }
 
 multi sub get-merged-value(
