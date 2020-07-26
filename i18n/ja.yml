@@ -13,7 +13,6 @@ main_contents:
   - title: 日記
     href: /diary/
     icon_name: calendar-day
-    under_construction: true
   - title: 製作物
     href: /works/
     icon_name: shapes
