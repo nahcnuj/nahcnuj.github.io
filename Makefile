@@ -5,15 +5,15 @@ DEST_DIR=pages
 DEST_FILES=$(patsubst $(RMD_DIR)/%.rmd, $(DEST_DIR)/%.mustache, $(RMD_FILES))
 
 PAGE_BUILDER_TAG?=page-builder:latest
-SASS_BUILDER_TAG=nahcnuj/alpine-sassc:3.6.1
+SASS_BUILDER_TAG?=nahcnuj/alpine-sassc:3.6.1
+UZU_TAG?=nahcnuj/alpine-uzu:1.2.1
 
 .PHONY: all
 all: docker-build html css
 
 .PHONY: clean
 clean:
-	@rm -rf $(dir $(DEST_FILES))
-	@docker run --rm -v $(PWD):/var/src -w /var/src nahcnuj/alpine-uzu:1.1.2 clear
+	@rm -rf $(dir $(DEST_FILES)) build/*
 
 .PHONY: docker-build
 docker-build:
@@ -53,14 +53,15 @@ gen-page: $(DEST_FILES)
 
 .PHONY: html
 html: public/img/annict-logo-ver3.png public/img/kkn.svg gen-page
+	@mkdir -p build
 	@docker run --rm \
 		-v $(PWD):/home/user \
 		-e LOCAL_UID=$(shell id -u $${USER}) \
 		-e LOCAL_GID=$(shell id -g $${USER}) \
-		nahcnuj/alpine-uzu:1.1.2
+		$(UZU_TAG)
 
 .PHONY: rebuild
-rebuild: clean all
+rebuild: clean html css
 
 NGINX_CONTAINER_NAME=nahcnuj-work-test
 .PHONY: server-start server-stop server-restart server-log
