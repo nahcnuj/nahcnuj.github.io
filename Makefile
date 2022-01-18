@@ -54,6 +54,8 @@ gen-page: $(DEST_FILES)
 .PHONY: html
 html: public/img/annict-logo-ver3.png public/img/kkn.svg gen-page
 	@mkdir -p build
+	@mkdir -p partials  # needed by Uzu
+	@find build -name '*.html' -delete  # TODO incremental build
 	@docker run --rm \
 		-v $(PWD):/home/user \
 		-e LOCAL_UID=$(shell id -u $${USER}) \
