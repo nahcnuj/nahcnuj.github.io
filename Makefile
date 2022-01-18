@@ -32,7 +32,7 @@ $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@echo $< "->" $@
 	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
 	@[ ! -z "$$(docker image ls -q $(PAGE_BUILDER_TAG))" ] || docker build -t $(PAGE_BUILDER_TAG) -f docker/page-builder/Dockerfile .
-	@docker run --rm \
+	@docker run --rm -it \
 		-w /home/user \
 		-v $(PWD):/home/user \
 		-e LOCAL_UID=$(shell id -u $${USER}) \
@@ -43,7 +43,7 @@ $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 html:
 	@mkdir -p $(DEST_DIR)
 	@mkdir -p partials  # needed by Uzu
-	@docker run --rm \
+	@docker run --rm -it\
 		-v $(PWD):/home/user \
 		-e LOCAL_UID=$(shell id -u $${USER}) \
 		-e LOCAL_GID=$(shell id -g $${USER}) \
@@ -54,7 +54,7 @@ css: $(CSS_FILES)
 $(CSS_DIR)/%.css: $(SASS_DIR)/%.scss
 	@mkdir -p $(CSS_DIR)
 	@echo $< "->" $@
-	@docker run --rm \
+	@docker run --rm -it\
 		-v $(PWD)/$(SASS_DIR):/home/user/sass \
 		-v $(PWD)/$(CSS_DIR):/home/user/css \
 		-e LOCAL_UID=$(shell id -u $${USER}) \
