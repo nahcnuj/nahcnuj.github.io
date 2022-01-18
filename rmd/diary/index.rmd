@@ -5,6 +5,6 @@ headline: 日記
 ---
 <ul>
   {{#_pages}}
-  <li><a href="{{ url }}">{{ title }}</a></li>
+    <li><a href="{{ url }}">{{ title }}</a></li>
   {{/_pages}}
 </ul>

@@ -3,19 +3,19 @@
   {{> head }}
   <body>
     {{^custom_header}}
-    {{> header }}
+      {{> header }}
     {{/custom_header}}
     {{#custom_content}}
-    {{> content }}
+      {{> content }}
     {{/custom_content}}
     {{^custom_content}}
-    <main>
-      <article>
-        {{> article-header }}
+      <main>
+        <article>
+          {{> article-header }}
 
-        {{> content }}
-      </article>
-    </main>
+          {{> content }}
+        </article>
+      </main>
     {{/custom_content}}
     {{> footer }}
   </body>

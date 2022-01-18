@@ -25,15 +25,17 @@ meta_ogp:
   <nav id="main-contents">
     <ul>
       {{#i18n.main_contents}}
-      <li><a href="{{ href }}">
-        <i class="fas fa-{{ icon_name }}" title="{{ title }}"></i>
-        <div>
-          {{ title }}
-          {{#under_construction}}
-          <i class="fas fa-exclamation-triangle" style="color:#F90" title="{{ i18n.dict.under_construction }}"></i>
-          {{/under_construction}}
-        </div>
-      </a></li>
+        <li>
+          <a href="{{ href }}">
+            <i class="fas fa-{{ icon_name }}" title="{{ title }}"></i>
+            <div>
+              {{ title }}
+              {{#under_construction}}
+                <i class="fas fa-exclamation-triangle" style="color:#F90" title="{{ i18n.dict.under_construction }}"></i>
+              {{/under_construction}}
+            </div>
+          </a>
+        </li>
       {{/i18n.main_contents}}
     </ul>
   </nav>
@@ -42,14 +44,16 @@ meta_ogp:
   <nav>
     <ul>
       {{#i18n.sns_links}}
-      <li><a href="{{ href }}">
-        {{#fontawesome_icon}}
-        <i class="fab fa-{{ name }}" style="color:{{ color }}" title="{{ title }}"></i>
-        {{/fontawesome_icon}}
-        {{#img_icon}}
-        <img id="{{ id }}" src="{{ src }}" width="{{ size }}" height="{{ size }}" alt="{{ title }}" title="{{ title }}">
-        {{/img_icon}}
-      </a></li>
+        <li>
+          <a href="{{ href }}">
+            {{#fontawesome_icon}}
+              <i class="fab fa-{{ name }}" style="color:{{ color }}" title="{{ title }}"></i>
+            {{/fontawesome_icon}}
+            {{#img_icon}}
+              <img id="{{ id }}" src="{{ src }}" width="{{ size }}" height="{{ size }}" alt="{{ title }}" title="{{ title }}">
+            {{/img_icon}}
+          </a>
+        </li>
       {{/i18n.sns_links}}
     </ul>
   </nav>
