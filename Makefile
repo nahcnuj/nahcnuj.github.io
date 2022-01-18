@@ -4,6 +4,11 @@ RMD_FILES:=$(shell find "$(RMD_DIR)" -type f)
 DEST_DIR:=pages
 DEST_FILES:=$(patsubst $(RMD_DIR)/%.rmd, $(DEST_DIR)/%.mustache, $(RMD_FILES))
 
+SASS_DIR:=sass
+SASS_FILES:=$(shell find "$(SASS_DIR)" -name "*.scss" -not -name "_*")
+CSS_DIR:=build/css
+CSS_FILES:=$(patsubst $(SASS_DIR)/%.scss, $(CSS_DIR)/%.css, $(SASS_FILES))
+
 PAGE_BUILDER_TAG?=page-builder:latest
 SASS_TAG?=nahcnuj/alpine-sassc:3.6.1
 UZU_TAG?=nahcnuj/alpine-uzu:1.2.1
@@ -44,19 +49,16 @@ html:
 		$(UZU_TAG)
 	@rmdir --ignore-fail-on-non-empty partials
 
-css:
-	@mkdir -p build/css
-	@find -name '*.scss' \
-		| grep -v '.*/_.*\.scss$$' \
-		| sed -e 's,^\./sass/\(.*\)\.scss,sass/\1.scss css/\1.css,' \
-		| xargs -n2 -I% sh -c "\
-			echo %; \
-			docker run --rm \
-			-v $(PWD)/sass:/home/user/sass \
-			-v $(PWD)/build/css:/home/user/css \
-			-e LOCAL_UID=$(shell id -u $${USER}) \
-			-e LOCAL_GID=$(shell id -g $${USER}) \
-			$(SASS_TAG) -t compressed %"
+css: $(CSS_FILES)
+$(CSS_DIR)/%.css: $(SASS_DIR)/%.scss
+	@mkdir -p $(CSS_DIR)
+	@echo $< "->" $@
+	@docker run --rm \
+		-v $(PWD)/$(SASS_DIR):/home/user/sass \
+		-v $(PWD)/$(CSS_DIR):/home/user/css \
+		-e LOCAL_UID=$(shell id -u $${USER}) \
+		-e LOCAL_GID=$(shell id -g $${USER}) \
+		$(SASS_TAG) -t compressed $< $(subst build/,,$@)
 
 
 .PHONY: external-images update-kkn
