@@ -8,6 +8,7 @@ env:
   PAGE_BUILDER_TAG: page-builder
   UZU_TAG: nahcnuj/alpine-uzu:1.2.1
   SASS_TAG: nahcnuj/alpine-sassc:3.6.1
+  MUSTACHE_CACHE_KEY: mustache-cache
 
 jobs:
   build:
@@ -32,8 +33,18 @@ jobs:
       - name: Load the page-builder Docker image
         run: docker load -i ${{ env.PAGE_BUILDER_TAG }}
 
+      - id: cache-mustache
+        name: Cache generated mustache templates
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.MUSTACHE_CACHE_KEY }}
+          key: ${{ env.MUSTACHE_CACHE_KEY }}
+
       - name: Generate Mustache templates from R Markdown files
-        run: make gen-page
+        run: |
+          tar -xzvf ${{ env.MUSTACHE_CACHE_KEY }} || :
+          make gen-page
+          tar -czvf ${{ env.MUSTACHE_CACHE_KEY }} pages
       
       - id: cache-uzu
         name: Cache my Uzu Docker image
