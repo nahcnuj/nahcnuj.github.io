@@ -5,7 +5,7 @@ DEST_DIR:=pages
 DEST_FILES:=$(patsubst $(RMD_DIR)/%.rmd, $(DEST_DIR)/%.mustache, $(RMD_FILES))
 
 PAGE_BUILDER_TAG?=page-builder:latest
-SASS_BUILDER_TAG?=nahcnuj/alpine-sassc:3.6.1
+SASS_TAG?=nahcnuj/alpine-sassc:3.6.1
 UZU_TAG?=nahcnuj/alpine-uzu:1.2.1
 
 .PHONY: all clean build rebuild gen-page html css page-builder
@@ -54,7 +54,7 @@ css:
 			-v $(PWD)/build/css:/home/user/css \
 			-e LOCAL_UID=$(shell id -u $${USER}) \
 			-e LOCAL_GID=$(shell id -g $${USER}) \
-			$(SASS_BUILDER_TAG) -t compressed %"
+			$(SASS_TAG) -t compressed %"
 
 
 NGINX_CONTAINER_NAME:=nahcnuj-work-test

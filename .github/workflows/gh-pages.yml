@@ -7,6 +7,7 @@ on:
 env:
   PAGE_BUILDER_TAG: page-builder
   UZU_TAG: nahcnuj/alpine-uzu:1.2.1
+  SASS_TAG: nahcnuj/alpine-sassc:3.6.1
 
 jobs:
   build:
@@ -53,6 +54,23 @@ jobs:
 
       - name: Build HTML
         run: make html
+
+      - id: cache-sass
+        name: Cache my Sass Docker image
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.SASS_TAG }}
+          key: ${{ env.SASS_TAG }}_${{ runner.os }}
+
+      - name: Pull and save the Sass Docker image
+        if: steps.cache-sass.outputs.cache-hit != 'true'
+        run: |
+          docker pull ${{ env.SASS_TAG }}
+          dirname ${{ env.SASS_TAG }} | xargs mkdir -p
+          docker save ${{ env.SASS_TAG }} -o ${{ env.SASS_TAG }}
+
+      - name: Load the Sass Docker image
+        run: docker load -i ${{ env.SASS_TAG }}
 
       - name: Build CSS
         run: make css
