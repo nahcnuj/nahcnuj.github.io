@@ -1,49 +1,42 @@
-# This is a basic workflow to help you get started with Actions
+name: Build
 
-name: CI
-
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   push:
     branches: [ source ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+env:
+  PAGE_BUILDER_TAG: page-builder
+
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
 
-    - id: build-page-builder
-      name: Build docker images using cache
-      uses: whoan/docker-build-with-cache-action@v5
-      with:
-        registry: docker.pkg.github.com
-        username: whoan
-        password: "${{ secrets.GITHUB_TOKEN }}"
-        image_name: page-builder
-        dockerfile: docker/page-builder/Dockerfile
+      - uses: actions/checkout@v2
 
-    - name: Build
-      env:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        github_repository: ${{ github.repository }}
-        builder_tag: page-builder:latest
-        PAGE_BUILDER_TAG: ${{ steps.build-page-builder.outputs.FULL_IMAGE_NAME }}
-      run: |
-        username=$(echo ${github_repository} | sed -e 's,\(.*\)/.*,\1,')
-        echo ${github_token} | docker login docker.pkg.github.com --username ${username} --password-stdin
-        make css html
+      - id: cache-page-builder
+        name: Cache a page-builder Docker image
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.PAGE_BUILDER_TAG }}
+          key: page-builder_${{ runner.os }}
 
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3.6.1
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: master
-        publish_dir: ./build
+      - name: Build and save a page-builder Docker image
+        if: steps.cache-page-builder.outputs.cache-hit != 'true'
+        run: |
+          docker build -t ${{ env.PAGE_BUILDER_TAG }} -f docker/page-builder/Dockerfile .
+          docker save ${{ env.PAGE_BUILDER_TAG }} -o ${{ env.PAGE_BUILDER_TAG }}
+
+      - name: Load the page-builder Docker image
+        run: docker load -i ${{ env.PAGE_BUILDER_TAG }}
+
+      - name: Build HTML and CSS
+        run: make css html
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3.6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: master
+          publish_dir: ./build

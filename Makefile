@@ -1,22 +1,22 @@
-AVAILABLE_LANGS=ja
-RMD_DIR=rmd
-RMD_FILES=$(shell find "$(RMD_DIR)" -type f)
-DEST_DIR=pages
-DEST_FILES=$(patsubst $(RMD_DIR)/%.rmd, $(DEST_DIR)/%.mustache, $(RMD_FILES))
+AVAILABLE_LANGS:=ja
+RMD_DIR:=rmd
+RMD_FILES:=$(shell find "$(RMD_DIR)" -type f)
+DEST_DIR:=pages
+DEST_FILES:=$(patsubst $(RMD_DIR)/%.rmd, $(DEST_DIR)/%.mustache, $(RMD_FILES))
 
 PAGE_BUILDER_TAG?=page-builder:latest
 SASS_BUILDER_TAG?=nahcnuj/alpine-sassc:3.6.1
 UZU_TAG?=nahcnuj/alpine-uzu:1.2.1
 
 .PHONY: all
-all: docker-build html css
+all: page-builder html css
 
 .PHONY: clean
 clean:
 	@rm -rf $(dir $(DEST_FILES)) build/*
 
-.PHONY: docker-build
-docker-build:
+.PHONY: page-builder
+page-builder:
 	@docker build --cache-from $(PAGE_BUILDER_TAG) \
 		-t $(PAGE_BUILDER_TAG) \
 		-f docker/page-builder/Dockerfile \
@@ -66,7 +66,7 @@ html: public/img/annict-logo-ver3.png public/img/kkn.svg gen-page
 .PHONY: rebuild
 rebuild: clean html css
 
-NGINX_CONTAINER_NAME=nahcnuj-work-test
+NGINX_CONTAINER_NAME:=nahcnuj-work-test
 .PHONY: server-start server-stop server-restart server-log
 server-start:
 	@docker run --rm -v $(PWD)/build:/usr/share/nginx/html -p 3000:80 --name $(NGINX_CONTAINER_NAME) nginx >/dev/null 2>&1 &
