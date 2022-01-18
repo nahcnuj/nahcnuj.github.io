@@ -21,8 +21,9 @@ rebuild: clean build
 gen-page: $(DEST_FILES)
 
 $(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
+	@echo $< "->" $@
 	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
-	@echo $<
+	@[ ! -z "$$(docker image ls -q $(PAGE_BUILDER_TAG))" ] || docker build -t $(PAGE_BUILDER_TAG) -f docker/page-builder/Dockerfile .
 	@docker run --rm \
 		-w /home/user \
 		-v $(PWD):/home/user \
@@ -97,8 +98,3 @@ server-restart: server-stop server-start
 
 server-log:
 	@docker logs -f --tail 10 $(NGINX_CONTAINER_NAME)
-
-
-.PHONY: page-builder
-page-builder:
-	@docker build -t $(PAGE_BUILDER_TAG) -f docker/page-builder/Dockerfile .
