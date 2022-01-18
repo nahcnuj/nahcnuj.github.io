@@ -23,20 +23,20 @@ profile_ogp:
 ---
 <table class="profile">
   {{#i18n.profile}}
-  <tr>
-    <th>{{ key }}</th>
-    <td>{{ value }}</td>
-  </tr>
+    <tr>
+      <th>{{ key }}</th>
+      <td>{{ value }}</td>
+    </tr>
   {{/i18n.profile}}
 </table>
 
 <h3>{{ i18n.dict.biography }}</h3>
 <table class="history">
   {{#i18n.biography}}
-  <tr>
-    <th><span><time datetime="{{ date }}">{{ date }}</time></span></th>
-    <td>{{ event }}</td>
-  </tr>
+    <tr>
+      <th><span><time datetime="{{ date }}">{{ date }}</time></span></th>
+      <td>{{ event }}</td>
+    </tr>
   {{/i18n.biography}}
   <tr>
     <th>{{ i18n.dict.now }}</th>
@@ -47,20 +47,20 @@ profile_ogp:
 <h3>{{ i18n.dict.skill }}</h3>
 <ul>
   {{#i18n.skills}}
-  <li>
-    {{ name }}
-    <ul>
-      {{#certifications}}
-      <li>
-        {{ title }}
-        {{ grade }}
-        {{#when}}
-        （<time datetime="{{ datetime }}">{{ text }}</time>）
-        {{/when}}
-      </li>
-      {{/certifications}}
-    </ul>
-  </li>
+    <li>
+      {{ name }}
+      <ul>
+        {{#certifications}}
+          <li>
+            {{ title }}
+            {{ grade }}
+            {{#when}}
+              （<time datetime="{{ datetime }}">{{ text }}</time>）
+            {{/when}}
+          </li>
+        {{/certifications}}
+      </ul>
+    </li>
   {{/i18n.skills}}
 </ul>
 
