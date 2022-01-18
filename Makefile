@@ -61,6 +61,7 @@ html: public/img/annict-logo-ver3.png public/img/kkn.svg gen-page
 		-e LOCAL_UID=$(shell id -u $${USER}) \
 		-e LOCAL_GID=$(shell id -g $${USER}) \
 		$(UZU_TAG)
+	@rmdir --ignore-fail-on-non-empty partials
 
 .PHONY: rebuild
 rebuild: clean html css
