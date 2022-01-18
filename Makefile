@@ -9,14 +9,14 @@ SASS_BUILDER_TAG?=nahcnuj/alpine-sassc:3.6.1
 UZU_TAG?=nahcnuj/alpine-uzu:1.2.1
 
 .PHONY: all
-all: docker-build html css
+all: page-builder html css
 
 .PHONY: clean
 clean:
 	@rm -rf $(dir $(DEST_FILES)) build/*
 
-.PHONY: docker-build
-docker-build:
+.PHONY: page-builder
+page-builder:
 	@docker build --cache-from $(PAGE_BUILDER_TAG) \
 		-t $(PAGE_BUILDER_TAG) \
 		-f docker/page-builder/Dockerfile \
