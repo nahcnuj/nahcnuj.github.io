@@ -16,6 +16,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: flat35hd99/cache-make@v1.0.0
 
       - id: cache-page-builder
         name: Cache a page-builder Docker image
