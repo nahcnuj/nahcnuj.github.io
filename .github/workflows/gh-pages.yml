@@ -6,6 +6,7 @@ on:
 
 env:
   PAGE_BUILDER_TAG: page-builder
+  UZU_TAG: nahcnuj/alpine-uzu:1.2.1
 
 jobs:
   build:
@@ -32,6 +33,22 @@ jobs:
 
       - name: Generate Mustache templates from R Markdown files
         run: make gen-page
+      
+      - id: cache-uzu
+        name: Cache my Uzu Docker image
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.UZU_TAG }}
+          key: ${{ env.UZU_TAG }}_${{ runner.os }}
+
+      - name: Pull and save the Uzu Docker image
+        if: steps.cache-uzu.outputs.cache-hit != 'true'
+        run: |
+          docker pull ${{ env.UZU_TAG }}
+          docker save ${{ env.UZU_TAG }} -o ${{ env.UZU_TAG }}
+
+      - name: Load the Uzu Docker image
+        run: docker load -i ${{ env.UZU_TAG }}
 
       - name: Build HTML
         run: make html
