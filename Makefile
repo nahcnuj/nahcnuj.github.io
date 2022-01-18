@@ -9,7 +9,8 @@ SASS_TAG?=nahcnuj/alpine-sassc:3.6.1
 UZU_TAG?=nahcnuj/alpine-uzu:1.2.1
 
 .PHONY: all clean build rebuild gen-page html css
-all: page-builder build
+
+all: build
 
 clean:
 	@rm -rf $(dir $(DEST_FILES)) build/*
