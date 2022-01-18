@@ -8,21 +8,40 @@ PAGE_BUILDER_TAG?=page-builder:latest
 SASS_BUILDER_TAG?=nahcnuj/alpine-sassc:3.6.1
 UZU_TAG?=nahcnuj/alpine-uzu:1.2.1
 
-.PHONY: all
-all: page-builder html css
+.PHONY: all clean build rebuild gen-page html css page-builder
+all: page-builder build
 
-.PHONY: clean
 clean:
 	@rm -rf $(dir $(DEST_FILES)) build/*
 
-.PHONY: page-builder
-page-builder:
-	@docker build --cache-from $(PAGE_BUILDER_TAG) \
-		-t $(PAGE_BUILDER_TAG) \
-		-f docker/page-builder/Dockerfile \
-		.
+build: gen-page html css
 
-.PHONY: css
+rebuild: clean build
+
+gen-page: $(DEST_FILES)
+
+$(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
+	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
+	@echo $<
+	@docker run --rm \
+		-w /home/user \
+		-v $(PWD):/home/user \
+		-e LOCAL_UID=$(shell id -u $${USER}) \
+		-e LOCAL_GID=$(shell id -g $${USER}) \
+		$(PAGE_BUILDER_TAG) \
+		bin/rmd2mustache.raku --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
+
+html: public/img/annict-logo-ver3.png public/img/kkn.svg
+	@mkdir -p build
+	@mkdir -p partials  # needed by Uzu
+	@find build -name '*.html' -delete  # TODO incremental build
+	@docker run --rm \
+		-v $(PWD):/home/user \
+		-e LOCAL_UID=$(shell id -u $${USER}) \
+		-e LOCAL_GID=$(shell id -g $${USER}) \
+		$(UZU_TAG)
+	@rmdir --ignore-fail-on-non-empty partials
+
 css:
 	@mkdir -p build/css
 	@find -name '*.scss' \
@@ -37,34 +56,6 @@ css:
 			-e LOCAL_GID=$(shell id -g $${USER}) \
 			$(SASS_BUILDER_TAG) -t compressed %"
 
-$(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
-	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
-	@echo $<
-	@docker run --rm \
-		-w /home/user \
-		-v $(PWD):/home/user \
-		-e LOCAL_UID=$(shell id -u $${USER}) \
-		-e LOCAL_GID=$(shell id -g $${USER}) \
-		$(PAGE_BUILDER_TAG) \
-		bin/rmd2mustache.raku --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
-
-.PHONY: gen-page
-gen-page: $(DEST_FILES)
-
-.PHONY: html
-html: public/img/annict-logo-ver3.png public/img/kkn.svg gen-page
-	@mkdir -p build
-	@mkdir -p partials  # needed by Uzu
-	@find build -name '*.html' -delete  # TODO incremental build
-	@docker run --rm \
-		-v $(PWD):/home/user \
-		-e LOCAL_UID=$(shell id -u $${USER}) \
-		-e LOCAL_GID=$(shell id -g $${USER}) \
-		$(UZU_TAG)
-	@rmdir --ignore-fail-on-non-empty partials
-
-.PHONY: rebuild
-rebuild: clean html css
 
 NGINX_CONTAINER_NAME:=nahcnuj-work-test
 .PHONY: server-start server-stop server-restart server-log
@@ -100,3 +91,10 @@ public/img/kkn.svg:
 		| tr -d '\r\n' \
 		| grep -o -E '<svg.*?</svg>' >$@
 	@sed -E 's,(fill="#[0-9a-fA-F]{6}")",\1,g' -i $@
+
+
+page-builder:
+	@docker build --cache-from $(PAGE_BUILDER_TAG) \
+		-t $(PAGE_BUILDER_TAG) \
+		-f docker/page-builder/Dockerfile \
+		.
