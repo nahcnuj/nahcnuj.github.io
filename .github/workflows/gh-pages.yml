@@ -19,7 +19,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.PAGE_BUILDER_TAG }}
-          key: page-builder_${{ runner.os }}
+          key: ${{ env.PAGE_BUILDER_TAG }}_${{ runner.os }}
 
       - name: Build and save a page-builder Docker image
         if: steps.cache-page-builder.outputs.cache-hit != 'true'
