@@ -6,10 +6,20 @@ lead: '{{ i18n.dict.contact_page_lead_text }}'
 meta_ogp:
   type: website
   path: /contact.html
+contact_list:
+  - title: Twitter
+    href: https://twitter.com/nahcnuj
+    address: '@nahcnuj'
+  - title: Facebook
+    href: https://www.facebook.com/nahcnuj
+    address: '{{ site.author }}'
+  - title: Email
+    href: '#'
+    address: nahcnuj.work [at] gmail.com
 ---
 <dl>
-  {{#site.contact_list}}
+  {{#contact_list}}
   <dt>{{ title }}</dt>
   <dd><a href="{{ href }}">{{ address }}</a></dd>
-  {{/site.contact_list}}
+  {{/contact_list}}
 </dl>

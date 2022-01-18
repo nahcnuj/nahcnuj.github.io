@@ -1,12 +1,14 @@
+DEST_DIR=build
+
 AVAILABLE_LANGS:=ja
 RMD_DIR:=rmd
 RMD_FILES:=$(shell find "$(RMD_DIR)" -type f)
-DEST_DIR:=pages
-DEST_FILES:=$(patsubst $(RMD_DIR)/%.rmd, $(DEST_DIR)/%.mustache, $(RMD_FILES))
+MUSTACHE_DIR:=pages
+MUSTACHE_FILES:=$(patsubst $(RMD_DIR)/%.rmd, $(MUSTACHE_DIR)/%.mustache, $(RMD_FILES))
 
 SASS_DIR:=sass
 SASS_FILES:=$(shell find "$(SASS_DIR)" -name "*.scss" -not -name "_*")
-CSS_DIR:=build/css
+CSS_DIR:=$(DEST_DIR)/css
 CSS_FILES:=$(patsubst $(SASS_DIR)/%.scss, $(CSS_DIR)/%.css, $(SASS_FILES))
 
 PAGE_BUILDER_TAG?=page-builder:latest
@@ -18,15 +20,15 @@ UZU_TAG?=nahcnuj/alpine-uzu:1.2.1
 all: build
 
 clean:
-	@rm -rf $(dir $(DEST_FILES)) build/*
+	@rm -rf $(dir $(MUSTACHE_FILES)) build/*
 
 build: gen-page html css
 
 rebuild: clean build
 
-gen-page: $(DEST_FILES)
+gen-page: $(MUSTACHE_FILES)
 
-$(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
+$(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@echo $< "->" $@
 	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
 	@[ ! -z "$$(docker image ls -q $(PAGE_BUILDER_TAG))" ] || docker build -t $(PAGE_BUILDER_TAG) -f docker/page-builder/Dockerfile .
@@ -39,9 +41,8 @@ $(DEST_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 		bin/rmd2mustache.raku --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
 
 html:
-	@mkdir -p build
+	@mkdir -p $(DEST_DIR)
 	@mkdir -p partials  # needed by Uzu
-	@find build -name '*.html' -delete  # TODO incremental build
 	@docker run --rm \
 		-v $(PWD):/home/user \
 		-e LOCAL_UID=$(shell id -u $${USER}) \

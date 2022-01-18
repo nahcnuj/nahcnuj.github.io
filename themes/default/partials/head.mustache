@@ -4,9 +4,7 @@
   <meta name="description" content="{{ description }}">
   <meta property="og:title" content="{{ title }}">
   <meta property="og:description" content="{{ description }}">
-  {{#site.meta_ogp}}
-  <meta property="og:{{ property }}" content="{{ content }}">
-  {{/site.meta_ogp}}
+  <meta property="og:url" content="{{ site.host_url }}{{ path }}">
   {{#i18n.meta_ogp}}
   {{^hidden}}
   <meta property="og:{{ property }}" content="{{ content }}">
@@ -24,7 +22,8 @@
   <meta property="og:image:alt" content="{{ i18n.dict.author_image_alt }}">
   <meta property="twitter:card" content="summary">
   {{/image}}
-  <meta property="og:url" content="{{ site.host_url }}{{ path }}">
+  <meta property="twitter:site" content="@{{ site.username }}">
+  <meta property="twitter:creator" content="@{{ site.username }}">
   {{/meta_ogp}}
   {{#profile_ogp}}
   <meta property="profile:{{ property }}" content="{{ content }}">
@@ -38,11 +37,6 @@
   <meta property="article:tag" content="{{ name }}">
   {{/tag}}
   {{/article_ogp}}
-  {{#twitter_ogp}}
-  <meta property="twitter:card" content="{{ card_type }}">
-  {{/twitter_ogp}}
-  <meta property="twitter:site" content="@{{ site.username }}">
-  <meta property="twitter:creator" content="@{{ site.username }}">
   <link rel="canonical" href="{{ site.host_url }}{{ meta_ogp.path }}">
   <link rel="dns-prefetch" href="{{ site.img_host_url }}">
   <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>

@@ -7,18 +7,5 @@ language:
   - ja
 host_url: https://www.nahcnuj.work
 img_host_url: https://img.nahcnuj.work
-twitter_ogp:
-  card_type: summary
-years: 2020‒2022
 author: Junichi Hayashi
 username: nahcnuj
-contact_list:
-  - title: Twitter
-    href: https://twitter.com/nahcnuj
-    address: '@nahcnuj'
-  - title: Facebook
-    href: https://www.facebook.com/nahcnuj
-    address: '{{ site.author }}'
-  - title: Email
-    href: '#'
-    address: nahcnuj.work [at] gmail.com
