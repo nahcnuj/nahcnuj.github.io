@@ -8,7 +8,7 @@ PAGE_BUILDER_TAG?=page-builder:latest
 SASS_TAG?=nahcnuj/alpine-sassc:3.6.1
 UZU_TAG?=nahcnuj/alpine-uzu:1.2.1
 
-.PHONY: all clean build rebuild gen-page html css page-builder external-images update-kkn
+.PHONY: all clean build rebuild gen-page html css
 all: page-builder build
 
 clean:
@@ -57,29 +57,7 @@ css:
 			$(SASS_TAG) -t compressed %"
 
 
-NGINX_CONTAINER_NAME:=nahcnuj-work-test
-.PHONY: server-start server-stop server-restart server-log
-server-start:
-	@docker run --rm -v $(PWD)/build:/usr/share/nginx/html -p 3000:80 --name $(NGINX_CONTAINER_NAME) nginx >/dev/null 2>&1 &
-
-server-stop:
-	@docker stop $(NGINX_CONTAINER_NAME) >/dev/null
-
-server-restart: server-stop server-start
-
-server-log:
-	@docker logs -f --tail 10 $(NGINX_CONTAINER_NAME)
-
-
-.PHONY: html-lint
-html-lint: bin/html5check.py
-	@find build -name '*.html' \
-		| xargs -n1 -I% sh -c "echo %; $< %"
-
-bin/html5check.py:
-	@curl -L https://raw.githubusercontent.com/mozilla/html5-lint/master/html5check.py -o $@
-	@chmod +x $@
-
+.PHONY: external-images update-kkn
 
 external-images: public/img/annict-logo-ver3.png
 
@@ -97,8 +75,30 @@ public/img/kkn.svg:
 	@sed -E 's,(fill="#[0-9a-fA-F]{6}")",\1,g' -i $@
 
 
+.PHONY: html-lint
+html-lint: bin/html5check.py
+	@find build -name '*.html' \
+		| xargs -n1 -I% sh -c "echo %; $< %"
+
+bin/html5check.py:
+	@curl -L https://raw.githubusercontent.com/mozilla/html5-lint/master/html5check.py -o $@
+	@chmod +x $@
+
+
+NGINX_CONTAINER_NAME:=nahcnuj-work-test
+.PHONY: server-start server-stop server-restart server-log
+server-start:
+	@docker run --rm -v $(PWD)/build:/usr/share/nginx/html -p 3000:80 --name $(NGINX_CONTAINER_NAME) nginx >/dev/null 2>&1 &
+
+server-stop:
+	@docker stop $(NGINX_CONTAINER_NAME) >/dev/null
+
+server-restart: server-stop server-start
+
+server-log:
+	@docker logs -f --tail 10 $(NGINX_CONTAINER_NAME)
+
+
+.PHONY: page-builder
 page-builder:
-	@docker build --cache-from $(PAGE_BUILDER_TAG) \
-		-t $(PAGE_BUILDER_TAG) \
-		-f docker/page-builder/Dockerfile \
-		.
+	@docker build -t $(PAGE_BUILDER_TAG) -f docker/page-builder/Dockerfile .
