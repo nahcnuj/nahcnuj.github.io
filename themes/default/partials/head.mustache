@@ -4,7 +4,6 @@
   <meta name="description" content="{{ description }}">
   <meta property="og:title" content="{{ title }}">
   <meta property="og:description" content="{{ description }}">
-  <meta property="og:url" content="{{ site.host_url }}{{ path }}">
   {{#i18n.meta_ogp}}
   {{^hidden}}
   <meta property="og:{{ property }}" content="{{ content }}">
@@ -12,6 +11,7 @@
   {{/i18n.meta_ogp}}
   {{#meta_ogp}}
   <meta property="og:type" content="{{ type }}">
+  <meta property="og:url" content="{{ site.host_url }}{{ path }}">
   {{#image}}
   <meta property="og:image" content="{{ site.img_host_url }}{{ path }}">
   <meta property="og:image:alt" content="{{ alt }}">
