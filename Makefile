@@ -1,3 +1,5 @@
+DEST_DIR=build
+
 AVAILABLE_LANGS:=ja
 RMD_DIR:=rmd
 RMD_FILES:=$(shell find "$(RMD_DIR)" -type f)
@@ -6,7 +8,7 @@ MUSTACHE_FILES:=$(patsubst $(RMD_DIR)/%.rmd, $(MUSTACHE_DIR)/%.mustache, $(RMD_F
 
 SASS_DIR:=sass
 SASS_FILES:=$(shell find "$(SASS_DIR)" -name "*.scss" -not -name "_*")
-CSS_DIR:=build/css
+CSS_DIR:=$(DEST_DIR)/css
 CSS_FILES:=$(patsubst $(SASS_DIR)/%.scss, $(CSS_DIR)/%.css, $(SASS_FILES))
 
 PAGE_BUILDER_TAG?=page-builder:latest
@@ -39,9 +41,8 @@ $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 		bin/rmd2mustache.raku --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
 
 html:
-	@mkdir -p build
+	@mkdir -p $(DEST_DIR)
 	@mkdir -p partials  # needed by Uzu
-	@find build -name '*.html' -delete  # TODO incremental build
 	@docker run --rm \
 		-v $(PWD):/home/user \
 		-e LOCAL_UID=$(shell id -u $${USER}) \
