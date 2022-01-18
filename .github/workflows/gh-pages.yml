@@ -45,6 +45,7 @@ jobs:
         if: steps.cache-uzu.outputs.cache-hit != 'true'
         run: |
           docker pull ${{ env.UZU_TAG }}
+          dirname ${{ env.UZU_TAG }} | xargs mkdir -p
           docker save ${{ env.UZU_TAG }} -o ${{ env.UZU_TAG }}
 
       - name: Load the Uzu Docker image
