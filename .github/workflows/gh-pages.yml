@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - uses: actions/checkout@v2
 
       - id: cache-page-builder
@@ -31,8 +30,14 @@ jobs:
       - name: Load the page-builder Docker image
         run: docker load -i ${{ env.PAGE_BUILDER_TAG }}
 
-      - name: Build HTML and CSS
-        run: make css html
+      - name: Generate Mustache templates from R Markdown files
+        run: make gen-page
+
+      - name: Build HTML
+        run: make html
+
+      - name: Build CSS
+        run: make css
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.6.1
