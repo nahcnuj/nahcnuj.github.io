@@ -3,7 +3,13 @@
 @import '_var';
 
 body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     > header {
+        flex: 0 1 auto;
+
         display: flex;
         height: 16rem;
 
@@ -40,18 +46,22 @@ body {
 
     > main,
     > aside {
-        margin-top: 1rem;
+        padding: unset;
 
         nav {
             width: 100%;
 
             ul {
+                margin-block: 0;
                 padding-inline-start: 0;
 
                 display: flex;
                 justify-content: space-around;
+                align-items: center;
 
                 li {
+                    margin: 0;
+
                     &:before {
                         content: unset;
                     }
@@ -75,6 +85,8 @@ body {
     }
 
     > main {
+        flex: 0 1 auto;
+
         nav ul li {
             a {
                 font-size: 1.2rem;
@@ -100,6 +112,8 @@ body {
     }
 
     > aside {
+        flex: 0 1 auto;
+
         nav ul li {
             a {
                 line-height: 4.5rem;
@@ -125,5 +139,12 @@ body {
                 font-size: 3rem;
             }
         }
+    }
+
+    > footer {
+        flex: 0 1 auto;
+
+        height: unset;
+        padding: unset;
     }
 }
