@@ -57,7 +57,7 @@ body {
                     }
 
                     a {
-                        display: block;
+                        display: inline-block;
                         text-align: center;
 
                         &,
@@ -76,8 +76,6 @@ body {
 
     > main {
         nav ul li {
-            vertical-align: middle;
-
             a {
                 font-size: 1.2rem;
 
@@ -103,11 +101,15 @@ body {
 
     > aside {
         nav ul li {
-            vertical-align: middle;
+            a {
+                line-height: 4.5rem;
+
+                > * {
+                    vertical-align: middle;
+                }
+            }
 
             img {
-                display: inline-block;
-
                 &#hatena-blog {
                     width: 4.5rem;
                     height: 4.5rem;
