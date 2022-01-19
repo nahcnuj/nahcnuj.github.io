@@ -46,8 +46,6 @@ body {
 
     > main,
     > aside {
-        padding: unset;
-
         nav {
             width: 100%;
 
@@ -145,6 +143,7 @@ body {
         flex: 0 1 auto;
 
         height: unset;
-        padding: unset;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 }
