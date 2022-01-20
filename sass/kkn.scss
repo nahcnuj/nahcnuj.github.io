@@ -1,5 +1,5 @@
-@import '_color';
-@import '_mixin';
+@use 'color';
+@use 'mixin';
 
 $color-map: (
     pt5: #e87afd,
@@ -13,6 +13,6 @@ $color-map: (
 @each $clazz, $color in $color-map {
     .#{$clazz} {
         color: $color;
-        @include text-stroke(1pt, 0, $base-dark-color);
+        @include mixin.text-stroke(1pt, 0, color.$base-dark-color);
     }
 }

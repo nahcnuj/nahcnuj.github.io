@@ -1,6 +1,6 @@
-@import '_color';
-@import '_mixin';
-@import '_var';
+@use 'color';
+@use 'mixin';
+@use 'var';
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
@@ -9,10 +9,10 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: $base-light-color;
+    background-color: color.$base-light-color;
     font-family: 'Roboto', 'Noto Sans JP', sans-serif;
     font-size: 14pt;
-    color: $base-dark-color;
+    color: color.$base-dark-color;
 }
 
 p, li, dd {
@@ -31,7 +31,7 @@ ul {
         vertical-align: middle;
         line-height: 1.5rem;
         font-size: 2rem;
-        color: $base-dark-color;
+        color: color.$base-dark-color;
     }
 
     ul {
@@ -48,7 +48,7 @@ ul {
 }
 
 li {
-    @include margin-y( 0.5rem );
+    @include mixin.margin-y( 0.5rem );
 }
 
 body {
@@ -56,12 +56,12 @@ body {
     > footer,
     > main,
     > aside {
-        max-width: $pc-width;
-        @include padding-x( calc(50% - #{$pc-width}/2) );
+        max-width: var.$pc-width;
+        @include mixin.padding-x( calc(50% - #{var.$pc-width}/2) );
         overflow-y: hidden;
 
         > article {
-            @include padding-x( 3rem );
+            @include mixin.padding-x( 3rem );
         }
     }
 
@@ -70,9 +70,9 @@ body {
 
         display: flex;
         height: $header-height;
-        background-color: $base-dark-color;
+        background-color: color.$base-dark-color;
         vertical-align: middle;
-        color: $base-light-color;
+        color: color.$base-light-color;
 
         > h1 {
             height: 100%;
@@ -83,7 +83,7 @@ body {
             a {
                 display: inline-block;
                 height: 100%;
-                @include padding-x( 1rem );
+                @include mixin.padding-x( 1rem );
                 line-height: calc(0.9 * #{$header-height});
 
                 img {
@@ -92,7 +92,7 @@ body {
                     width: $img-size;
                     height: $img-size;
                     border-radius: 50%;
-                    border: medium solid $base-light-color;
+                    border: medium solid color.$base-light-color;
                     vertical-align: middle;
                 }
             }
@@ -118,7 +118,7 @@ body {
                 li {
                     flex: 1;
                     height: 100%;
-                    @include margin-y( unset );
+                    @include mixin.margin-y( unset );
                     margin-left: 1.5rem;
                     line-height: $header-height;
 
@@ -178,7 +178,7 @@ body {
         h3 {
             height: 1.7rem;
             padding-left: 0.5rem;
-            border-left: 1.7rem solid $base-dark-color;
+            border-left: 1.7rem solid color.$base-dark-color;
             line-height: 1.7rem;
             font-size: 1.7rem;
         }
@@ -195,18 +195,18 @@ body {
     > main,
     > aside,
     > footer {
-        @include padding-y( 1rem );
+        @include mixin.padding-y( 1rem );
     }
 
     > main article header {
-        border-left: thick solid $base-dark-color;
+        border-left: thick solid color.$base-dark-color;
         background-color: #CCF;
 
         > * {
-            @include margin-y( 0 );
-            @include padding-y( 0.25rem );
+            @include mixin.margin-y( 0 );
+            @include mixin.padding-y( 0.25rem );
             padding-left: 0.3rem;
-            border-left: medium solid $base-light-color;
+            border-left: medium solid color.$base-light-color;
         }
 
         > h2 {
@@ -215,11 +215,11 @@ body {
     }
 
     > footer {
-        border-top: thin solid $base-dark-color;
+        border-top: thin solid color.$base-dark-color;
         font-size: 0.9rem;
 
         > p {
-            @include padding-x( 3rem );
+            @include mixin.padding-x( 3rem );
         }
     }
 }

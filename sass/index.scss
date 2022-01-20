@@ -1,6 +1,5 @@
-@import '_color';
-@import '_mixin';
-@import '_var';
+@use 'color';
+@use 'mixin';
 
 body {
     display: flex;
@@ -15,11 +14,11 @@ body {
 
         div#photo {
             margin: auto;
-            @include padding-x( 3rem );
+            @include mixin.padding-x( 3rem );
 
             img {
                 border-radius: 50%;
-                border: thick solid $base-light-color;
+                border: thick solid color.$base-light-color;
             }
         }
 
@@ -29,7 +28,7 @@ body {
 
             > * {
                 margin: 0;
-                @include padding-y( 0.5rem );
+                @include mixin.padding-y( 0.5rem );
                 line-height: 1;
             }
 
@@ -91,10 +90,10 @@ body {
 
                 > i.fas {
                     width: 9rem;
-                    @include padding-y( 1.5rem );
+                    @include mixin.padding-y( 1.5rem );
                     border-radius: 0.3rem;
-                    background-color: $base-dark-color;
-                    color: $base-light-color;
+                    background-color: color.$base-dark-color;
+                    color: color.$base-light-color;
                     font-size: 4rem;
                 }
 

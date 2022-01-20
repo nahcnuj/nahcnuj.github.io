@@ -1,5 +1,5 @@
-@import '_color';
-@import '_mixin';
+@use 'color';
+@use 'mixin';
 
 table.profile {
     border-spacing: 0;
@@ -10,8 +10,8 @@ table.profile {
         }
 
         th {
-            @include padding-x( 1rem );
-            border-bottom: medium solid $base-dark-color;
+            @include mixin.padding-x( 1rem );
+            border-bottom: medium solid color.$base-dark-color;
         }
         
         td {
