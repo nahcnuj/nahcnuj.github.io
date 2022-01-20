@@ -26,7 +26,8 @@ build: gen-page html css
 
 rebuild: clean build
 
-gen-page: $(MUSTACHE_FILES)
+gen-page:
+	@make -j $(MUSTACHE_FILES)
 
 $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@echo $< "->" $@
@@ -50,7 +51,9 @@ html:
 	  $(UZU_TAG)
 	@rmdir --ignore-fail-on-non-empty partials
 
-css: $(CSS_FILES)
+css:
+	@make -j $(CSS_FILES)
+
 $(CSS_DIR)/%.css: $(SASS_DIR)/%.scss
 	@mkdir -p $(CSS_DIR)
 	@echo $< "->" $@
