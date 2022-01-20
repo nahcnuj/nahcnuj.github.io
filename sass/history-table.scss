@@ -13,7 +13,7 @@ table.history {
         th {
             height: 3.5rem;
             padding: 0;
-            border-right: thin solid color.$base-dark-color;
+            border-right: thin solid color.$base-dark;
             text-align: right;
             
             span {
@@ -21,17 +21,17 @@ table.history {
                 @include mixin.padding-y( 0.2rem );
                 padding-left: 1rem;
                 padding-right: 0.6rem;
-                background-color: color.$base-dark-color;
-                border-right: thin solid color.$base-dark-color;
+                background: color.$base-dark;
+                border-right: thin solid color.$base-dark;
                 vertical-align: middle;
-                color: color.$base-light-color;
+                color: color.$base-light;
             }
         }
 
         &:last-of-type {
             th, td {
                 height: unset;
-                border-top: medium solid color.$base-dark-color;
+                border-top: medium solid color.$base-dark;
                 border-right: unset;
                 border-left: unset;
             }
@@ -39,7 +39,7 @@ table.history {
         
         td {
             padding-left: 0.5rem;
-            border-left: medium solid color.$base-dark-color;
+            border-left: medium solid color.$base-dark;
         }
     }
 }

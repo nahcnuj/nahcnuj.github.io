@@ -18,7 +18,7 @@ body {
 
             img {
                 border-radius: 50%;
-                border: thick solid color.$base-light-color;
+                border: thick solid color.$base-light;
             }
         }
 
@@ -92,13 +92,13 @@ body {
                     width: 9rem;
                     @include mixin.padding-y( 1.5rem );
                     border-radius: 0.3rem;
-                    background-color: color.$base-dark-color;
-                    color: color.$base-light-color;
+                    background: color.$base-dark;
+                    color: color.$base-light;
                     font-size: 4rem;
                 }
 
                 &:hover > i.fas {
-                    background-color: #336;
+                    background: #336;
                 }
             }
 

@@ -11,7 +11,7 @@ table.profile {
 
         th {
             @include mixin.padding-x( 1rem );
-            border-bottom: medium solid color.$base-dark-color;
+            border-bottom: medium solid color.$base-dark;
         }
         
         td {

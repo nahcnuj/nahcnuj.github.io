@@ -13,6 +13,6 @@ $color-map: (
 @each $clazz, $color in $color-map {
     .#{$clazz} {
         color: $color;
-        @include mixin.text-stroke(1pt, 0, color.$base-dark-color);
+        @include mixin.text-stroke(1pt, 0, color.$base-dark);
     }
 }
