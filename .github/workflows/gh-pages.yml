@@ -9,7 +9,6 @@ env:
   UZU_TAG: nahcnuj/alpine-uzu:1.2.1
   SASS_TAG: nahcnuj/alpine-sassc:3.6.1
   MUSTACHE_CACHE_KEY: mustache-cache.tar
-  ARTIFACT_CACHE_KEY: artifact-cache
 
 jobs:
   build:
@@ -45,7 +44,7 @@ jobs:
 
       - name: Generate Mustache templates from R Markdown files
         run: |
-          tar -xzvf ${{ env.MUSTACHE_CACHE_KEY }} || :
+          tar -xzvf ${{ env.MUSTACHE_CACHE_KEY }} || true
           make gen-page
           tar -czvf ${{ env.MUSTACHE_CACHE_KEY }} pages/*/
       
