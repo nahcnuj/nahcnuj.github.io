@@ -8,7 +8,7 @@ env:
   PAGE_BUILDER_TAG: page-builder
   UZU_TAG: nahcnuj/alpine-uzu:1.2.1
   SASS_TAG: nahcnuj/alpine-sassc:3.6.1
-  MUSTACHE_CACHE_KEY: mustache-cache
+  MUSTACHE_CACHE_KEY: mustache-cache.tar
   ARTIFACT_CACHE_KEY: artifact-cache
 
 jobs:
@@ -47,7 +47,7 @@ jobs:
         run: |
           tar -xzvf ${{ env.MUSTACHE_CACHE_KEY }} || :
           make gen-page
-          tar -czvf ${{ env.MUSTACHE_CACHE_KEY }} pages
+          tar -czvf ${{ env.MUSTACHE_CACHE_KEY }} pages/*/
       
       - id: cache-uzu
         name: Cache my Uzu Docker image
