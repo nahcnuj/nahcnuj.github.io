@@ -20,16 +20,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - id: cache-artifact
-        name: Cache builded artifacts
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.ARTIFACT_CACHE_KEY }}
-          key: ${{ env.ARTIFACT_CACHE_KEY }}
-
-      - name: Extract the last builded artifacts
-        run: tar -xzvf ${{ env.ARTIFACT_CACHE_KEY }} || true
-
       - id: cache-page-builder
         name: Cache a page-builder Docker image
         uses: actions/cache@v2
@@ -98,9 +88,6 @@ jobs:
 
       - name: Build CSS
         run: make css
-
-      - name: Cache builded artifacts
-        run: tar -czvf ${{ env.ARTIFACT_CACHE_KEY }} build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.6.1
