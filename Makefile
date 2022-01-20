@@ -20,13 +20,14 @@ UZU_TAG:=nahcnuj/alpine-uzu:1.2.1
 all: build
 
 clean:
-	@rm -rf $(dir $(MUSTACHE_FILES)) build/*
+	@rm -rf $(dir $(MUSTACHE_FILES)) $(DEST_DIR)/*
 
 build: gen-page html css
 
 rebuild: clean build
 
-gen-page: $(MUSTACHE_FILES)
+gen-page:
+	@make -j $(MUSTACHE_FILES)
 
 $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@echo $< "->" $@
@@ -50,7 +51,9 @@ html:
 	  $(UZU_TAG)
 	@rmdir --ignore-fail-on-non-empty partials
 
-css: $(CSS_FILES)
+css:
+	@make -j $(CSS_FILES)
+
 $(CSS_DIR)/%.css: $(SASS_DIR)/%.scss
 	@mkdir -p $(CSS_DIR)
 	@echo $< "->" $@
@@ -63,7 +66,7 @@ $(CSS_DIR)/%.css: $(SASS_DIR)/%.scss
 	  /opt/dart-sass/sass \
 	    -s compressed \
 	    --no-source-map \
-	    $< $(subst build/,,$@)
+	    $< $(subst $(DEST_DIR)/,,$@)
 
 
 .PHONY: external-images update-kkn
@@ -86,7 +89,7 @@ public/img/kkn.svg:
 
 .PHONY: html-lint
 html-lint: bin/html5check.py
-	@find build -name '*.html' \
+	@find $(DEST_DIR) -name '*.html' \
 	  | xargs -n1 -I% sh -c "echo %; $< %"
 
 bin/html5check.py:
@@ -97,7 +100,7 @@ bin/html5check.py:
 NGINX_CONTAINER_NAME:=nahcnuj-work-test
 .PHONY: server-start server-stop server-restart server-log
 server-start:
-	@docker run --rm -v $(PWD)/build:/usr/share/nginx/html -p 3000:80 --name $(NGINX_CONTAINER_NAME) nginx >/dev/null 2>&1 &
+	@docker run --rm -v $(PWD)/$(DEST_DIR):/usr/share/nginx/html -p 3000:80 --name $(NGINX_CONTAINER_NAME) nginx >/dev/null 2>&1 &
 
 server-stop:
 	@docker stop $(NGINX_CONTAINER_NAME) >/dev/null
