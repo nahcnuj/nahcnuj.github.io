@@ -193,8 +193,7 @@ body {
     }
 
     > main,
-    > aside,
-    > footer {
+    > aside {
         @include mixin.padding-y( 1rem );
     }
 

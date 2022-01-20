@@ -1,16 +1,33 @@
 @use 'color';
 @use 'mixin';
 
+// page layout
 body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     > header {
-        flex: 0 1 auto;
+        flex: 0 1 16rem;
+    }
 
+    > main {
+        flex: 0 1 auto;
+    }
+
+    > aside {
+        flex: 0 1 auto;
+    }
+
+    > footer {
+        flex: 0 1 auto;
+    }
+}
+
+// component layout
+body {
+    > header {
         display: flex;
-        height: 16rem;
 
         div#photo {
             margin: auto;
@@ -82,8 +99,6 @@ body {
     }
 
     > main {
-        flex: 0 1 auto;
-
         nav ul li {
             a {
                 font-size: 1.2rem;
@@ -109,8 +124,6 @@ body {
     }
 
     > aside {
-        flex: 0 1 auto;
-
         nav ul li {
             a {
                 line-height: 4.5rem;
@@ -139,9 +152,6 @@ body {
     }
 
     > footer {
-        flex: 0 1 auto;
-
-        height: unset;
         padding-top: 0;
         padding-bottom: 0;
     }
