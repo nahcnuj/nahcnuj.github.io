@@ -11,9 +11,9 @@ SASS_FILES:=$(shell find "$(SASS_DIR)" -name "*.scss" -not -name "_*")
 CSS_DIR:=$(DEST_DIR)/css
 CSS_FILES:=$(patsubst $(SASS_DIR)/%.scss, $(CSS_DIR)/%.css, $(SASS_FILES))
 
-PAGE_BUILDER_TAG?=page-builder:latest
-SASS_TAG?=nahcnuj/alpine-sassc:3.6.1
-UZU_TAG?=nahcnuj/alpine-uzu:1.2.1
+PAGE_BUILDER_TAG:=page-builder:latest
+SASS_TAG:=michalklempa/dart-sass:1.36
+UZU_TAG:=nahcnuj/alpine-uzu:1.2.1
 
 .PHONY: all clean build rebuild gen-page html css
 
@@ -55,11 +55,15 @@ $(CSS_DIR)/%.css: $(SASS_DIR)/%.scss
 	@mkdir -p $(CSS_DIR)
 	@echo $< "->" $@
 	@docker run --rm -i \
-		-v $(PWD)/$(SASS_DIR):/home/user/sass \
-		-v $(PWD)/$(CSS_DIR):/home/user/css \
+		-v $(PWD)/$(SASS_DIR):/sass/ \
+		-v $(PWD)/$(CSS_DIR):/css/ \
 		-e LOCAL_UID=$(shell id -u $${USER}) \
 		-e LOCAL_GID=$(shell id -g $${USER}) \
-		$(SASS_TAG) -t compressed $< $(subst build/,,$@)
+		$(SASS_TAG) \
+		/opt/dart-sass/sass \
+		  -s compressed \
+		  --no-source-map \
+		  $< $(subst build/,,$@)
 
 
 .PHONY: external-images update-kkn
