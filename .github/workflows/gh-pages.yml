@@ -20,8 +20,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: flat35hd99/cache-make@v1.0.0
-
       - id: cache-artifact
         name: Cache builded artifacts
         uses: actions/cache@v2
