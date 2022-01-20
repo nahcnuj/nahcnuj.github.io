@@ -1,25 +1,41 @@
-@import '_color';
-@import '_mixin';
-@import '_var';
+@use 'color';
+@use 'mixin';
 
+// page layout
 body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     > header {
-        flex: 0 1 auto;
+        flex: 0 1 16rem;
+    }
 
+    > main {
+        flex: 0 1 auto;
+    }
+
+    > aside {
+        flex: 0 1 auto;
+    }
+
+    > footer {
+        flex: 0 1 auto;
+    }
+}
+
+// component layout
+body {
+    > header {
         display: flex;
-        height: 16rem;
 
         div#photo {
             margin: auto;
-            @include padding-x( 3rem );
+            @include mixin.padding-x( 3rem );
 
             img {
                 border-radius: 50%;
-                border: thick solid $base-light-color;
+                border: thick solid color.$base-light;
             }
         }
 
@@ -29,7 +45,7 @@ body {
 
             > * {
                 margin: 0;
-                @include padding-y( 0.5rem );
+                @include mixin.padding-y( 0.5rem );
                 line-height: 1;
             }
 
@@ -83,23 +99,21 @@ body {
     }
 
     > main {
-        flex: 0 1 auto;
-
         nav ul li {
             a {
                 font-size: 1.2rem;
 
                 > i.fas {
                     width: 9rem;
-                    @include padding-y( 1.5rem );
+                    @include mixin.padding-y( 1.5rem );
                     border-radius: 0.3rem;
-                    background-color: $base-dark-color;
-                    color: $base-light-color;
+                    background: color.$base-dark;
+                    color: color.$base-light;
                     font-size: 4rem;
                 }
 
                 &:hover > i.fas {
-                    background-color: #336;
+                    background: #336;
                 }
             }
 
@@ -110,8 +124,6 @@ body {
     }
 
     > aside {
-        flex: 0 1 auto;
-
         nav ul li {
             a {
                 line-height: 4.5rem;
@@ -140,9 +152,6 @@ body {
     }
 
     > footer {
-        flex: 0 1 auto;
-
-        height: unset;
         padding-top: 0;
         padding-bottom: 0;
     }
