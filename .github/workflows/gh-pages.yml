@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PAGE_BUILDER_TAG: page-builder:1.3.0
+      DOCKER_BUILDKIT: 1
+      PAGE_BUILDER_TAG: page-builder:1.4.0
       UZU_TAG: nahcnuj/alpine-uzu:1.2.1
       SASS_TAG: nahcnuj/alpine-sassc:3.6.1
       MUSTACHE_CACHE_KEY: mustache-cache.tar

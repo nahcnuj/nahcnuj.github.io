@@ -12,7 +12,7 @@ CSS_DIR:=$(DEST_DIR)/css
 CSS_FILES:=$(patsubst $(SASS_DIR)/%.scss, $(CSS_DIR)/%.css, $(SASS_FILES))
 
 DOCKER_BUILDKIT:=1
-PAGE_BUILDER_TAG:=page-builder:1.3.0
+PAGE_BUILDER_TAG:=page-builder:1.4.0
 SASS_TAG:=michalklempa/dart-sass:1.36
 UZU_TAG:=nahcnuj/alpine-uzu:1.2.1
 
@@ -37,7 +37,6 @@ gen-page:
 
 $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@echo $< "->" $@
-	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
 	@docker run --rm -i \
 	  -v $(PWD)/$(RMD_DIR):/home/builder/$(RMD_DIR):ro \
 	  -v $(PWD)/$(MUSTACHE_DIR):/home/builder/$(MUSTACHE_DIR) \

@@ -8,6 +8,7 @@ multi sub MAIN(
     Str $dest-dir where *.IO.e.flip || *.IO.d && *.IO.w,
     :$langs!,
 ) {
+    $dest-dir.IO.mkdir unless $dest-dir.IO.e;
     my $dest-file = $dest-dir.IO.add($rmd-file.IO.basename).extension('mustache');
     if ($dest-file.e && !$dest-file.w) {
         die "The file {$dest-file} is not writable.";
@@ -23,6 +24,8 @@ multi sub MAIN(
     Str $rmd-file where *.IO.f && *.IO.r,
     Str $dest-dir where *.IO.e.flip || *.IO.d && *.IO.w,
 ) {
+    $dest-dir.IO.mkdir unless $dest-dir.IO.e;
+
     my $dest-file = $dest-dir.IO.add($rmd-file.IO.basename).extension('mustache');
     if ($dest-file.e && !$dest-file.w) {
         die "The file {$dest-file} is not writable.";
