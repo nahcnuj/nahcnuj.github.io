@@ -92,7 +92,8 @@ jobs:
           publish_branch: staging-${{ github.run_id }}
           publish_dir: ./build
 
-      - name: Create a Pull Request
+      - id: create-pull-request
+        name: Create a Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -101,10 +102,12 @@ jobs:
         continue-on-error: true
 
       - name: Notify success to Slack
-        if: success()
+        if: success() && startsWith(steps.create-pull-request.pull-request-url, 'https://')
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_TITLE: Deployed successfully!
+          SLACK_TITLE: Ready to deploy!
+          SLACK_MESSAGE: |
+            Check ${{ steps.create-pull-request.pull-request-url }}
           SLACK_COLOR: good
           MSG_MINIMAL: true
 
