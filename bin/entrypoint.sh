@@ -4,6 +4,8 @@ set -e
 export USER=builder
 export HOME=/home/${USER}
 
+pwd
+
 # uid and gid of current directory
 uid=$(stat -c "%u" .)
 gid=$(stat -c "%g" .)
@@ -19,5 +21,7 @@ if [ "${uid}" -ne 0 ]; then
         usermod -u ${uid} ${USER}
     fi
 fi
+
+ls -alR ${HOME}
 
 su-exec ${USER} $@
