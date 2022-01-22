@@ -31,9 +31,9 @@ jobs:
 
       - name: Build a page-builder Docker image
         run: |
-          docker load -i ${{ env.PAGE_BUILDER_TAG }} || true
-          docker build -t ${{ env.PAGE_BUILDER_TAG }} -f docker/page-builder/Dockerfile .
-          docker save ${{ env.PAGE_BUILDER_TAG }} -o ${{ env.PAGE_BUILDER_TAG }}
+          docker load -i $PAGE_BUILDER_TAG || true
+          docker build -t $PAGE_BUILDER_TAG -f docker/page-builder/Dockerfile .
+          docker save $PAGE_BUILDER_TAG -o $PAGE_BUILDER_TAG
 
       - id: cache-mustache
         name: Cache generated mustache templates
@@ -44,9 +44,9 @@ jobs:
 
       - name: Generate Mustache templates from R Markdown files
         run: |
-          tar -xzvf ${{ env.MUSTACHE_CACHE_KEY }} || true
+          tar -xzvf $MUSTACHE_CACHE_KEY || true
           make gen-page
-          tar -czvf ${{ env.MUSTACHE_CACHE_KEY }} pages/*/
+          tar -czvf $MUSTACHE_CACHE_KEY pages/*/
 
       - id: cache-uzu
         name: Cache my Uzu Docker image
@@ -58,12 +58,12 @@ jobs:
       - name: Pull and save the Uzu Docker image
         if: steps.cache-uzu.outputs.cache-hit != 'true'
         run: |
-          docker pull ${{ env.UZU_TAG }}
-          dirname ${{ env.UZU_TAG }} | xargs mkdir -p
-          docker save ${{ env.UZU_TAG }} -o ${{ env.UZU_TAG }}
+          docker pull $UZU_TAG
+          dirname $UZU_TAG | xargs mkdir -p
+          docker save $UZU_TAG -o $UZU_TAG
 
       - name: Load the Uzu Docker image
-        run: docker load -i ${{ env.UZU_TAG }}
+        run: docker load -i $UZU_TAG
 
       - name: Build HTML
         run: make html
@@ -78,12 +78,12 @@ jobs:
       - name: Pull and save the Sass Docker image
         if: steps.cache-sass.outputs.cache-hit != 'true'
         run: |
-          docker pull ${{ env.SASS_TAG }}
-          dirname ${{ env.SASS_TAG }} | xargs mkdir -p
-          docker save ${{ env.SASS_TAG }} -o ${{ env.SASS_TAG }}
+          docker pull $SASS_TAG
+          dirname $SASS_TAG | xargs mkdir -p
+          docker save $SASS_TAG -o $SASS_TAG
 
       - name: Load the Sass Docker image
-        run: docker load -i ${{ env.SASS_TAG }}
+        run: docker load -i $SASS_TAG
 
       - name: Build CSS
         run: make css
