@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.PAGE_BUILDER_TAG }}
-          key: ${{ env.PAGE_BUILDER_TAG }}_${{ runner.os }}
+          key: ${{ env.PAGE_BUILDER_TAG }}_${{ runner.os }}_${{ hashFiles('docker/page-builder/Dockerfile','META6.json','bin/**','lib/**') }}
 
       - name: Build a page-builder Docker image
         env:
