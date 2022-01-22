@@ -29,3 +29,8 @@ make server-start
 
 After executing the command above, open http://localhost:3000/ with your browser.
 To stop and restart the server, and watch its log, use `server-stop`, `server-restart`, and `server-log` respectively instead of `server-start`.
+
+## Dependencies
+
+- [Uzu](https://modules.raku.org/dist/Uzu:cpan:SACOMO)
+- [Dart Sass](https://sass-lang.com/dart-sass)
