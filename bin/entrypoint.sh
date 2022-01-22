@@ -4,8 +4,6 @@ set -e
 export USER=builder
 export HOME=/home/${USER}
 
-pwd
-
 # uid and gid of current directory
 uid=$(stat -c "%u" .)
 gid=$(stat -c "%g" .)
