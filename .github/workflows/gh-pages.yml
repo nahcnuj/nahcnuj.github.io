@@ -100,7 +100,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: master
           branch: staging
-          delete-branch: true
           reviewers: nahcnuj
 
       - name: Notify success to Slack
