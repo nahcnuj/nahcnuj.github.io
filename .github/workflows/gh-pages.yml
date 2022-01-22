@@ -89,14 +89,14 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3.6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: staging-${{ env.GITHUB_RUN_ID }}
+          publish_branch: staging-${{ github.run_id }}
           publish_dir: ./build
 
       - name: Create a Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: staging-${{ env.GITHUB_RUN_ID }}
+          branch: staging-${{ github.run_id }}
           base: master
         continue-on-error: true
 
