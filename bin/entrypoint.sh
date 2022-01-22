@@ -20,4 +20,4 @@ if [ "${uid}" -ne 0 ]; then
     fi
 fi
 
-su-exec ${USER} "$@"
+su-exec ${USER} $@

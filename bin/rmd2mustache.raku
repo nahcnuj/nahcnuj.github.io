@@ -1,4 +1,4 @@
-#!/usr/bin/env raku
+#!/usr/local/bin/entrypoint.sh /usr/bin/env raku
 
 my %*SUB-MAIN-OPTS =
   :named-anywhere

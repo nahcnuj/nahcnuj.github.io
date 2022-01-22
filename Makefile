@@ -12,7 +12,7 @@ CSS_DIR:=$(DEST_DIR)/css
 CSS_FILES:=$(patsubst $(SASS_DIR)/%.scss, $(CSS_DIR)/%.css, $(SASS_FILES))
 
 DOCKER_BUILDKIT:=1
-PAGE_BUILDER_TAG:=page-builder:1.2.0
+PAGE_BUILDER_TAG:=page-builder:1.3.0
 SASS_TAG:=michalklempa/dart-sass:1.36
 UZU_TAG:=nahcnuj/alpine-uzu:1.2.1
 
@@ -38,13 +38,11 @@ gen-page:
 $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@echo $< "->" $@
 	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
-	@docker run --rm -i \
-	  -w /home/user \
-	  -v $(PWD):/home/user \
-	  -e LOCAL_UID=$(shell id -u $${USER}) \
-	  -e LOCAL_GID=$(shell id -g $${USER}) \
+	docker run --rm -i \
+	  -v $(PWD)/$(dir $<):/home/builder/$(dir $<):ro \
+	  -v $(PWD)/$(dir $@):/home/builder/$(dir $@) \
 	  $(PAGE_BUILDER_TAG) \
-	  bin/rmd2mustache.raku --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
+	  --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
 
 html:
 	@mkdir -p $(DEST_DIR)
