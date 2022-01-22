@@ -36,31 +36,31 @@ jobs:
         name: Cache generated mustache templates
         uses: actions/cache@v2
         with:
-          path: ${{ env.MUSTACHE_CACHE_KEY }}
+          path: /tmp/${{ env.MUSTACHE_CACHE_KEY }}
           key: ${{ env.MUSTACHE_CACHE_KEY }}
 
       - name: Generate Mustache templates from R Markdown files
         run: |
-          tar -xzvf $MUSTACHE_CACHE_KEY || true
+          tar -xzvf /tmp/$MUSTACHE_CACHE_KEY || true
           make gen-page
-          tar -czvf $MUSTACHE_CACHE_KEY pages/*/
+          tar -czvf /tmp/$MUSTACHE_CACHE_KEY pages/*/
 
       - id: cache-uzu
         name: Cache my Uzu Docker image
         uses: actions/cache@v2
         with:
-          path: ${{ env.UZU_TAG }}
+          path: /tmp/${{ env.UZU_TAG }}
           key: ${{ env.UZU_TAG }}_${{ runner.os }}
 
       - name: Pull and save the Uzu Docker image
         if: steps.cache-uzu.outputs.cache-hit != 'true'
         run: |
           docker pull $UZU_TAG
-          dirname $UZU_TAG | xargs mkdir -p
-          docker save $UZU_TAG -o $UZU_TAG
+          dirname /tmp/$UZU_TAG | xargs mkdir -p
+          docker save $UZU_TAG -o /tmp/$UZU_TAG
 
       - name: Load the Uzu Docker image
-        run: docker load -i $UZU_TAG
+        run: docker load -i /tmp/$UZU_TAG
 
       - name: Build HTML
         run: make html
@@ -69,18 +69,18 @@ jobs:
         name: Cache my Sass Docker image
         uses: actions/cache@v2
         with:
-          path: ${{ env.SASS_TAG }}
+          path: /tmp/${{ env.SASS_TAG }}
           key: ${{ env.SASS_TAG }}_${{ runner.os }}
 
       - name: Pull and save the Sass Docker image
         if: steps.cache-sass.outputs.cache-hit != 'true'
         run: |
           docker pull $SASS_TAG
-          dirname $SASS_TAG | xargs mkdir -p
-          docker save $SASS_TAG -o $SASS_TAG
+          dirname /tmp/$SASS_TAG | xargs mkdir -p
+          docker save $SASS_TAG -o /tmp/$SASS_TAG
 
       - name: Load the Sass Docker image
-        run: docker load -i $SASS_TAG
+        run: docker load -i /tmp/$SASS_TAG
 
       - name: Build CSS
         run: make css
