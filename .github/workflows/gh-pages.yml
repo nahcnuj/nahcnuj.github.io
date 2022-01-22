@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.PAGE_BUILDER_TAG }}
-          key: ${{ env.PAGE_BUILDER_TAG }}_${{ runner.os }}_${{ hashFiles('.github/workflows/**') }}
+          key: ${{ env.PAGE_BUILDER_TAG }}_${{ runner.os }}_${{ hashFiles('.github/workflows/**') }}_${{ hashFiles('docker/page-builder/Dockerfile','META6.json','bin/**','lib/**') }}
 
       - name: Load page-builder Docker image from cache
         if: steps.cache-page-builder.outputs.cache-hit == 'true'
