@@ -12,7 +12,7 @@ CSS_DIR:=$(DEST_DIR)/css
 CSS_FILES:=$(patsubst $(SASS_DIR)/%.scss, $(CSS_DIR)/%.css, $(SASS_FILES))
 
 DOCKER_BUILDKIT?=1
-PAGE_BUILDER_TAG:=page-builder:1.0.0
+PAGE_BUILDER_TAG:=page-builder:1.1.0
 SASS_TAG:=michalklempa/dart-sass:1.36
 UZU_TAG:=nahcnuj/alpine-uzu:1.2.1
 
@@ -57,10 +57,10 @@ html:
 	@rmdir --ignore-fail-on-non-empty partials
 
 css:
+	@mkdir -p $(CSS_DIR)
 	@make -j $(CSS_FILES)
 
 $(CSS_DIR)/%.css: $(SASS_DIR)/%.scss
-	@mkdir -p $(CSS_DIR)
 	@echo $< "->" $@
 	@docker run --rm -i \
 	  -v $(PWD)/$(SASS_DIR):/sass/ \
@@ -108,8 +108,9 @@ NGINX_CONTAINER_NAME:=nahcnuj-work-test
 
 .PHONY: server-start server-stop server-restart server-log
 server-start:
+	@mkdir -p $(CSS_DIR)
 	@docker run --rm -d -it \
-	  -v $(PWD)/$(SASS_DIR):/sass/ \
+	  -v $(PWD)/$(SASS_DIR):/$(SASS_DIR) \
 	  -v $(PWD)/$(CSS_DIR):/$(CSS_DIR) \
 	  -e LOCAL_UID=$(shell id -u $${USER}) \
 	  -e LOCAL_GID=$(shell id -g $${USER}) \
