@@ -91,14 +91,14 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: staging
           publish_dir: ./build
+          allow_empty_commit: true # XXX temporally
 
       - id: create-pull-request
         name: Create a Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: staging
-          branch: staging-${{ github.run_id }}
+          branch: staging
           delete-branch: true
           reviewers: nahcnuj
 
