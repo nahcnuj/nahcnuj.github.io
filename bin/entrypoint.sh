@@ -24,7 +24,7 @@ fi
 
 # change owner of directories under HOME to builder
 find . -type d -perm u=w \
-    | xargs -r chown -f -R ${USER}:${USER} \
+    | xargs -r chown -v -f -R ${USER}:${USER} \
     || true
 ls -alR
 
