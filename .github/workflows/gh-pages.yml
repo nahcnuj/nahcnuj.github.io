@@ -9,6 +9,9 @@ env:
   UZU_TAG: nahcnuj/alpine-uzu:1.2.1
   SASS_TAG: nahcnuj/alpine-sassc:3.6.1
   MUSTACHE_CACHE_KEY: mustache-cache.tar
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  SLACK_USERNAME: GitHub Actions
+  SLACK_CHANNEL: www-nahcnuj-work
 
 jobs:
   build:
@@ -46,7 +49,7 @@ jobs:
           tar -xzvf ${{ env.MUSTACHE_CACHE_KEY }} || true
           make gen-page
           tar -czvf ${{ env.MUSTACHE_CACHE_KEY }} pages/*/
-      
+
       - id: cache-uzu
         name: Cache my Uzu Docker image
         uses: actions/cache@v2
@@ -93,3 +96,20 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: master
           publish_dir: ./build
+
+      - name: Notify success to Slack
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: Deployed successfully!
+          SLACK_COLOR: good
+          SLACK_MESSAGE: ${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}/actions/runs/${{ env.GITHUB_RUN_ID }}
+          #MSG_MINIMAL: true
+
+      - name: Notify failure to Slack
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: Failed to deploy
+          SLACK_COLOR: danger
+          SLACK_MESSAGE: ${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}/actions/runs/${{ env.GITHUB_RUN_ID }}
