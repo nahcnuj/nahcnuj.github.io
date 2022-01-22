@@ -39,14 +39,14 @@ $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@echo $< "->" $@
 	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
 	@docker run --rm -i \
-	  -v $(PWD)/$(dir $<):/home/builder/$(dir $<):ro \
-	  -v $(PWD)/$(dir $@):/home/builder/$(dir $@) \
+	  -v $(PWD)/$(RMD_DIR):/home/builder/$(RMD_DIR):ro \
+	  -v $(PWD)/$(MUSTACHE_DIR):/home/builder/$(MUSTACHE_DIR) \
 	  --entrypoint=entrypoint.sh \
 	  $(PAGE_BUILDER_TAG) \
 	  ls -alR .
 	@docker run --rm -i \
-	  -v $(PWD)/$(dir $<):/home/builder/$(dir $<):ro \
-	  -v $(PWD)/$(dir $@):/home/builder/$(dir $@) \
+	  -v $(PWD)/$(RMD_DIR):/home/builder/$(RMD_DIR):ro \
+	  -v $(PWD)/$(MUSTACHE_DIR):/home/builder/$(MUSTACHE_DIR) \
 	  $(PAGE_BUILDER_TAG) \
 	  --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
 
