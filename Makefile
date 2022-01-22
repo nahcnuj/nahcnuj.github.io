@@ -38,13 +38,13 @@ gen-page:
 $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@echo $< "->" $@
 	@docker run --rm -i \
-	  -v $(PWD)/$(RMD_DIR):/home/builder/$(RMD_DIR) \
+	  -v $(PWD)/$(RMD_DIR):/home/builder/$(RMD_DIR):ro \
 	  -v $(PWD)/$(MUSTACHE_DIR):/home/builder/$(MUSTACHE_DIR) \
 	  --entrypoint=entrypoint.sh \
 	  $(PAGE_BUILDER_TAG) \
 	  ls -alR .
 	@docker run --rm -i \
-	  -v $(PWD)/$(RMD_DIR):/home/builder/$(RMD_DIR) \
+	  -v $(PWD)/$(RMD_DIR):/home/builder/$(RMD_DIR):ro \
 	  -v $(PWD)/$(MUSTACHE_DIR):/home/builder/$(MUSTACHE_DIR) \
 	  $(PAGE_BUILDER_TAG) \
 	  --langs="$(AVAILABLE_LANGS)" $< $(dir $@)
