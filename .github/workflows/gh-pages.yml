@@ -98,7 +98,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: staging
+          base: master
           branch: staging
           delete-branch: true
           reviewers: nahcnuj
