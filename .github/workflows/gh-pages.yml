@@ -5,7 +5,7 @@ on:
     branches: [ source ]
 
 env:
-  PAGE_BUILDER_TAG: page-builder
+  PAGE_BUILDER_TAG: page-builder:latest
   UZU_TAG: nahcnuj/alpine-uzu:1.2.1
   SASS_TAG: nahcnuj/alpine-sassc:3.6.1
   MUSTACHE_CACHE_KEY: mustache-cache.tar
