@@ -5,7 +5,6 @@ on:
     branches: [ source ]
 
 env:
-  DOCKER_BUILDKIT: 1
   PAGE_BUILDER_TAG: page-builder:1.0.0
   UZU_TAG: nahcnuj/alpine-uzu:1.2.1
   SASS_TAG: nahcnuj/alpine-sassc:3.6.1
