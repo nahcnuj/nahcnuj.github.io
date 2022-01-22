@@ -89,7 +89,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3.6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: staging-${{ github.run_id }}
+          publish_branch: staging
           publish_dir: ./build
 
       - id: create-pull-request
@@ -97,8 +97,10 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: staging-${{ github.run_id }}
-          branch: master
+          base: staging
+          branch: staging-${{ github.run_id }}
+          delete-branch: true
+          reviewers: nahcnuj
 
       - name: Notify success to Slack
         if: success() && startsWith(steps.create-pull-request.pull-request-url, 'https://')
