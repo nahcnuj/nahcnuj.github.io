@@ -2,20 +2,21 @@ name: Build
 
 on:
   push:
-    branches: [ source ]
-
-env:
-  PAGE_BUILDER_TAG: page-builder:1.0.0
-  UZU_TAG: nahcnuj/alpine-uzu:1.2.1
-  SASS_TAG: nahcnuj/alpine-sassc:3.6.1
-  MUSTACHE_CACHE_KEY: mustache-cache.tar
-  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-  SLACK_USERNAME: GitHub Actions
-  SLACK_CHANNEL: www-nahcnuj-work
+    branches: 
+      - source
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      PAGE_BUILDER_TAG: page-builder:1.0.0
+      UZU_TAG: nahcnuj/alpine-uzu:1.2.1
+      SASS_TAG: nahcnuj/alpine-sassc:3.6.1
+      MUSTACHE_CACHE_KEY: mustache-cache.tar
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_USERNAME: GitHub Actions
+      SLACK_CHANNEL: www-nahcnuj-work
 
     steps:
       - uses: actions/checkout@v2
