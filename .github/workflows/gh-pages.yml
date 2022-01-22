@@ -103,6 +103,9 @@ jobs:
           echo "${pr_url}"
           echo "::set-output name=pull-request-url::${pr_url}"
 
+      - name: test
+        run: echo "[${{ steps.create-pull-request.pull-request-url }}]"
+
       - name: Notify success to Slack
         if: success() && startsWith(steps.create-pull-request.pull-request-url, 'https://')
         uses: rtCamp/action-slack-notify@v2
