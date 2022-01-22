@@ -29,11 +29,9 @@ jobs:
           path: ${{ env.PAGE_BUILDER_TAG }}
           key: ${{ env.PAGE_BUILDER_TAG }}_${{ runner.os }}
 
-      - name: Load the page-builder Docker image
-        run: docker load -i ${{ env.PAGE_BUILDER_TAG }} || true
-
-      - name: Build and save a page-builder Docker image
+      - name: Build a page-builder Docker image
         run: |
+          run: docker load -i ${{ env.PAGE_BUILDER_TAG }} || true
           docker build -t ${{ env.PAGE_BUILDER_TAG }} -f docker/page-builder/Dockerfile .
           docker save ${{ env.PAGE_BUILDER_TAG }} -o ${{ env.PAGE_BUILDER_TAG }}
 
@@ -103,8 +101,7 @@ jobs:
         env:
           SLACK_TITLE: Deployed successfully!
           SLACK_COLOR: good
-          SLACK_MESSAGE: ${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}/actions/runs/${{ env.GITHUB_RUN_ID }}
-          #MSG_MINIMAL: true
+          MSG_MINIMAL: true
 
       - name: Notify failure to Slack
         if: failure()
@@ -112,4 +109,4 @@ jobs:
         env:
           SLACK_TITLE: Failed to deploy
           SLACK_COLOR: danger
-          SLACK_MESSAGE: ${{ env.GITHUB_SERVER_URL }}/${{ env.GITHUB_REPOSITORY }}/actions/runs/${{ env.GITHUB_RUN_ID }}
+          MSG_MINIMAL: actions url
