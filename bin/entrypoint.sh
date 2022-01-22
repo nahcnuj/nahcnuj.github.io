@@ -8,6 +8,8 @@ export HOME=/home/${USER}
 uid=$(stat -c "%u" .)
 gid=$(stat -c "%g" .)
 
+ls -alR
+
 if [ "${uid}" -ne 0 ]; then
     if [ "$(id -g ${USER})" -ne ${gid} ]; then
         # change builder's and HOME's gid to pwd's one

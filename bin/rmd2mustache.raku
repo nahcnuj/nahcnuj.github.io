@@ -9,6 +9,7 @@ multi sub MAIN(
     :$langs!,
 ) {
     $dest-dir.IO.mkdir unless $dest-dir.IO.e;
+
     my $dest-file = $dest-dir.IO.add($rmd-file.IO.basename).extension('mustache');
     if ($dest-file.e && !$dest-file.w) {
         die "The file {$dest-file} is not writable.";
