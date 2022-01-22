@@ -12,7 +12,7 @@ CSS_DIR:=$(DEST_DIR)/css
 CSS_FILES:=$(patsubst $(SASS_DIR)/%.scss, $(CSS_DIR)/%.css, $(SASS_FILES))
 
 DOCKER_BUILDKIT:=1
-PAGE_BUILDER_TAG:=page-builder:1.5.0-alpha.3
+PAGE_BUILDER_TAG:=page-builder:1.5.0
 SASS_TAG:=michalklempa/dart-sass:1.36
 UZU_TAG:=nahcnuj/alpine-uzu:1.2.1
 
@@ -33,7 +33,7 @@ gen-page:
 	    --cache-from /tmp/$(PAGE_BUILDER_TAG) --build-arg BUILDKIT_INLINE_CACHE=1 \
 	    -t $(PAGE_BUILDER_TAG) -f docker/page-builder/Dockerfile . \
 	  && docker save $(PAGE_BUILDER_TAG) -o /tmp/$(PAGE_BUILDER_TAG)
-	@make -B $(MUSTACHE_FILES)
+	@make -j $(MUSTACHE_FILES)
 
 $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@echo $< "->" $@
