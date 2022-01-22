@@ -27,7 +27,7 @@ jobs:
           key: ${{ env.PAGE_BUILDER_TAG }}_${{ runner.os }}
 
       - name: Load the page-builder Docker image
-        run: docker load -i ${{ env.PAGE_BUILDER_TAG }}
+        run: docker load -i ${{ env.PAGE_BUILDER_TAG }} || true
 
       - name: Build and save a page-builder Docker image
         run: |
