@@ -21,19 +21,22 @@ jobs:
       - uses: actions/checkout@v2
 
       - id: cache-page-builder
-        name: Cache a page-builder Docker image
+        name: Cache page-builder Docker image
         uses: actions/cache@v2
         with:
           path: ${{ env.PAGE_BUILDER_TAG }}
-          key: ${{ env.PAGE_BUILDER_TAG }}_${{ runner.os }}_${{ hashFiles('docker/page-builder/Dockerfile','META6.json','bin/**','lib/**') }}
+          key: ${{ env.PAGE_BUILDER_TAG }}_${{ runner.os }}_${{ hashFiles('.github/workflows/**') }}
 
-      - name: Build a page-builder Docker image
+      - name: Load page-builder Docker image from cache
+        if: steps.cache-page-builder.outputs.cache-hit == 'true'
+        run: docker load -i $PAGE_BUILDER_TAG
+
+      - name: Build page-builder Docker image
+        if: steps.cache-page-builder.outputs.cache-hit != 'true'
         env:
           DOCKER_BUILDKIT: 1
         run: |
-          docker load -i $PAGE_BUILDER_TAG || true
-          docker build --cache-from $PAGE_BUILDER_TAG --build-arg BUILDKIT_INLINE_CACHE=1 \
-            -t $PAGE_BUILDER_TAG -f docker/page-builder/Dockerfile .
+          docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t $PAGE_BUILDER_TAG -f docker/page-builder/Dockerfile .
           docker save $PAGE_BUILDER_TAG -o $PAGE_BUILDER_TAG
 
       - id: cache-mustache
