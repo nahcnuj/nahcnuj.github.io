@@ -88,9 +88,6 @@ jobs:
       - name: Build CSS
         run: make css
 
-      - name: failure test
-        run: exit 1
-
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.6.1
         with:
