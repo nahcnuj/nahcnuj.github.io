@@ -22,8 +22,4 @@ if [ "${uid}" -ne 0 ]; then
     fi
 fi
 
-find . -type d -maxdepth 1 -perm -u=w | xargs -r chown -R ${uid}:${gid}
-
-ls -alR ${HOME}
-
 su-exec ${USER} $@
