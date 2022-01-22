@@ -11,7 +11,7 @@ jobs:
 
     env:
       DOCKER_BUILDKIT: 1
-      PAGE_BUILDER_TAG: page-builder:1.5.0-alpha.2
+      PAGE_BUILDER_TAG: page-builder:1.5.0-alpha.3
       UZU_TAG: nahcnuj/alpine-uzu:1.2.1
       SASS_TAG: nahcnuj/alpine-sassc:3.6.1
       MUSTACHE_CACHE_KEY: mustache-cache.tar

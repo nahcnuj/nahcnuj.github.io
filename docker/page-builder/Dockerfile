@@ -8,11 +8,11 @@ RUN apk add --update \
 RUN useradd -m builder
 WORKDIR /home/builder
 
-COPY META6.json .
-RUN zef --update --deps-only install .
-
 COPY bin/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
+
+COPY META6.json .
+RUN zef --update --deps-only install .
 
 COPY bin/rmd2mustache.raku /usr/local/bin/
 RUN chmod +x /usr/local/bin/rmd2mustache.raku
