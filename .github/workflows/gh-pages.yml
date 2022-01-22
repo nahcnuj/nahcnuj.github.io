@@ -26,14 +26,13 @@ jobs:
           path: ${{ env.PAGE_BUILDER_TAG }}
           key: ${{ env.PAGE_BUILDER_TAG }}_${{ runner.os }}
 
+      - name: Load the page-builder Docker image
+        run: docker load -i ${{ env.PAGE_BUILDER_TAG }}
+
       - name: Build and save a page-builder Docker image
-        if: steps.cache-page-builder.outputs.cache-hit != 'true'
         run: |
           docker build -t ${{ env.PAGE_BUILDER_TAG }} -f docker/page-builder/Dockerfile .
           docker save ${{ env.PAGE_BUILDER_TAG }} -o ${{ env.PAGE_BUILDER_TAG }}
-
-      - name: Load the page-builder Docker image
-        run: docker load -i ${{ env.PAGE_BUILDER_TAG }}
 
       - id: cache-mustache
         name: Cache generated mustache templates
