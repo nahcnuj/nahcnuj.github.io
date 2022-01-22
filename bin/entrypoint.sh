@@ -22,7 +22,7 @@ if [ "${uid}" -ne 0 ]; then
     fi
 fi
 
-find . -type d -maxdepth 1 -writable | xargs -r chown -R ${uid}:${gid}
+find . -type d -maxdepth 1 -perm -u=w | xargs -r chown -R ${uid}:${gid}
 
 ls -alR ${HOME}
 
