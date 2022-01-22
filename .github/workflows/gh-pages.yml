@@ -34,7 +34,6 @@ jobs:
           docker load -i $PAGE_BUILDER_TAG || true
           docker build --cache-from $PAGE_BUILDER_TAG --build-arg BUILDKIT_INLINE_CACHE=1 \
             -t $PAGE_BUILDER_TAG -f docker/page-builder/Dockerfile .
-          docker tag docker.io/library/$PAGE_BUILDER_TAG $PAGE_BUILDER_TAG
           docker save $PAGE_BUILDER_TAG -o $PAGE_BUILDER_TAG
 
       - id: cache-mustache
