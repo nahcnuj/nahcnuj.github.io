@@ -24,42 +24,104 @@ body {
     }
 }
 
-// component layout
-body {
-    > header {
-        display: flex;
+// top header
+body > header {
+    display: flex;
 
-        div#photo {
-            margin: auto;
-            @include mixin.padding-x( 3rem );
+    div#photo {
+        margin: auto;
+        @include mixin.padding-x( 3rem );
 
-            img {
-                border-radius: 50%;
-                border: thick solid color.$base-light;
-            }
-        }
-
-        div#title {
-            flex: auto;
-            margin: auto;
-
-            > * {
-                margin: 0;
-                @include mixin.padding-y( 0.5rem );
-                line-height: 1;
-            }
-
-            > h1 {
-                font-size: 2.5rem;
-                letter-spacing: 0.1rem;
-            }
-
-            > p {
-                font-size: 1.5rem;
-            }
+        img {
+            border-radius: 50%;
+            border: thick solid color.$base-light;
         }
     }
 
+    div#title {
+        flex: auto;
+        margin: auto;
+
+        > * {
+            margin: 0;
+            @include mixin.padding-y( 0.5rem );
+            line-height: 1;
+        }
+
+        > h1 {
+            font-size: 2.5rem;
+            letter-spacing: 0.1rem;
+        }
+
+        > p {
+            font-size: 1.5rem;
+        }
+    }
+}
+
+// main menu
+body > main {
+    nav ul li {
+        a {
+            font-size: 1.2rem;
+
+            > i.fas {
+                width: 9rem;
+                @include mixin.padding-y( 1.5rem );
+                border-radius: 0.3rem;
+                background: color.$base-dark;
+                color: color.$base-light;
+                font-size: 4rem;
+            }
+
+            &:hover > i.fas {
+                background: #336;
+            }
+        }
+
+        div {
+            margin-top: 0.5rem;
+        }
+    }
+}
+
+// SNS list
+body > aside {
+    nav ul li {
+        a {
+            line-height: 4.5rem;
+
+            > * {
+                vertical-align: middle;
+            }
+        }
+
+        img {
+            &#hatena-blog {
+                width: 4.5rem;
+                height: 4.5rem;
+            }
+            &#pixiv,
+            &#annict {
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+
+        i.fab {
+            font-size: 3rem;
+        }
+    }
+}
+
+// copyright footer
+body > footer {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+// holizontal list items
+body {
     > main,
     > aside {
         nav {
@@ -96,63 +158,5 @@ body {
                 }
             }
         }
-    }
-
-    > main {
-        nav ul li {
-            a {
-                font-size: 1.2rem;
-
-                > i.fas {
-                    width: 9rem;
-                    @include mixin.padding-y( 1.5rem );
-                    border-radius: 0.3rem;
-                    background: color.$base-dark;
-                    color: color.$base-light;
-                    font-size: 4rem;
-                }
-
-                &:hover > i.fas {
-                    background: #336;
-                }
-            }
-
-            div {
-                margin-top: 0.5rem;
-            }
-        }
-    }
-
-    > aside {
-        nav ul li {
-            a {
-                line-height: 4.5rem;
-
-                > * {
-                    vertical-align: middle;
-                }
-            }
-
-            img {
-                &#hatena-blog {
-                    width: 4.5rem;
-                    height: 4.5rem;
-                }
-                &#pixiv,
-                &#annict {
-                    width: 3rem;
-                    height: 3rem;
-                }
-            }
-
-            i.fab {
-                font-size: 3rem;
-            }
-        }
-    }
-
-    > footer {
-        padding-top: 0;
-        padding-bottom: 0;
     }
 }
