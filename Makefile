@@ -11,7 +11,7 @@ SASS_FILES:=$(shell find "$(SASS_DIR)" -name "*.scss" -not -name "_*")
 CSS_DIR:=$(DEST_DIR)/css
 CSS_FILES:=$(patsubst $(SASS_DIR)/%.scss, $(CSS_DIR)/%.css, $(SASS_FILES))
 
-DOCKER_BUILDKIT?=1
+DOCKER_BUILDKIT:=1
 PAGE_BUILDER_TAG:=page-builder:1.2.0
 SASS_TAG:=michalklempa/dart-sass:1.36
 UZU_TAG:=nahcnuj/alpine-uzu:1.2.1
