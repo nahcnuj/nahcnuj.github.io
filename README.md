@@ -1,5 +1,18 @@
 # The source of [www.nahcnuj.work](https://www.nahcnuj.work/)
 
+## Structure
+
+```
+├── bin     ... scripts
+├── docker  ... Dockerfiles
+├── i18n    ... dictionary for internationalization
+├── pages   ... Mustache templates
+├── public  ... static files
+├── rmd     ... R Markdown source of articles
+├── sass    ... SCSS stylesheets
+└── themes  ... layout templates
+```
+
 ## Build the site
 
 ```sh
