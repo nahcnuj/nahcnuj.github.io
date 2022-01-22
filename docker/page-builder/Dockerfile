@@ -1,7 +1,5 @@
 FROM rakudo-star:2021.04-alpine
 
-RUN adduser -D builder
-
 RUN apk add --update \
         git \
         shadow \
