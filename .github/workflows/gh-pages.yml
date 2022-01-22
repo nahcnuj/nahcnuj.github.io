@@ -37,7 +37,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/${{ env.MUSTACHE_CACHE_KEY }}
-          key: ${{ env.MUSTACHE_CACHE_KEY }}
+          key: ${{ env.PAGE_BUILDER_TAG }}_${{ env.MUSTACHE_CACHE_KEY }}
 
       - name: Generate Mustache templates from R Markdown files
         run: |
