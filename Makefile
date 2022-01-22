@@ -38,6 +38,7 @@ gen-page:
 $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@echo $< "->" $@
 	@[ -e $(dir $@) ] || mkdir -p $(dir $@)
+	@ls -alR $(PWD)/$(dir $@)
 	docker run --rm -i \
 	  -v $(PWD)/$(dir $<):/home/builder/$(dir $<):ro \
 	  -v $(PWD)/$(dir $@):/home/builder/$(dir $@) \
