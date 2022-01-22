@@ -98,7 +98,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TZ: JST-9
         run: |
-          git fetch origin master
+          git fetch origin staging master
           git log --oneline staging ^origin/master
           git log --oneline staging ^origin/master | wc -l
           echo $([ $(git log --oneline staging ^origin/master | wc -l) -eq 0 ])
