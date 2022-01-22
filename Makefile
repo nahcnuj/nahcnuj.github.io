@@ -102,15 +102,40 @@ bin/html5check.py:
 	@chmod +x $@
 
 
+UZU_CONTAINER_NAME:=nahcnuj-work-uzu
+SASS_CONTAINER_NAME:=nahcnuj-work-sass
 NGINX_CONTAINER_NAME:=nahcnuj-work-test
+
 .PHONY: server-start server-stop server-restart server-log
 server-start:
-	@docker run --rm -v $(PWD)/$(DEST_DIR):/usr/share/nginx/html -p 3000:80 --name $(NGINX_CONTAINER_NAME) nginx >/dev/null 2>&1 &
+	@docker run --rm -d -it \
+	  -v $(PWD)/$(SASS_DIR):/sass/ \
+	  -v $(PWD)/$(CSS_DIR):/$(CSS_DIR) \
+	  -e LOCAL_UID=$(shell id -u $${USER}) \
+	  -e LOCAL_GID=$(shell id -g $${USER}) \
+	  --name $(SASS_CONTAINER_NAME) \
+	  $(SASS_TAG) \
+	  /opt/dart-sass/sass \
+	    -s compressed \
+	    --no-source-map \
+		--watch \
+	    $(SASS_DIR):$(CSS_DIR)
+	@docker run --rm -d -it \
+	  -v $(PWD):/home/user \
+	  -v $(PWD)/themes/default/partials:/home/user/partials \
+	  -e LOCAL_UID=$(shell id -u $${USER}) \
+	  -e LOCAL_GID=$(shell id -g $${USER}) \
+	  --name $(UZU_CONTAINER_NAME) \
+	  $(UZU_TAG) watch
+	@docker run --rm -d -it \
+	  -v $(PWD)/$(DEST_DIR):/usr/share/nginx/html \
+	  -p 3000:80 \
+	  --name $(NGINX_CONTAINER_NAME) \
+	  nginx
 
 server-stop:
-	@docker stop $(NGINX_CONTAINER_NAME) >/dev/null
+	@docker stop $(UZU_CONTAINER_NAME) >/dev/null || :
+	@docker stop $(SASS_CONTAINER_NAME) >/dev/null || :
+	@docker stop $(NGINX_CONTAINER_NAME) >/dev/null || :
 
 server-restart: server-stop server-start
-
-server-log:
-	@docker logs -f --tail 10 $(NGINX_CONTAINER_NAME)
