@@ -99,6 +99,7 @@ jobs:
           TZ: JST-9
         run: |
           git fetch origin master
+          git log --oneline HEAD ^origin/master
           git log --oneline HEAD ^origin/master | wc -l
           echo $([ $(git log --oneline HEAD ^origin/master | wc -l) -eq 0 ])
           [ $(git log --oneline HEAD ^origin/master | wc -l) -eq 0 ] && exit 0
