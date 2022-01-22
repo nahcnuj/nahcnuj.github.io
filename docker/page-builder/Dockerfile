@@ -4,7 +4,10 @@ RUN adduser -D builder
 
 RUN apk add --update \
         git \
+        shadow \
         su-exec
+
+RUN useradd -m builder
 
 COPY META6.json .
 RUN zef --update --deps-only install .
