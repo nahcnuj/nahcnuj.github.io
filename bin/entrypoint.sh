@@ -22,4 +22,6 @@ if [ "${uid}" -ne 0 ]; then
     fi
 fi
 
+ls -alR
+
 su-exec ${USER} $@
