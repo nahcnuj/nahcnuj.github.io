@@ -98,6 +98,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: staging-${{ env.GITHUB_RUN_ID }}
           base: master
+        continue-on-error: true
 
       - name: Notify success to Slack
         if: success()
