@@ -19,8 +19,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       - id: cache-page-builder
         name: Cache a page-builder Docker image
