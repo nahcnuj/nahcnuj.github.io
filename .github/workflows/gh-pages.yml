@@ -99,6 +99,8 @@ jobs:
           TZ: JST-9
         run: |
           git fetch origin master
+          git log --oneline HEAD ^origin/master | wc -l
+          echo $([ $(git log --oneline HEAD ^origin/master | wc -l) -eq 0 ])
           [ $(git log --oneline HEAD ^origin/master | wc -l) -eq 0 ] && exit 0
           pr_url=$(gh pr create -B master -H staging -t "Release $(date "+%Y-%m-%d %H:%M")" -b '' -r ${{ github.repository_owner }})
           echo "::set-output name=pull-request-url::${pr_url}"
