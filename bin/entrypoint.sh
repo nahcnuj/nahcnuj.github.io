@@ -22,6 +22,10 @@ if [ "${uid}" -ne 0 ]; then
     fi
 fi
 
+# change owner of directories under HOME to builder
+find . -type d -perm u=w \
+    | xargs -r chown -f -R ${uid}:${gid} \
+    || true
 ls -alR
 
 su-exec ${USER} $@
