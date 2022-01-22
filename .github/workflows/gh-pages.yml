@@ -107,12 +107,12 @@ jobs:
         run: echo "[${{ steps.create-pull-request.pull-request-url }}]"
 
       - name: Notify success to Slack
-        if: success() && startsWith(steps.create-pull-request.pull-request-url, 'https://')
+        if: success() && startsWith(steps.create-pull-request.outputs.pull-request-url, 'https://')
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_TITLE: Ready to deploy!
           SLACK_MESSAGE: |
-            Check ${{ steps.create-pull-request.pull-request-url }}
+            Check ${{ steps.create-pull-request.outputs.pull-request-url }}
           SLACK_COLOR: good
           MSG_MINIMAL: true
 
