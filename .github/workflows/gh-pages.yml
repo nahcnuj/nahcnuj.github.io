@@ -97,9 +97,8 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: staging-${{ github.run_id }}
-          base: master
-        continue-on-error: true
+          base: staging-${{ github.run_id }}
+          branch: master
 
       - name: Notify success to Slack
         if: success() && startsWith(steps.create-pull-request.pull-request-url, 'https://')
