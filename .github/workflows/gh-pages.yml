@@ -66,6 +66,9 @@ jobs:
       - name: Build HTML
         run: make html
 
+      - name: Copy public to build
+        run: copy -r public/.*
+
       - id: cache-sass
         name: Cache my Sass Docker image
         uses: actions/cache@v2
