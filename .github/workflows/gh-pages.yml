@@ -67,7 +67,7 @@ jobs:
         run: make html
 
       - name: Copy public to build
-        run: cp -r public/.* build/
+        run: cp -r public/* build/
 
       - id: cache-sass
         name: Cache my Sass Docker image
