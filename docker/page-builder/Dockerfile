@@ -16,5 +16,5 @@ RUN zef --update --deps-only install .
 
 COPY bin/rmd2mustache.raku /usr/local/bin/
 RUN chmod +x /usr/local/bin/rmd2mustache.raku
-ENTRYPOINT [ "rmd2mustache.raku" ]
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh", "/usr/local/bin/rmd2mustache.raku" ]
 CMD [ "--help" ]
