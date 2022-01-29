@@ -13,7 +13,7 @@ jobs:
       DOCKER_BUILDKIT: 1
       PAGE_BUILDER_TAG: page-builder:1.6.0
       UZU_TAG: nahcnuj/alpine-uzu:1.2.1
-      SASS_TAG: nahcnuj/alpine-sassc:3.6.1
+      SASS_TAG: michalklempa/dart-sass:1.36
       MUSTACHE_CACHE_KEY: mustache-cache.tar
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_USERNAME: GitHub Actions
@@ -43,7 +43,7 @@ jobs:
       - name: Generate Mustache templates from R Markdown files
         run: |
           tar -xzvf /tmp/$MUSTACHE_CACHE_KEY || true
-          make gen-page
+          make -e gen-page
           tar -czvf /tmp/$MUSTACHE_CACHE_KEY pages/*/
 
       - id: cache-uzu
@@ -64,7 +64,7 @@ jobs:
         run: docker load -i /tmp/$UZU_TAG
 
       - name: Build HTML
-        run: make html
+        run: make -e html
 
       - name: Copy public to build
         run: cp -vrT public build
@@ -87,7 +87,7 @@ jobs:
         run: docker load -i /tmp/$SASS_TAG
 
       - name: Build CSS
-        run: make css
+        run: make -e css
 
       - name: Push to staging branch
         uses: peaceiris/actions-gh-pages@v3.6.1
