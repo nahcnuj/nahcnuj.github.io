@@ -85,10 +85,6 @@ body > header {
                 margin-left: 1.5rem;
                 line-height: $header-height;
 
-                &:before {
-                    content: unset;
-                }
-
                 a {
                     display: inline-block;
                     width: 100%;
@@ -178,35 +174,8 @@ p, li, dd {
     line-height: 1.5;
 }
 
-ul {
-    margin-top: 1rem;
-    list-style: none;
-
-    li:before {
-        content: "\2022";
-
-        margin-right: 0.2rem;
-        vertical-align: middle;
-        line-height: 1.5rem;
-        font-size: 2rem;
-        color: color.$base-dark;
-    }
-
-    ul {
-        margin-top: unset;
-        margin-bottom: 1rem;
-
-        li:before {
-            content: "\25E6";
-
-            margin-right: unset;
-            font-size: 1.5rem;
-        }
-    }
-}
-
 li {
-    @include mixin.margin-y( 0.5rem );
+    @include mixin.margin-y( 0.25rem );
 }
 
 table {

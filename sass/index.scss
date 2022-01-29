@@ -60,8 +60,10 @@ body > header {
 }
 
 // main menu
-body > main {
-    nav ul li {
+body > main nav ul {
+    list-style: none;
+
+    li {
         a {
             font-size: 1.2rem;
 
@@ -86,8 +88,10 @@ body > main {
 }
 
 // SNS list
-body > aside {
-    nav ul li {
+body > aside nav ul {
+    list-style: none;
+
+    li {
         a {
             line-height: 4.5rem;
 
