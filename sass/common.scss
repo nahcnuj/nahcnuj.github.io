@@ -125,7 +125,7 @@ body {
 
     > main,
     > aside {
-        @include mixin.padding-y( 1rem );
+        @include mixin.margin-y( 1rem );
     }
 
     > footer {
