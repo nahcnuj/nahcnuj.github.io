@@ -18,7 +18,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_USERNAME: GitHub Actions
-          SLACK_CHANNEL: ${{ secrets.SLACK_WEBHOOK_CHANNEL }}
+          SLACK_CHANNEL: www-nahcnuj-work
           SLACK_TITLE: Deployed successfully!
           SLACK_COLOR: good
           MSG_MINIMAL: true
