@@ -15,9 +15,6 @@ jobs:
       UZU_TAG: nahcnuj/alpine-uzu:1.2.1
       SASS_TAG: michalklempa/dart-sass:1.36
       MUSTACHE_CACHE_KEY: mustache-cache.tar
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_USERNAME: GitHub Actions
-      SLACK_CHANNEL: www-nahcnuj-work
 
     steps:
       - uses: actions/checkout@v2
@@ -106,23 +103,15 @@ jobs:
         run: |
           git fetch -q origin staging master
           [ $(git log --oneline origin/staging ^origin/master | wc -l) -eq 0 ] && exit 0
-          pr_url=$(gh pr create -B master -H staging -t "Release $(date "+%Y-%m-%d %H:%M")" -b '' -r ${{ github.repository_owner }})
-          echo "::set-output name=pull-request-url::${pr_url}"
-
-      - name: Notify success to Slack
-        if: success() && startsWith(steps.create-pull-request.outputs.pull-request-url, 'https://')
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_TITLE: Ready to deploy!
-          SLACK_MESSAGE: |
-            Check ${{ steps.create-pull-request.outputs.pull-request-url }}
-          SLACK_COLOR: good
-          MSG_MINIMAL: true
+          gh pr create -B master -H staging -t "Release $(date "+%Y-%m-%d %H:%M")" -b '' -r ${{ github.repository_owner }} -l deployment
 
       - name: Notify failure to Slack
         if: failure()
         uses: rtCamp/action-slack-notify@v2
         env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: GitHub Actions
+          SLACK_CHANNEL: ${{ secrets.SLACK_WEBHOOK_CHANNEL }}
           SLACK_TITLE: Failed to deploy
           SLACK_COLOR: danger
           MSG_MINIMAL: actions url

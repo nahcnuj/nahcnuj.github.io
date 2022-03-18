@@ -1,0 +1,40 @@
+name: Enable auto-merge
+
+on:
+  pull_request_target:
+    types:
+      - labeled
+    branches:
+      - master
+
+jobs:
+  enable-auto-merge:
+    if: github.event.pull_request.user.login == 'github-actions[bot]' && contains(github.event.pull_request.labels.*.name, 'deployment')
+    runs-on: ubuntu-latest
+
+    env:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_USERNAME: GitHub Actions
+      SLACK_CHANNEL: ${{ secrets.SLACK_WEBHOOK_CHANNEL }}
+
+    steps:
+      - uses: alexwilson/enable-github-automerge-action@main
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Notify success to Slack
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: Ready to deploy!
+          SLACK_MESSAGE: Check ${{ github.event.pull_request.html_url }}
+          SLACK_COLOR: good
+          MSG_MINIMAL: true
+
+      - name: Notify failure to Slack
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: Failed to deploy
+          SLACK_COLOR: danger
+          MSG_MINIMAL: actions url

@@ -28,6 +28,7 @@ body {
 body > header {
     height: fit-content;
     display: flex;
+    border-bottom: solid thick color.$base-light;
 
     div#title {
         margin: auto;
