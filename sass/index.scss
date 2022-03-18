@@ -8,21 +8,21 @@ body {
     justify-content: space-between;
 
     > header {
-        flex: 0 1 8rem;
+        flex: 0 0 8rem;
     }
 
     > main {
-        flex: 0 1 auto;
+        flex: 0 0 auto;
         @include mixin.margin-y( unset );
     }
 
     > aside {
-        flex: 0 1 auto;
+        flex: 0 0 auto;
         @include mixin.margin-y( unset );
     }
 
     > footer {
-        flex: 0 1 auto;
+        flex: 0 0 auto;
     }
 }
 
