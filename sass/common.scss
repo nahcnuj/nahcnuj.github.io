@@ -23,7 +23,7 @@ body {
         overflow-y: hidden;
 
         > article {
-            @include mixin.padding-x( 3rem );
+            @include mixin.margin-x( 1rem );
         }
     }
 }
