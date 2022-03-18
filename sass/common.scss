@@ -209,10 +209,15 @@ pre {
 
 figure {
     text-align: center;
-}
 
-figcaption {
-    line-height: 1.5;
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    figcaption {
+        line-height: 1.5;
+    }
 }
 
 .text-smaller {
