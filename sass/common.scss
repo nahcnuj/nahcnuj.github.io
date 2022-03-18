@@ -133,7 +133,9 @@ body {
         font-size: 75%;
 
         > p {
-            @include mixin.padding-x( 3rem );
+            @include mixin.padding-x( 1rem );
+
+            text-align: right;
         }
     }
 }
