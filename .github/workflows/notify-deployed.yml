@@ -1,0 +1,25 @@
+name: Notify deployment
+
+on:
+  push:
+    branches:
+      - master
+  pull_request_target:
+    branches:
+      - master
+    types:
+      - closed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: GitHub Actions
+          SLACK_CHANNEL: www-nahcnuj-work
+          SLACK_TITLE: Deployed successfully!
+          SLACK_COLOR: good
+          MSG_MINIMAL: true
