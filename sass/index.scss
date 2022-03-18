@@ -8,7 +8,7 @@ body {
     justify-content: space-between;
 
     > header {
-        flex: 0 1 16rem;
+        flex: 0 1 14rem;
     }
 
     > main {
@@ -49,12 +49,8 @@ body > header {
         }
 
         > h1 {
-            font-size: 2.5rem;
+            font-size: 200%;
             letter-spacing: 0.1rem;
-        }
-
-        > p {
-            font-size: 1.5rem;
         }
     }
 }
@@ -65,15 +61,13 @@ body > main nav ul {
 
     li {
         a {
-            font-size: 1.2rem;
-
             > i.fas {
-                width: 9rem;
+                width: 6rem;
                 @include mixin.padding-y( 1.5rem );
                 border-radius: 0.3rem;
                 background: color.$base-dark;
                 color: color.$base-light;
-                font-size: 4rem;
+                font-size: 250%;
             }
 
             &:hover > i.fas {
@@ -102,18 +96,18 @@ body > aside nav ul {
 
         img {
             &#hatena-blog {
-                width: 4.5rem;
-                height: 4.5rem;
+                width: 4rem;
+                height: 4rem;
             }
             &#pixiv,
             &#annict {
-                width: 3rem;
-                height: 3rem;
+                width: 2.5rem;
+                height: 2.5rem;
             }
         }
 
         i.fab {
-            font-size: 3rem;
+            font-size: 250%;
         }
     }
 }
