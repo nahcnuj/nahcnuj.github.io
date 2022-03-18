@@ -11,7 +11,7 @@ html, body {
     padding: 0;
     background: color.$base-light;
     font-family: 'Roboto', 'Noto Sans JP', sans-serif;
-    font-size: 14pt;
+    font-size: 3vmin;
     color: color.$base-dark;
 }
 body {
@@ -23,7 +23,7 @@ body {
         overflow-y: hidden;
 
         > article {
-            @include mixin.padding-x( 3rem );
+            @include mixin.margin-x( 1rem );
         }
     }
 }
@@ -92,11 +92,11 @@ body {
                         width: 100%;
                         height: 100%;
                         text-align: center;
-                        font-size: 1.1rem;
+                        font-size: 110%;
 
                         i.fas {
                             margin-right: 0.5rem;
-                            font-size: 2rem;
+                            font-size: 200%;
                             vertical-align: middle;
                         }
                     }
@@ -130,7 +130,7 @@ body {
 
     > footer {
         border-top: thin solid color.$base-dark;
-        font-size: 0.9rem;
+        font-size: 75%;
 
         > p {
             @include mixin.padding-x( 3rem );
@@ -150,24 +150,24 @@ main article header {
     }
 
     > h2 {
-        font-size: 1.8rem;
+        font-size: 180%;
     }
 }
 
 h3 {
-    height: 1.7rem;
+    min-height: 1.7rem;
     padding-left: 0.5rem;
     border-left: 1.7rem solid color.$base-dark;
     line-height: 1.7rem;
-    font-size: 1.7rem;
+    font-size: 170%;
 }
 
 h4 {
-    font-size: 1.3rem;
+    font-size: 130%;
 }
 
 h5 {
-    font-size: 1.1rem;
+    font-size: 110%;
 }
 
 p, li, dd {
@@ -209,10 +209,15 @@ pre {
 
 figure {
     text-align: center;
-}
 
-figcaption {
-    line-height: 1.5;
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    figcaption {
+        line-height: 1.5;
+    }
 }
 
 .text-smaller {
