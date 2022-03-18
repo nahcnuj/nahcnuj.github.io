@@ -8,7 +8,7 @@ body {
     justify-content: space-between;
 
     > header {
-        flex: 0 1 14rem;
+        flex: 0 1 12rem;
     }
 
     > main {
@@ -26,31 +26,32 @@ body {
 
 // top header
 body > header {
+    height: fit-content;
     display: flex;
 
-    div#photo {
-        margin: auto;
-        @include mixin.padding-x( 3rem );
-
-        img {
-            border-radius: 50%;
-            border: thick solid color.$base-light;
-        }
-    }
-
     div#title {
-        flex: auto;
         margin: auto;
+        padding-left: 1rem;
 
         > * {
             margin: 0;
             @include mixin.padding-y( 0.5rem );
             line-height: 1;
+            text-align: unset;
         }
 
         > h1 {
             font-size: 200%;
             letter-spacing: 0.1rem;
+        }
+    }
+
+    div#photo {
+        margin: 0;
+
+        img {
+            width: auto;
+            height: 100%;
         }
     }
 }
