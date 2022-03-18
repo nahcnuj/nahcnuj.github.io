@@ -119,7 +119,7 @@ jobs:
         env:
           SLACK_TITLE: Ready to deploy!
           SLACK_MESSAGE: |
-            Check ${{ steps.create-pull-request.outputs.pull-request-url }}
+            Check ${{ steps.create-pull-request.outputs.pull-request-url }}/files
           SLACK_COLOR: good
           MSG_MINIMAL: true
 
