@@ -16,119 +16,129 @@ html, body {
 }
 body {
     overflow-y: scroll;
-}
 
-body > * {
-    max-width: var.$pc-width;
-    @include mixin.padding-x( calc(50% - #{var.$pc-width}/2) );
-    overflow-y: hidden;
+    > * {
+        max-width: var.$pc-width;
+        @include mixin.padding-x( calc(50% - #{var.$pc-width}/2) );
+        overflow-y: hidden;
 
-    > article {
-        @include mixin.padding-x( 3rem );
-    }
-}
-
-body > header {
-    $header-height: 4rem;
-
-    display: flex;
-    height: $header-height;
-    background: color.$base-dark;
-    vertical-align: middle;
-    color: color.$base-light;
-
-    > h1 {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        text-align: center;
-
-        a {
-            display: inline-block;
-            height: 100%;
-            @include mixin.padding-x( 1rem );
-            line-height: calc(0.9 * #{$header-height});
-
-            img {
-                $img-size: 2.5rem;
-
-                width: $img-size;
-                height: $img-size;
-                border-radius: 50%;
-                border: medium solid color.$base-light;
-                vertical-align: middle;
-            }
+        > article {
+            @include mixin.padding-x( 3rem );
         }
     }
+}
 
-    > nav {
-        flex: auto;
-        display: inline-block;
-        height: 100%;
-        margin: 0;
-        margin-left: auto;
-        padding: 0;
+// page layout
+body {
+    > header {
+        $header-height: 4rem;
 
-        ul {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
+        display: flex;
+        height: $header-height;
+        background: color.$base-dark;
+        vertical-align: middle;
+        color: color.$base-light;
+
+        > h1 {
             height: 100%;
             margin: 0;
             padding: 0;
-            list-style: none;
+            text-align: center;
 
-            li {
-                flex: 1;
+            a {
+                display: inline-block;
                 height: 100%;
-                @include mixin.margin-y( unset );
-                margin-left: 1.5rem;
-                line-height: $header-height;
+                @include mixin.padding-x( 1rem );
+                line-height: calc(0.9 * #{$header-height});
 
-                a {
-                    display: inline-block;
-                    width: 100%;
+                img {
+                    $img-size: 2.5rem;
+
+                    width: $img-size;
+                    height: $img-size;
+                    border-radius: 50%;
+                    border: medium solid color.$base-light;
+                    vertical-align: middle;
+                }
+            }
+        }
+
+        > nav {
+            flex: auto;
+            display: inline-block;
+            height: 100%;
+            margin: 0;
+            margin-left: auto;
+            padding: 0;
+
+            ul {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+
+                li {
+                    flex: 1;
                     height: 100%;
-                    text-align: center;
-                    font-size: 1.1rem;
+                    @include mixin.margin-y( unset );
+                    margin-left: 1.5rem;
+                    line-height: $header-height;
 
-                    i.fas {
-                        margin-right: 0.5rem;
-                        font-size: 2rem;
-                        vertical-align: middle;
+                    a {
+                        display: inline-block;
+                        width: 100%;
+                        height: 100%;
+                        text-align: center;
+                        font-size: 1.1rem;
+
+                        i.fas {
+                            margin-right: 0.5rem;
+                            font-size: 2rem;
+                            vertical-align: middle;
+                        }
                     }
                 }
             }
         }
-    }
 
-    > h1,
-    > nav {
-        a:hover {
-            background: #336;
+        > h1,
+        > nav {
+            a:hover {
+                background: #336;
+            }
+        }
+
+        a {
+            &,
+            &:active,
+            &:hover,
+            &:visited,
+            &:focus {
+                color: inherit;
+                text-decoration: none;
+            }
         }
     }
 
-    a {
-        &,
-        &:active,
-        &:hover,
-        &:visited,
-        &:focus {
-            color: inherit;
-            text-decoration: none;
-        }
-    }
-}
-
-body {
     > main,
     > aside {
         @include mixin.padding-y( 1rem );
     }
+
+    > footer {
+        border-top: thin solid color.$base-dark;
+        font-size: 0.9rem;
+
+        > p {
+            @include mixin.padding-x( 3rem );
+        }
+    }
 }
 
-body > main article header {
+main article header {
     border-left: thick solid color.$base-dark;
     background: #CCF;
 
@@ -141,15 +151,6 @@ body > main article header {
 
     > h2 {
         font-size: 1.8rem;
-    }
-}
-
-body > footer {
-    border-top: thin solid color.$base-dark;
-    font-size: 0.9rem;
-
-    > p {
-        @include mixin.padding-x( 3rem );
     }
 }
 
