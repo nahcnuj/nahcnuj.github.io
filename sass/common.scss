@@ -11,7 +11,7 @@ html, body {
     padding: 0;
     background: color.$base-light;
     font-family: 'Roboto', 'Noto Sans JP', sans-serif;
-    font-size: 3vmin;
+    font-size: clamp(16px, 3vmin, 48px);
     color: color.$base-dark;
 }
 body {
