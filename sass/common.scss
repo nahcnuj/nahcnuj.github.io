@@ -176,6 +176,12 @@ p, li, dd {
     line-height: 1.5;
 }
 
+p { text-indent: 1em }
+header p,
+footer p {
+    text-indent: unset;
+}
+
 li {
     @include mixin.margin-y( 0.25rem );
 }
