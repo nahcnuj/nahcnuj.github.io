@@ -99,6 +99,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: staging
           publish_dir: ./build
+          exclude_assets: '.*'
           keep_files: true
           disable_nojekyll: true
 
