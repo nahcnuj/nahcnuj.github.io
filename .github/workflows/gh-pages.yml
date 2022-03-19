@@ -16,8 +16,6 @@ jobs:
       SASS_TAG: michalklempa/dart-sass:1.36
       MUSTACHE_CACHE_KEY: mustache-cache.tar
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_USERNAME: GitHub Actions
-      SLACK_CHANNEL: www-nahcnuj-work
 
     steps:
       - uses: actions/checkout@v2
