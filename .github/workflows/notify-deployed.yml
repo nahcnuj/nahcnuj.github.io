@@ -9,6 +9,7 @@ on:
       - master
     types:
       - closed
+  page_build:
 
 jobs:
   notify:
