@@ -100,7 +100,6 @@ jobs:
           publish_branch: staging
           publish_dir: ./build
           exclude_assets: '**/.gitignore'
-          disable_nojekyll: true
           cname: www.nahcnuj.work
 
       - id: create-pull-request
