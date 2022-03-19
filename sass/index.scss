@@ -85,10 +85,6 @@ body > main nav {
                 display: inline-block;
                 text-align: center;
 
-                * {
-                    vertical-align: middle;
-                }
-
                 &,
                 &:active,
                 &:hover,
@@ -101,6 +97,7 @@ body > main nav {
                 > i.fas {
                     width: 7rem;
                     @include mixin.padding-y( 1rem );
+                    vertical-align: middle;
                     border-radius: 0.3rem;
                     background: color.$base-dark;
                     color: color.$base-light;

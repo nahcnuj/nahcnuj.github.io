@@ -6,20 +6,6 @@ meta_ogp:
   - property: locale:alternate
     content: en_US
     hidden: true
-main_contents:
-  - title: 自己紹介
-    href: /profile.html
-    icon_name: address-card
-  - title: 日記
-    href: /diary/
-    icon_name: calendar-day
-  - title: 製作物
-    href: /works/
-    icon_name: shapes
-    under_construction: true
-  - title: 連絡先
-    href: /contact.html
-    icon_name: paper-plane
 sns_links:
   - title: Twitter
     href: https://twitter.com/nahcnuj
@@ -114,7 +100,9 @@ dict:
   contact_page_head_text: 連絡先
   contact_page_lead_text: お問い合わせ等はこちらに記載のいずれかよりお願いします。
   date: 日付
+  diary: 日記
   event: 出来事
+  self_introduction: 自己紹介
   now: 現在
   profile_page_description: シーサー株式会社で web エンジニアとして働いている、林純一のプロフィールページです。
   profile_page_head_text: プロフィール
@@ -123,3 +111,4 @@ dict:
   site_title: 林純一のポートフォリオサイト
   site_description: シーサー株式会社で web エンジニアとして働いている、林純一のポートフォリオサイトです。
   under_construction: 工事中
+  works: 製作物

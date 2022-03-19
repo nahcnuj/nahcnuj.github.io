@@ -24,19 +24,33 @@ meta_ogp:
 <main>
   <nav id="main-contents">
     <ul>
-      {{#i18n.main_contents}}
-        <li>
-          <a href="{{ href }}">
-            <i class="fas fa-{{ icon_name }}" title="{{ title }}"></i>
-            <div>
-              {{ title }}
-              {{#under_construction}}
-                <i class="fas fa-exclamation-triangle" style="color:#F90" title="{{ i18n.dict.under_construction }}"></i>
-              {{/under_construction}}
-            </div>
-          </a>
-        </li>
-      {{/i18n.main_contents}}
+      <li>
+        <a href="/profile.html">
+          <i class="fas fa-address-card" title="{{ i18n.dict.self_introduction }}"></i>
+          <div>{{ i18n.dict.self_introduction }}</div>
+        </a>
+      </li>
+      <li>
+        <a href="/diary/">
+          <i class="fas fa-calendar-day" title="{{ i18n.dict.diary }}"></i>
+          <div>{{ i18n.dict.diary }}</div>
+        </a>
+      </li>
+      <li>
+        <a href="/works/">
+          <i class="fas fa-shapes" title="{{ i18n.dict.works }}"></i>
+          <div>
+            {{ i18n.dict.works }}
+            <i class="fas fa-exclamation-triangle" style="color:#F90" title="{{ i18n.dict.under_construction }}"></i>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="/contact.html">
+          <i class="fas fa-paper-plane" title="{{ i18n.dict.contact_page_head_text }}"></i>
+          <div>{{ i18n.dict.contact_page_head_text }}</div>
+        </a>
+      </li>
     </ul>
   </nav>
 </main>
