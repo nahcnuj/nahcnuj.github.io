@@ -1,0 +1,26 @@
+---
+title: "{{ i18n.dict.works }}"
+headline: "{{ i18n.dict.works }}"
+description: "{{#lang_ja}}林純一がつくったモノの一覧です。{{/lang_ja}}"
+---
+{{#lang_ja}}
+  <p>
+    個人で制作したモノの一覧です。
+  </p>
+  <h3>
+    <time datetime="2011">2011 年</time>
+    変なブロック崩し
+  </h3>
+  <p>
+    ボールがブロックやバーに当たると、直感に反してランダムに跳ね返るブロック崩しです。
+    当時、ボールの反射処理が書けず、ランダムに跳ね返るようにしたためです。
+  </p>
+  <figure>
+    <img src="{{ site.img_host_url }}/works/funny-breakout/start-game.png" width="646" height="508" alt="「変なブロック崩し」のゲーム画面">
+    <figcaption>ゲーム画面</figcaption>
+  </figure>
+  <p>
+    実装は <abbr title="Hot Soup Processor" tabindex="0">HSP</abbr> 3.22 で、<a href="https://github.com/nahcnuj/FunnyBreakout" target="_blank">ソースコードは GitHub で公開</a>しています。
+    当時はまだバージョン管理システムを知らなかったので、開発履歴は残っていません。
+  </p>
+{{/lang_ja}}
