@@ -1,0 +1,44 @@
+@use 'color';
+@use 'mixin';
+
+table.profile,
+table.history {
+    min-width: 70%;
+    border-spacing: 0;
+    table-layout: fixed;
+
+    tr {
+        th, td {
+            padding-top: 1rem;
+        }
+    
+        th {
+            width: 6rem;
+            vertical-align: top;
+            text-align: right;
+        }
+
+        td {
+            padding-left: 1rem;
+            font-size: 90%;
+        }
+    }
+}
+
+// 経県値
+
+$color-map: (
+    pt5: #e87afd,
+    pt4: #f56d64,
+    pt3: #faff79,
+    pt2: #bbf59d,
+    pt1: #b7ddfd,
+    pt0: #ffffff,
+);
+
+@each $clazz, $color in $color-map {
+    .#{$clazz} {
+        color: $color;
+        @include mixin.text-stroke(1pt, 0, color.$base-dark);
+    }
+}

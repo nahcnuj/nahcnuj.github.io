@@ -4,9 +4,7 @@ description: '{{ i18n.dict.profile_page_description }}'
 headline: '{{ i18n.dict.profile_page_head_text }}'
 lead: '{{ i18n.dict.profile_page_lead_text }}'
 custom_css:
-  - href: /css/history-table.css
-  - href: /css/profile-table.css
-  - href: /css/kkn.css
+  - href: /css/profile.css
 meta_ogp:
   type: profile
   path: /profile.html
@@ -25,7 +23,7 @@ profile_ogp:
   {{#i18n.profile}}
     <tr>
       <th>{{ key }}</th>
-      <td>{{ value }}</td>
+      <td>{{& value }}</td>
     </tr>
   {{/i18n.profile}}
 </table>
@@ -34,14 +32,10 @@ profile_ogp:
 <table class="history">
   {{#i18n.biography}}
     <tr>
-      <th><span><time datetime="{{ date }}">{{ date }}</time></span></th>
-      <td>{{ event }}</td>
+      <th><time datetime="{{ date }}">{{ date }}</time></th>
+      <td>{{& event }}</td>
     </tr>
   {{/i18n.biography}}
-  <tr>
-    <th>{{ i18n.dict.now }}</th>
-    <td></td>
-  </tr>
 </table>
 
 <h3>{{ i18n.dict.skill }}</h3>
