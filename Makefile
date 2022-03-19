@@ -100,11 +100,21 @@ bin/html5check.py:
 
 
 UZU_CONTAINER_NAME:=nahcnuj-work-uzu
-SASS_CONTAINER_NAME:=nahcnuj-work-sass
-NGINX_CONTAINER_NAME:=nahcnuj-work-test
+uzu-server-start:
+	@docker run --rm -d -it \
+	  -v $(PWD):/home/user \
+	  -v $(PWD)/themes/default/partials:/home/user/partials \
+	  -e LOCAL_UID=$(shell id -u $${USER}) \
+	  -e LOCAL_GID=$(shell id -g $${USER}) \
+	  --name $(UZU_CONTAINER_NAME) \
+	  $(UZU_TAG) watch
+uzu-server-stop:
+	@docker stop $(UZU_CONTAINER_NAME) >/dev/null || :
+uzu-server-restart:
+	@make uzu-server-stop uzu-server-start
 
-.PHONY: server-start server-stop server-restart server-log
-server-start:
+SASS_CONTAINER_NAME:=nahcnuj-work-sass
+sass-server-start:
 	@mkdir -p $(CSS_DIR)
 	@docker run --rm -d -it \
 	  -v $(PWD)/$(SASS_DIR):/$(SASS_DIR) \
@@ -118,22 +128,27 @@ server-start:
 	    --no-source-map \
 		--watch \
 	    $(SASS_DIR):$(CSS_DIR)
-	@docker run --rm -d -it \
-	  -v $(PWD):/home/user \
-	  -v $(PWD)/themes/default/partials:/home/user/partials \
-	  -e LOCAL_UID=$(shell id -u $${USER}) \
-	  -e LOCAL_GID=$(shell id -g $${USER}) \
-	  --name $(UZU_CONTAINER_NAME) \
-	  $(UZU_TAG) watch
+sass-server-stop:
+	@docker stop $(SASS_CONTAINER_NAME) >/dev/null || :
+sass-server-restart:
+	@make sass-server-stop sass-server-start
+
+NGINX_CONTAINER_NAME:=nahcnuj-work-test
+nginx-server-start:
 	@docker run --rm -d -it \
 	  -v $(PWD)/$(DEST_DIR):/usr/share/nginx/html \
 	  -p 3000:80 \
 	  --name $(NGINX_CONTAINER_NAME) \
 	  nginx
-
-server-stop:
-	@docker stop $(UZU_CONTAINER_NAME) >/dev/null || :
-	@docker stop $(SASS_CONTAINER_NAME) >/dev/null || :
+nginx-server-stop:
 	@docker stop $(NGINX_CONTAINER_NAME) >/dev/null || :
+nginx-server-restart:
+	@make nginx-server-stop nginx-server-start
 
-server-restart: server-stop server-start
+.PHONY: server-start server-stop server-restart server-log
+server-start:
+	@make -j3 uzu-server-start sass-server-start nginx-server-start
+server-stop:
+	@make -j3 uzu-server-stop sass-server-stop nginx-server-stop
+server-restart:
+	@make -j3 uzu-server-restart sass-server-restart nginx-server-restart
