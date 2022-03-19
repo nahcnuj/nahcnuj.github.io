@@ -45,13 +45,7 @@ $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 
 html:
 	@mkdir -p $(DEST_DIR)
-	@mkdir -p partials  # needed by Uzu
-	@docker run --rm -i \
-	  -v $(PWD):/home/user \
-	  -e LOCAL_UID=$(shell id -u $${USER}) \
-	  -e LOCAL_GID=$(shell id -g $${USER}) \
-	  $(UZU_TAG)
-	@rmdir --ignore-fail-on-non-empty partials
+	@docker-compose run --rm uzu build
 
 css:
 	@mkdir -p $(CSS_DIR)
@@ -59,12 +53,7 @@ css:
 
 $(CSS_DIR)/%.css: $(SASS_DIR)/%.scss
 	@echo $< "->" $@
-	@docker run --rm -i \
-	  -v $(PWD)/$(SASS_DIR):/sass/ \
-	  -v $(PWD)/$(CSS_DIR):/css/ \
-	  -e LOCAL_UID=$(shell id -u $${USER}) \
-	  -e LOCAL_GID=$(shell id -g $${USER}) \
-	  $(SASS_TAG) \
+	@docker-compose run --rm sass \
 	  /opt/dart-sass/sass \
 	    -s compressed \
 	    --no-source-map \
@@ -97,58 +86,3 @@ html-lint: bin/html5check.py
 bin/html5check.py:
 	@curl -L https://raw.githubusercontent.com/mozilla/html5-lint/master/html5check.py -o $@
 	@chmod +x $@
-
-
-UZU_CONTAINER_NAME:=nahcnuj-work-uzu
-uzu-server-start:
-	@docker run --rm -d -it \
-	  -v $(PWD):/home/user \
-	  -v $(PWD)/themes/default/partials:/home/user/partials \
-	  -e LOCAL_UID=$(shell id -u $${USER}) \
-	  -e LOCAL_GID=$(shell id -g $${USER}) \
-	  --name $(UZU_CONTAINER_NAME) \
-	  $(UZU_TAG) watch
-uzu-server-stop:
-	@docker stop $(UZU_CONTAINER_NAME) >/dev/null || :
-uzu-server-restart:
-	@make uzu-server-stop uzu-server-start
-
-SASS_CONTAINER_NAME:=nahcnuj-work-sass
-sass-server-start:
-	@mkdir -p $(CSS_DIR)
-	@docker run --rm -d -it \
-	  -v $(PWD)/$(SASS_DIR):/$(SASS_DIR) \
-	  -v $(PWD)/$(CSS_DIR):/$(CSS_DIR) \
-	  -e LOCAL_UID=$(shell id -u $${USER}) \
-	  -e LOCAL_GID=$(shell id -g $${USER}) \
-	  --name $(SASS_CONTAINER_NAME) \
-	  $(SASS_TAG) \
-	  /opt/dart-sass/sass \
-	    -s compressed \
-	    --no-source-map \
-		--watch \
-	    $(SASS_DIR):$(CSS_DIR)
-sass-server-stop:
-	@docker stop $(SASS_CONTAINER_NAME) >/dev/null || :
-sass-server-restart:
-	@make sass-server-stop sass-server-start
-
-NGINX_CONTAINER_NAME:=nahcnuj-work-test
-nginx-server-start:
-	@docker run --rm -d -it \
-	  -v $(PWD)/$(DEST_DIR):/usr/share/nginx/html \
-	  -p 3000:80 \
-	  --name $(NGINX_CONTAINER_NAME) \
-	  nginx
-nginx-server-stop:
-	@docker stop $(NGINX_CONTAINER_NAME) >/dev/null || :
-nginx-server-restart:
-	@make nginx-server-stop nginx-server-start
-
-.PHONY: server-start server-stop server-restart server-log
-server-start:
-	@make -j3 uzu-server-start sass-server-start nginx-server-start
-server-stop:
-	@make -j3 uzu-server-stop sass-server-stop nginx-server-stop
-server-restart:
-	@make -j3 uzu-server-restart sass-server-restart nginx-server-restart

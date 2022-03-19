@@ -23,12 +23,13 @@ To remove files generated under `build` directory before building, run `make reb
 
 ## Preview the site
 
-```sh
-make server-start
-```
+Execute the following commands and open http://localhost:3000/ with your browser.
 
-After executing the command above, open http://localhost:3000/ with your browser.
-To stop and restart the server, and watch its log, use `server-stop`, `server-restart`, and `server-log` respectively instead of `server-start`.
+```sh
+echo UID=$(id -u $USER) >>.env
+echo GID=$(id -g $USER) >>.env
+docker-compose up -d
+```
 
 ## Dependencies
 

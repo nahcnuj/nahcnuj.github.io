@@ -1,0 +1,44 @@
+version: '3.9'
+services:
+  web:
+    container_name: nahcnuj-work_web
+    image: nginx
+    ports:
+      - 3000:80
+    volumes:
+      - type: bind
+        source: ./build
+        target: /usr/share/nginx/html/
+        read_only: true
+
+  uzu:
+    container_name: nahcnuj-work_uzu
+    image: nahcnuj/alpine-uzu:1.2.1
+    command: [ 'watch' ]
+    tty: true
+    volumes:
+      - type: bind
+        source: .
+        target: /home/user
+    environment:
+      - LOCAL_UID=${UID}
+      - LOCAL_GID=${GID}
+
+  sass:
+    container_name: nahcnuj-work_sass
+    image: michalklempa/dart-sass:1.36
+    user: ${UID}:${GID}
+    command: [ '/opt/dart-sass/sass', '-s', 'compressed', '--no-source-map', '--watch', '/sass:/css' ]
+    tty: true
+    volumes:
+      - type: bind
+        source: ./sass
+        target: /sass/
+        read_only: true
+      - type: bind
+        source: ./build/css
+        target: /css/
+
+networks:
+  default:
+    name: nahcnuj-work_network
