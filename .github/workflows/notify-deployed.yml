@@ -26,6 +26,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_TITLE: Deployed successfully!
+          SLACK_MESSAGE: ''
           SLACK_COLOR: good
           MSG_MINIMAL: true
 
@@ -36,6 +37,7 @@ jobs:
       - name: Notify
         uses: rtCamp/action-slack-notify@v2
         env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_TITLE: Failed to deploy
           SLACK_COLOR: danger
           MSG_MINIMAL: actions url
