@@ -158,6 +158,13 @@ h3 {
     border-left: 1.7rem solid color.$base-dark;
     line-height: 1.7rem;
     font-size: 170%;
+
+    time {
+        float: right;
+        position: relative;
+        top: -1ex;
+        font-size: 50%;
+    }
 }
 
 h3 { font-size: 170% }
