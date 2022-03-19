@@ -141,7 +141,7 @@ body {
 
 main article header {
     border-left: thick solid color.$base-dark;
-    background: #CCF;
+    background: lighten(color.$base-dark, 80%);
 
     > * {
         @include mixin.margin-y( 0 );
