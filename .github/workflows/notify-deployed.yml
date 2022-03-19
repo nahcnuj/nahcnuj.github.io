@@ -9,7 +9,6 @@ on:
       - master
     types:
       - closed
-  page_build:
   workflow_run:
     workflows:
       - pages-build-deployment
