@@ -13,12 +13,14 @@ on:
   workflow_run:
     workflows:
       - pages-build-deployment
+      - Build
     types:
       - completed
 
 jobs:
-  notify:
+  notify-success:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Notify
         uses: rtCamp/action-slack-notify@v2
@@ -27,3 +29,14 @@ jobs:
           SLACK_TITLE: Deployed successfully!
           SLACK_COLOR: good
           MSG_MINIMAL: true
+
+  notify-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Notify
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: Failed to deploy
+          SLACK_COLOR: danger
+          MSG_MINIMAL: actions url
