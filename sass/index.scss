@@ -62,22 +62,20 @@ body > header {
 
 // main menu
 body > main nav {
-    margin-top: -1rem;
-
     ul {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
         align-items: center;
 
+        margin-block-start: 0;
+        margin-block-end: 0;
         padding-inline-start: 0;
 
         list-style: none;
 
         li {
             flex: 1 0 10rem;
-
-            margin: 1rem 0;
 
             text-align: center;
 
@@ -114,22 +112,27 @@ body > main nav {
 // SNS list
 body > aside nav ul {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
 
+    margin-block-start: 0;
+    margin-block-end: 0;
     padding-inline-start: 0;
 
     list-style: none;
 
     li {
-        flex: 1 1 0;
+        flex: 0 0 6rem;
+
+        text-align: center;
 
         a {
             display: inline-block;
-            text-align: center;
 
             width: 100%;
-            line-height: 4.5rem;
+            height: 4rem;
+            line-height: 4rem;
 
             * {
                 vertical-align: middle;
