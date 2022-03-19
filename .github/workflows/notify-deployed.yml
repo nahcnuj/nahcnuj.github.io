@@ -13,7 +13,6 @@ on:
   workflow_run:
     workflows:
       - pages-build-deployment
-      - Build
     types:
       - completed
 
