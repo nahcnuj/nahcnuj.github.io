@@ -103,11 +103,11 @@ dict:
   event: 出来事
   self_introduction: 自己紹介
   now: 現在
-  profile_page_description: シーサー株式会社で web エンジニアとして働いている、林純一のプロフィールページです。
+  profile_page_description: 林純一のプロフィールページです。
   profile_page_head_text: プロフィール
-  profile_page_lead_text: 当サイト製作者のプロフィールです。
+  profile_page_lead_text: 当サイト制作者のプロフィールです。
   skill: スキル
   site_title: 林純一のポートフォリオサイト
-  site_description: シーサー株式会社で web エンジニアとして働いている、林純一のポートフォリオサイトです。
+  site_description: 林純一のポートフォリオサイトです。
   under_construction: 工事中
-  works: 製作物
+  works: 制作物
