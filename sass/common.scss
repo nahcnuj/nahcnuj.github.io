@@ -223,3 +223,49 @@ figure {
 .text-smaller { font-size: smaller }
 
 .nobr { white-space: nowrap }
+
+abbr[title] {
+    position: relative;
+
+    text-decoration: underline dotted;
+
+    &:focus {
+        text-decoration: underline;
+
+        &::after {
+            content: attr(title);
+
+            // ref: https://bitsofco.de/making-abbr-work-for-touchscreen-keyboard-mouse/
+            position: absolute;
+            left: 0;
+            bottom: -1.8rem;
+            width: auto;
+            white-space: nowrap;
+
+            padding: 0.1rem 0.3rem;
+            background-color: color.$base-dark;
+            color: color.$base-light;
+            border-radius: 0.2rem;
+            box-shadow: 0.1rem 0.1rem 0.6rem black;
+
+            font-size: smaller;
+            text-indent: 0;
+        }
+
+        &::before {
+            display: block;
+            content: '';
+
+            position: absolute;
+            top: 1.1rem;
+            left: 0.3rem;
+            margin: auto 0;
+
+            width: 0;
+            height: 0;
+            border: 0.5rem solid transparent;
+            border-top-width: 0;
+            border-bottom-color: color.$base-dark;
+        }
+    }
+}
