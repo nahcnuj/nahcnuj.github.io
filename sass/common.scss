@@ -160,13 +160,9 @@ h3 {
     font-size: 170%;
 }
 
-h4 {
-    font-size: 130%;
-}
-
-h5 {
-    font-size: 110%;
-}
+h3 { font-size: 170% }
+h4 { font-size: 130% }
+h5 { font-size: 110% }
 
 p, li, dd {
     text-align: justify;
@@ -224,10 +220,6 @@ figure {
     }
 }
 
-.text-smaller {
-    font-size: smaller;
-}
+.text-smaller { font-size: smaller }
 
-.nobr {
-    white-space: nowrap;
-}
+.nobr { white-space: nowrap }
