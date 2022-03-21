@@ -1,0 +1,26 @@
+name: HTML5 check
+
+on:
+  schedule:
+    - cron: '2 9 * * *'
+    - cron: '30 8 * * *'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+
+      - uses: Cyb3r-Jak3/html5validator-action@bd8ee22d3b06b9c9b424e6c03abfbc57a022c374
+        with:
+          root: .
+          css: true
+          format: json
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: log.json
+          path: log.log
