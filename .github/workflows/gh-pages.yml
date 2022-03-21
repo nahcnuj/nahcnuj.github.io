@@ -24,7 +24,7 @@ jobs:
           submodules: true
 
       - name: Run git-set-file-times
-        run: perl ~/bin/srz-zumix/git-set-file-times --since 2020-06-07 && date && ls -lR
+        run: perl bin/srz-zumix/git-set-file-times --since 2020-06-07 && date && ls -lR
 
       - id: cache-page-builder
         name: Cache page-builder Docker image
