@@ -24,7 +24,7 @@ jobs:
           submodules: true
 
       - name: Run git-set-file-times
-        run: perl bin/srz-zumix/git-set-file-times --since 2020-06-07 && date && ls -lR
+        run: perl bin/srz-zumix/git-set-file-times --since 2020-06-07 && date && ls -lR pages
 
       - id: cache-page-builder
         name: Cache page-builder Docker image
@@ -47,8 +47,9 @@ jobs:
       - name: Generate Mustache templates from R Markdown files
         run: |
           tar -xzvf /tmp/$MUSTACHE_CACHE_KEY || true
-          ls -lR pages build
+          ls -lR pages
           make -e gen-page
+          ls -lR pages
           tar -czvf /tmp/$MUSTACHE_CACHE_KEY pages/*/
 
       - id: cache-uzu
