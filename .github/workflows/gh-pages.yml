@@ -6,12 +6,11 @@ on:
       - source
 
 jobs:
-  build:
+  html:
     runs-on: ubuntu-latest
 
     env:
       UZU_TAG: nahcnuj/alpine-uzu:1.2.1
-      SASS_TAG: michalklempa/dart-sass:1.36
 
     steps:
       - uses: actions/checkout@v3
@@ -41,6 +40,50 @@ jobs:
           docker pull $UZU_TAG
           docker save $UZU_TAG -o /tmp/uzu.image
 
+      - name: Cache artifacts
+        uses: actions/cache@v2
+        with:
+          key: html_artifacts_${{ hashFiles('i18n/**','pages/**','partials/**','public/**','rmd/**','themes/**','docker-compose.yml','docker/page-builder/**','bin/rmd2mustache.raku') }}
+          path: build
+
+      - name: Cache generated mustache templates
+        uses: actions/cache@v2
+        with:
+          key: mustache_${{ hashFiles('rmd/**') }}
+          path: |
+            pages/diary
+
+      - run: make --trace gen-page
+      - run: make --trace html
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: html
+          path: build
+
+      - name: Notify failure to Slack
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: Failed to deploy
+          SLACK_COLOR: danger
+          MSG_MINIMAL: actions url
+
+  css:
+    runs-on: ubuntu-latest
+
+    env:
+      SASS_TAG: michalklempa/dart-sass:1.36
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - run: perl bin/srz-zumix/git-set-file-times --since 2020-06-07
+
       - id: cache-sass
         name: Cache my Sass Docker image
         uses: actions/cache@v2
@@ -57,24 +100,15 @@ jobs:
       - name: Cache artifacts
         uses: actions/cache@v2
         with:
-          key: artifacts_${{ hashFiles('i18n/**','pages/**','partials/**','public/**','rmd/**','sass/**','themes/**') }}
-          path: build
+          key: css_artifacts_${{ hashFiles('sass/**','docker-compose.yml') }}
+          path: build/css
 
-      - name: Cache generated mustache templates
-        uses: actions/cache@v2
-        with:
-          key: mustache_${{ hashFiles('rmd/**') }}
-          path: |
-            pages/diary
-
-      - run: make --trace gen-page
-      - run: make --trace html
       - run: make --trace css
 
       - uses: actions/upload-artifact@v2
         with:
-          name: build
-          path: build
+          name: css
+          path: build/css
 
       - name: Notify failure to Slack
         if: failure()
@@ -88,7 +122,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs:
-      - build
+      - html
+      - css
 
     steps:
       - uses: actions/checkout@v3
@@ -97,8 +132,13 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: build
+          name: html
           path: build
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: css
+          path: build/css
 
       - uses: peaceiris/actions-gh-pages@v3.8.0
         with:
