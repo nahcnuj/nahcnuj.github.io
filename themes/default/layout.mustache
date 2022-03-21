@@ -2,14 +2,11 @@
 <html lang="{{ language }}">
   {{> head }}
   <body>
-    {{> header }}
+    {{> page-header }}
     <main>
-      <article>
-        {{> article-header }}
-
-        {{> content }}
-      </article>
+      {{> content-header }}
+      {{> content }}
     </main>
-    {{> footer }}
+    {{> page-footer }}
   </body>
 </html>
