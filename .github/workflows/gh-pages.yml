@@ -34,32 +34,26 @@ jobs:
         uses: actions/cache@v2
         with:
           key: ${{ env.UZU_TAG }}_${{ runner.os }}
-          path: /tmp/${{ env.UZU_TAG }}
+          path: /tmp/uzu.image
 
       - name: Pull and save the Uzu Docker image
         if: steps.cache-uzu.outputs.cache-hit != 'true'
         run: |
           docker pull $UZU_TAG
-          dirname /tmp/$UZU_TAG | xargs mkdir -p
-          docker save $UZU_TAG -o /tmp/$UZU_TAG
-
-      - run: docker load -i /tmp/$UZU_TAG
+          docker save $UZU_TAG -o /tmp/uzu.image
 
       - id: cache-sass
         name: Cache my Sass Docker image
         uses: actions/cache@v2
         with:
           key: ${{ env.SASS_TAG }}_${{ runner.os }}
-          path: /tmp/${{ env.SASS_TAG }}
+          path: /tmp/sass.image
 
       - name: Pull and save the Sass Docker image
         if: steps.cache-sass.outputs.cache-hit != 'true'
         run: |
           docker pull $SASS_TAG
-          dirname /tmp/$SASS_TAG | xargs mkdir -p
-          docker save $SASS_TAG -o /tmp/$SASS_TAG
-
-      - run: docker load -i /tmp/$SASS_TAG
+          docker save $SASS_TAG -o /tmp/sass.image
 
       - name: Cache artifacts
         uses: actions/cache@v2
@@ -74,7 +68,9 @@ jobs:
           path: |
             pages/diary
 
-      - run: make --trace
+      - run: make --trace gen-page
+      - run: make --trace html
+      - run: make --trace css
 
       - uses: peaceiris/actions-gh-pages@v3.8.0
         with:

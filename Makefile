@@ -28,10 +28,10 @@ PAGE_BUILDER_VERSION:=1.6.0
 PAGE_BUILDER_TAG:=$(PAGE_BUILDER):$(PAGE_BUILDER_VERSION)
 
 /tmp/%.image: docker/%/Dockerfile bin/rmd2mustache.raku
-	docker build \
+	@docker build \
 	  --cache-from $@ --build-arg BUILDKIT_INLINE_CACHE=1 \
 	  -t $(PAGE_BUILDER_TAG) -f $< .
-	docker save $(PAGE_BUILDER_TAG) -o $@
+	@docker save $(PAGE_BUILDER_TAG) -o $@
 
 gen-page: /tmp/$(PAGE_BUILDER).image
 	@make -j $(MUSTACHE_FILES)
@@ -46,6 +46,7 @@ $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 
 html:
 	@mkdir -p $(DEST_DIR)
+	@docker-compose images -q uzu || ( [ -f /tmp/uzu.image ] && docker load -i /tmp/uzu.image )
 	@docker-compose run --rm -e "LOCAL_UID=$(shell id -u)" -e "LOCAL_GID=$(shell id -g)" uzu build
 
 css:
@@ -54,6 +55,7 @@ css:
 
 $(CSS_DIR)/%.css: $(SASS_DIR)/%.scss
 	@echo $< "->" $@
+	@docker-compose images -q sass || ( [ -f /tmp/sass.image ] && docker load -i /tmp/sass.image )
 	@docker-compose run --rm -u "$(shell id -u)" sass \
 	  /opt/dart-sass/sass \
 	    -s compressed \
