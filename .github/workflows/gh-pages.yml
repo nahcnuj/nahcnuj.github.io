@@ -22,11 +22,6 @@ jobs:
         with:
           clean: false
 
-      - name: Create .env file
-        run: |
-          echo UID=$(id -u) >>.env
-          echo GID=$(id -g) >>.env
-
       - id: cache-page-builder
         name: Cache page-builder Docker image
         uses: actions/cache@v2

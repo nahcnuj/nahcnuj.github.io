@@ -45,6 +45,8 @@ $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 
 html:
 	@mkdir -p $(DEST_DIR)
+	@[ -f .env ] && grep "^UID=" .env >/dev/null || echo UID=$(id -u) >>.env
+	@[ -f .env ] && grep "^GID=" .env >/dev/null || echo GID=$(id -g) >>.env
 	@docker-compose run --rm uzu build
 
 css:
