@@ -22,8 +22,7 @@ jobs:
           fetch-depth: 0
           submodules: true
 
-      - name: Run git-set-file-times
-        run: perl bin/srz-zumix/git-set-file-times --since 2020-06-07
+      - run: perl bin/srz-zumix/git-set-file-times --since 2020-06-07
 
       - name: Cache artifacts
         uses: actions/cache@v2
@@ -38,8 +37,7 @@ jobs:
           path: /tmp/${{ env.PAGE_BUILDER_TAG }}
           key: ${{ env.PAGE_BUILDER_TAG }}_${{ runner.os }}
 
-      - name: Load page-builder Docker image from cache
-        if: steps.cache-page-builder.outputs.cache-hit == 'true'
+      - if: steps.cache-page-builder.outputs.cache-hit == 'true'
         run: docker load -i /tmp/$PAGE_BUILDER_TAG
 
       - name: Cache generated mustache templates
@@ -65,11 +63,9 @@ jobs:
           dirname /tmp/$UZU_TAG | xargs mkdir -p
           docker save $UZU_TAG -o /tmp/$UZU_TAG
 
-      - name: Load the Uzu Docker image
-        run: docker load -i /tmp/$UZU_TAG
+      - run: docker load -i /tmp/$UZU_TAG
 
-      - name: Build HTML
-        run: make -e html
+      - run: make -e html
 
       - id: cache-sass
         name: Cache my Sass Docker image
@@ -85,14 +81,11 @@ jobs:
           dirname /tmp/$SASS_TAG | xargs mkdir -p
           docker save $SASS_TAG -o /tmp/$SASS_TAG
 
-      - name: Load the Sass Docker image
-        run: docker load -i /tmp/$SASS_TAG
+      - run: docker load -i /tmp/$SASS_TAG
 
-      - name: Build CSS
-        run: make -e css
+      - run: make -e css
 
-      - name: Push to staging branch
-        uses: peaceiris/actions-gh-pages@v3.8.0
+      - uses: peaceiris/actions-gh-pages@v3.8.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: staging
