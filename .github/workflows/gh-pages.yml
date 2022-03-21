@@ -45,7 +45,7 @@ jobs:
           rm -fr ./rsync
 
       - name: Run git-set-file-times
-        run: ~/bin/git-set-file-times
+        run: ~/bin/git-set-file-times && ls -lR
 
       - id: cache-page-builder
         name: Cache page-builder Docker image
@@ -89,7 +89,7 @@ jobs:
         run: docker load -i /tmp/$UZU_TAG
 
       - name: Build HTML
-        run: make -e html
+        run: ls -lR pages build && make -e html
 
       - id: cache-sass
         name: Cache my Sass Docker image
