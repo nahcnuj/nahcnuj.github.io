@@ -29,7 +29,7 @@ jobs:
       - name: Cache artifacts
         uses: actions/cache@v2
         with:
-          key: artifacts_${{ hashFiles(i18n/**,pages/**,partials/**,public/**,rmd/**,sass/**,themes/**)) }}
+          key: artifacts_${{ hashFiles(i18n/**,pages/**,partials/**,public/**,rmd/**,sass/**,themes/**) }}
           path: build
 
       - run: ls -lR build
