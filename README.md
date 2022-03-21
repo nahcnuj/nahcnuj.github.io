@@ -5,6 +5,7 @@
 ## Structure
 
 ```
+.
 ├── bin     ... scripts
 ├── docker  ... Dockerfiles
 ├── i18n    ... dictionary for internationalization
@@ -28,8 +29,6 @@ To remove files generated under `build` directory before building, run `make reb
 Execute the following commands and open http://localhost:3000/ with your browser.
 
 ```sh
-echo UID=$(id -u) >>.env
-echo GID=$(id -g) >>.env
 docker-compose up -d
 ```
 
