@@ -1,0 +1,3 @@
+[submodule "bin/srz-zumix"]
+	path = bin/srz-zumix
+	url = https://gist.github.com/srz-zumix/0a526e8f9182549cbdb6d880a4477ff0

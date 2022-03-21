@@ -21,30 +21,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - id: cache-git-set-file-times
-        name: Cache git-set-file-times
-        uses: actions/cache@v2
-        env:
-          commit-hash: 13c4019e94015b234697c75d9d3624862e962d3c
-        with:
-          key: git-set-file-times_${{ runner.os }}_${{ env.commit-hash }}
-          path: ~/bin/git-set-file-times
-          restore-keys: |
-            git-set-file-times_${{ runner.os }}_
-
-      - name: Download git-set-file-times
-        if: steps.cache-git-set-file-times.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p ~/bin/
-          git clone git://git.samba.org/rsync.git
-          cd ./rsync
-          cp -a ./support/git-set-file-times ~/bin/
-          cd ../
-          rm -fr ./rsync
+          submodules: true
 
       - name: Run git-set-file-times
-        run: ~/bin/git-set-file-times && date && ls -lR
+        run: perl ~/bin/srz-zumix/git-set-file-times --since 2020-06-07 && date && ls -lR
 
       - id: cache-page-builder
         name: Cache page-builder Docker image
