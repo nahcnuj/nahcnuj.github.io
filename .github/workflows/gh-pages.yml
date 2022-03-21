@@ -40,8 +40,7 @@ jobs:
           path: |
             pages/diary
 
-      - run: make --trace gen-page
-      - run: make --trace html
+      - run: make gen-page html
 
       - uses: actions/upload-artifact@v2
         with:
@@ -77,7 +76,7 @@ jobs:
           key: css_artifacts_${{ hashFiles('sass/**','docker-compose.yml') }}
           path: build/css
 
-      - run: make --trace css
+      - run: make css
 
       - uses: actions/upload-artifact@v2
         with:
