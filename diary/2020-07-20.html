@@ -66,17 +66,14 @@
       </nav>
     </header>
     <main>
-      <article>
-        <header>
-          <h2>2020 年 7 月 20 日</h2>
-          <p></p>
-        </header>
-
-        <h3>VS Code で SSH 越しにコードを編集する</h3><p>普段は会社から貸与された Mac から VM 上の開発環境に SSH して、Vim で開発している。 タグジャンプなども入れておらず、別のクラスを見に行きたいときは毎回 <code>:tage lib/Hoge/Fuga/Piyo.pm</code> していた。 流石にそろそろ補完とかが欲しくなってきた。</p><p>Vim が指定されているわけでも、Vim にこだわりがあるわけでもないので、Visual Studio Code での開発を試してみた。 VS Code は入れてはいたので、「<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh">Remote - SSH</a>」という拡張機能をインストールして、いつもの開発環境に繋ぐだけ。 プロジェクトのディレクトリを開いたら <a href="https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc">"Visual Studio Code is unable to watch for file changes in this large workspace"</a> というエラーが出た。 リンク先の通りに操作したところ無事に解消された。</p><pre><code class="console">$ cat /proc/sys/fs/inotify/max_user_watches
-        8192
-        $ echo &#39;fs.inotify.max_user_watches=524288&#39; &gt;&gt;/etc/sysctl.conf
-        $ sudo sysctl -p</code></pre><p>あとは「<a href="https://marketplace.visualstudio.com/items?itemName=cfgweb.vscode-perl">Perl</a>」という拡張機能と <a href="http://ctags.sourceforge.net/">Ctags</a> をインストールして、別のクラスに飛んだり補完したりできるようにした。</p><p>簡単だったのでもっと早くやっておけば良かった。</p>
-      </article>
+      <header>
+        <h2>2020 年 7 月 20 日</h2>
+        <p></p>
+      </header>
+      <h3>VS Code で SSH 越しにコードを編集する</h3><p>普段は会社から貸与された Mac から VM 上の開発環境に SSH して、Vim で開発している。 タグジャンプなども入れておらず、別のクラスを見に行きたいときは毎回 <code>:tage lib/Hoge/Fuga/Piyo.pm</code> していた。 流石にそろそろ補完とかが欲しくなってきた。</p><p>Vim が指定されているわけでも、Vim にこだわりがあるわけでもないので、Visual Studio Code での開発を試してみた。 VS Code は入れてはいたので、「<a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh">Remote - SSH</a>」という拡張機能をインストールして、いつもの開発環境に繋ぐだけ。 プロジェクトのディレクトリを開いたら <a href="https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc">"Visual Studio Code is unable to watch for file changes in this large workspace"</a> というエラーが出た。 リンク先の通りに操作したところ無事に解消された。</p><pre><code class="console">$ cat /proc/sys/fs/inotify/max_user_watches
+      8192
+      $ echo &#39;fs.inotify.max_user_watches=524288&#39; &gt;&gt;/etc/sysctl.conf
+      $ sudo sysctl -p</code></pre><p>あとは「<a href="https://marketplace.visualstudio.com/items?itemName=cfgweb.vscode-perl">Perl</a>」という拡張機能と <a href="http://ctags.sourceforge.net/">Ctags</a> をインストールして、別のクラスに飛んだり補完したりできるようにした。</p><p>簡単だったのでもっと早くやっておけば良かった。</p>
     </main>
     <footer>
       <p>
