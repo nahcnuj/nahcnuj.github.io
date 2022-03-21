@@ -26,6 +26,7 @@ DOCKER_BUILDKIT:=1
 PAGE_BUILDER:=page-builder
 PAGE_BUILDER_VERSION:=1.6.0
 PAGE_BUILDER_TAG:=$(PAGE_BUILDER):$(PAGE_BUILDER_VERSION)
+PAGE_BUILDER_CACHE_FILE:=/tmp/$(PAGE_BUILDER).image
 
 /tmp/%.image: docker/%/Dockerfile bin/rmd2mustache.raku
 	@docker build \
@@ -33,11 +34,12 @@ PAGE_BUILDER_TAG:=$(PAGE_BUILDER):$(PAGE_BUILDER_VERSION)
 	  -t $(PAGE_BUILDER_TAG) -f $< .
 	@docker save $(PAGE_BUILDER_TAG) -o $@
 
-gen-page: /tmp/$(PAGE_BUILDER).image
+gen-page: $(PAGE_BUILDER_CACHE_FILE)
 	@make -j $(MUSTACHE_FILES)
 
 $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@echo $< "->" $@
+	@[ $$(docker images -q $(PAGE_BUILDER_TAG) | wc -l) -ne 0 ] && docker load -i $(PAGE_BUILDER_CACHE_FILE)
 	@docker run --rm -i \
 	  -v $(PWD)/$(RMD_DIR):/home/builder/$(RMD_DIR)/:ro \
 	  -v $(PWD)/$(MUSTACHE_DIR):/home/builder/$(MUSTACHE_DIR)/ \
