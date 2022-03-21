@@ -14,7 +14,6 @@ jobs:
       PAGE_BUILDER_TAG: page-builder:1.6.0
       UZU_TAG: nahcnuj/alpine-uzu:1.2.1
       SASS_TAG: michalklempa/dart-sass:1.36
-      MUSTACHE_CACHE_KEY: mustache-cache.tar
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
@@ -43,18 +42,14 @@ jobs:
         if: steps.cache-page-builder.outputs.cache-hit == 'true'
         run: docker load -i /tmp/$PAGE_BUILDER_TAG
 
-      - id: cache-mustache
-        name: Cache generated mustache templates
+      - name: Cache generated mustache templates
         uses: actions/cache@v2
         with:
-          path: /tmp/${{ env.MUSTACHE_CACHE_KEY }}
-          key: ${{ env.PAGE_BUILDER_TAG }}_${{ env.MUSTACHE_CACHE_KEY }}
+          key: mustache_${{ hashFiles('rmd/**') }}
+          path: |
+            pages/diary
 
-      - name: Generate Mustache templates from R Markdown files
-        run: |
-          tar -xzvf /tmp/$MUSTACHE_CACHE_KEY || true
-          make -e gen-page
-          tar -czvf /tmp/$MUSTACHE_CACHE_KEY pages/*/
+      - run: make -e gen-page
 
       - id: cache-uzu
         name: Cache my Uzu Docker image
