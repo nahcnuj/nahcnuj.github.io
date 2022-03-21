@@ -93,7 +93,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: master
+          ref: staging
 
       - uses: actions/download-artifact@v2
         with:
