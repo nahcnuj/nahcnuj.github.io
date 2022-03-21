@@ -27,19 +27,6 @@ jobs:
           key: page-builder_${{ hashFiles('docker/page-builder/**','bin/rmd2mustache.raku') }}_${{ runner.os }}
           path: /tmp/page-builder.image
 
-      - id: cache-uzu
-        name: Cache my Uzu Docker image
-        uses: actions/cache@v2
-        with:
-          key: ${{ env.UZU_TAG }}_${{ runner.os }}
-          path: /tmp/uzu.image
-
-      - name: Pull and save the Uzu Docker image
-        if: steps.cache-uzu.outputs.cache-hit != 'true'
-        run: |
-          docker pull $UZU_TAG
-          docker save $UZU_TAG -o /tmp/uzu.image
-
       - name: Cache artifacts
         uses: actions/cache@v2
         with:
@@ -83,19 +70,6 @@ jobs:
           submodules: true
 
       - run: perl bin/srz-zumix/git-set-file-times --since 2020-06-07
-
-      - id: cache-sass
-        name: Cache my Sass Docker image
-        uses: actions/cache@v2
-        with:
-          key: ${{ env.SASS_TAG }}_${{ runner.os }}
-          path: /tmp/sass.image
-
-      - name: Pull and save the Sass Docker image
-        if: steps.cache-sass.outputs.cache-hit != 'true'
-        run: |
-          docker pull $SASS_TAG
-          docker save $SASS_TAG -o /tmp/sass.image
 
       - name: Cache artifacts
         uses: actions/cache@v2
