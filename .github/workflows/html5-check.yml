@@ -3,7 +3,6 @@ name: HTML5 check
 on:
   schedule:
     - cron: '2 9 * * *'
-    - cron: '*/5 * * * *'
 
 jobs:
   check:
@@ -20,7 +19,8 @@ jobs:
           css: false
           format: json
 
-      - uses: actions/upload-artifact@v2
+      - if: always()
+        uses: actions/upload-artifact@v2
         with:
           name: log.json
           path: log.log

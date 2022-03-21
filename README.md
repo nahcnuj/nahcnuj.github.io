@@ -1,5 +1,7 @@
 # The source of [www.nahcnuj.work](https://www.nahcnuj.work/)
 
+[![HTML5 validator](https://github.com/nahcnuj/nahcnuj.github.io/actions/workflows/html5-check.yml/badge.svg?branch=source)](https://github.com/nahcnuj/nahcnuj.github.io/actions/workflows/html5-check.yml)
+
 ## Structure
 
 ```
