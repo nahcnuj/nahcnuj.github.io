@@ -22,6 +22,14 @@ jobs:
         with:
           clean: false
 
+      - name: git-set-file-times
+        run: |
+          which rsync >/dev/null \
+            && test -f /usr/share/doc/rsync/scripts/git-set-file-times.gz \
+            && gzip -d /usr/share/doc/rsync/scripts/git-set-file-times.gz /tmp/git-set-file-times \
+            && chmod u+x /tmp/git-set-file-times \
+            && /tmp/git-set-file-times
+
       - id: cache-page-builder
         name: Cache page-builder Docker image
         uses: actions/cache@v2
