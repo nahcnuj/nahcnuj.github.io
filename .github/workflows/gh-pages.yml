@@ -125,3 +125,10 @@ jobs:
           SLACK_TITLE: Failed to deploy
           SLACK_COLOR: danger
           MSG_MINIMAL: actions url
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: pwd && ls -lR
