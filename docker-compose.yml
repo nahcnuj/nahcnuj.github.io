@@ -27,7 +27,6 @@ services:
   sass:
     container_name: nahcnuj-work_sass
     image: michalklempa/dart-sass:1.36
-    user: ${UID}:${GID}
     command: [ '/opt/dart-sass/sass', '-s', 'compressed', '--no-source-map', '--watch', '/sass:/css' ]
     tty: true
     volumes:
