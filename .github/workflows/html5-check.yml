@@ -1,4 +1,4 @@
-name: HTML5 check
+name: HTML5 validate
 
 on:
   schedule:
