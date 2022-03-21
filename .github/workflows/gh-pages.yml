@@ -22,13 +22,30 @@ jobs:
         with:
           clean: false
 
-      - name: git-set-file-times
+      - id: cache-git-set-file-times
+        name: Cache git-set-file-times
+        uses: actions/cache@v2
+        env:
+          commit-hash: 13c4019e94015b234697c75d9d3624862e962d3c
+        with:
+          key: git-set-file-times_${{ runner.os }}_${{ hashFiles('~/bin/git-set-file-times') }}_${{ env.commit-hash }}
+          path: ~/bin/git-set-file-times
+          restore-keys: |
+            git-set-file-times_${{ runner.os }}_${{ hashFiles('~/bin/git-set-file-times') }}
+            git-set-file-times_${{ runner.os }}_
+
+      - name: Download git-set-file-times
+        if: steps.cache-git-set-file-times.outputs.cache-hit != 'true'
         run: |
-          which rsync >/dev/null \
-            && test -f /usr/share/doc/rsync/scripts/git-set-file-times.gz \
-            && gzip -d /usr/share/doc/rsync/scripts/git-set-file-times.gz /tmp/git-set-file-times \
-            && chmod u+x /tmp/git-set-file-times \
-            && /tmp/git-set-file-times
+          mkdir -p ~/bin/
+          git clone git://git.samba.org/rsync.git
+          cd ./rsync
+          cp -a ./support/git-set-file-times ~/bin/
+          cd ../
+          rm -fr ./rsync
+
+      - name: Run git-set-file-times
+        run: ~/bin/git-set-file-times
 
       - id: cache-page-builder
         name: Cache page-builder Docker image
