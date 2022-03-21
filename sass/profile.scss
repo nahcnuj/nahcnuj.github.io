@@ -14,13 +14,13 @@ table.history {
     
         th {
             width: 6rem;
-            vertical-align: top;
             text-align: right;
+            white-space: nowrap;
         }
 
         td {
+            width: 20rem;
             padding-left: 1rem;
-            font-size: 90%;
         }
     }
 }
