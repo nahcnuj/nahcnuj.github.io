@@ -39,7 +39,7 @@ gen-page: $(PAGE_BUILDER_CACHE_FILE)
 
 $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 	@echo $< "->" $@
-	@[ $$(docker images -q $(PAGE_BUILDER_TAG) | wc -l) -ne 0 ] && docker load -i $(PAGE_BUILDER_CACHE_FILE)
+	@[ $$(docker images -q $(PAGE_BUILDER_TAG) | wc -l) -ne 0 ] && docker load -i $(PAGE_BUILDER_CACHE_FILE) || :
 	@docker run --rm -i \
 	  -v $(PWD)/$(RMD_DIR):/home/builder/$(RMD_DIR)/:ro \
 	  -v $(PWD)/$(MUSTACHE_DIR):/home/builder/$(MUSTACHE_DIR)/ \
