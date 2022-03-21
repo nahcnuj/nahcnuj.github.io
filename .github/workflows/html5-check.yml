@@ -1,6 +1,9 @@
 name: HTML5 validate
 
 on:
+  push:
+    branches:
+      - master
   schedule:
     - cron: '2 9 * * *'
 
