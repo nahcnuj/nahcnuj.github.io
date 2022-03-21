@@ -11,11 +11,6 @@ SASS_FILES:=$(shell find "$(SASS_DIR)" -name "*.scss" -not -name "_*")
 CSS_DIR:=$(DEST_DIR)/css
 CSS_FILES:=$(patsubst $(SASS_DIR)/%.scss, $(CSS_DIR)/%.css, $(SASS_FILES))
 
-DOCKER_BUILDKIT:=1
-PAGE_BUILDER_TAG:=page-builder:1.6.0
-SASS_TAG:=michalklempa/dart-sass:1.36
-UZU_TAG:=nahcnuj/alpine-uzu:1.2.1
-
 .PHONY: all clean build rebuild gen-page html css
 
 all: build
@@ -27,12 +22,18 @@ build: gen-page html css
 
 rebuild: clean build
 
-gen-page:
-	@[ ! -z "$$(docker image ls -q $(PAGE_BUILDER_TAG))" ] \
-	  || docker build \
-	    --cache-from /tmp/$(PAGE_BUILDER_TAG) --build-arg BUILDKIT_INLINE_CACHE=1 \
-	    -t $(PAGE_BUILDER_TAG) -f docker/page-builder/Dockerfile . \
-	  && docker save $(PAGE_BUILDER_TAG) -o /tmp/$(PAGE_BUILDER_TAG)
+DOCKER_BUILDKIT:=1
+PAGE_BUILDER:=page-builder
+PAGE_BUILDER_VERSION:=1.6.0
+PAGE_BUILDER_TAG:=$(PAGE_BUILDER):$(PAGE_BUILDER_VERSION)
+
+/tmp/%.image: docker/%/Dockerfile bin/rmd2mustache.raku
+	docker build \
+	  --cache-from $@ --build-arg BUILDKIT_INLINE_CACHE=1 \
+	  -t $(PAGE_BUILDER_TAG) -f $< .
+	docker save $(PAGE_BUILDER_TAG) -o $@
+
+gen-page: /tmp/$(PAGE_BUILDER).image
 	@make -j $(MUSTACHE_FILES)
 
 $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd

@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOCKER_BUILDKIT: 1
-      PAGE_BUILDER_TAG: page-builder:1.6.0
       UZU_TAG: nahcnuj/alpine-uzu:1.2.1
       SASS_TAG: michalklempa/dart-sass:1.36
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -24,37 +22,19 @@ jobs:
 
       - run: perl bin/srz-zumix/git-set-file-times --since 2020-06-07
 
-      - name: Cache artifacts
-        uses: actions/cache@v2
-        with:
-          key: artifacts_${{ hashFiles('i18n/**','pages/**','partials/**','public/**','rmd/**','sass/**','themes/**') }}
-          path: build
-
       - id: cache-page-builder
         name: Cache page-builder Docker image
         uses: actions/cache@v2
         with:
-          path: /tmp/${{ env.PAGE_BUILDER_TAG }}
-          key: ${{ env.PAGE_BUILDER_TAG }}_${{ runner.os }}
-
-      - if: steps.cache-page-builder.outputs.cache-hit == 'true'
-        run: docker load -i /tmp/$PAGE_BUILDER_TAG
-
-      - name: Cache generated mustache templates
-        uses: actions/cache@v2
-        with:
-          key: mustache_${{ hashFiles('rmd/**') }}
-          path: |
-            pages/diary
-
-      - run: make -e gen-page
+          key: page-builder_${{ hashFiles('docker/page-builder/**','bin/rmd2mustache.raku') }}_${{ runner.os }}
+          path: /tmp/page-builder.image
 
       - id: cache-uzu
         name: Cache my Uzu Docker image
         uses: actions/cache@v2
         with:
-          path: /tmp/${{ env.UZU_TAG }}
           key: ${{ env.UZU_TAG }}_${{ runner.os }}
+          path: /tmp/${{ env.UZU_TAG }}
 
       - name: Pull and save the Uzu Docker image
         if: steps.cache-uzu.outputs.cache-hit != 'true'
@@ -65,14 +45,12 @@ jobs:
 
       - run: docker load -i /tmp/$UZU_TAG
 
-      - run: make -e html
-
       - id: cache-sass
         name: Cache my Sass Docker image
         uses: actions/cache@v2
         with:
-          path: /tmp/${{ env.SASS_TAG }}
           key: ${{ env.SASS_TAG }}_${{ runner.os }}
+          path: /tmp/${{ env.SASS_TAG }}
 
       - name: Pull and save the Sass Docker image
         if: steps.cache-sass.outputs.cache-hit != 'true'
@@ -83,7 +61,20 @@ jobs:
 
       - run: docker load -i /tmp/$SASS_TAG
 
-      - run: make -e css
+      - name: Cache artifacts
+        uses: actions/cache@v2
+        with:
+          key: artifacts_${{ hashFiles('i18n/**','pages/**','partials/**','public/**','rmd/**','sass/**','themes/**') }}
+          path: build
+
+      - name: Cache generated mustache templates
+        uses: actions/cache@v2
+        with:
+          key: mustache_${{ hashFiles('rmd/**') }}
+          path: |
+            pages/diary
+
+      - run: make --trace
 
       - uses: peaceiris/actions-gh-pages@v3.8.0
         with:
