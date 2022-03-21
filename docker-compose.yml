@@ -21,8 +21,8 @@ services:
         source: .
         target: /home/user
     environment:
-      - LOCAL_UID=${UID}
-      - LOCAL_GID=${GID}
+      - LOCAL_UID=${UID-}
+      - LOCAL_GID=${GID-}
 
   sass:
     container_name: nahcnuj-work_sass
