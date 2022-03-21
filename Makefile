@@ -53,7 +53,7 @@ css:
 
 $(CSS_DIR)/%.css: $(SASS_DIR)/%.scss
 	@echo $< "->" $@
-	docker-compose run --rm -u "$(shell id -u)" sass \
+	@docker-compose run --rm -u "$(shell id -u)" sass \
 	  /opt/dart-sass/sass \
 	    -s compressed \
 	    --no-source-map \
