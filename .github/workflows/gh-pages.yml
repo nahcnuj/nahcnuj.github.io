@@ -32,8 +32,6 @@ jobs:
           key: artifacts_${{ hashFiles('i18n/**','pages/**','partials/**','public/**','rmd/**','sass/**','themes/**') }}
           path: build
 
-      - run: ls -lR build
-
       - id: cache-page-builder
         name: Cache page-builder Docker image
         uses: actions/cache@v2
