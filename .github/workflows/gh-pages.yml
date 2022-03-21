@@ -100,8 +100,6 @@ jobs:
           name: build
           path: build
 
-      - run: pwd && ls -lR
-
       - uses: peaceiris/actions-gh-pages@v3.8.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
