@@ -1,73 +1,79 @@
 ---
+nolayout: true
 title: '{{ i18n.dict.site_title }}'
 description: '{{ i18n.dict.site_description }}'
 overwrite_title: true
-custom_header: true
-custom_content: true
 custom_css:
   href: /css/index.css
 meta_ogp:
   type: website
   path: /
 ---
-<header>
-  <div id="title">
-    <h1>{{ site.author }}</h1>
-    <p>
-      A web engineer <span class="nobr">at <a href="https://www.seesaa.co.jp/" target="_blank">Seesaa Inc.</a></span>
-    </p>
-  </div>
-  <div id="photo">
-    <img src="{{ site.img_host_url }}/author.jpg" width="200" height="200" alt="{{ i18n.dict.author_image_alt }}">
-  </div>
-</header>
-<main>
-  <nav id="main-contents">
-    <ul>
-      <li>
-        <a href="/profile.html">
-          <i class="fas fa-address-card" title="{{ i18n.dict.self_introduction }}"></i>
-          <div>{{ i18n.dict.self_introduction }}</div>
-        </a>
-      </li>
-      <li>
-        <a href="/diary/">
-          <i class="fas fa-calendar-day" title="{{ i18n.dict.diary }}"></i>
-          <div>{{ i18n.dict.diary }}</div>
-        </a>
-      </li>
-      <li>
-        <a href="/works/">
-          <i class="fas fa-shapes" title="{{ i18n.dict.works }}"></i>
-          <div>
-            {{ i18n.dict.works }}
-          </div>
-        </a>
-      </li>
-      <li>
-        <a href="/contact.html">
-          <i class="fas fa-paper-plane" title="{{ i18n.dict.contact_page_head_text }}"></i>
-          <div>{{ i18n.dict.contact_page_head_text }}</div>
-        </a>
-      </li>
-    </ul>
-  </nav>
-</main>
-<aside>
-  <nav>
-    <ul>
-      {{#i18n.sns_links}}
-        <li>
-          <a href="{{ href }}">
-            {{#fontawesome_icon}}
-              <i class="fab fa-{{ name }}" style="color:{{ color }}" title="{{ title }}"></i>
-            {{/fontawesome_icon}}
-            {{#img_icon}}
-              <img id="{{ id }}" src="{{ src }}" width="{{ size }}" height="{{ size }}" alt="{{ title }}" title="{{ title }}">
-            {{/img_icon}}
-          </a>
-        </li>
-      {{/i18n.sns_links}}
-    </ul>
-  </nav>
-</aside>
+<!DOCTYPE html>
+<html lang="{{ language }}">
+  {{> head }}
+  <body>
+    <header>
+      <div id="title">
+        <h1>{{ site.author }}</h1>
+        <p>
+          A web engineer <span class="nobr">at <a href="https://www.seesaa.co.jp/" target="_blank">Seesaa Inc.</a></span>
+        </p>
+      </div>
+      <div id="photo">
+        <img src="{{ site.img_host_url }}/author.jpg" width="200" height="200" alt="{{ i18n.dict.author_image_alt }}">
+      </div>
+    </header>
+    <main>
+      <nav id="main-contents">
+        <ul>
+          <li>
+            <a href="/profile.html">
+              <i class="fas fa-address-card" title="{{ i18n.dict.self_introduction }}"></i>
+              <div>{{ i18n.dict.self_introduction }}</div>
+            </a>
+          </li>
+          <li>
+            <a href="/diary/">
+              <i class="fas fa-calendar-day" title="{{ i18n.dict.diary }}"></i>
+              <div>{{ i18n.dict.diary }}</div>
+            </a>
+          </li>
+          <li>
+            <a href="/works/">
+              <i class="fas fa-shapes" title="{{ i18n.dict.works }}"></i>
+              <div>
+                {{ i18n.dict.works }}
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="/contact.html">
+              <i class="fas fa-paper-plane" title="{{ i18n.dict.contact_page_head_text }}"></i>
+              <div>{{ i18n.dict.contact_page_head_text }}</div>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </main>
+    <aside>
+      <nav>
+        <ul>
+          {{#i18n.sns_links}}
+            <li>
+              <a href="{{ href }}">
+                {{#fontawesome_icon}}
+                  <i class="fab fa-{{ name }}" style="color:{{ color }}" title="{{ title }}"></i>
+                {{/fontawesome_icon}}
+                {{#img_icon}}
+                  <img id="{{ id }}" src="{{ src }}" width="{{ size }}" height="{{ size }}" alt="{{ title }}" title="{{ title }}">
+                {{/img_icon}}
+              </a>
+            </li>
+          {{/i18n.sns_links}}
+        </ul>
+      </nav>
+    </aside>
+    {{> footer }}
+  </body>
+</html>

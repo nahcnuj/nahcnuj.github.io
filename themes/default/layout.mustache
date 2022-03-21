@@ -2,21 +2,14 @@
 <html lang="{{ language }}">
   {{> head }}
   <body>
-    {{^custom_header}}
-      {{> header }}
-    {{/custom_header}}
-    {{#custom_content}}
-      {{> content }}
-    {{/custom_content}}
-    {{^custom_content}}
-      <main>
-        <article>
-          {{> article-header }}
+    {{> header }}
+    <main>
+      <article>
+        {{> article-header }}
 
-          {{> content }}
-        </article>
-      </main>
-    {{/custom_content}}
+        {{> content }}
+      </article>
+    </main>
     {{> footer }}
   </body>
 </html>
