@@ -26,6 +26,10 @@ body {
             @include mixin.margin-x( 0.5rem );
         }
     }
+
+    > main {
+        @include mixin.padding-x( 0.5rem );
+    }
 }
 
 // page layout
