@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          clean: false
+          fetch-depth: 2
 
       - id: cache-git-set-file-times
         name: Cache git-set-file-times
@@ -28,10 +28,9 @@ jobs:
         env:
           commit-hash: 13c4019e94015b234697c75d9d3624862e962d3c
         with:
-          key: git-set-file-times_${{ runner.os }}_${{ hashFiles('~/bin/git-set-file-times') }}_${{ env.commit-hash }}
+          key: git-set-file-times_${{ runner.os }}_${{ env.commit-hash }}
           path: ~/bin/git-set-file-times
           restore-keys: |
-            git-set-file-times_${{ runner.os }}_${{ hashFiles('~/bin/git-set-file-times') }}
             git-set-file-times_${{ runner.os }}_
 
       - name: Download git-set-file-times
@@ -68,6 +67,7 @@ jobs:
       - name: Generate Mustache templates from R Markdown files
         run: |
           tar -xzvf /tmp/$MUSTACHE_CACHE_KEY || true
+          ls -lR pages build
           make -e gen-page
           tar -czvf /tmp/$MUSTACHE_CACHE_KEY pages/*/
 
@@ -89,7 +89,7 @@ jobs:
         run: docker load -i /tmp/$UZU_TAG
 
       - name: Build HTML
-        run: ls -lR pages build && make -e html
+        run: make -e html
 
       - id: cache-sass
         name: Cache my Sass Docker image
