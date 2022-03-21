@@ -103,14 +103,14 @@ jobs:
           cname: www.nahcnuj.work
 
       - id: create-pull-request
-        name: Create a Pull Request
+        name: Create a Pull Request to master branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TZ: JST-9
+          REVIEWER: ${{ github.repository_owner }}
         run: |
           git fetch -q origin staging master
           [ $(git log --oneline origin/staging ^origin/master | wc -l) -eq 0 ] && exit 0
-          pr_url=$(gh pr create -B master -H staging -t "Release $(date "+%Y-%m-%d %H:%M")" -b '' -r ${{ github.repository_owner }} -l deployment)
+          pr_url=$(gh pr create -B master -H staging -t "Release $(TZ=JST-9 date '+%Y-%m-%d %H:%M')" -b '' -r "${REVIEWER}" -l deployment)
           if [ ! -z "${pr_url}" ]
           then
             gh pr merge --auto --merge "${pr_url}"
