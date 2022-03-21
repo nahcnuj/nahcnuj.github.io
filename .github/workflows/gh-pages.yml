@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - id: cache-git-set-file-times
         name: Cache git-set-file-times
@@ -44,7 +44,7 @@ jobs:
           rm -fr ./rsync
 
       - name: Run git-set-file-times
-        run: ~/bin/git-set-file-times && ls -lR
+        run: ~/bin/git-set-file-times && date && ls -lR
 
       - id: cache-page-builder
         name: Cache page-builder Docker image
