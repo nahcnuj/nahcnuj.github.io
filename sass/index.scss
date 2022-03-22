@@ -9,6 +9,7 @@ body {
 
     > header {
         flex: 0 1 8rem;
+        margin-bottom: unset;
     }
 
     > main {
@@ -135,7 +136,7 @@ body > aside nav {
         list-style: none;
 
         li {
-            flex: 0 0 7rem;
+            flex: 0 0 6.5rem;
 
             text-align: center;
 
