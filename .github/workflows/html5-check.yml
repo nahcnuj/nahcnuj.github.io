@@ -20,6 +20,11 @@ jobs:
           css: false
           format: json
 
+      - if: failure()
+        uses: ./.github/actions/notify-failure
+        with:
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+
       - if: always()
         uses: actions/upload-artifact@v2
         with:
