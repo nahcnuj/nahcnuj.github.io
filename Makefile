@@ -52,7 +52,7 @@ html:
 
 css:
 	@mkdir -p $(CSS_DIR)
-	@docker network create nahcnuj-work_network
+	@docker network inspect nahcnuj-work_network >/dev/null || docker network create nahcnuj-work_network
 	@make -j $(CSS_FILES)
 
 $(CSS_DIR)/%.css: $(SASS_DIR)/%.scss
