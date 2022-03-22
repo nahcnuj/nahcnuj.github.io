@@ -53,14 +53,7 @@ jobs:
           name: html
           path: build
 
-      - name: Notify failure to Slack
-        if: failure()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_TITLE: Failed to deploy
-          SLACK_COLOR: danger
-          MSG_MINIMAL: actions url
+      - uses: .github/actions/notify-failure
 
   css:
     runs-on: ubuntu-latest
@@ -91,14 +84,7 @@ jobs:
           name: css
           path: build/css
 
-      - name: Notify failure to Slack
-        if: failure()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_TITLE: Failed to deploy
-          SLACK_COLOR: danger
-          MSG_MINIMAL: actions url
+      - uses: .github/actions/notify-failure
 
   deploy:
     runs-on: ubuntu-latest
@@ -155,11 +141,4 @@ jobs:
           SLACK_COLOR: good
           MSG_MINIMAL: true
 
-      - name: Notify failure to Slack
-        if: failure()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_TITLE: Failed to deploy
-          SLACK_COLOR: danger
-          MSG_MINIMAL: actions url
+      - uses: .github/actions/notify-failure

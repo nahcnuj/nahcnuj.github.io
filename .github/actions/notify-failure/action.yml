@@ -1,0 +1,13 @@
+name: Notify failure
+description: Notify failure to Slack
+runs:
+  using: "composite"
+  steps:
+    - name: Notify failure to Slack
+      if: failure()
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_TITLE: Failed to deploy
+        SLACK_COLOR: danger
+        MSG_MINIMAL: actions url
