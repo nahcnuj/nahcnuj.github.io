@@ -21,14 +21,6 @@ body {
         max-width: var.$pc-width;
         @include mixin.padding-x( calc(50% - #{var.$pc-width}/2) );
         overflow-y: hidden;
-
-        > article {
-            @include mixin.margin-x( 0.5rem );
-        }
-    }
-
-    > main {
-        @include mixin.padding-x( 0.5rem );
     }
 }
 

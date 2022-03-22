@@ -1,5 +1,6 @@
 @use 'color';
 @use 'mixin';
+@use 'var';
 
 // page layout
 body {
@@ -14,12 +15,14 @@ body {
 
     > main {
         flex: 1 0 auto;
-        margin: unset;
+        @include mixin.margin-y( unset );
+        @include mixin.padding-x( calc(50% - min(#{var.$pc-width}, 100%)/2) );
     }
 
     > aside {
         flex: 1 0 auto;
         @include mixin.margin-y( unset );
+        @include mixin.padding-x( calc(50% - min(#{var.$pc-width}, 100%)/2) );
     }
 
     > footer {
