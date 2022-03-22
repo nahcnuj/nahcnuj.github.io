@@ -3,9 +3,7 @@ name: HTML5 validate
 on:
   push:
     branches:
-      - master
-  schedule:
-    - cron: '2 12 * * *' # 21:02 in JST
+      - staging
 
 jobs:
   check:
@@ -14,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: master
+          ref: staging
 
       - uses: Cyb3r-Jak3/html5validator-action@bd8ee22d3b06b9c9b424e6c03abfbc57a022c374
         with:
