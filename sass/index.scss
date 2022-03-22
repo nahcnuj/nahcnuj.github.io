@@ -15,14 +15,12 @@ body {
 
     > main {
         flex: 1 0 auto;
-        @include mixin.margin-y( unset );
-        @include mixin.padding-x( calc(50% - min(#{var.$pc-width}, 100%)/2) );
+        margin: 0;
     }
 
     > aside {
         flex: 1 0 auto;
         @include mixin.margin-y( unset );
-        @include mixin.padding-x( calc(50% - min(#{var.$pc-width}, 100%)/2) );
     }
 
     > footer {
@@ -38,7 +36,6 @@ body > header {
     div#title {
         flex: 0 0 60%;
         @include mixin.margin-y( auto );
-        padding: 0.5rem;
 
         > * {
             margin: 0;
