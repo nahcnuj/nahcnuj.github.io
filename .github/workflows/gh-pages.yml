@@ -53,7 +53,10 @@ jobs:
           name: html
           path: build
 
-      - uses: ./.github/actions/notify-failure
+      - if: failure()
+        uses: ./.github/actions/notify-failure
+        with:
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   css:
     runs-on: ubuntu-latest
@@ -84,7 +87,10 @@ jobs:
           name: css
           path: build/css
 
-      - uses: ./.github/actions/notify-failure
+      - if: failure()
+        uses: ./.github/actions/notify-failure
+        with:
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -141,4 +147,7 @@ jobs:
           SLACK_COLOR: good
           MSG_MINIMAL: true
 
-      - uses: ./.github/actions/notify-failure
+      - if: failure()
+        uses: ./.github/actions/notify-failure
+        with:
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}

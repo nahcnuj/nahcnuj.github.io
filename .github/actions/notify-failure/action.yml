@@ -1,13 +1,17 @@
 name: Notify failure
 description: Notify failure to Slack
+inputs:
+  slack-webhook-url:
+    description: Slack's webhook URL where notify failure
+    required: false
 runs:
   using: "composite"
   steps:
-    - name: Notify failure to Slack
-      if: failure()
+    - if: startsWith(${{ inputs.slack-webhook-url }}, 'https://')
+      name: Notify to Slack
       uses: rtCamp/action-slack-notify@v2
       env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_TITLE: Failed to deploy
+        SLACK_WEBHOOK: ${{ inputs.slack-webhook-url }}
+        SLACK_TITLE: Failed workflow
         SLACK_COLOR: danger
         MSG_MINIMAL: actions url
