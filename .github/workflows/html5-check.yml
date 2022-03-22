@@ -5,7 +5,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '2 9 * * *'
+    - cron: '2 12 * * *' # 21:02 in JST
 
 jobs:
   check:
