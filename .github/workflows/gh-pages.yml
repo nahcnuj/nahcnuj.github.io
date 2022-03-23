@@ -146,14 +146,6 @@ jobs:
           SLACK_COLOR: good
           MSG_MINIMAL: true
 
-      - if: success()
-        uses: LouisBrunner/checks-action@3d24d4813a797720cc4e2080a50bdafb3373aef1
-        with:
-          name: HTML5
-          sha: ${{ steps.create-pull-request.outputs.staging-sha }}
-          status: queued
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:
