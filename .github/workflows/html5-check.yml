@@ -14,6 +14,7 @@ on:
       - Build
     types:
       - completed
+  workflow_dispatch:
 
 jobs:
   check:
