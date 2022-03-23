@@ -1,6 +1,11 @@
 name: HTML5 validate
 
 on:
+  pull_request:
+    types:
+      - review_requested
+    branches:
+      - staging
   workflow_run:
     workflows:
       - Build
