@@ -8,7 +8,7 @@ body {
     justify-content: space-between;
 
     > header {
-        flex: 0 1 8rem;
+        flex: 0 0 8rem;
         margin-bottom: unset;
     }
 
@@ -33,8 +33,12 @@ body > header {
     border-bottom: solid thick color.$base-light;
 
     div#title {
-        flex: 0 0 60%;
+        flex: 0 1 60%;
+
         @include mixin.margin-y( auto );
+        padding-left: 0.5rem;
+
+        border-left: solid thick color.$base-light;
 
         > * {
             margin: 0;
@@ -80,9 +84,9 @@ body > main nav {
         list-style: none;
 
         li {
-            flex: 1 0 10rem;
+            flex: 0 1 9rem;
 
-            margin-top: 1rem;
+            margin: 0;
 
             text-align: center;
 
@@ -98,17 +102,24 @@ body > main nav {
                     text-decoration: none;
                 }
 
-                > i.fas {
+                div.icon {
                     width: 7rem;
+                    height: 3rem;
                     @include mixin.padding-y( 1rem );
-                    vertical-align: middle;
+
                     border-radius: 0.3rem;
                     background: color.$base-dark;
                     color: color.$base-light;
-                    font-size: 300%;
-                }
-                &:hover > i.fas {
-                    background: #336;
+
+                    &:hover {
+                        background: #336;
+                    }
+
+                    i.fas {
+                        display: inline-block;
+                        margin: auto;
+                        font-size: 300%;
+                    }
                 }
             }
         }
@@ -135,7 +146,7 @@ body > aside nav {
         list-style: none;
 
         li {
-            flex: 0 0 6.5rem;
+            flex: 0 1 6.5rem;
 
             text-align: center;
 
