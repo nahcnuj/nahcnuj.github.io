@@ -13,7 +13,7 @@ services:
 
   uzu:
     container_name: nahcnuj-work_uzu
-    image: nahcnuj/alpine-uzu:2.0.0
+    image: nahcnuj/alpine-uzu:2.0.1
     command: [ 'uzu', 'watch' ]
     tty: true
     volumes:
