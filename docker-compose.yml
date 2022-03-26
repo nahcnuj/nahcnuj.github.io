@@ -13,16 +13,13 @@ services:
 
   uzu:
     container_name: nahcnuj-work_uzu
-    image: nahcnuj/alpine-uzu:1.2.1
-    command: [ 'watch' ]
+    image: nahcnuj/alpine-uzu:2.0.0
+    command: [ 'uzu', 'watch' ]
     tty: true
     volumes:
       - type: bind
         source: .
         target: /home/user
-    environment:
-      - LOCAL_UID=${UID-}
-      - LOCAL_GID=${GID-}
 
   sass:
     container_name: nahcnuj-work_sass
