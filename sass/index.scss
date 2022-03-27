@@ -8,7 +8,7 @@ body {
     justify-content: space-between;
 
     > header {
-        flex: 0 0 8rem;
+        flex: 0 0 10rem;
         margin-bottom: unset;
     }
 
@@ -38,17 +38,15 @@ body > header {
         @include mixin.margin-y( auto );
         padding-left: 0.5rem;
 
-        border-left: solid thick color.$base-light;
-
         > * {
             margin: 0;
             @include mixin.padding-y( 0.5rem );
-            line-height: 1;
+            line-height: 1.1;
             text-align: unset;
         }
 
         > h1 {
-            font-size: 170%;
+            font-size: 150%;
             letter-spacing: 0.1rem;
         }
     }
@@ -118,7 +116,7 @@ body > main nav {
                     i.fas {
                         display: inline-block;
                         margin: auto;
-                        font-size: 300%;
+                        font-size: 250%;
                     }
                 }
             }
