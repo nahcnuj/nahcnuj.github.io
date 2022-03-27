@@ -48,7 +48,7 @@ body {
             flex: 0 0 $header-height;
             height: 100%;
             margin: 0;
-            padding: 0 0.1rem;
+            padding: 0;
             text-align: center;
 
             a {
@@ -87,7 +87,7 @@ body {
                 list-style: none;
 
                 li {
-                    flex: 1 1 0;
+                    flex: 1 1 auto;
                     height: 100%;
                     @include mixin.margin-y( unset );
                     padding-left: 0.5rem;
@@ -100,8 +100,12 @@ body {
                         line-height: $header-height;
 
                         i.fas {
-                            font-size: 120%;
+                            font-size: 100%;
                             vertical-align: -5%;
+                        }
+
+                        span {
+                            font-size: 90%;
                         }
                     }
                 }
@@ -157,11 +161,10 @@ main header {
 
 h3 {
     min-height: 1.7rem;
-    margin-bottom :1rem;
+    margin-bottom: 1rem;
     padding-left: 0.5rem;
     border-left: 1.7rem solid color.$base-dark;
-    line-height: 1.7rem;
-    font-size: 170%;
+    line-height: 1;
 
     time {
         float: right;
