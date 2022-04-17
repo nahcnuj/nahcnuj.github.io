@@ -180,6 +180,8 @@ h5 { font-size: 110% }
 
 p, li, dd {
     text-align: justify;
+}
+p, li, dd, figcaption, input, button, textarea, select, label {
     line-height: 1.5;
 }
 
@@ -228,10 +230,6 @@ figure {
         max-width: 320px;
         width: 100%;
         height: auto;
-    }
-
-    figcaption {
-        line-height: 1.5;
     }
 }
 
