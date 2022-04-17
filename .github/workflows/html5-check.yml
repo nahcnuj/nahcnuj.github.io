@@ -27,14 +27,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: staging
+
       - id: set-staging-sha
-        run: echo "::set-output name=sha::$(git rev-parse staging)"
+        run: |
+          git fetch origin staging
+          echo "::set-output name=sha::$(git rev-parse staging)"
 
       - uses: Cyb3r-Jak3/html5validator-action@bd8ee22d3b06b9c9b424e6c03abfbc57a022c374
         with:
-          root: .
+          root: ./build
           css: false
           format: json
 
