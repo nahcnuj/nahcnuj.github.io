@@ -282,3 +282,118 @@ abbr[title] {
         }
     }
 }
+
+// form
+// ref: https://qiita.com/takeshisakuma/items/4218822871af486c8469
+form {
+    margin: 1rem 0;
+}
+
+input,
+button,
+textarea,
+select {
+    margin-bottom: 0.7rem;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border-radius: 0;
+
+    box-sizing: border-box;
+
+    font-family: inherit;
+    font-size: 90%;
+    color: inherit;
+}
+
+label {
+    display: block;
+
+    cursor: pointer;
+}
+
+input {
+    width: 100%;
+
+    background: lighten(color.$base-dark, 80%);
+
+    border: thin solid transparent;
+
+    height: 1.5rem;
+
+    outline: none;
+
+    transition: border 0.05s ease-out;
+
+    &:focus {
+        border: thin solid color.$base-dark;
+    }
+}
+
+textarea {
+    width: 100%;
+
+    padding: 0.1rem;
+
+    background: lighten(color.$base-dark, 80%);
+
+    border: thin solid transparent;
+
+    outline: none;
+
+    resize: vertical;
+
+    transition: border 0.05s ease-out;
+
+    &::-webkit-scrollbar {
+        width: 0.2rem;
+    }
+    &::-webkit-scrollbar-track {
+        background: lighten(color.$base-dark, 80%);
+    }
+    &::-webkit-scrollbar-thumb {
+        background: color.$base-dark;
+    }
+
+    &:focus {
+        border: thin solid color.$base-dark;
+
+        box-shadow: none;
+    }
+}
+
+button {
+    display: block;
+
+    margin: 0.1rem auto 0;
+    padding: 0.2rem 1.4rem 0;
+
+    background: lighten(color.$base-dark, 80%);
+
+    border: none;
+    border-width: thin medium medium thin;
+    border-style: solid;
+    border-color: white color.$base-dark color.$base-dark white;
+
+    outline: none;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+
+    transition:
+        background-color 0.2s ease-out,
+        transform        0.2s ease-out;
+
+    &:hover,
+    &:focus {
+        background: white;
+    }
+
+    &:active {
+        background: lighten(color.$base-dark, 80%);
+        transform: translateY(0.1rem);
+    }
+}

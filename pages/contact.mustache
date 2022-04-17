@@ -1,24 +1,39 @@
 ---
 title: '{{ i18n.dict.contact_page_head_text }}'
-description: '{{ i18n.dict.contact_page_description }}'
 headline: '{{ i18n.dict.contact_page_head_text }}'
 meta_ogp:
   type: website
   path: /contact.html
-contact_list:
-  - title: Twitter
-    href: https://twitter.com/nahcnuj
-    address: '@nahcnuj'
-  - title: Facebook
-    href: https://www.facebook.com/nahcnuj
-    address: '{{ site.author }}'
-  - title: Email
-    href: '#'
-    address: nahcnuj.work [at] gmail.com
 ---
-<dl>
-  {{#contact_list}}
-    <dt>{{ title }}</dt>
-    <dd><a href="{{ href }}" rel="me">{{ address }}</a></dd>
-  {{/contact_list}}
-</dl>
+<script>
+  const send = (form) => {
+    const req = new XMLHttpRequest();
+    req.addEventListener('load', () => {
+      console.log(req.responseText);
+      alert("送信しました。");
+    });
+    req.addEventListener('error', () => {
+      console.error(req.responseText);
+      alert('送信に失敗しました。時間を空けて再度お試しください。');
+    });
+    req.open(form.method, form.action);
+    req.send(new FormData(form));
+  };
+</script>
+<form method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLScTtEOdnuCD-HQek_9_KcwYgoHo6-t_kj4843H4FbC4lzjEeA/formResponse" id="contact" onsubmit="send(this);return false">
+  <div>
+    <label for="form__input--name">お名前</label>
+    <input name="entry.2122641609" id="form__input--name" required tabindex="0">
+  </div>
+  <div>
+    <label for="form__input--email">メールアドレス</label>
+    <input name="emailAddress" id="form__input--email" type="email" required autocomplete="email" tabindex="0">
+  </div>
+  <div>
+    <label for="form__textarea--message">ご用件</label>
+    <textarea name="entry.1458676600" id="form__textarea" rows="5" cols="80" required tabindex="0"></textarea>
+  </div>
+  <button type="submit" tabindex="0">
+    送信
+  </button>
+</form>
