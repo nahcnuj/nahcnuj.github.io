@@ -27,32 +27,29 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v2
         with:
-          name: html
-          path: build
-      - uses: actions/download-artifact@v2
-        with:
-          name: css
-          path: build/css
+          ref: staging
 
       - id: set-staging-sha
         run: |
-          git fetch origin staging
           echo "::set-output name=sha::$(git rev-parse staging)"
           ls -lR .
 
       - uses: Cyb3r-Jak3/html5validator-action@bd8ee22d3b06b9c9b424e6c03abfbc57a022c374
         with:
-          root: build
+          root: .
           css: false
           format: json
           skip_git_check: true
 
       - if: failure()
-        uses: ./.github/actions/notify-failure
-        with:
-          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+        name: Notify failure to Slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: Failed workflow
+          SLACK_COLOR: danger
+          MSG_MINIMAL: actions url
 
       - if: always()
         uses: actions/upload-artifact@v2
