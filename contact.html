@@ -2,10 +2,10 @@
 <html lang="ja">
   <head prefix="og: http://ogp.me/ns# profile: http://ogp.me/ns/profile# article: http://ogp.me/ns/article#">
     <meta charset="utf-8">
-    <title>連絡先 | nahcnuj.work</title>
-    <meta name="description" content="林純一の連絡先です。">
-    <meta property="og:title" content="連絡先">
-    <meta property="og:description" content="林純一の連絡先です。">
+    <title>お問合せ | nahcnuj.work</title>
+    <meta name="description" content="">
+    <meta property="og:title" content="お問合せ">
+    <meta property="og:description" content="">
         <meta property="og:locale" content="ja_JP">
       <meta property="og:type" content="website">
       <meta property="og:url" content="https://www.nahcnuj.work/contact.html">
@@ -62,17 +62,41 @@
     </header>
     <main>
       <header>
-        <h2>連絡先</h2>
+        <h2>お問合せ</h2>
         <p></p>
       </header>
-      <dl>
-          <dt>Twitter</dt>
-          <dd><a href="https://twitter.com/nahcnuj" rel="me">@nahcnuj</a></dd>
-          <dt>Facebook</dt>
-          <dd><a href="https://www.facebook.com/nahcnuj" rel="me">Junichi Hayashi</a></dd>
-          <dt>Email</dt>
-          <dd><a href="#" rel="me">nahcnuj.work [at] gmail.com</a></dd>
-      </dl>
+      <script>
+        const send = (form) => {
+          const req = new XMLHttpRequest();
+          req.addEventListener('load', () => {
+            console.log(req.responseText);
+            alert("送信しました。");
+          });
+          req.addEventListener('error', () => {
+            console.error(req.responseText);
+            alert('送信に失敗しました。時間を空けて再度お試しください。');
+          });
+          req.open(form.method, form.action);
+          req.send(new FormData(form));
+        };
+      </script>
+      <form method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLScTtEOdnuCD-HQek_9_KcwYgoHo6-t_kj4843H4FbC4lzjEeA/formResponse" id="contact" onsubmit="send(this);return false">
+        <div>
+          <label for="form__input--name">お名前</label>
+          <input name="entry.2122641609" id="form__input--name" required tabindex="0">
+        </div>
+        <div>
+          <label for="form__input--email">メールアドレス</label>
+          <input name="emailAddress" id="form__input--email" type="email" required autocomplete="email" tabindex="0">
+        </div>
+        <div>
+          <label for="form__textarea--message">ご用件</label>
+          <textarea name="entry.1458676600" id="form__textarea" rows="5" cols="80" required tabindex="0"></textarea>
+        </div>
+        <button type="submit" tabindex="0">
+          送信
+        </button>
+      </form>
     </main>
     <footer>
       <p>
