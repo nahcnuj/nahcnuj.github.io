@@ -38,6 +38,7 @@ jobs:
           root: ./build
           css: false
           format: json
+          skip_git_check: true
 
       - if: failure()
         uses: ./.github/actions/notify-failure
