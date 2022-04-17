@@ -8,18 +8,7 @@ meta_ogp:
 <script>
   const send = (form) => {
     const req = new XMLHttpRequest();
-    req.addEventListener('load', () => {
-      console.log(req.responseText);
-      alert("送信しました。");
-    });
-    req.addEventListener('error', () => {
-      if (!req.responseText) {
-        alert("送信しました。");
-        return;
-      }
-      console.error(req.responseText);
-      alert('送信に失敗しました。時間を空けて再度お試しください。');
-    });
+    req.addEventListener('loadend', () => alert('送信しました。'));
     req.open(form.method, form.action);
     req.send(new FormData(form));
   };
