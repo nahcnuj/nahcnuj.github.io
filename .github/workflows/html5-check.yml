@@ -35,7 +35,7 @@ jobs:
 
       - uses: Cyb3r-Jak3/html5validator-action@bd8ee22d3b06b9c9b424e6c03abfbc57a022c374
         with:
-          root: ./build
+          root: build
           css: false
           format: json
           skip_git_check: true
