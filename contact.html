@@ -73,6 +73,10 @@
             alert("送信しました。");
           });
           req.addEventListener('error', () => {
+            if (!req.responseText) {
+              alert("送信しました。");
+              return;
+            }
             console.error(req.responseText);
             alert('送信に失敗しました。時間を空けて再度お試しください。');
           });
