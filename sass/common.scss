@@ -1,5 +1,6 @@
 @use 'color';
 @use 'mixin';
+@use 'reset';
 @use 'var';
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
@@ -22,7 +23,6 @@ body {
     overflow-y: scroll;
 
     > * {
-        max-width: var.$pc-width;
         @include mixin.padding-x( calc(50% - min(#{var.$pc-width}, 100%)/2) );
         overflow-y: hidden;
     }
@@ -56,14 +56,18 @@ body {
                 width: 100%;
                 height: 100%;
                 line-height: calc(0.9 * #{$header-height});
+                vertical-align: top;
 
                 img {
-                    $img-size: 2.5rem;
+                    display: inline-block;
 
+                    $img-size: 3rem;
                     width: $img-size;
                     height: $img-size;
+
                     border-radius: 50%;
                     border: medium solid color.$base-light;
+
                     vertical-align: middle;
                 }
             }
@@ -149,7 +153,6 @@ main header {
 
     > * {
         @include mixin.margin-y( 0 );
-        @include mixin.padding-y( 0.25rem );
         padding-left: 0.3rem;
         border-left: medium solid color.$base-light;
     }
@@ -160,10 +163,10 @@ main header {
 }
 
 h3 {
-    min-height: 1.7rem;
+    min-height: 2rem;
     margin-bottom: 1rem;
     padding-left: 0.5rem;
-    border-left: 1.7rem solid color.$base-dark;
+    border-left: 2rem solid color.$base-dark;
     line-height: 1;
 
     time {
@@ -178,6 +181,10 @@ h3 { font-size: 170% }
 h4 { font-size: 130% }
 h5 { font-size: 110% }
 
+h1, h2, h3, h4, h5, h6 { margin-top: 2rem }
+p { margin-top: 1rem }
+h1, h2, h3, h4, h5, h6, p { margin-bottom: 1rem }
+
 p, li, dd {
     text-align: justify;
 }
@@ -191,11 +198,14 @@ footer p {
     text-indent: unset;
 }
 
-li {
-    @include mixin.margin-y( 0.25rem );
-}
+ul, ol { padding-left: 2rem }
+li { margin: 0.5rem 0 }
 
 table {
+    border-collapse: collapse;
+
+    max-width: 100%;
+
     margin: 1rem auto;
 }
 
@@ -230,6 +240,8 @@ figure {
         max-width: 320px;
         width: 100%;
         height: auto;
+
+        margin: auto;
     }
 }
 
@@ -241,17 +253,19 @@ abbr[title] {
     position: relative;
 
     text-decoration: underline dotted;
+    &:focus,
+    &:hover {
+        text-decoration: underline;
+    }
 
     &:focus {
-        text-decoration: underline;
-
         &::after {
             content: attr(title);
 
             // ref: https://bitsofco.de/making-abbr-work-for-touchscreen-keyboard-mouse/
             position: absolute;
             left: 0;
-            bottom: -1.8rem;
+            bottom: -2rem;
             width: auto;
             white-space: nowrap;
 
@@ -270,7 +284,7 @@ abbr[title] {
             content: '';
 
             position: absolute;
-            top: 1.1rem;
+            top: 1.4rem;
             left: 0.3rem;
             margin: auto 0;
 

@@ -3,9 +3,10 @@
 
 table.profile,
 table.history {
-    min-width: 70%;
     border-spacing: 0;
     table-layout: fixed;
+
+    width: 100%;
 
     tr {
         th, td {
@@ -13,13 +14,12 @@ table.history {
         }
     
         th {
-            width: 6rem;
+            width: 7rem;
             text-align: right;
-            white-space: nowrap;
+            vertical-align: top;
         }
 
         td {
-            width: 20rem;
             padding-left: 1rem;
         }
     }

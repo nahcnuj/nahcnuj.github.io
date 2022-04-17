@@ -57,17 +57,17 @@ profile:
     value: プログラミング、Perl、<span class="nobr">アニメ</span>、<span class="nobr">東山奈央（声優・歌手）</span>
 biography:
   - date: '2011-04-01'
-    event: 神戸市立工業高等専門学校 <span class="nobr">電気工学科 入学</span>
+    event: 神戸市立工業高等専門学校 電気工学科 入学
   - date: '2016-03-31'
-    event: 神戸市立工業高等専門学校 <span class="nobr">電気工学科 卒業</span>
+    event: 神戸市立工業高等専門学校 電気工学科 卒業
   - date: '2016-04-01'
-    event: 大阪大学 基礎工学部 <span class="nobr">情報科学科 3 年次編入学</span>
+    event: 大阪大学 基礎工学部 情報科学科 3 年次編入学
   - date: '2018-03-31'
-    event: 大阪大学 基礎工学部 <span class="nobr">情報科学科 卒業</span>
+    event: 大阪大学 基礎工学部 情報科学科 卒業
   - date: '2018-04-01'
-    event: 大阪大学大学院 情報科学研究科 <span class="nobr">コンピュータサイエンス専攻 入学</span>
+    event: 大阪大学大学院 情報科学研究科 コンピュータサイエンス専攻 入学
   - date: '2019-11-30'
-    event: 大阪大学大学院 情報科学研究科 <span class="nobr">コンピュータサイエンス専攻 中退</span>
+    event: 大阪大学大学院 情報科学研究科 コンピュータサイエンス専攻 中退
   - date: '2020-04-01'
     event: シーサー株式会社 入社
 skills:
