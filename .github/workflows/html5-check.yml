@@ -32,6 +32,7 @@ jobs:
         run: |
           git fetch origin staging
           echo "::set-output name=sha::$(git rev-parse staging)"
+          ls -lR .
 
       - uses: Cyb3r-Jak3/html5validator-action@bd8ee22d3b06b9c9b424e6c03abfbc57a022c374
         with:
