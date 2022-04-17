@@ -27,6 +27,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v2
+        with:
+          name: html
+          path: build
+      - uses: actions/download-artifact@v2
+        with:
+          name: css
+          path: build/css
 
       - id: set-staging-sha
         run: |
