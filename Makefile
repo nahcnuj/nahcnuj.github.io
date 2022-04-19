@@ -48,7 +48,7 @@ $(MUSTACHE_DIR)/%.mustache: $(RMD_DIR)/%.rmd
 
 html:
 	@mkdir -p $(DEST_DIR)
-	@docker-compose run --rm uzu uzu build
+	@docker-compose run --rm uzu raku --profile=profile.json /usr/share/perl6/site/bin/uzu build
 
 css:
 	@mkdir -p $(CSS_DIR)

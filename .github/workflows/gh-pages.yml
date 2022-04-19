@@ -53,6 +53,11 @@ jobs:
           name: html
           path: build
 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: profile.json
+          path: profile.json
+
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:
