@@ -39,8 +39,7 @@ jobs:
           css: false
           format: json
           skip_git_check: true
-          blacklist:
-            - public/nuxt-multibyte-url-demo
+          blacklist: public/nuxt-multibyte-url-demo
 
       - if: failure()
         name: Notify failure to Slack
