@@ -3,35 +3,17 @@ name: HTML5 validate
 on:
   push:
     branches:
-      - staging
-  pull_request:
-    types:
-      - review_requested
-    branches:
-      - staging
-  pull_request_target:
-    types:
-      - opened
-    branches:
-      - master
-  workflow_run:
-    workflows:
-      - Build
-    types:
-      - completed
-  workflow_dispatch:
+      - source
 
 jobs:
   check:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v2
         with:
-          ref: staging
-
-      - id: set-staging-sha
-        run: echo "::set-output name=sha::$(git rev-parse staging)"
+          name: github-pages
+          path: .
 
       - uses: Cyb3r-Jak3/html5validator-action@bd8ee22d3b06b9c9b424e6c03abfbc57a022c374
         with:
@@ -55,11 +37,3 @@ jobs:
         with:
           name: log.json
           path: log.log
-
-      - if: always()
-        uses: LouisBrunner/checks-action@3d24d4813a797720cc4e2080a50bdafb3373aef1
-        with:
-          name: HTML5
-          sha: ${{ steps.set-staging-sha.outputs.sha }}
-          conclusion: ${{ job.status }}
-          token: ${{ secrets.GITHUB_TOKEN }}
