@@ -74,8 +74,10 @@ skills:
   - name: プログラミング
     certifications:
       - title: Perl
+      - title: TypeScript
       - title: JavaScript
       - title: jQuery
+      - title: Go
       - title: C++
       - title: Java
   - name: アルゴリズム
@@ -86,10 +88,10 @@ skills:
 #         text: 2020 年 6 月 1 日
 #         datetime: '2020-06-01'
       - title: AtCoder レーティング
-        grade: 1019（緑色）、5 級
+        grade: 968（緑色）、5 級
         when:
-          text: 2019 年 6 月 29 日
-          datetime: '2019-06-29'
+          text: 2020 年 7 月 25 日
+          datetime: '2020-07-25'
 dict:
   author_first_name: 純一
   author_image_alt: 林純一の顔写真
