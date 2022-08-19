@@ -98,11 +98,13 @@ jobs:
           slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   deploy:
-    runs-on: ubuntu-latest
     needs:
       - html
       - css
-
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v3
 
@@ -120,6 +122,10 @@ jobs:
         uses: actions/upload-pages-artifact@v1.0.3
         with:
           path: build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
 
       - name: Notify success to Slack
         if: success()
