@@ -1,11 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
   "files": {
-    "ignore": [
-      "dist",
-      "public/nuxt-multibyte-url-demo",
-      "public/nuxt-multibyte-url-fixed"
-    ]
+    "ignore": ["dist", "public/nuxt-multibyte-url-demo", "public/nuxt-multibyte-url-fixed"]
   },
   "organizeImports": {
     "enabled": true
@@ -26,7 +22,7 @@
       "arrowParentheses": "always",
       "indentWidth": 2,
       "indentStyle": "space",
-      "lineWidth": 80,
+      "lineWidth": 120,
       "quoteProperties": "asNeeded"
     }
   },
@@ -38,7 +34,7 @@
       "enabled": true,
       "indentStyle": "space",
       "indentWidth": 2,
-      "lineWidth": 80
+      "lineWidth": 120
     }
   }
 }
