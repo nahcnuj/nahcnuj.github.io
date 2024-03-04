@@ -1,6 +1,14 @@
 import { Style, css } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
+import RootFooter from '../components/RootFooter'
+import RootHeader from '../components/RootHeader'
+
+const containerClass = css`
+  margin-inline: auto;
+  max-width: 40em;
+  font-size: 1.2em;
+`
 
 export default jsxRenderer(({ children, title, description }) => {
   return (
@@ -8,7 +16,7 @@ export default jsxRenderer(({ children, title, description }) => {
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{title ?? ''}</title>
+        <title>{title ?? 'Untitled'}</title>
         {description && <meta name="description" content={description} />}
         {title && <meta property="og:title" content={title} />}
         {description && <meta property="og:description" content={description} />}
@@ -18,14 +26,14 @@ export default jsxRenderer(({ children, title, description }) => {
         <Script src="/app/client.ts" async />
         <Style>{css`
           html, body { margin: 0; padding: 0; }
-          body > * { margin-inline: auto; max-width: 40em; font-size: 1.2em; }
         `}</Style>
       </head>
       <body>
-        {children}
-        <footer>
-          <p>&copy; Junichi Hayashi</p>
-        </footer>
+        <div class={containerClass}>
+          <RootHeader />
+          {children}
+          <RootFooter />
+        </div>
       </body>
     </html>
   )
