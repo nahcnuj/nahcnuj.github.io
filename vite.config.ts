@@ -1,7 +1,9 @@
-import pages from '@hono/vite-cloudflare-pages'
+import ssg from '@hono/vite-ssg'
 import honox from 'honox/vite'
 import client from 'honox/vite/client'
 import { defineConfig } from 'vite'
+
+const entry = './app/server.ts'
 
 export default defineConfig(({ mode }) => {
   if (mode === 'client') {
@@ -10,6 +12,9 @@ export default defineConfig(({ mode }) => {
     }
   }
   return {
-    plugins: [honox(), pages()],
+    build: {
+      emptyOutDir: false,
+    },
+    plugins: [honox(), ssg({ entry })],
   }
 })
