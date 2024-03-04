@@ -7,7 +7,7 @@ export default function RootHeader() {
             <a href="/">Junichi Hayashi</a>
           </li>
           <li>
-            <a href="/works">Works</a>
+            <a href="/works/">Works</a>
           </li>
         </ul>
       </nav>
