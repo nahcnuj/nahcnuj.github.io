@@ -13,8 +13,8 @@ const works = import.meta.glob<{ frontmatter: Meta }>('./**/*.mdx', {
 
 app.get(
   '/index', // for compatibility, generates as /works/index.html
-  (c) => {
-    return c.render(
+  (c) =>
+    c.render(
       <main>
         <h1>My works</h1>
         <p>私が制作したモノの一覧です。</p>
@@ -26,8 +26,7 @@ app.get(
         />
       </main>,
       { title, description },
-    )
-  },
+    ),
 )
 
 export default app

@@ -3,8 +3,8 @@ import { createRoute } from 'honox/factory'
 const title = 'Junichi Hayashi, a web engineer'
 const description = 'I am Junichi Hayashi, a web engineer.'
 
-export default createRoute((c) => {
-  return c.render(
+export default createRoute((c) =>
+  c.render(
     <main>
       <header style="text-align:center">
         <h1>Junichi Hayashi, a web engineer</h1>
@@ -51,5 +51,5 @@ export default createRoute((c) => {
       </ul>
     </main>,
     { title, description },
-  )
-})
+  ),
+)
