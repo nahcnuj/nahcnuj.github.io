@@ -3,6 +3,6 @@ export default function RemoteImage({
   src,
   alt,
   ...props
-}: { baseUrl: string; src: `/${string}`; alt: string; width: number; height: number }) {
+}: { baseUrl?: string; src: `/${string}`; alt: string; width?: number; height?: number }) {
   return <img {...props} alt={alt} src={baseUrl + src} />
 }

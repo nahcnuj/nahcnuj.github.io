@@ -13,7 +13,7 @@ export default createRoute((c) =>
         </div>
       </header>
 
-      <h2>I am a ...</h2>
+      <h2>I am ...</h2>
       <p>林純一と申します。都内某企業でウェブエンジニアとして働いています。</p>
 
       <h2>I like ...</h2>

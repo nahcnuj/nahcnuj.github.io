@@ -8,6 +8,7 @@ const containerClass = css`
   margin-inline: auto;
   max-width: 40em;
   font-size: 1.2em;
+  line-height: 1.5;
 `
 
 export default jsxRenderer(({ children, title, description }) => (
