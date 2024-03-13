@@ -1,7 +1,4 @@
 {
-  "depends" : [
-    "Text::Markdown",
-    "YAMLish"
-  ],
+  "depends": ["Text::Markdown", "YAMLish"],
   "name": ""
 }
