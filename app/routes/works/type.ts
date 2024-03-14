@@ -1,5 +1,5 @@
-import RemoteImage from '../../components/RemoteImage'
-import { Head } from '../../global'
+import type RemoteImage from '../../components/RemoteImage'
+import type { Head } from '../../global'
 
 export type Meta = Head & {
   begins: number

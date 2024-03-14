@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import WorkList from '../../components/WorkList'
-import { Meta } from './type'
+import type { Meta } from './type'
 
 const app = new Hono()
 

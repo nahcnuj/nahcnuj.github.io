@@ -1,5 +1,5 @@
 import { css } from 'hono/css'
-import { Meta } from '../routes/works/type'
+import type { Meta } from '../routes/works/type'
 import RemoteImage from './RemoteImage'
 
 const listClass = css`
