@@ -4,9 +4,13 @@ import { Script } from 'honox/server'
 import RootFooter from '../components/RootFooter'
 import RootHeader from '../components/RootHeader'
 
+const rootStyle = css`
+  html, body { margin: 0; padding: 0; }
+`
+
 const containerClass = css`
-  margin-inline: auto;
   max-width: 40em;
+  margin-inline: auto;
   font-size: 1.2em;
   line-height: 1.5;
 `
@@ -24,9 +28,7 @@ export default jsxRenderer(({ children, title, description }) => (
       <meta property="og:image" content="https://img.nahcnuj.work/author.jpg" />
       <meta property="og:image:alt" content="Junichi's face" />
       <Script src="/app/client.ts" async />
-      <Style>{css`
-          html, body { margin: 0; padding: 0; }
-        `}</Style>
+      <Style>{rootStyle}</Style>
     </head>
     <body>
       <div class={containerClass}>
