@@ -12,8 +12,19 @@ const articleClass = css`
   }
 
   & p {
-    padding-bottom: 1pt; /* for border */
+    margin-block: calc(var(--line-height) * 1rem);
+    padding-bottom: 1pt; /* for bottom border */
     background: linear-gradient(#ccf 0.5pt, transparent 0.5pt) top/100% calc(var(--line-height) * 1rem);
+  }
+
+  & figure {
+    max-width: 80%;
+    margin-inline: auto;
+    text-align: center;
+
+    & img {
+      object-fit: scale-down;
+    }
   }
 `
 
