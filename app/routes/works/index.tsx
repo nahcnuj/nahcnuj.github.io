@@ -4,7 +4,7 @@ import type { Meta } from './type'
 
 const app = new Hono()
 
-const title = `Junichi's Works`
+const title = `J. Hayashi's Works`
 const description = 'There are the works Junichi Hayashi has made.'
 
 const works = import.meta.glob<{ frontmatter: Meta }>('./**/*.mdx', {

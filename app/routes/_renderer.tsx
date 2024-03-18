@@ -6,13 +6,30 @@ import RootHeader from '../components/RootHeader'
 
 const rootStyle = css`
   html, body { margin: 0; padding: 0; }
+
+  :root {
+    --theme-base-color: #e6e6ff;
+    --theme-main-color: #000033;
+    --theme-accent-color: #ff6666;
+  }
+
+  html {
+    background: var(--theme-base-color);
+    color: var(--theme-main-color);
+    font-size: 1.2em;
+  }
+
+  a:active {
+    color: var(--theme-accent-color);
+  }
+  a:visited {
+    color: var(--theme-main-color);
+  }
 `
 
 const containerClass = css`
-  max-width: 40em;
+  max-width: 40rem;
   margin-inline: auto;
-  font-size: 1.2em;
-  line-height: 1.5;
 `
 
 export default jsxRenderer(({ children, title, description }) => (

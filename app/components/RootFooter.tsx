@@ -3,7 +3,7 @@ import { css } from 'hono/css'
 const footerClass = css`
   margin-top: 2em;
   padding-top: 1em;
-  border-top: thin solid #333;
+  border-top: 1pt solid var(--theme-main-color);
   font-size: smaller;
 `
 

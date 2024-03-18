@@ -6,8 +6,8 @@ const listClass = css`
   list-style: none;
 `
 const itemClass = css`
-  margin-block: 2em;
-  height: 8em;
+  margin-block: 2rem;
+  height: 8rem;
 `
 const anchorClass = css`
   display: block;
@@ -34,12 +34,10 @@ const workClass = css`
   display: grid;
   grid-template-columns: 2fr 5fr;
   grid-template-rows: 100%;
+  column-gap: 2%;
   place-items: center start;
 
-  border: thin solid darkgray;
-  & >* {
-  border: thin solid darkgray;
-  }
+  border-block: 1pt solid var(--theme-main-color);
 `
 
 const thumbnailClass = css`
@@ -55,6 +53,8 @@ const thumbnailClass = css`
 const contentClass = css`
   width: 100%;
   height: 100%;
+
+  line-height: 1.5;
 `
 const titleClass = css`
   font-size: 1.3em;
