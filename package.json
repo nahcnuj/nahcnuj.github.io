@@ -12,18 +12,18 @@
   },
   "private": true,
   "dependencies": {
-    "hono": "^4.1.0",
-    "honox": "^0.1.7"
+    "hono": "^4.1.1",
+    "honox": "^0.1.9"
   },
   "devDependencies": {
     "@biomejs/biome": "1.6.1",
-    "@cloudflare/workers-types": "^4.20240312.0",
+    "@cloudflare/workers-types": "^4.20240314.0",
     "@hono/vite-cloudflare-pages": "^0.2.5",
     "@hono/vite-ssg": "^0.1.0",
     "@mdx-js/rollup": "^3.0.1",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^4.0.0",
     "vite": "^5.1.6",
-    "wrangler": "^3.33.0"
+    "wrangler": "^3.34.2"
   }
 }
