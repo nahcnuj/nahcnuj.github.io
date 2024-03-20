@@ -14,7 +14,6 @@ const articleClass = css`
 
   & h1 {
     box-sizing: border-box;
-    height: calc(2 * var(--line-height-length));
     margin-block: var(--line-height-length);
     border-block: 2pt solid var(--theme-main-color);
     background: var(--theme-base-color);
