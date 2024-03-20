@@ -12,26 +12,34 @@ const articleClass = css`
   background: linear-gradient(#ccf 0.5pt, transparent 0.5pt) top/100% var(--line-height-length);
   padding-block-end: 1pt;
 
-  & h1 {
+  & h1, & h2, & h3, & h4, & h5, & h6, & p, & ul, & ol, & dl, & div {
     box-sizing: border-box;
-    margin-block: var(--line-height-length);
+    margin-block: 0;
+    line-height: inherit;
+  }
+
+  & h1 {
+    margin-block: calc(var(--line-height-length) - 2pt);
     border-block: 2pt solid var(--theme-main-color);
     background: var(--theme-base-color);
     line-height: calc(2 * var(--line-height-length));
-    font-size: 200%;
-  }
+    font-size: 190%;
 
-  & h2, & h3, & h4, & h5, & h6 {
-    margin-block-start: var(--line-height-length) !important;
-
-    & + & {
-      margin-block-start: 0 !important;
+    & + h2 {
+      margin-block-start: 0;
     }
   }
 
-  & h2, & h3, & h4, & h5, & h6, & p, & ul, & ol, & dl, & div {
-    margin-block: 0;
-    line-height: inherit;
+  & h2, & h3, & h4, & h5, & h6 {
+    margin-block-start: var(--line-height-length);
+
+    & + & {
+      margin-block-start: 0;
+    }
+
+    & + p, & + ul, & + ol, & + dl {
+      margin-block-start: 0;
+    }
   }
 
   & h3::before {
