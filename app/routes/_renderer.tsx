@@ -45,6 +45,7 @@ export default jsxRenderer(({ children, ...props }) => {
 
   const title = props.title ?? props.frontmatter?.title
   const description = props.description ?? props.frontmatter?.description
+  const thumbnail = props.thumbnail ?? props.frontmatter?.thumbnail
 
   return (
     <html lang="ja">
@@ -56,8 +57,19 @@ export default jsxRenderer(({ children, ...props }) => {
         {title && <meta property="og:title" content={title} />}
         {description && <meta property="og:description" content={description} />}
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://img.nahcnuj.work/author.jpg" />
-        <meta property="og:image:alt" content="Junichi's face" />
+        {thumbnail ? (
+          <>
+            <meta
+              property="og:image"
+              content={thumbnail.startsWith('http') ? thumbnail : `https://img.nahcnuj.work${thumbnail}`}
+            />
+          </>
+        ) : (
+          <>
+            <meta property="og:image" content="https://img.nahcnuj.work/author.jpg" />
+            <meta property="og:image:alt" content="Junichi's face" />
+          </>
+        )}
         <link rel="preload" as="script" href="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" />
         <Script src="/app/client.ts" async />
         <Style>{rootStyle}</Style>
