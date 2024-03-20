@@ -69,6 +69,22 @@ const articleClass = css`
       object-fit: scale-down;
     }
   }
+
+  & pre {
+    box-sizing: border-box;
+    margin-block: calc(var(--line-height-length) / 4);
+    margin-inline: 1rem;
+    padding: calc(var(--line-height-length) / 4);
+    border: 1pt solid var(--theme-main-color);
+    border-radius: 0.5rem;
+    background: var(--theme-base-color);
+    line-height: inherit;
+    font-size: 1rem;
+  }
+
+  & code {
+    font-size: 1rem;
+  }
 `
 
 export default function Article({ children }: PropsWithChildren) {
