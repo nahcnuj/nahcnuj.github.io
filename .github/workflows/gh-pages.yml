@@ -6,11 +6,8 @@ on:
       - source
 
 jobs:
-  html:
+  build:
     runs-on: ubuntu-latest
-
-    env:
-      UZU_TAG: nahcnuj/alpine-uzu:1.2.1
 
     steps:
       - uses: actions/checkout@v3
@@ -18,79 +15,19 @@ jobs:
           fetch-depth: 0
           submodules: true
 
-      - run: perl bin/srz-zumix/git-set-file-times --since 2020-06-07
-
-      - id: cache-page-builder
-        name: Cache page-builder Docker image
+      - name: Cache node_modules
         uses: actions/cache@v2
         with:
-          key: page-builder_${{ hashFiles('docker/page-builder/**','bin/rmd2mustache.raku') }}_${{ runner.os }}
-          path: /tmp/page-builder.image
+          key: node_modules_${{ hashFiles('**/package-lock.json') }}
+          path: ~/.npm
 
-      - id: cache-pages
-        name: Cache pages generated from rmd
-        uses: actions/cache@v2
-        with:
-          key: mustache_${{ hashFiles('rmd/**','docker/page-builder/**','bin/rmd2mustache.raku') }}
-          path: |
-            pages/diary
-
-      - if: ${{ steps.cache-pages.outputs.cache-hit != 'true' }}
-        run: make gen-page
-
-      - id: cache-html
-        name: Cache artifacts
-        uses: actions/cache@v2
-        with:
-          key: html_artifacts_${{ hashFiles('i18n/**','pages/**','partials/**','public/**','rmd/**','themes/**','docker-compose.yml','docker/page-builder/**','bin/rmd2mustache.raku') }}
-          path: build
-
-      - if: ${{ steps.cache-html.outputs.cache-hit != 'true' }}
-        run: make html
+      - name: Build
+        run: make
 
       - uses: actions/upload-artifact@v2
         with:
           name: html
-          path: build
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: profile.json
-          path: profile.json
-
-      - if: failure()
-        uses: ./.github/actions/notify-failure
-        with:
-          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  css:
-    runs-on: ubuntu-latest
-
-    env:
-      SASS_TAG: michalklempa/dart-sass:1.36
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          submodules: true
-
-      - run: perl bin/srz-zumix/git-set-file-times --since 2020-06-07
-
-      - id: cache-css
-        name: Cache CSS
-        uses: actions/cache@v2
-        with:
-          key: css_artifacts_${{ hashFiles('sass/**','docker-compose.yml') }}
-          path: build/css
-
-      - if: ${{ steps.cache-css.outputs.cache-hit != 'true' }}
-        run: make css
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: css
-          path: build/css
+          path: dist
 
       - if: failure()
         uses: ./.github/actions/notify-failure
@@ -99,8 +36,7 @@ jobs:
 
   deploy:
     needs:
-      - html
-      - css
+      - build
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -109,22 +45,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v3
-
       - uses: actions/download-artifact@v2
         with:
           name: html
-          path: build
-
-      - uses: actions/download-artifact@v2
-        with:
-          name: css
-          path: build/css
+          path: dist
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v1.0.3
         with:
-          path: build
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment

@@ -1,7 +1,0 @@
-{
-  "depends" : [
-    "Text::Markdown",
-    "YAMLish"
-  ],
-  "name": ""
-}

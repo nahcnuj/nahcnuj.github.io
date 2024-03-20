@@ -16,6 +16,13 @@
 └── themes  ... layout templates
 ```
 
+## Start the development server
+
+```sh
+npm run dev:expose
+```
+GitHub Codespaceで開発していると`vite --host`でexposeしないとサーバーにアクセスできない。
+
 ## Build the site
 
 ```sh

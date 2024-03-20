@@ -1,0 +1,31 @@
+---
+title: 2020年7月20日の日記
+description: SSH先の開発環境のコードを手元のVisual Studio Code上で編集できるようにした。
+tags:
+  - Visual Studio Code
+  - エディタ
+  - 開発環境
+---
+# 2020年7月20日
+
+## Visual Studio CodeでSSH越しにコードを編集する
+
+普段は会社から貸与されたMacからVM上の開発環境にSSHして、Vimで開発している。
+タグジャンプなども入れておらず、別のクラスを見に行きたいときは毎回`:tage lib/Hoge/Fuga/Piyo.pm`していた。
+流石にそろそろ補完とかが欲しくなってきた。
+
+Vimが指定されているわけでも、Vimにこだわりがあるわけでもないので、Visual Studio Codeでの開発を試してみた。
+VS Codeは入れてはいたので、「[Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)」という拡張機能をインストールして、いつもの開発環境に繋ぐだけ。
+プロジェクトのディレクトリを開いたら ["Visual Studio Code is unable to watch for file changes in this large workspace"](https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc) というエラーが出た。
+リンク先の通りに操作したところ無事に解消された。
+
+```console
+$ cat /proc/sys/fs/inotify/max_user_watches
+8192
+$ echo 'fs.inotify.max_user_watches=524288' >>/etc/sysctl.conf
+$ sudo sysctl -p
+```
+
+あとは「[Perl](https://marketplace.visualstudio.com/items?itemName=cfgweb.vscode-perl)」という拡張機能と[Ctags](http://ctags.sourceforge.net/)をインストールして、別のクラスに飛んだり補完したりできるようにした。
+
+簡単だったのでもっと早くやっておけば良かった。

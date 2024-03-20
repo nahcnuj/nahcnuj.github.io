@@ -4,3 +4,16 @@ local/
 public/img/annict-logo-ver3.png
 
 .env
+
+node_modules
+dist
+.wrangler
+.dev.vars
+.hono
+
+# Change them to your taste:
+wrangler.toml
+# package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
