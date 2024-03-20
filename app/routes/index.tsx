@@ -1,15 +1,29 @@
+import { css } from 'hono/css'
 import { createRoute } from 'honox/factory'
+import RemoteImage from '../components/RemoteImage'
 
-const title = 'Junichi Hayashi, a web engineer'
-const description = 'I am Junichi Hayashi, a web engineer.'
+export default createRoute((c) => {
+  const title = 'Junichi Hayashi, a web engineer'
+  const description = 'I am Junichi Hayashi, a web engineer.'
 
-export default createRoute((c) =>
-  c.render(
+  const headerClass = css`
+    text-align: center;
+  `
+  const headerImageClass = css`
+    height: calc(5 * var(--line-height-length));
+
+    & img {
+      height: 100%;
+      object-fit: scale-down;
+    }
+  `
+
+  return c.render(
     <main>
-      <header style="text-align:center">
+      <header class={headerClass}>
         <h1>Junichi Hayashi, a web engineer</h1>
-        <div>
-          <img src="https://img.nahcnuj.work/author.jpg" width="200" height="200" alt="Junichi's face" />
+        <div class={headerImageClass}>
+          <RemoteImage src="/author.jpg" width={200} height={200} alt="Junichi Hayashi's face" />
         </div>
       </header>
 
@@ -50,5 +64,5 @@ export default createRoute((c) =>
       </ul>
     </main>,
     { title, description },
-  ),
-)
+  )
+})

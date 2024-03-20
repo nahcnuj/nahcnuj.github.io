@@ -6,8 +6,8 @@ const listClass = css`
   list-style: none;
 `
 const itemClass = css`
-  margin-block: 2rem;
-  height: 8rem;
+  margin-block: var(--line-height-length);
+  height: calc(4 * var(--line-height-length));
 `
 const anchorClass = css`
   display: block;
@@ -31,6 +31,7 @@ export default function WorkList({ works }: { works: [string, Meta][] }) {
 
 const workClass = css`
   height: 100%;
+
   display: grid;
   grid-template-columns: 2fr 5fr;
   grid-template-rows: 100%;
@@ -53,8 +54,6 @@ const thumbnailClass = css`
 const contentClass = css`
   width: 100%;
   height: 100%;
-
-  line-height: 1.5;
 `
 const titleClass = css`
   font-size: 1.3em;
