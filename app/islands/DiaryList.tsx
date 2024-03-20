@@ -7,7 +7,7 @@ export default function DiaryList({ diaries }: { diaries: (readonly [FilePath, F
   return (
     <ul>
       {diaries
-        .sort(([a], [b]) => b.localeCompare(a))
+        .toSorted(([a], [b]) => b.localeCompare(a))
         .map(([filename, { frontmatter }]) => (
           <li>
             <a href={filename}>{frontmatter.title}</a>：{frontmatter.description}
