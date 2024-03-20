@@ -4,14 +4,18 @@ import RemoteImage from './RemoteImage'
 
 const listClass = css`
   list-style: none;
+  padding-inline-start: 0;
+  line-height: var(--line-height-length);
 `
 const itemClass = css`
   margin-block: var(--line-height-length);
-  height: calc(4 * var(--line-height-length));
 `
 const anchorClass = css`
   display: block;
   height: 100%;
+  @media screen and (min-width: 40rem) {
+    height: calc(5 * var(--line-height-length));
+  }
   color: inherit;
   text-decoration: none;
 `
@@ -31,14 +35,11 @@ export default function WorkList({ works }: { works: [string, Meta][] }) {
 
 const workClass = css`
   height: 100%;
-
   display: grid;
   grid-template-columns: 2fr 5fr;
   grid-template-rows: 100%;
   column-gap: 2%;
   place-items: center start;
-
-  border-block: 1pt solid var(--theme-main-color);
 `
 
 const thumbnailClass = css`
