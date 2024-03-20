@@ -49,8 +49,6 @@ jobs:
 
       - name: Display structure of downloaded files
         run: ls -R
-        working-directory: path/to/artifact
-
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v1.0.3
