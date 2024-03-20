@@ -19,6 +19,7 @@ const articleClass = css`
     border-block: 2pt solid var(--theme-main-color);
     background: var(--theme-base-color);
     line-height: calc(2 * var(--line-height-length));
+    font-size: 200%;
   }
 
   & h2, & h3, & h4, & h5, & h6 {
