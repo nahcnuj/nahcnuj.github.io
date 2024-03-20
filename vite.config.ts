@@ -2,6 +2,7 @@ import ssg from '@hono/vite-ssg'
 import mdx from '@mdx-js/rollup'
 import honox from 'honox/vite'
 import client from 'honox/vite/client'
+import rehypeExternalLinks from 'rehype-external-links'
 import rehypeSlug from 'rehype-slug'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
@@ -25,7 +26,19 @@ export default defineConfig(({ mode }) => {
       mdx({
         jsxImportSource: 'hono/jsx',
         remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
-        rehypePlugins: [rehypeSlug],
+        rehypePlugins: [
+          () =>
+            rehypeExternalLinks({
+              rel: ['nofollow', 'noopener', 'noreferrer'],
+              target: '_blank',
+              content: { type: 'text', value: ' ⧉' },
+              contentProperties: {
+                'aria-label': 'open in new window',
+                style: 'padding-inline-end:0.5ex;font-size:small;vertical-align:middle',
+              },
+            }),
+          rehypeSlug,
+        ],
       }),
     ],
   }

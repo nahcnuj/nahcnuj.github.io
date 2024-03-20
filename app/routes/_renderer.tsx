@@ -23,11 +23,11 @@ const rootStyle = css`
     scrollbar-gutter: stable both-edges;
   }
 
-  a:active {
-    color: var(--theme-accent-color);
-  }
   a:visited {
     color: var(--theme-main-color);
+  }
+  a:active, a:hover {
+    color: var(--theme-accent-color);
   }
 `
 
