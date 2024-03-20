@@ -58,10 +58,10 @@ export default jsxRenderer(({ children, ...props }) => {
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://img.nahcnuj.work/author.jpg" />
         <meta property="og:image:alt" content="Junichi's face" />
-        <link rel="preload" as="script" href="https://www.googletagmanager.com/gtag/js?id=UA-171144990-1" />
+        <link rel="preload" as="script" href="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" />
         <Script src="/app/client.ts" async />
         <Style>{rootStyle}</Style>
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async />
+        <script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async />
         <script>{raw`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
