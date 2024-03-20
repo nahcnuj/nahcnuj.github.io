@@ -35,11 +35,14 @@ const containerClass = css`
   margin-inline: auto;
 `
 
-export default jsxRenderer(({ children, title, description }) => {
+export default jsxRenderer(({ children, ...props }) => {
   const navItems = [
     { title: 'Index', href: '/' as const },
     { title: 'Works', href: '/works/index.html' as const },
   ]
+
+  const title = props.title ?? props.frontmatter?.title
+  const description = props.description ?? props.frontmatter?.description
 
   return (
     <html lang="ja">
