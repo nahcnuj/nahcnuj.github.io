@@ -52,7 +52,9 @@ const articleClass = css`
   }
 
   & p {
+    margin-block-end: -1pt;
     padding-inline: 0.5em;
+    padding-block-end: 1pt;
 
     & + & {
       margin-block-start: var(--line-height-length);
@@ -73,8 +75,9 @@ const articleClass = css`
   & pre {
     box-sizing: border-box;
     margin-block: calc(var(--line-height-length) / 4);
-    margin-inline: 1rem;
-    padding: calc(var(--line-height-length) / 4);
+    margin-inline: 0.5rem;
+    padding-block: calc(var(--line-height-length) / 4 - 2pt);
+    padding-inline: 0.75em;
     border: 1pt solid var(--theme-main-color);
     border-radius: 0.5rem;
     background: var(--theme-base-color);
