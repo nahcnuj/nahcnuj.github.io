@@ -15,17 +15,17 @@ const articleClass = css`
   & h1 {
     box-sizing: border-box;
     height: calc(2 * var(--line-height-length));
-    margin-block-end: var(--line-height-length);
+    margin-block: var(--line-height-length);
     border-block: 2pt solid var(--theme-main-color);
     background: var(--theme-base-color);
     line-height: calc(2 * var(--line-height-length));
   }
 
   & h2, & h3, & h4, & h5, & h6 {
-    padding-block-start: var(--line-height-length);
+    margin-block-start: var(--line-height-length) !important;
 
     & + & {
-      padding-block-start: 0;
+      margin-block-start: 0 !important;
     }
   }
 

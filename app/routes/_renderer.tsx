@@ -38,6 +38,7 @@ const containerClass = css`
 export default jsxRenderer(({ children, ...props }) => {
   const navItems = [
     { title: 'Index', href: '/' as const },
+    { title: 'Diary', href: '/diary/index.html' as const },
     { title: 'Works', href: '/works/index.html' as const },
   ]
 
