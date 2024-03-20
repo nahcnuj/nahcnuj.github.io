@@ -12,8 +12,7 @@ const diaries = ((files) =>
   }),
 )
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const app = new Hono<any>()
+const app = new Hono()
 
 app.get(
   '/index', // for compatibility, generates as /diary/index.html
