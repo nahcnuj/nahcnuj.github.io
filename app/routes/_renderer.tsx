@@ -1,6 +1,7 @@
 import { Style, css } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
+import Article from '../components/Article'
 import RootFooter from '../components/RootFooter'
 import RootHeader from '../components/RootHeader'
 
@@ -17,6 +18,8 @@ const rootStyle = css`
     background: var(--theme-base-color);
     color: var(--theme-main-color);
     font-size: 1.2em;
+
+    scrollbar-gutter: stable both-edges;
   }
 
   a:active {
@@ -56,7 +59,7 @@ export default jsxRenderer(({ children, title, description }) => {
       <body>
         <div class={containerClass}>
           <RootHeader navItems={navItems} />
-          {children}
+          <Article>{children}</Article>
           <RootFooter />
         </div>
       </body>
