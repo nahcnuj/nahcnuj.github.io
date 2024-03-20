@@ -5,40 +5,29 @@ type NavItem = {
   href: `/${string}`
 }
 
-const navItems = [
-  { title: 'Index', href: '/' },
-  { title: 'Works', href: '/works/index.html' },
-] satisfies NavItem[]
+export default function RootHeader({ navItems }: { navItems: NavItem[] }) {
+  const listClass = css`
+    display: grid;
+    grid-template-columns: repeat(${Math.max(navItems.length, 6)}, 1fr);
+    list-style: none;
+    font-size: smaller;
+  `
 
-export default function RootHeader() {
+  const itemClass = css`
+    display: inline-block;
+  `
+
   return (
     <header>
       <nav>
-        <NavList items={navItems} />
+        <ul class={listClass}>
+          {navItems.map(({ href, title }) => (
+            <li class={itemClass}>
+              <a href={href}>{title}</a>
+            </li>
+          ))}
+        </ul>
       </nav>
     </header>
-  )
-}
-
-const listClass = css`
-  display: grid;
-  grid-template-columns: repeat(${Math.max(navItems.length, 6)}, 1fr);
-  list-style: none;
-  font-size: smaller;
-`
-
-const itemClass = css`
-  display: inline-block;
-`
-
-function NavList({ items }: { items: NavItem[] }) {
-  return (
-    <ul class={listClass}>
-      {items.map(({ href, title }) => (
-        <li class={itemClass}>
-          <a href={href}>{title}</a>
-        </li>
-      ))}
-    </ul>
   )
 }
