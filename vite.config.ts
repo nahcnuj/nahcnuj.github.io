@@ -2,6 +2,7 @@ import ssg from '@hono/vite-ssg'
 import mdx from '@mdx-js/rollup'
 import honox from 'honox/vite'
 import client from 'honox/vite/client'
+import rehypeSlug from 'rehype-slug'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig } from 'vite'
@@ -24,6 +25,7 @@ export default defineConfig(({ mode }) => {
       mdx({
         jsxImportSource: 'hono/jsx',
         remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
+        rehypePlugins: [rehypeSlug],
       }),
     ],
   }
