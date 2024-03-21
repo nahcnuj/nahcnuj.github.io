@@ -81,6 +81,7 @@ const articleClass = css`
     border: 1pt solid var(--theme-main-color);
     border-radius: 0.5rem;
     background: var(--theme-base-color);
+    overflow-x: scroll;
     line-height: inherit;
     font-size: 1rem;
   }
