@@ -62,15 +62,6 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4.0.5
 
-      - name: Notify success to Slack
-        if: success()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_TITLE: Deployed successfully!
-          SLACK_COLOR: good
-          MSG_MINIMAL: true
-
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:
