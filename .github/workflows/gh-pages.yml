@@ -4,6 +4,7 @@ on:
   push:
     branches: 
       - source
+  pull_request:
 
 jobs:
   build:
@@ -33,6 +34,7 @@ jobs:
           slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   deploy:
+    if: github.event_name == 'push'
     needs:
       - build
     runs-on: ubuntu-latest
