@@ -76,7 +76,7 @@ const articleClass = css`
 
   & pre {
     box-sizing: border-box;
-    margin-block: calc(var(--line-height-length) / 4);
+    margin-block: calc(var(--line-height-length) / 4 + 1pt);
     margin-inline: 0.5rem;
     padding-block: calc(var(--line-height-length) / 4 - 2pt);
     padding-inline: 0.75em;
@@ -84,6 +84,7 @@ const articleClass = css`
     border-radius: 0.5rem;
     background: var(--theme-base-color);
     overflow-x: scroll;
+    scrollbar-width: none;
     line-height: inherit;
     font-size: 1rem;
   }
