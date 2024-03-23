@@ -58,7 +58,7 @@ const articleClass = css`
     padding-block-end: 1pt;
     padding-inline: 0.2rem;
 
-    & + & {
+    & + &, ins:has(p) + & {
       margin-block-start: var(--line-height-length);
     }
   }
