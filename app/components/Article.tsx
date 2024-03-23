@@ -20,6 +20,7 @@ const articleClass = css`
 
   & h1 {
     margin-block: calc(var(--line-height-length) - 2pt);
+    padding-inline: 0.2rem;
     border-block: 2pt solid var(--theme-main-color);
     background: var(--theme-base-color);
     line-height: calc(2 * var(--line-height-length));
@@ -32,6 +33,7 @@ const articleClass = css`
 
   & h2, & h3, & h4, & h5, & h6 {
     margin-block-start: var(--line-height-length);
+    padding-inline: 0.2rem;
 
     & + & {
       margin-block-start: 0;
@@ -44,7 +46,7 @@ const articleClass = css`
 
   & h3::before {
     content: "■";
-    margin-inline-end: 0.5ex;
+    margin-inline-end: 0.3ex;
   }
 
   & p, & li, & dd {
@@ -53,8 +55,8 @@ const articleClass = css`
 
   & p {
     margin-block-end: -1pt;
-    padding-inline: 0.5em;
     padding-block-end: 1pt;
+    padding-inline: 0.2rem;
 
     & + & {
       margin-block-start: var(--line-height-length);
