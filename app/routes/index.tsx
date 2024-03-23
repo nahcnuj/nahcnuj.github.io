@@ -6,11 +6,13 @@ export default createRoute((c) => {
   const title = 'Junichi Hayashi, a web engineer'
   const description = 'I am Junichi Hayashi, a web engineer.'
 
-  const headerClass = css`
+  const headingClass = css`
     text-align: center;
   `
   const headerImageClass = css`
-    height: calc(5 * var(--line-height-length));
+    float: right;
+    height: calc(4 * var(--line-height-length));
+    margin-inline: 0.2rem;
 
     & img {
       height: 100%;
@@ -20,12 +22,10 @@ export default createRoute((c) => {
 
   return c.render(
     <main>
-      <header class={headerClass}>
-        <h1>Junichi Hayashi, a web engineer</h1>
-        <div class={headerImageClass}>
-          <RemoteImage src="/author.jpg" width={200} height={200} alt="Junichi Hayashi's face" />
-        </div>
-      </header>
+      <h1 class={headingClass}>Junichi Hayashi, a web engineer</h1>
+      <div class={headerImageClass}>
+        <RemoteImage src="/author.jpg" width={150} height={150} alt="" />
+      </div>
 
       <h2>I am ...</h2>
       <p>林純一と申します。都内某企業でウェブエンジニアとして働いています。</p>
