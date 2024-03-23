@@ -33,8 +33,8 @@ export default createRoute((c) => {
       <h2>I like ...</h2>
       <h3>プログラミング</h3>
       <p>
-        小学5年生のときに父が所持していたポケットコンピュータでBASICと出会ってから、
-        <abbr title="Hot Soup Processor">HSP</abbr>、C、C++、C#、Java、Perl、TypeScript、Go、Rust、Coq、Lean 4など、
+        小学5年生のときに、父が所有していたポケットコンピュータでBASICと出会ってから、
+        <abbr title="Hot Soup Processor">HSP</abbr>、C、C++、C#、Java、Perl、TypeScript、Go、Rust、Lean 4など、
         様々な言語でプログラミングを楽しんでいます。
       </p>
 
@@ -57,10 +57,10 @@ export default createRoute((c) => {
 
       <h2>I belonged to ...</h2>
       <ul>
-        <li>神戸市立工業高等専門学校電気工学科 卒業</li>
-        <li>大阪大学基礎工学部情報科学科 卒業</li>
-        <li>大阪大学大学院情報科学研究科コンピュータサイエンス専攻 中退</li>
-        <li>シーサー株式会社 正社員</li>
+        <li>神戸市立工業高等専門学校電気工学科（2016年3月卒業）</li>
+        <li>大阪大学基礎工学部情報科学科（2018年3月卒業）</li>
+        <li>大阪大学大学院情報科学研究科コンピュータサイエンス専攻（2019年10月中途退学）</li>
+        <li>シーサー株式会社（2020年4月～2023年12月）</li>
       </ul>
     </main>,
     { title, description },
