@@ -10,14 +10,17 @@ tags:
 
 ## Visual Studio CodeでSSH越しにコードを編集する
 
-普段は会社から貸与されたMacからVM上の開発環境にSSHして、Vimで開発している。
+普段はMacからVM上の開発環境にSSHして、Vimで開発している。
 タグジャンプなども入れておらず、別のクラスを見に行きたいときは毎回`:tage lib/Hoge/Fuga/Piyo.pm`していた。
 流石にそろそろ補完とかが欲しくなってきた。
 
 Vimが指定されているわけでも、Vimにこだわりがあるわけでもないので、Visual Studio Codeでの開発を試してみた。
 VS Codeは入れてはいたので、「[Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)」という拡張機能をインストールして、いつもの開発環境に繋ぐだけ。
-プロジェクトのディレクトリを開いたら ["Visual Studio Code is unable to watch for file changes in this large workspace"](https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc) というエラーが出た。
-リンク先の通りに操作したところ無事に解消された。
+プロジェクトのディレクトリを開いたところ、以下のエラーが出た。
+```
+Visual Studio Code is unable to watch for file changes in this large workspace
+```
+[「Visual Studio Code on Linux」の当該エラーメッセージの項](https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc)にある通り操作したところ無事に解消された。
 
 ```console
 $ cat /proc/sys/fs/inotify/max_user_watches

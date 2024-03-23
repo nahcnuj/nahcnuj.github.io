@@ -8,7 +8,12 @@
     "preview": "wrangler pages dev ./dist",
     "deploy": "$npm_execpath run build && wrangler pages deploy ./dist",
     "format": "biome format --write .",
-    "lint": "biome lint --apply ."
+    "lint": "npm run lint:biome && npm run lint:text",
+    "lint:fix": "npm run lint:biome:fix && npm run lint:text:fix",
+    "lint:biome": "biome lint .",
+    "lint:biome:fix": "npm run lint:biome -- --apply",
+    "lint:text": "textlint -f pretty-error ./app/routes/**/*.mdx",
+    "lint:text:fix": "textlint --fix ./app/routes/**/*.mdx"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +30,9 @@
     "rehype-slug": "^6.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^4.0.0",
+    "textlint": "^14.0.4",
+    "textlint-rule-preset-ja-technical-writing": "^10.0.1",
+    "textlint-rule-preset-japanese": "^10.0.3",
     "vite": "^5.2.2",
     "wrangler": "^3.36.0"
   }

@@ -1,15 +1,20 @@
 DEST_DIR:=dist
 
-.PHONY: all clean build rebuild
+.PHONY: all check clean build rebuild setup
 
 all: build
 
 clean:
 	@rm -rf $(DEST_DIR)/*
 
-build:
+setup:
 	@npm ci --cache ~/.npm --prefer-offline
+
+build: setup
 	@npm run build
+
+check: setup
+	@npm run lint
 
 rebuild: clean build
 
