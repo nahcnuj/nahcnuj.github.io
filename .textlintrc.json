@@ -6,7 +6,13 @@
   },
   "filters": {},
   "rules": {
-    "preset-ja-technical-writing": true,
-    "preset-japanese": true
+    "preset-ja-technical-writing": {
+      "sentence-length": false
+    },
+    "preset-japanese": {
+      "sentence-length": {
+        "max": 120
+      }
+    }
   }
 }
