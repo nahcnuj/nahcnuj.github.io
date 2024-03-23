@@ -14,21 +14,18 @@ const diaries = ((files) =>
 
 const app = new Hono()
 
-app.get(
-  '/index', // for compatibility, generates as /diary/index.html
-  (c) => {
-    const title = `Junichi Hayashi's Works`
-    const description = 'There are the works Junichi Hayashi has made.'
+app.get('/', (c) => {
+  const title = `Junichi Hayashi's Works`
+  const description = 'There are the works Junichi Hayashi has made.'
 
-    return c.render(
-      <>
-        <h1>日記</h1>
-        <DiaryList diaries={diaries} />
-      </>,
-      { title, description },
-    )
-  },
-)
+  return c.render(
+    <>
+      <h1>日記</h1>
+      <DiaryList diaries={diaries} />
+    </>,
+    { title, description },
+  )
+})
 
 app.get('/2020-07-04', rendererToRedirectTo('https://www.nahcnuj.work/diary/2020/07/04.html'))
 app.get('/2020-07-20', rendererToRedirectTo('https://www.nahcnuj.work/diary/2020/07/20.html'))
