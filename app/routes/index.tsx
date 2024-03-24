@@ -27,7 +27,7 @@ export default createRoute((c) => {
   `
 
   return c.render(
-    <main>
+    <>
       <h1 class={headingClass}>
         <span class={ibClass}>Junichi Hayashi,</span> <span class={ibClass}>a web engineer</span>
       </h1>
@@ -70,7 +70,7 @@ export default createRoute((c) => {
         <li>大阪大学大学院情報科学研究科コンピュータサイエンス専攻（2019年10月中途退学）</li>
         <li>シーサー株式会社（2020年4月～2023年12月）</li>
       </ul>
-    </main>,
+    </>,
     { title, description },
   )
 })
