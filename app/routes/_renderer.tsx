@@ -70,7 +70,6 @@ export default jsxRenderer(({ children, ...props }) => {
             <meta property="og:image:alt" content="Junichi's face" />
           </>
         )}
-        <link rel="preload" as="script" href="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" />
         <Script src="/app/client.ts" async />
         <Style>{rootStyle}</Style>
         <script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async />
