@@ -11,18 +11,26 @@ export default createRoute((c) => {
   `
   const headerImageClass = css`
     float: right;
-    height: calc(4 * var(--line-height-length));
-    margin-inline: 0.2rem;
+    height: calc(3 * var(--line-height-length));
+    margin-inline-start: 1rem;
+    padding-inline: 0.2rem;
+    background: var(--theme-base-color);
 
     & img {
+      width: 100%;
       height: 100%;
       object-fit: scale-down;
     }
   `
+  const ibClass = css`
+    display: inline-block;
+  `
 
   return c.render(
     <main>
-      <h1 class={headingClass}>Junichi Hayashi, a web engineer</h1>
+      <h1 class={headingClass}>
+        <span class={ibClass}>Junichi Hayashi,</span> <span class={ibClass}>a web engineer</span>
+      </h1>
       <div class={headerImageClass}>
         <RemoteImage src="/author.jpg" width={150} height={150} alt="" />
       </div>
