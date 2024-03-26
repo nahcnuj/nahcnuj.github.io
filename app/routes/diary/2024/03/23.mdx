@@ -5,6 +5,8 @@ tags:
   - Lean 4
   - 定理証明支援系
 ---
+import { InlineMath } from "../../../../components/Math"
+
 # 2024年3月23日
 
 ## 『Theorem Proving in Lean 4』読了
@@ -17,13 +19,13 @@ Visual Studio CodeでLean 4の環境を整え、文章中のコード片を写�
 どのタクティクでどの定理を使えば進められるのかが分からず難しかったです。
 Lean 4でも同様にタクティクを使った証明もできますが、命題の型を持つ項を構成することでも証明でき、私にはこちらのほうが分かりやすく感じました。
 
-例えば、任意の命題P, Qに対して`P ∧ Q → Q ∧ P`が成り立つことの証明を、Lean 4では以下のように書くことができます。
+例えば、任意の命題<InlineMath>{`P, Q`}</InlineMath>に対して<InlineMath>{String.raw`P \land Q \to Q \land P`}</InlineMath>が成り立つことの証明を、Lean 4では以下のように書くことができます。
 ```
 example (P Q : Prop) : P ∧ Q → Q ∧ P :=
   fun (h : P ∧ Q) => And.intro h.right h.left
 ```
-含意（ならば、`→`）が関数に対応し、含意の仮定が関数の引数になっています。
+含意（「ならば」、<InlineMath>{String.raw`\mathbin\to`}</InlineMath>）が関数に対応し、含意の仮定が関数の引数になっています。
 `And.intro`は引数の2つの項からそれらの論理積の項を生成する関数です。
-ここでは仮定の項`h : P ∧ Q`から、その右の項`h.right : Q`と左の項`h.left : P`を取り出して、`And.intro`に適用することで`Q ∧ P`型の項を生成しています。
+ここでは仮定の項<InlineMath>{String.raw`\mathtt{h} \colon P ∧ Q`}</InlineMath>から、その右の項<InlineMath>{String.raw`\mathtt{h.right} \colon Q`}</InlineMath>と左の項<InlineMath>{String.raw`\mathtt{h.left} \colon P`}</InlineMath>を取り出して、`And.intro`に適用することで<InlineMath>{`Q ∧ P`}</InlineMath>型の項を生成しています。
 
 このようにカリー＝ハワード対応に基づく命題と型・証明と項の関係がそのままコードに現れていることに感銘を受けました。

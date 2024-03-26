@@ -34,6 +34,9 @@ const rootStyle = css`
 const containerClass = css`
   max-width: 40rem;
   margin-inline: auto;
+  @media screen and (max-width: 600px) {
+    overflow-x: scroll;
+  }
 `
 
 export default jsxRenderer(({ children, ...props }) => {
@@ -70,6 +73,12 @@ export default jsxRenderer(({ children, ...props }) => {
             <meta property="og:image:alt" content="Junichi's face" />
           </>
         )}
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"
+          integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww"
+          crossorigin="anonymous"
+        />
         <Script src="/app/client.ts" async />
         <Style>{rootStyle}</Style>
         <script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async />
