@@ -15,7 +15,7 @@ export default createRoute((c) => {
   `
   const headerImageClass = css`
     float: right;
-    height: calc(3 * var(--line-height-length));
+    height: calc(4 * var(--line-height-length));
     margin-inline-start: 1rem;
     padding-inline: 0.2rem;
     background: var(--theme-base-color);

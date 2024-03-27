@@ -9,39 +9,41 @@ const articleClass = css`
     line-height-step: var(--line-height-length);
   }
 
-  background: linear-gradient(#ccf 0.5pt, transparent 0.5pt) top/100% var(--line-height-length);
-  padding-block-end: 1pt;
-
   & h1, & h2, & h3, & h4, & h5, & h6, & p, & ul, & ol, & dl, & div {
     box-sizing: border-box;
     margin-block: 0;
     line-height: inherit;
   }
 
-  & h1 {
-    margin-block: calc(var(--line-height-length) - 2pt);
+  & h1, & h2, & h3, & h4, & h5, & h6, & p {
     padding-inline: 0.2rem;
-    border-block: 2pt solid var(--theme-main-color);
-    background: var(--theme-base-color);
-    line-height: calc(2 * var(--line-height-length));
-    font-size: 190%;
+  }
 
-    & + h2 {
-      margin-block-start: 0;
-    }
+  & > ul, & > ol, & > dl {
+    padding-inline-end: 0.2rem;
   }
 
   & h2, & h3, & h4, & h5, & h6 {
-    margin-block-start: var(--line-height-length);
-    padding-inline: 0.2rem;
+    margin-block-start: 2rem;
+    margin-block-end: 0;
 
     & + & {
-      margin-block-start: 0;
+      margin-block-start: 0.5rem;
     }
+  }
 
-    & + p, & + ul, & + ol, & + dl {
-      margin-block-start: 0;
-    }
+  & h1 { font-size: 200% }
+  & h2 { font-size: 160% }
+  & h3 { font-size: 120% }
+
+  & h2 { margin-block-end: 0.5rem }
+
+  & h1 {
+    margin-block: 2rem;
+    padding-block: 0.5rem;
+    border-block: 2pt solid var(--theme-main-color);
+    background: var(--theme-base-color);
+    line-height: 1.5;
   }
 
   & h3::before {
@@ -53,39 +55,38 @@ const articleClass = css`
     text-align: justify;
   }
 
-  & p {
-    margin-block-end: -1pt;
-    padding-block-end: 1pt;
-    padding-inline: 0.2rem;
+  & p + p {
+    margin-block-start: var(--line-height-length);
+  }
 
-    & + &, ins:has(p) + & {
-      margin-block-start: var(--line-height-length);
-    }
+  & > p, & > ul, & > ol {
+    padding-block-end: 1pt;
+    background: linear-gradient(#ccf 0.5pt, transparent 0.5pt) top/100% var(--line-height-length);
   }
 
   & figure {
     max-width: 80%;
-    line-height: inherit;
     margin-inline: auto;
     text-align: center;
 
     & img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
       object-fit: scale-down;
     }
   }
 
   & pre {
     box-sizing: border-box;
-    margin-block: calc(var(--line-height-length) / 4 + 1pt);
     margin-inline: 0.5rem;
     padding-block: calc(var(--line-height-length) / 4 - 2pt);
     padding-inline: 0.75em;
     border: 1pt solid var(--theme-main-color);
     border-radius: 0.5rem;
-    background: var(--theme-base-color);
     overflow-x: scroll;
     scrollbar-width: none;
-    line-height: inherit;
     font-size: 1rem;
   }
 
