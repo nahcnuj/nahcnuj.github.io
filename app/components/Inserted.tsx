@@ -3,17 +3,18 @@ import type { PropsWithChildren } from 'hono/jsx'
 import { Temporal } from 'temporal-polyfill'
 
 const insertedClass = css`
-  background-color: #aceebb;
+  background: linear-gradient(transparent 0.7em, #aceebb 0.7em) 1em;
   padding-inline: 0.2rem;
-  border-radius: 0.2rem;
-  border: 2pt solid #393;
+  text-decoration: none;
 
   &:has(p) {
     display: block;
     box-sizing: border-box;
     margin-block: -3pt;
     margin-inline: 0.2rem;
-    text-decoration: none;
+    background: #aceebb;
+    border-radius: 0.2rem;
+    border: 2pt solid #393;
   }
 
   &::before {

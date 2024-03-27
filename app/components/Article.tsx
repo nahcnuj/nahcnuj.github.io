@@ -61,7 +61,7 @@ const articleClass = css`
 
   &, & honox-island {
     & > p, & > ul, & > ol {
-      padding-block-end: 1pt;
+      padding-block-end: 0.5pt;
       background: linear-gradient(#ccf 0.5pt, transparent 0.5pt) top/100% var(--line-height-length);
     }
   }
