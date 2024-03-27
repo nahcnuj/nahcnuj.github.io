@@ -108,6 +108,7 @@ const inlineMathClass = css`
 export function InlineMath({ children = '' }: { children?: string }) {
   const html = katex
     .renderToString(children, { output: 'htmlAndMathml', throwOnError: true })
+    // replace math identifiers and texts with the appropriate Mathematical Alphanumeric Symbols
     // because legacy mathvariant attribute values are deprecated
     // see: https://developer.mozilla.org/en-US/docs/Web/MathML/Element/mi#mathvariant
     .replaceAll(
