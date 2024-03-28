@@ -1,0 +1,48 @@
+---
+title: Lean 4の直和型―number | number ≠ number!?（2024年3月28日）
+tags:
+  - Lean 4
+  - 関数型プログラミング
+---
+import { InlineMath } from "../../../../components/Math"
+
+# 2024年3月28日
+
+## Lean 4の直和型―`number | number ≠ number`!?
+
+[『Theorem Proving in Lean 4』](./23.html)を読み終え、続けてLean 4での関数型プログラミングを学ぶために[『Functinal Programming in Lean 4』](https://leanprover.github.io/functional_programming_in_lean/title.html)を読んでいます。
+数日前に1.5節まで読み、今日は[1.6節「Polymorphism」](https://leanprover.github.io/functional_programming_in_lean/getting-to-know/polymorphism.html)をやりました。
+
+直和型（sum type）とは、複数ある型のうちいずれかの型の値を取り得る型のことをいいます。
+Lean 4の直和型`Sum α β`は、左の型の値から生成する`Sum.inl`と右の型の値から生成する`Sum.inr`の2つのコンストラクタを持ちます。
+例えば`Sum Nat Nat`のように左右が同じ型であっても、どちらのコンストラクタで生成するかによって左の`Nat`と右の`Nat`を区別できるのです。
+```lean
+def x : Nat ⊕ Nat := Sum.inl 2 -- 左のNat
+def y : Nat ⊕ Nat := Sum.inr 3 -- 右のNat
+
+def which (x : Nat ⊕ Nat) : String :=
+  match x with             -- 引数xが...
+    | Sum.inl _ => "left"  -- 左のNatなら"left"
+    | Sum.inr _ => "right" -- 右のNatなら"right"
+
+example : which x = "left"  := rfl -- xは左のNatだから"left"になった
+example : which y = "right" := rfl -- yは右のNatだから"right"になった
+```
+
+TypeScriptでも、型が異なれば以下のように同様の見た目のコードで実現できます。
+```ts
+type NumOrStr = number | string
+const x : NumOrStr = 3
+const y : NumOrStr = "hoge"
+```
+しかし、TypeScriptにおいて`number | number`という型を考えると、これは`number`型と等しくなってしまいます。
+`number`型か`number`型、いずれかの値を取るのですから、確かにそれは`number`に違いありませんね。
+
+…というように表題のようなことを考えながら日記を書き始めたものの、冷静になるとTypeScriptの`|`は合併型（union type）であり直和型とは異なるものでした。
+ちなみにタグ付きにするなどすれば同様のことが実現できます。
+```ts
+type NumOrNum = { tag: "left";  value: number }
+              | { tag: "right"; value: number }
+```
+
+<p><small>つまり表題はミスリーディングなのですが、直和型で軽くググって「！」と一瞬感じてしまった気持ちを共有させてください。</small></p>

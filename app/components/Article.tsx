@@ -90,9 +90,14 @@ const articleClass = css`
     overflow-x: scroll;
     scrollbar-width: none;
     font-size: 1rem;
+    line-height: 1.5;
   }
 
   & code {
+    font-size: 1em;
+  }
+
+  & p code {
     font-size: 1rem;
   }
 `
