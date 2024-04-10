@@ -4,9 +4,7 @@ import DiaryList from '../../islands/DiaryList'
 import type { Meta } from './type'
 
 const diaries = ((files) =>
-  Object.entries(files).map(
-    ([path, ...tail]) => [path.replace(/^\/src\/diary/, '.').replace(/\.mdx$/, '.html'), ...tail] as const,
-  ))(
+  Object.entries(files).map(([path, ...tail]) => [path.replace(/\.mdx$/, '.html'), ...tail] as const))(
   import.meta.glob<{ frontmatter: Meta }>('./**/*.mdx', {
     eager: true,
   }),
