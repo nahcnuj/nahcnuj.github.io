@@ -36,6 +36,13 @@ VSCodeの設定で`terminal.integrated.profiles.windows`の`PowerShell`の項目
         },
 ```
 
+```
+PS C:\Users\user\work\hello-lean-doc-gen4> rm .\lake-manifest.json
+PS C:\Users\user\work\hello-lean-doc-gen4> lake build
+info: «hello-lean-doc-gen4»: no previous manifest, creating one from scratch
+PS C:\Users\user\work\hello-lean-doc-gen4>
+```
+
 これだけだとタスクの実行でも引数付きになってしまうようで、（当サイトのソースリポジトリで）`npm run dev`のタスクを実行したら以下のようなエラーになった。
 ```
 パラメーターの書式が違います - -Command
