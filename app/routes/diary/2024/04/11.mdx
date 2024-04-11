@@ -1,0 +1,55 @@
+---
+title: VSCodeの統合ターミナルのPowerShellのコードページをUTF-8に変える（2024年4月11日）
+tags:
+  - Visual Studio Code
+  - PowerShell
+  - UTF-8
+  - chcp
+---
+# 2024年4月11日
+## VSCodeの統合ターミナルでPowerShellのコードページをUTF-8に変える
+VSCodeの統合ターミナルのPowerShellで`«»`が文字化けした。
+```
+PS C:\Users\user\work\hello-lean-doc-gen4> lake build
+info: ﾂｫhello-lean-doc-gen4ﾂｻ: no previous manifest, creating one from scratch
+[0/6] Building HelloLeanDocGen4.Basic
+[1/6] Compiling HelloLeanDocGen4.Basic
+[1/6] Building HelloLeanDocGen4
+[3/6] Compiling HelloLeanDocGen4
+[3/6] Building Main
+[5/6] Compiling Main
+[6/6] Linking hello-lean-doc-gen4.exe
+PS C:\Users\user\work\hello-lean-doc-gen4> 
+```
+VSCodeの設定で`terminal.integrated.profiles.windows`の`PowerShell`の項目を、PowerShellが`-NoExit -Command chcp 65001`の引数付きで実行されるようにすれば良い。
+```
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "args": [
+                "-NoExit",
+                "-Command",
+                "chcp",
+                "65001"
+            ],
+            "icon": "terminal-powershell"
+        },
+```
+
+これだけだとタスクの実行でも引数付きになってしまうようで、（当サイトのソースリポジトリで）`npm run dev`のタスクを実行したら以下のようなエラーになった。
+```
+パラメーターの書式が違います - -Command
+```
+[Visual Studio Code公式ドキュメント](https://code.visualstudio.com/docs/terminal/profiles)によれば、タスク実行時のシェルには`terminal.integrated.automationProfile.windows`を設定すればそちらの設定が使われるとのこと。
+以下のように引数を追加する前の設定を追加した。
+```
+    "terminal.integrated.automationProfile.windows": {
+        "path": "pwsh.exe",
+        "icon": "terminal-powershell"
+    }
+```
+こちらの設定には`source`というフィールドはないようだった。
+
+### 参考文献
+- [【VS Code】統合ターミナル上のPowerShellでの文字化けを解消する（文字コードをSJIS→UTF\-8に設定する） \#Windows \- Qiita](https://qiita.com/h53/items/888759fa4a6980e91acb)
+- [Terminal Profiles in Visual Studio Code](https://code.visualstudio.com/docs/terminal/profiles)（Visual Studio Code公式ドキュメント）
