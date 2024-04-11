@@ -13,8 +13,8 @@ const diaries = ((files) =>
 const app = new Hono()
 
 app.get('/', (c) => {
-  const title = `Junichi Hayashi's Works`
-  const description = 'There are the works Junichi Hayashi has made.'
+  const title = `Junichi Hayashi's Diary`
+  const description = 'There is the diary Junichi Hayashi wrote.'
 
   return c.render(
     <>

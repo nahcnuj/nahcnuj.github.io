@@ -10,7 +10,8 @@ export default function DiaryList({ diaries }: { diaries: (readonly [FilePath, F
         .sort(([a], [b]) => b.localeCompare(a))
         .map(([filename, { frontmatter }]) => (
           <li>
-            <a href={filename}>{frontmatter.title}</a>：{frontmatter.description}
+            <a href={filename}>{frontmatter.title}</a>
+            {frontmatter.description && `：${frontmatter.description}`}
           </li>
         ))}
     </ul>
