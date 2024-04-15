@@ -21,7 +21,7 @@
     "honox": "^0.1.11"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.6.4",
+    "@biomejs/biome": "1.7.0",
     "@hono/vite-cloudflare-pages": "^0.2.5",
     "@hono/vite-ssg": "^0.1.0",
     "@mdx-js/rollup": "^3.0.1",
