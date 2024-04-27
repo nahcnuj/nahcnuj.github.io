@@ -9,7 +9,7 @@ export default function EssayList({ essays }: { essays: (readonly [FilePath, Fro
       {essays
         .sort(([a], [b]) => b.localeCompare(a))
         .map(([filename, { frontmatter }]) => (
-          <li>
+          <li key={filename}>
             <a href={filename}>{frontmatter.title}</a>
           </li>
         ))}
