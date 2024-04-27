@@ -23,7 +23,7 @@ export default function WorkList({ works }: { works: [string, Meta][] }) {
   return (
     <ul class={listClass}>
       {works.map(([path, work]) => (
-        <li class={itemClass}>
+        <li key={path} class={itemClass}>
           <a href={`/works/${path}`} class={anchorClass}>
             <Work {...work} />
           </a>

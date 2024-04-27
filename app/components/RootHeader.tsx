@@ -33,7 +33,7 @@ export default function RootHeader({ navItems }: { navItems: NavItem[] }) {
       <nav>
         <ul class={listClass}>
           {navItems.map(({ href, title }) => (
-            <li class={itemClass}>
+            <li key={href} class={itemClass}>
               <a href={href}>{title}</a>
             </li>
           ))}
