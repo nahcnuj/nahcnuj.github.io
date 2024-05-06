@@ -18,10 +18,10 @@
   "private": true,
   "dependencies": {
     "hono": "^4.2.9",
-    "honox": "^0.1.15"
+    "honox": "^0.1.16"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.7.2",
+    "@biomejs/biome": "1.7.3",
     "@hono/vite-cloudflare-pages": "^0.2.5",
     "@hono/vite-ssg": "^0.1.0",
     "@mdx-js/rollup": "^3.0.1",
