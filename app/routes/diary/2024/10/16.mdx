@@ -1,0 +1,49 @@
+---
+title: HellPotでクソボットアクセスを捕らえる（2024年10月16日）
+tags:
+  - ハニーポット
+---
+アクセスしてきたモノを無限ストリーム地獄に落とす「[HellPot](https://github.com/yunginnanet/HellPot)」というハニーポットを知ったので試してみた。
+使い方はリポジトリで説明されている通りなので詳細は省くが、[雑にDockerで実験環境を作ってみた](https://github.com/nahcnuj/try-HellPot)のでもっとサクッと試したい方は参考にされたい。
+
+普通に稼働しているパスに対しては当然普通のウェブページ（実験環境ではnginxのデフォルトページ）が返される。
+一方、HellPotを仕掛けた「/wp-login.php」にアクセスしてしまうと、延々とレスポンスが生成され続ける無間地獄に落ちてしまうのである。
+
+ローカルでの結果だが、`curl`で出力を捨てながらアクセスしたところ、20秒弱で1GBものレスポンスが生成された。
+```
+$ curl 'http://localhost:8080/wp-login.php' >/dev/null
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 1069M    0 1069M    0     0  57.9M      0 --:--:--  0:00:18 --:--:-- 56.4M^C
+```
+
+ちなみに、レスポンスを冒頭だけ見てみるとこのような感じになっていた。
+```
+$ curl -si -XGET 'http://localhost:8080/wp-login.php' | head -20
+HTTP/1.1 200 OK
+Server: nginx/1.27.2
+Date: Wed, 16 Oct 2024 15:03:14 GMT
+Content-Type: text/plain; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+<html>
+<body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>
+The
+Project
+Gutenberg
+Literary
+```
+
+試しにブラウザでも開いてみたが、はじめに返ってきたHTMLの部分が描画された後ハングし、そのままタブがクラッシュしてしまった。
+
+リクエストしてきたプロセスを捉えてしまう面白いアプローチだと思った。
+しかし、無限にレスポンスを返し続けるという性質上、転送量で課金されるCDNでは使えなさそうだ。
+また、うっかりインデックスされてしまうと一般人が罠に嵌まってしまう恐れもありそうだ。
