@@ -24,7 +24,7 @@
     "@biomejs/biome": "1.9.4",
     "@hono/vite-cloudflare-pages": "^0.4.2",
     "@hono/vite-ssg": "^0.1.0",
-    "@mdx-js/rollup": "^3.0.1",
+    "@mdx-js/rollup": "^3.1.0",
     "@types/katex": "^0.16.7",
     "katex": "^0.16.11",
     "rehype-external-links": "^3.0.0",
