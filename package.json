@@ -32,7 +32,7 @@
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.0.0",
     "temporal-polyfill": "^0.2.5",
-    "textlint": "^14.2.1",
+    "textlint": "^14.3.0",
     "textlint-rule-preset-ja-technical-writing": "^10.0.1",
     "textlint-rule-preset-japanese": "^10.0.3",
     "vite": "^5.4.10",
