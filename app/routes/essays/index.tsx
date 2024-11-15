@@ -8,7 +8,6 @@ const essays = ((files) =>
     eager: true,
   }),
 )
-console.log(essays)
 
 export default createRoute((c) => {
   const title = `Junichi Hayashi's Essays`
