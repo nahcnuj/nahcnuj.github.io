@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
     "ignore": ["dist", "public/nuxt-multibyte-url-demo", "public/nuxt-multibyte-url-fixed"]
   },
@@ -17,7 +17,7 @@
       "enabled": true,
       "quoteStyle": "single",
       "jsxQuoteStyle": "double",
-      "trailingComma": "all",
+      "trailingCommas": "all",
       "semicolons": "asNeeded",
       "arrowParentheses": "always",
       "indentWidth": 2,
