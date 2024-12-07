@@ -57,8 +57,8 @@ const variantRegularMapping: Record<string, [number, number]> = {
 const replace = (variant: keyof typeof variantRegularMapping, char: LatinAlphabet) =>
   `&#x${(
     variantIrregularMapping[variant]?.[char] ??
-    variantRegularMapping[variant][upperLatinAlphabets.includes(char) ? 0 : 1] +
-      upperLatinAlphabets.indexOf(char.toUpperCase())
+      variantRegularMapping[variant][upperLatinAlphabets.includes(char) ? 0 : 1] +
+        upperLatinAlphabets.indexOf(char.toUpperCase())
   ).toString(16)};`
 
 const inlineMathClass = css`

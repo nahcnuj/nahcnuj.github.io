@@ -4,6 +4,7 @@ type Head = {
   title?: string
   description?: string
   thumbnail?: string
+  usemath?: boolean
 }
 
 declare module 'hono' {
