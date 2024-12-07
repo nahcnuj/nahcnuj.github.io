@@ -50,6 +50,7 @@ export default jsxRenderer(({ children, ...props }) => {
   const title = props.title ?? props.frontmatter?.title
   const description = props.description ?? props.frontmatter?.description
   const thumbnail = props.thumbnail ?? props.frontmatter?.thumbnail
+  const useMath = props.usemath ?? props.frontmatter?.usemath ?? false
 
   return (
     <html lang="ja">
@@ -74,12 +75,14 @@ export default jsxRenderer(({ children, ...props }) => {
             <meta property="og:image:alt" content="Junichi's face" />
           </>
         )}
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"
-          integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww"
-          crossorigin="anonymous"
-        />
+        {useMath && (
+          <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"
+            integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww"
+            crossorigin="anonymous"
+          />
+        )}
         <Script src="/app/client.ts" async />
         <Style>{rootStyle}</Style>
         <script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async />
