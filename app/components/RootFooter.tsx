@@ -12,12 +12,18 @@ const footerClass = css`
 `
 
 export default function RootFooter() {
-  return <footer class={footerClass}>
-    <div>&copy; Junichi Hayashi</div>
-    <div>
-      <a href="//x.com/pronahcnuj" rel="me">X</a>
-      {' | '}
-      <a href="//github.com/nahcnuj" rel="me">GitHub</a>
-    </div>
-  </footer>
+  return (
+    <footer class={footerClass}>
+      <div>&copy; Junichi Hayashi</div>
+      <div>
+        <a href="//x.com/pronahcnuj" rel="me">
+          X
+        </a>
+        {' | '}
+        <a href="//github.com/nahcnuj" rel="me">
+          GitHub
+        </a>
+      </div>
+    </footer>
+  )
 }
