@@ -17,13 +17,13 @@
   },
   "private": true,
   "dependencies": {
-    "hono": "^4.6.15",
-    "honox": "^0.1.28"
+    "hono": "^4.6.16",
+    "honox": "^0.1.31"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@hono/vite-cloudflare-pages": "^0.4.2",
-    "@hono/vite-ssg": "^0.1.0",
+    "@hono/vite-ssg": "^0.1.1",
     "@mdx-js/rollup": "^3.1.0",
     "@types/katex": "^0.16.7",
     "katex": "^0.16.19",
