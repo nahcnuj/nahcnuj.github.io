@@ -18,7 +18,6 @@ const rootStyle = css`
   html {
     background: var(--theme-base-color);
     color: var(--theme-main-color);
-    font-size: 1.2em;
 
     scrollbar-gutter: stable both-edges;
   }
