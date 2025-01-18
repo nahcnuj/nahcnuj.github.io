@@ -73,6 +73,10 @@ export default jsxRenderer(({ children, ...props }) => {
               This article was written by Grok 2. However, Grok 2 does not bear responsibility for the content of this
               output, and neither do I.
             </p>
+            {/* BEGIN admax */}
+            <script type="text/javascript">{raw`(admaxads = window.admaxads || []).push({admax_id: "02b79cd08f6fdb3bd88a753f617eba49",type: "action"});`}</script>
+            <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async />
+            {/* END admax */}
           </aside>
         </div>
       </body>
