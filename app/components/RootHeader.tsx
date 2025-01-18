@@ -8,9 +8,9 @@ type NavItem = {
 export default function RootHeader({ navItems }: { navItems: NavItem[] }) {
   const listClass = css`
     --columns: 4;
-    @media screen and (min-width: 600px) {
-      --columns: 6;
-    }
+    // @media screen and (min-width: 600px) {
+    //   --columns: 6;
+    // }
 
     padding-inline-start: 0;
 
