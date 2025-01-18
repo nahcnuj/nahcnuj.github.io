@@ -1,4 +1,5 @@
 import { css } from 'hono/css'
+import { raw } from 'hono/html'
 import type { PropsWithChildren } from 'hono/jsx'
 
 const articleClass = css`
@@ -102,6 +103,55 @@ const articleClass = css`
   }
 `
 
+const admaxPcClass = css`
+  height: 100%;
+  margin-inline: calc(50% - 50vw);
+  text-align:center;
+  background-color: var(--theme-base-color);
+
+  display:grid;
+  justify-items:center;
+  align-content:space-around;
+
+  @media screen and (max-width: 727px) {
+    display: none;
+  }
+`
+const admaxSpClass = css`
+  diplay: none;
+  overflow:hidden;
+
+  @media screen and (max-width: 727px) {
+    height: 100%;
+    text-align: center;
+    background-color: var(--theme-base-color);
+  }
+`
+
 export default function Article({ children }: PropsWithChildren) {
-  return <article class={articleClass}>{children}</article>
+  return (
+  <article class={articleClass}>
+    <aside style="height:100px">
+      <div class={admaxPcClass}>
+        <script src="https://adm.shinobi.jp/s/77ca5fd1df959f6aa2a66d62614ed055" />
+      </div>
+      <div class={admaxSpClass}>
+        <script src="https://adm.shinobi.jp/s/b793489d3737a35ef887cf42c4816d28" />
+      </div>
+    </aside>
+    {children}
+    <aside style="height:100px;margin-top:1rem">
+      <div class={admaxPcClass}>
+        <div class="admax-ads" data-admax-id="51cc1d947d0361fc6e0d31fd3ec72795" style="display:inline-block;width:728px;height:90px;" />
+        <script type="text/javascript">{raw`(admaxads = window.admaxads || []).push({admax_id: "51cc1d947d0361fc6e0d31fd3ec72795",type: "banner"});`}</script>
+        <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async />
+      </div>
+      <div class={admaxSpClass}>
+        <div class="admax-ads" data-admax-id="fa1a228bb42d976cd5bb39f31c407c30" style="display:inline-block;" />
+        <script type="text/javascript">{raw`(admaxads = window.admaxads || []).push({admax_id: "fa1a228bb42d976cd5bb39f31c407c30",type: "banner"});`}</script>
+        <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async />
+      </div>
+    </aside>
+  </article>
+  )
 }

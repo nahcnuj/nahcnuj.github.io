@@ -98,6 +98,10 @@ export default jsxRenderer(({ children, ...props }) => {
           <Article>{children}</Article>
           <RootFooter />
         </div>
+        {/* BEGIN admax */}
+        <script type="text/javascript">{raw`(admaxads = window.admaxads || []).push({admax_id: "02b79cd08f6fdb3bd88a753f617eba49",type: "action"});`}</script>
+        <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async />
+        {/* END admax */}
       </body>
     </html>
   )
