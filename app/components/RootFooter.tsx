@@ -16,11 +16,11 @@ export default function RootFooter() {
     <footer class={footerClass}>
       <div>&copy; Junichi Hayashi</div>
       <div>
-        <a href="//x.com/pronahcnuj" rel="me">
+        <a href="//x.com/pronahcnuj" rel="me noreferrer" target="_blank">
           X
         </a>
         {' | '}
-        <a href="//github.com/nahcnuj" rel="me">
+        <a href="//github.com/nahcnuj" rel="me noreferrer" target="_blank">
           GitHub
         </a>
       </div>
