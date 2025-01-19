@@ -66,6 +66,18 @@ export default jsxRenderer(({ children, ...props }) => {
         `}</script>
       </head>
       <body>
+        {/* BEGIN admax */}
+        <script type="text/javascript">{raw`(admaxads = window.admaxads || []).push({admax_id: "82c29607ff6135ef5d4255c00e077f72",type: "overlay"});`}</script>
+        {/* <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async /> */}
+        {/* END admax */}
+        {/* BEGIN admax */}
+        <script type="text/javascript">{raw`(admaxads = window.admaxads || []).push({admax_id: "0a91f1275852d6308d96c36cc57d0fc6",type: "overlay"});`}</script>
+        {/* <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async /> */}
+        {/* END admax */}
+        {/* BEGIN admax */}
+        <script type="text/javascript">{raw`(admaxads = window.admaxads || []).push({admax_id: "2278f1e09d8672a47edcbb667bc9f296",type: "action"});`}</script>
+        {/* <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async /> */}
+        {/* END admax */}
         <div class={containerClass}>
           <Article>{children}</Article>
           <aside>
