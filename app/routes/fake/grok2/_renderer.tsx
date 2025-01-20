@@ -1,8 +1,10 @@
+import { join, relative } from 'node:path'
 import { Style, css } from 'hono/css'
 import { raw } from 'hono/html'
-import { jsxRenderer } from 'hono/jsx-renderer'
+import { jsxRenderer, useRequestContext } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
 import Article from '../../../components/Article'
+import type { Head } from '../../../global'
 
 const rootStyle = css`
   html, body { margin: 0; padding: 0; }
@@ -36,9 +38,46 @@ const containerClass = css`
   }
 `
 
+type Meta = Head
+const diaries = ((files) =>
+  Object.entries(files).map(([path, ...tail]) => [path.replace(/\.mdx$/, '.html'), ...tail] as const))(
+  import.meta.glob<{ frontmatter: Meta }>('./**/*.mdx', {
+    eager: true,
+  }),
+).sort(([a], [b]) => a.localeCompare(b, 'en', { sensitivity: 'variant', caseFirst: 'upper' }))
+
 export default jsxRenderer(({ children, ...props }) => {
   const title = `#フェイク #日記 ${props.title ?? props.frontmatter?.title} #FAKE`
   const description = props.description ?? props.frontmatter?.description
+
+  const { req } = useRequestContext()
+
+  // fake/grok2
+  const base = relative(`/${process.cwd()}/app/routes`, import.meta.dirname)
+  // yyyy/mm/dd.html
+  const currentDayPath = relative(`/${base}`, `${req.path}.html`)
+
+  const idx = diaries.findIndex(([v]) => `./${currentDayPath}` === v)
+
+  // 前後n件
+  const n = 3
+
+  const start = Math.max(idx - n, 0)
+  const end = Math.min(idx + n, diaries.length - 1)
+
+  // 足りない分
+  const post = Math.max(n - idx, 0)
+  const pre = Math.max(idx + n - diaries.length + 1, 0)
+
+  // console.debug(
+  //   `[${start - pre}, ${start}), [${start}, ${idx}), [${idx + 1}, ${end + 1}), [${end + 1}, ${end + 1 + post})`,
+  // )
+  const relatedDiaries = [
+    ...diaries.slice(Math.max(start - pre, 0), start),
+    ...diaries.slice(start, idx),
+    ...diaries.slice(Math.min(idx + 1, diaries.length), Math.min(end + 1, diaries.length)),
+    ...diaries.slice(Math.min(end + 1, diaries.length), Math.min(end + 1 + post, diaries.length)),
+  ]
 
   return (
     <html lang="ja">
@@ -91,6 +130,23 @@ export default jsxRenderer(({ children, ...props }) => {
             <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async />
             {/* END admax */}
           </aside>
+          <div>
+            <h2>前後の日記</h2>
+            <ul>
+              {relatedDiaries.map(
+                ([
+                  path,
+                  {
+                    frontmatter: { title },
+                  },
+                ]) => (
+                  <li key={path}>
+                    <a href={join('/', base, path)}>{title}</a>
+                  </li>
+                ),
+              )}
+            </ul>
+          </div>
         </div>
       </body>
     </html>
