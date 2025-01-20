@@ -131,30 +131,20 @@ const admaxSpClass = css`
 export default function Article({ children }: PropsWithChildren) {
   return (
     <article class={articleClass}>
-      <aside style="height:100px">
-        <div class={admaxPcClass}>
-          <script src="https://adm.shinobi.jp/s/77ca5fd1df959f6aa2a66d62614ed055" />
-        </div>
-        <div class={admaxSpClass}>
-          <script src="https://adm.shinobi.jp/s/b793489d3737a35ef887cf42c4816d28" />
-        </div>
+      <aside style="height:100px;text-align:center">
+        {/* BEGIN admax */}
+        <script src="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d" />
+        {/* END admax */}
       </aside>
       {children}
-      <aside style="height:100px;margin-top:1rem">
-        <div class={admaxPcClass}>
-          <div
-            class="admax-ads"
-            data-admax-id="51cc1d947d0361fc6e0d31fd3ec72795"
-            style="display:inline-block;width:728px;height:90px;"
-          />
-          <script type="text/javascript">{raw`(admaxads = window.admaxads || []).push({admax_id: "51cc1d947d0361fc6e0d31fd3ec72795",type: "banner"});`}</script>
-          <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async />
-        </div>
-        <div class={admaxSpClass}>
-          <div class="admax-ads" data-admax-id="fa1a228bb42d976cd5bb39f31c407c30" style="display:inline-block;" />
-          <script type="text/javascript">{raw`(admaxads = window.admaxads || []).push({admax_id: "fa1a228bb42d976cd5bb39f31c407c30",type: "banner"});`}</script>
-          <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async />
-        </div>
+      <aside style="height:100px;margin-top:1rem;text-align:center">
+        {/* BEGIN admax */}
+        <div class="admax-switch" data-admax-id="11a058af25dce0b8884cd189862eed63" style="display:inline-block;" />
+        <script type="text/javascript">
+          {raw`(admaxads = window.admaxads || []).push({admax_id: "11a058af25dce0b8884cd189862eed63",type: "switch"});`}
+        </script>
+        <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async />
+        {/* END admax */}
       </aside>
     </article>
   )
