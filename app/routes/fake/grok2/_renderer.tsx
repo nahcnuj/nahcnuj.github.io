@@ -64,6 +64,7 @@ export default jsxRenderer(({ children, ...props }) => {
           gtag('js', new Date());
           gtag('config', 'G-RMH8Q8RB96');
         `}</script>
+        <link rel="preload" src="https://adm.shinobi.jp/st/t.js" as="script" />
       </head>
       <body>
         {/* BEGIN admax */}
