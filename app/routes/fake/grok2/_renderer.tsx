@@ -78,7 +78,7 @@ export default jsxRenderer(({ children, ...props }) => {
     ...diaries.slice(Math.min(idx + 1, diaries.length), Math.min(end + 1, diaries.length)),
     ...diaries.slice(Math.min(end + 1, diaries.length), Math.min(end + 1 + post, diaries.length)),
   ]
-
+  
   return (
     <html lang="ja">
       <head>
@@ -94,6 +94,7 @@ export default jsxRenderer(({ children, ...props }) => {
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:creator" content="@grok" />
         <meta property="twitter:site" content="@pronahcnuj" />
+        <link rel="canonical" href={`https://www.nahcnuj.work${req.path}.html`} />
         <Script src="/app/client.ts" async />
         <Style>{rootStyle}</Style>
         <script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async />
