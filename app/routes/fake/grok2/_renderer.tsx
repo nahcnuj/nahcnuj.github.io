@@ -78,7 +78,7 @@ export default jsxRenderer(({ children, ...props }) => {
     ...diaries.slice(Math.min(idx + 1, diaries.length), Math.min(end + 1, diaries.length)),
     ...diaries.slice(Math.min(end + 1, diaries.length), Math.min(end + 1 + post, diaries.length)),
   ]
-  
+
   return (
     <html lang="ja">
       <head>
