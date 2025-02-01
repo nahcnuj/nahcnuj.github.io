@@ -47,7 +47,7 @@ const diaries = ((files) =>
 ).sort(([a], [b]) => a.localeCompare(b, 'en', { sensitivity: 'variant', caseFirst: 'upper' }))
 
 export default jsxRenderer(({ children, ...props }) => {
-  const title = `#フェイク #日記 ${props.title ?? props.frontmatter?.title} #FAKE`
+  const title = `${props.title ?? props.frontmatter?.title} #AI生成 #ai #日記 #diary #FAKE`
   const description = props.description ?? props.frontmatter?.description
 
   const { req } = useRequestContext()
@@ -94,9 +94,10 @@ export default jsxRenderer(({ children, ...props }) => {
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:creator" content="@grok" />
         <meta property="twitter:site" content="@pronahcnuj" />
-        <link rel="canonical" href={`https://www.nahcnuj.work${req.path}.html`} />
+        <link rel="canonical" href={`https://www.nahcnuj.work${req.path}`} />
         <Script src="/app/client.ts" async />
         <Style>{rootStyle}</Style>
+        <link rel="preload" src="https://adm.shinobi.jp/st/t.js" as="script" />
         <script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async />
         <script>{raw`
           window.dataLayer = window.dataLayer || [];
@@ -104,7 +105,6 @@ export default jsxRenderer(({ children, ...props }) => {
           gtag('js', new Date());
           gtag('config', 'G-RMH8Q8RB96');
         `}</script>
-        <link rel="preload" src="https://adm.shinobi.jp/st/t.js" as="script" />
       </head>
       <body>
         {/* BEGIN admax */}

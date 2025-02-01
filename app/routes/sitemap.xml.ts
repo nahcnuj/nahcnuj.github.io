@@ -15,7 +15,7 @@ ${routes
   .map(
     ({ path }) => `
   <url>
-    <loc>https://www.nahcnuj.work${path}${path.endsWith('/') ? 'index.html' : '.html'}</loc>
+    <loc>https://www.nahcnuj.work${path}${path.endsWith('/') ? 'index.html' : path.endsWith('.html') ? '' : '.html'}</loc>
     <lastmod>${buildTime.toISOString().split('T')[0]}</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
