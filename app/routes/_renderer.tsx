@@ -74,6 +74,16 @@ export default jsxRenderer(({ children, ...props }) => {
             <meta property="og:image:alt" content="Junichi's face" />
           </>
         )}
+
+        <Script src="/app/client.ts" async />
+        <Style>{rootStyle}</Style>
+
+        <link rel="preload" href="https://adm.shinobi.jp/st/t.js" as="script" />
+
+        <link rel="preload" href="https://x4.shinobi.jp/ufo/060401300" as="script" />
+        <link rel="preload" href="https://x4.shinobi.jp/bin/ll?060401300" as="image" fetchpriority="low" />
+        <link rel="preload" href="https://img.shinobi.jp/tadaima/fj.gif" as="image" fetchpriority="low" />
+
         {useMath && (
           <link
             rel="stylesheet"
@@ -82,8 +92,7 @@ export default jsxRenderer(({ children, ...props }) => {
             crossorigin="anonymous"
           />
         )}
-        <Script src="/app/client.ts" async />
-        <Style>{rootStyle}</Style>
+
         <script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async />
         <script>{raw`
           window.dataLayer = window.dataLayer || [];
@@ -98,10 +107,30 @@ export default jsxRenderer(({ children, ...props }) => {
           <Article>{children}</Article>
           <RootFooter />
         </div>
+
         {/* BEGIN admax */}
         <script type="text/javascript">{raw`(admaxads = window.admaxads || []).push({admax_id: "02b79cd08f6fdb3bd88a753f617eba49",type: "action"});`}</script>
         <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async />
         {/* END admax */}
+
+        {/* BEGIN ninja access shinobi1 */}
+        <script type="text/javascript" src="//x4.shinobi.jp/ufo/060401300" />
+        <noscript>
+          <a href="//x4.shinobi.jp/bin/gg?060401300" target="_blank" rel="noreferrer">
+            <img src="//x4.shinobi.jp/bin/ll?060401300" border="0" alt="" />
+          </a>
+          <br />
+          <span style="font-size:9px">
+            <img
+              style="margin:0;vertical-align:text-bottom;"
+              src="//img.shinobi.jp/tadaima/fj.gif"
+              width="19"
+              height="11"
+              alt=""
+            />
+          </span>
+        </noscript>
+        {/* END ninja access shinobi1 */}
       </body>
     </html>
   )

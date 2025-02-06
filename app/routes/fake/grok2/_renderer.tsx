@@ -95,9 +95,16 @@ export default jsxRenderer(({ children, ...props }) => {
         <meta property="twitter:creator" content="@grok" />
         <meta property="twitter:site" content="@pronahcnuj" />
         <link rel="canonical" href={`https://www.nahcnuj.work${req.path}`} />
+
         <Script src="/app/client.ts" async />
         <Style>{rootStyle}</Style>
-        <link rel="preload" src="https://adm.shinobi.jp/st/t.js" as="script" />
+
+        <link rel="preload" href="https://adm.shinobi.jp/st/t.js" as="script" />
+
+        <link rel="preload" href="https://x4.shinobi.jp/ufo/060401301" as="script" />
+        <link rel="preload" href="https://x4.shinobi.jp/bin/ll?060401301" as="image" fetchpriority="low" />
+        <link rel="preload" href="https://img.shinobi.jp/tadaima/fj.gif" as="image" fetchpriority="low" />
+
         <script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async />
         <script>{raw`
           window.dataLayer = window.dataLayer || [];
@@ -149,6 +156,25 @@ export default jsxRenderer(({ children, ...props }) => {
             </ul>
           </div>
         </div>
+
+        {/* BEGIN ninja access Page2 */}
+        <script type="text/javascript" src="//x4.shinobi.jp/ufo/060401301" />
+        <noscript>
+          <a href="//x4.shinobi.jp/bin/gg?060401301" target="_blank" rel="noreferrer">
+            <img src="//x4.shinobi.jp/bin/ll?060401301" border="0" alt="" />
+          </a>
+          <br />
+          <span style="font-size:9px">
+            <img
+              style="margin:0;vertical-align:text-bottom;"
+              src="//img.shinobi.jp/tadaima/fj.gif"
+              width="19"
+              height="11"
+              alt=""
+            />
+          </span>
+        </noscript>
+        {/* END ninja access Page2 */}
       </body>
     </html>
   )
