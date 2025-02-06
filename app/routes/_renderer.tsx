@@ -113,7 +113,7 @@ export default jsxRenderer(({ children, ...props }) => {
         <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async />
         {/* END admax */}
 
-        {/* BEGIN ninja access shinobi1 */}
+        {/* BEGIN ninja access Page1 */}
         <script type="text/javascript" src="//x4.shinobi.jp/ufo/060401300" />
         <noscript>
           <a href="//x4.shinobi.jp/bin/gg?060401300" target="_blank" rel="noreferrer">
@@ -130,7 +130,7 @@ export default jsxRenderer(({ children, ...props }) => {
             />
           </span>
         </noscript>
-        {/* END ninja access shinobi1 */}
+        {/* END ninja access Page1 */}
       </body>
     </html>
   )
