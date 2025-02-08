@@ -102,8 +102,6 @@ export default jsxRenderer(({ children, ...props }) => {
         <link rel="preload" href="https://adm.shinobi.jp/st/t.js" as="script" />
 
         <link rel="preload" href="https://x4.shinobi.jp/ufo/060401301" as="script" />
-        <link rel="preload" href="https://x4.shinobi.jp/bin/ll?060401301" as="image" fetchpriority="low" />
-        <link rel="preload" href="https://img.shinobi.jp/tadaima/fj.gif" as="image" fetchpriority="low" />
 
         <script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async />
         <script>{raw`
