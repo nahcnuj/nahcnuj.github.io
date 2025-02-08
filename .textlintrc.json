@@ -4,7 +4,9 @@
       "extensions": [".mdx"]
     }
   },
-  "filters": {},
+  "filters": {
+    "comments": true
+  },
   "rules": {
     "preset-ja-technical-writing": {
       "sentence-length": false,
