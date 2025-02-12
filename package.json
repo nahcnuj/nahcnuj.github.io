@@ -37,6 +37,6 @@
     "textlint-rule-preset-ja-technical-writing": "^12.0.2",
     "textlint-rule-preset-japanese": "^10.0.4",
     "vite": "^6.1.0",
-    "wrangler": "^3.107.3"
+    "wrangler": "^3.108.1"
   }
 }
