@@ -17,7 +17,7 @@
   },
   "private": true,
   "dependencies": {
-    "hono": "^4.7.1",
+    "hono": "^4.7.2",
     "honox": "^0.1.34"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "textlint-filter-rule-comments": "^1.2.2",
     "textlint-rule-preset-ja-technical-writing": "^12.0.2",
     "textlint-rule-preset-japanese": "^10.0.4",
-    "vite": "^6.1.0",
-    "wrangler": "^3.109.0"
+    "vite": "^6.1.1",
+    "wrangler": "^3.109.2"
   }
 }
