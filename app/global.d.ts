@@ -14,8 +14,8 @@ declare module 'hono' {
     // biome-ignore lint/complexity/noBannedTypes: TODO
     Bindings: {}
   }
-  interface ContextRenderer {
-    // biome-ignore lint/style/useShorthandFunctionType: <explanation>
-    (content: string | Promise<string>, head?: Head & { frontmatter?: Head }): Response | Promise<Response>
-  }
+  // interface ContextRenderer {
+  //   // biome-ignore lint/style/useShorthandFunctionType: <explanation>
+  //   (content: string | Promise<string>, head?: Head & { frontmatter?: Head }): Response | Promise<Response>
+  // }
 }

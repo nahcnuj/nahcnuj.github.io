@@ -1,5 +1,6 @@
 import { css } from 'hono/css'
 import { createRoute } from 'honox/factory'
+import Article from '../components/Article'
 import RemoteImage from '../components/RemoteImage'
 
 export default createRoute((c) => {
@@ -27,7 +28,7 @@ export default createRoute((c) => {
     }
   `
   return c.render(
-    <>
+    <Article>
       <h1 class={headingClass}>
         <span>Junichi Hayashi,</span> <span>a web engineer</span>
       </h1>
@@ -87,7 +88,7 @@ export default createRoute((c) => {
         <li>シーサー株式会社（2020年4月～2023年12月）</li>
         <li>現職（2024年1月～）</li>
       </ul>
-    </>,
+    </Article>,
     { title, description },
   )
 })
