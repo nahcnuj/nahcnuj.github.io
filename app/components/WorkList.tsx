@@ -19,13 +19,13 @@ const anchorClass = css`
   color: inherit;
   text-decoration: none;
 `
-export default function WorkList({ works }: { works: [string, Meta][] }) {
+export default function WorkList({ works }: { works: (readonly [string, { frontmatter: Meta }])[] }) {
   return (
     <ul class={listClass}>
       {works.map(([path, work]) => (
         <li key={path} class={itemClass}>
           <a href={`/works/${path}`} class={anchorClass}>
-            <Work {...work} />
+            <Work {...work.frontmatter} />
           </a>
         </li>
       ))}

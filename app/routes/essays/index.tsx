@@ -1,17 +1,19 @@
-import { createRoute } from 'honox/factory'
+import { Hono } from 'hono'
 import EssayList from '../../islands/EssayList'
 import type { Meta } from './type'
 
-const essays = ((files) =>
-  Object.entries(files).map(([path, ...tail]) => [path.replace(/\.mdx$/, '.html'), ...tail] as const))(
-  import.meta.glob<{ frontmatter: Meta }>('./**/*.mdx', {
-    eager: true,
-  }),
-)
+const app = new Hono()
 
-export default createRoute((c) => {
+app.get('/index.html', (c) => {
   const title = `Junichi Hayashi's Essays`
   const description = 'There are essays about something by Junichi Hayashi.'
+
+  const essays = ((files) =>
+    Object.entries(files).map(([path, ...tail]) => [path.replace(/\.mdx$/, ''), ...tail] as const))(
+    import.meta.glob<{ frontmatter: Meta }>('./**/*.mdx', {
+      eager: true,
+    }),
+  )
 
   return c.render(
     <>
@@ -22,3 +24,5 @@ export default createRoute((c) => {
     { title, description },
   )
 })
+
+export default app
