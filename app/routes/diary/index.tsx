@@ -3,18 +3,18 @@ import type { H } from 'hono/types'
 import DiaryList from '../../islands/DiaryList'
 import type { Meta } from './type'
 
-const diaries = ((files) =>
-  Object.entries(files).map(([path, ...tail]) => [path.replace(/\.mdx$/, '.html'), ...tail] as const))(
-  import.meta.glob<{ frontmatter: Meta }>('./**/*.mdx', {
-    eager: true,
-  }),
-)
-
 const app = new Hono()
 
-app.get('/', (c) => {
+app.get('/index.html', (c) => {
   const title = `Junichi Hayashi's Diary`
   const description = 'There is the diary Junichi Hayashi wrote.'
+
+  const diaries = ((files) =>
+    Object.entries(files).map(([path, ...tail]) => [path.replace(/\.mdx$/, ''), ...tail] as const))(
+    import.meta.glob<{ frontmatter: Meta }>('./**/*.mdx', {
+      eager: true,
+    }),
+  )
 
   return c.render(
     <>
