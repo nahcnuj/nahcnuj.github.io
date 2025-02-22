@@ -8,6 +8,7 @@ type Meta = {
   description?: string
   ogImage?: string
   ogImageAlt?: string
+  useMath: boolean
   headInjection?: unknown
 }
 
@@ -35,6 +36,39 @@ const rootStyle = css`
   }
 `
 
+const gtagSnippets = {
+  head: html`
+<link rel="preload" href="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" as="script">
+`,
+  body: html`
+<script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RMH8Q8RB96');
+</script>
+`,
+} as const
+
+const ninjaAccessSnippets = {
+  head: html`
+<link rel="preload" href="https://x4.shinobi.jp/ufo/060401300" as="script">
+`,
+  body: html`
+<script type="text/javascript" src="//x4.shinobi.jp/ufo/060401300"></script> -->
+<noscript>
+  <a href="//x4.shinobi.jp/bin/gg?060401300" target="_blank" rel="noreferrer">
+    <img src="//x4.shinobi.jp/bin/ll?060401300" border="0" alt="">
+  </a>
+  <br>
+  <span style="font-size:9px">
+    <img style="margin:0;vertical-align:text-bottom;" src="//img.shinobi.jp/tadaima/fj.gif" width="19" height="11" alt="">
+  </span>
+</noscript>
+`,
+} as const
+
 const Layout = (props: PropsWithChildren<Meta>) => html`
 <html>
 <head prefix="og: http://ogp.me/ns#">
@@ -49,37 +83,18 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   ${props.ogImageAlt ? html`<meta property="og:image:alt" content="${props.ogImageAlt}">` : ''}
   ${<Script src="/app/client.ts" async />}
   ${<Style>{rootStyle}</Style>}
-  <!-- Gtag -->
-  <link rel="preload" href="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" as="script">
-  <!-- / Gtag -->
-  <!-- ninja access -->
-  <!-- <link rel="preload" href="https://x4.shinobi.jp/ufo/060401300" as="script"> -->
-  <!-- / ninja access -->
+  ${import.meta.env.PROD ? gtagSnippets.head : ''}
+  ${import.meta.env.PROD ? ninjaAccessSnippets.head : ''}
+  ${
+    props.useMath &&
+    html`<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib" crossorigin="anonymous">`
+  }
   ${props.headInjection}
 </head>
 <body>
   ${props.children}
-  <!-- Gtag -->
-  <script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-RMH8Q8RB96');
-  </script>
-  <!-- /Gtag -->
-  <!-- ninja access -->
-  <!-- <script type="text/javascript" src="//x4.shinobi.jp/ufo/060401300"></script> -->
-  <noscript>
-    <a href="//x4.shinobi.jp/bin/gg?060401300" target="_blank" rel="noreferrer">
-      <img src="//x4.shinobi.jp/bin/ll?060401300" border="0" alt="">
-    </a>
-    <br>
-    <span style="font-size:9px">
-      <img style="margin:0;vertical-align:text-bottom;" src="//img.shinobi.jp/tadaima/fj.gif" width="19" height="11" alt="">
-    </span>
-  </noscript>
-  <!-- / ninja access -->
+  ${import.meta.env.PROD ? gtagSnippets.body : ''}
+  ${import.meta.env.PROD ? ninjaAccessSnippets.body : ''}
 </body>
 </html>
 `
