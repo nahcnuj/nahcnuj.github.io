@@ -56,23 +56,10 @@ export default jsxRenderer(({ children, ...props }) => {
   const title = props.title ?? props.frontmatter?.title ?? 'Untitled'
   const description = props.description ?? props.frontmatter?.description
   const thumbnail = props.thumbnail ?? props.frontmatter?.thumbnail
+  const useMath = props.useMath ?? props.frontmatter?.usemath ?? false
 
   return (
-    <Layout
-      title={title}
-      description={description}
-      ogImage={thumbnail}
-      headInjection={
-        props.useMath && (
-          <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"
-            integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww"
-            crossorigin="anonymous"
-          />
-        )
-      }
-    >
+    <Layout title={title} description={description} ogImage={thumbnail} useMath={useMath}>
       <div class={containerClass}>
         {(props.showHeader ?? true) && <RootHeader navItems={navItems} />}
         {children}
@@ -181,6 +168,7 @@ export default jsxRenderer(({ children, ...props }) => {
 declare module 'hono' {
   interface ContextRenderer {
     // biome-ignore lint/style/useShorthandFunctionType: <explanation>
-    (content: string | Promise<string>, props: Props & { frontmatter?: Props }): Response
+    // biome-ignore lint/suspicious/noExplicitAny: frontmatter properties are unknown
+    (content: string | Promise<string>, props: Props & { frontmatter?: any }): Response
   }
 }
