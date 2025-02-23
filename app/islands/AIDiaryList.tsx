@@ -1,18 +1,19 @@
-import type { Frontmatter } from '../routes/fake'
+import type { Meta } from '../routes/diary/type'
 
 type FilePath = string
+type Frontmatter = { frontmatter: Meta }
 
 export default function AIDiaryList({ diaries }: { diaries: (readonly [FilePath, Frontmatter])[] }) {
   return (
     <ul>
       {diaries
         .sort(([a], [b]) => b.localeCompare(a))
-        .map(([filename, { title, description }]) => (
+        .map(([filename, { frontmatter }]) => (
           <li key={filename}>
             <a href={filename} rel="nofollow">
-              {title}
+              {frontmatter.title}
             </a>
-            {description && `：${description}`}
+            {frontmatter.description && `：${frontmatter.description}`}
           </li>
         ))}
     </ul>

@@ -2,11 +2,6 @@ import { Hono } from 'hono'
 import type { H } from 'hono/types'
 import DiaryList from '../../islands/DiaryList'
 
-export interface Frontmatter {
-  title: string
-  description?: string
-}
-
 const app = new Hono()
 
 app.get('/index.html', (c) => {
@@ -14,8 +9,8 @@ app.get('/index.html', (c) => {
   const description = 'There is the diary Junichi Hayashi wrote.'
 
   const diaries = ((files) =>
-    Object.entries(files).map(([path, { frontmatter }]) => [path.replace(/\.mdx$/, ''), frontmatter] as const))(
-    import.meta.glob<{ frontmatter: Frontmatter }>('./**/*.mdx', {
+    Object.entries(files).map(([path, ...tail]) => [path.replace(/\.mdx$/, ''), ...tail] as const))(
+    import.meta.glob<{ frontmatter: unknown }>('./**/*.mdx', {
       eager: true,
     }),
   )

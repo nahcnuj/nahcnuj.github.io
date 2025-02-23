@@ -1,5 +1,5 @@
 import { css } from 'hono/css'
-import type { Frontmatter } from '../routes/works'
+import type { Meta } from '../routes/works/type'
 import RemoteImage from './RemoteImage'
 
 const listClass = css`
@@ -19,13 +19,13 @@ const anchorClass = css`
   color: inherit;
   text-decoration: none;
 `
-export default function WorkList({ works }: { works: (readonly [string, Frontmatter])[] }) {
+export default function WorkList({ works }: { works: (readonly [string, { frontmatter: Meta }])[] }) {
   return (
     <ul class={listClass}>
-      {works.map(([path, frontmatter]) => (
+      {works.map(([path, work]) => (
         <li key={path} class={itemClass}>
           <a href={`/works/${path}`} class={anchorClass}>
-            <Work {...frontmatter} />
+            <Work {...work.frontmatter} />
           </a>
         </li>
       ))}
@@ -61,7 +61,7 @@ const titleClass = css`
   font-weight: bold;
 `
 
-function Work({ title, description, begins, ends, thumbnail }: Frontmatter) {
+function Work({ title, description, begins, ends, thumbnail }: Meta) {
   return (
     <div class={workClass}>
       <div class={thumbnailClass}>{thumbnail && <RemoteImage src={thumbnail} alt="" />}</div>

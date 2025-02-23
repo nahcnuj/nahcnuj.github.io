@@ -1,14 +1,6 @@
 import { Hono } from 'hono'
 import WorkList from '../../components/WorkList'
 
-export interface Frontmatter {
-  title: string
-  description?: string
-  begins: number
-  ends?: number
-  thumbnail?: `/${string}`
-}
-
 const app = new Hono()
 
 app.get('/index.html', (c) => {
@@ -18,8 +10,8 @@ app.get('/index.html', (c) => {
   const works = ((files) =>
     Object.entries(files)
       .sort(([a], [b]) => b.localeCompare(a))
-      .map(([path, { frontmatter }]) => [path.replace(/\.mdx$/, ''), frontmatter] as const))(
-    import.meta.glob<{ frontmatter: Frontmatter }>('./**/*.mdx', {
+      .map(([path, ...tail]) => [path.replace(/\.mdx$/, ''), ...tail] as const))(
+    import.meta.glob<{ frontmatter: unknown }>('./**/*.mdx', {
       eager: true,
     }),
   )

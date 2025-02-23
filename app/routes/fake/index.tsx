@@ -3,11 +3,6 @@ import Article from '../../components/Article'
 import AIDiaryList from '../../islands/AIDiaryList'
 import { ogImageDataURL } from './grok2/_renderer'
 
-export interface Frontmatter {
-  title: string
-  description?: string
-}
-
 const app = new Hono()
 
 app.get('/index.html', (c) => {
@@ -16,8 +11,8 @@ app.get('/index.html', (c) => {
   const ogImage = ogImageDataURL()
 
   const diaries = ((files) =>
-    Object.entries(files).map(([path, { frontmatter }]) => [path.replace(/\.mdx$/, ''), frontmatter] as const))(
-    import.meta.glob<{ frontmatter: Frontmatter }>('./**/*.mdx', {
+    Object.entries(files).map(([path, ...tail]) => [path.replace(/\.mdx$/, ''), ...tail] as const))(
+    import.meta.glob<{ frontmatter: unknown }>('./**/*.mdx', {
       eager: true,
     }),
   )

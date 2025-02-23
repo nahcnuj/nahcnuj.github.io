@@ -1,15 +1,16 @@
-import type { Frontmatter } from '../routes/essays'
+import type { Meta } from '../routes/diary/type'
 
 type FilePath = string
+type Frontmatter = { frontmatter: Meta }
 
 export default function EssayList({ essays }: { essays: (readonly [FilePath, Frontmatter])[] }) {
   return (
     <ul>
       {essays
         .sort(([a], [b]) => b.localeCompare(a))
-        .map(([filename, { title }]) => (
+        .map(([filename, { frontmatter }]) => (
           <li key={filename}>
-            <a href={filename}>{title}</a>
+            <a href={filename}>{frontmatter.title}</a>
           </li>
         ))}
     </ul>
