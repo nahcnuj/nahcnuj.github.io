@@ -1,5 +1,7 @@
 import { css } from 'hono/css'
+import { html } from 'hono/html'
 import type { PropsWithChildren } from 'hono/jsx'
+import AdMax from './AdMax'
 
 const articleClass = css`
   --line-height: 2;
@@ -102,6 +104,36 @@ const articleClass = css`
   }
 `
 
-export default function Article({ children }: PropsWithChildren) {
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export default function Article({ children }: { children: any }) {
+  const childArray = children.children
+
+  if (Array.isArray(childArray)) {
+    const newChildren = []
+    let paragraphCount = 0
+
+    for (const child of childArray) {
+      if (child.type === 'p' || child.type === 'h3' || child.type === 'h4' || child.type === 'pre' || child.type === 'div') {
+        paragraphCount++
+        if (paragraphCount >= 10) {
+          newChildren.push(
+            <AdMax height="270px">
+              {html`
+<!-- admax -->
+<div class="admax-ads" data-admax-id="2f1cf2e33fa9166283fd450687db47da" style="display:inline-block;width:300px;height:250px;"></div>
+<script type="text/javascript">(admaxads = window.admaxads || []).push({admax_id: "2f1cf2e33fa9166283fd450687db47da",type: "banner"});</script>
+${''/*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>*/}\
+<!-- admax -->
+`}
+            </AdMax>,
+          )
+          paragraphCount = 0
+        }
+      }
+      newChildren.push(child)
+    }
+    children.children = newChildren
+  }
+
   return <article class={articleClass}>{children}</article>
 }

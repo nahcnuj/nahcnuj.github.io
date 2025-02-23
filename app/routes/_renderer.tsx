@@ -22,7 +22,14 @@ export default jsxRenderer(({ children, ...props }) => {
   const useMath = props.useMath ?? false
 
   return (
-    <RootLayout title={title} description={description} ogImage={ogImage} ogImageAlt={ogImageAlt} useMath={useMath}>
+    <RootLayout
+      title={title}
+      description={description}
+      ogImage={ogImage}
+      ogImageAlt={ogImageAlt}
+      useMath={useMath}
+      headInjection={html`<link rel="preload" href="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d" as="script">`}
+    >
       <div class={containerClass}>
         {(props.showHeader ?? true) && <RootHeader />}
         <AdMax height="100px" fullWidth>
