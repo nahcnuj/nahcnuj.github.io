@@ -126,8 +126,9 @@ export default function Article({ children }: { children: any }) {
             <AdMax height="270px">
               {html`
 <!-- admax -->
-<div class="admax-ads" data-admax-id="2f1cf2e33fa9166283fd450687db47da" style="display:inline-block;width:300px;height:250px;"></div>
-<script type="text/javascript">(admaxads = window.admaxads || []).push({admax_id: "2f1cf2e33fa9166283fd450687db47da",type: "banner"});</script>
+<div class="admax-switch" data-admax-id="70a63675255ffbb9d4ac3fedd2a19b3d" style="display:inline-block;"></div>
+<script type="text/javascript">
+(admaxads = window.admaxads || []).push({admax_id: "70a63675255ffbb9d4ac3fedd2a19b3d",type: "switch"});</script>
 ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>*/}\
 <!-- admax -->
 `}
