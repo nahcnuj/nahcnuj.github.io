@@ -7,7 +7,6 @@ import Layout from '../components/RootLayout'
 interface Props {
   title?: string
   description?: string
-  thumbnail?: string
   ogImage?: string
   ogImageAlt?: string
   useMath?: boolean
@@ -55,11 +54,11 @@ export default jsxRenderer(({ children, ...props }) => {
     { title: 'Essay', href: '/essays/index.html' as const },
   ]
 
-  const title = props.title ?? props.frontmatter?.title ?? 'Untitled'
-  const description = props.description ?? props.frontmatter?.description
+  const title = props.title ?? 'Untitled'
+  const description = props.description
   const ogImage = props.ogImage ?? 'https://img.nahcnuj.work/author.jpg'
   const ogImageAlt = props.ogImage ? props.ogImageAlt : "Junichi's face"
-  const useMath = props.useMath ?? props.frontmatter?.usemath ?? false
+  const useMath = props.useMath ?? false
 
   return (
     <Layout title={title} description={description} ogImage={ogImage} ogImageAlt={ogImageAlt} useMath={useMath}>
