@@ -2,10 +2,10 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import Article from '../../components/Article'
 
 export default jsxRenderer(({ Layout, children, ...props }) => {
-  const title = props.title ?? props.frontmatter?.title ?? 'Untitled'
-  const description = props.description ?? props.frontmatter?.description
-  const thumbnail = props.thumbnail ?? props.frontmatter?.thumbnail
-  const useMath = props.useMath ?? props.frontmatter?.usemath ?? false
+  const title = props.frontmatter?.title ?? props.title ?? 'Untitled'
+  const description = props.frontmatter?.description ?? props.description
+  const thumbnail = props.frontmatter?.thumbnail ?? props.ogImage
+  const useMath = props.frontmatter?.usemath ?? props.useMath ?? false
 
   return (
     <Layout
