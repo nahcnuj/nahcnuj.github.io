@@ -37,10 +37,10 @@ const rootStyle = css`
 `
 
 const gtagSnippets = {
-  head: html`
+  head: html`\
 <link rel="preload" href="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" as="script">
 `,
-  body: html`
+  body: html`\
 <script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -52,10 +52,10 @@ const gtagSnippets = {
 } as const
 
 const ninjaAccessSnippets = {
-  head: html`
+  head: html`\
 <link rel="preload" href="https://x4.shinobi.jp/ufo/060401300" as="script">
 `,
-  body: html`
+  body: html`\
 <script type="text/javascript" src="//x4.shinobi.jp/ufo/060401300"></script>
 <noscript>
   <a href="//x4.shinobi.jp/bin/gg?060401300" target="_blank" rel="noreferrer">
@@ -70,10 +70,10 @@ const ninjaAccessSnippets = {
 } as const
 
 const ninjaAdmaxSnippets = {
-  head: html`
+  head: html`\
 <link rel="preload" href="https://adm.shinobi.jp/st/t.js" as="script">
 `,
-  body: html`
+  body: html`\
 <script type="text/javascript">(admaxads = window.admaxads || []).push({admax_id: "02b79cd08f6fdb3bd88a753f617eba49",type: "action"});</script>
 <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>
 `,
@@ -85,7 +85,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${props.title}</title>
-  ${props.description ? html`<meta name="description" content="${props.description}">` : ''}
+  ${props.description ? html`<meta name="description" content="${props.description}">` : ''}\
   <meta property="og:type" content="website">
   <meta property="og:title" content="${props.title}">
   ${props.description ? html`<meta property="og:description" content="${props.description}">` : ''}
@@ -93,20 +93,20 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   ${props.ogImageAlt ? html`<meta property="og:image:alt" content="${props.ogImageAlt}">` : ''}
   ${<Script src="/app/client.ts" async />}
   ${<Style>{rootStyle}</Style>}
-  ${ninjaAdmaxSnippets.head}
-  ${import.meta.env.PROD ? gtagSnippets.head : ''}
-  ${import.meta.env.PROD ? ninjaAccessSnippets.head : ''}
+  ${ninjaAdmaxSnippets.head}\
+  ${import.meta.env.PROD ? gtagSnippets.head : ''}\
+  ${import.meta.env.PROD ? ninjaAccessSnippets.head : ''}\
   ${
     props.useMath &&
     html`<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib" crossorigin="anonymous">`
-  }
-  ${props.headInjection}
+  }\
+  ${props.headInjection}\
 </head>
 <body>
-  ${props.children}
-  ${import.meta.env.PROD ? gtagSnippets.body : ''}
-  ${import.meta.env.PROD ? ninjaAccessSnippets.body : ''}
-  ${ninjaAdmaxSnippets.body}
+  ${props.children}\
+  ${import.meta.env.PROD ? gtagSnippets.body : ''}\
+  ${import.meta.env.PROD ? ninjaAccessSnippets.body : ''}\
+  ${ninjaAdmaxSnippets.body}\
 </body>
 </html>
 `
