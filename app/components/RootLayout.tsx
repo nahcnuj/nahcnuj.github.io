@@ -69,6 +69,16 @@ const ninjaAccessSnippets = {
 `,
 } as const
 
+const ninjaAdmaxSnippets = {
+  head: html`
+<link rel="preload" href="https://adm.shinobi.jp/st/t.js" as="script">
+`,
+  body: html`
+<script type="text/javascript">(admaxads = window.admaxads || []).push({admax_id: "02b79cd08f6fdb3bd88a753f617eba49",type: "action"});</script>
+<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>
+`,
+} as const
+
 const Layout = (props: PropsWithChildren<Meta>) => html`
 <html>
 <head prefix="og: http://ogp.me/ns#">
@@ -83,6 +93,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   ${props.ogImageAlt ? html`<meta property="og:image:alt" content="${props.ogImageAlt}">` : ''}
   ${<Script src="/app/client.ts" async />}
   ${<Style>{rootStyle}</Style>}
+  ${ninjaAdmaxSnippets.head}
   ${import.meta.env.PROD ? gtagSnippets.head : ''}
   ${import.meta.env.PROD ? ninjaAccessSnippets.head : ''}
   ${
@@ -95,6 +106,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   ${props.children}
   ${import.meta.env.PROD ? gtagSnippets.body : ''}
   ${import.meta.env.PROD ? ninjaAccessSnippets.body : ''}
+  ${ninjaAdmaxSnippets.body}
 </body>
 </html>
 `
