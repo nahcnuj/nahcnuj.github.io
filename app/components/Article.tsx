@@ -113,7 +113,13 @@ export default function Article({ children }: { children: any }) {
     let paragraphCount = 0
 
     for (const child of childArray) {
-      if (child.type === 'p' || child.type === 'h3' || child.type === 'h4' || child.type === 'pre' || child.type === 'div') {
+      if (
+        child.type === 'p' ||
+        child.type === 'h3' ||
+        child.type === 'h4' ||
+        child.type === 'pre' ||
+        child.type === 'div'
+      ) {
         paragraphCount++
         if (paragraphCount >= 10) {
           newChildren.push(
@@ -122,7 +128,7 @@ export default function Article({ children }: { children: any }) {
 <!-- admax -->
 <div class="admax-ads" data-admax-id="2f1cf2e33fa9166283fd450687db47da" style="display:inline-block;width:300px;height:250px;"></div>
 <script type="text/javascript">(admaxads = window.admaxads || []).push({admax_id: "2f1cf2e33fa9166283fd450687db47da",type: "banner"});</script>
-${''/*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>*/}\
+${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>*/}\
 <!-- admax -->
 `}
             </AdMax>,
