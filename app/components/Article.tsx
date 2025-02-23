@@ -1,6 +1,7 @@
 import { css } from 'hono/css'
 import { raw } from 'hono/html'
 import type { PropsWithChildren } from 'hono/jsx'
+import { Script } from 'honox/server'
 
 const articleClass = css`
   --line-height: 2;
