@@ -4,40 +4,6 @@ import RootFooter from '../components/RootFooter'
 import RootHeader from '../components/RootHeader'
 import Layout from '../components/RootLayout'
 
-interface Props {
-  title?: string
-  description?: string
-  ogImage?: string
-  ogImageAlt?: string
-  useMath?: boolean
-  showHeader?: boolean
-  showFooter?: boolean
-}
-
-const rootStyle = css`
-  html, body { margin: 0; padding: 0; }
-
-  :root {
-    --theme-base-color: #e6e6ff;
-    --theme-main-color: #000033;
-    --theme-accent-color: #ff6666;
-  }
-
-  html {
-    background: var(--theme-base-color);
-    color: var(--theme-main-color);
-
-    scrollbar-gutter: stable both-edges;
-  }
-
-  a:visited {
-    color: var(--theme-main-color);
-  }
-  a:active, a:hover {
-    color: var(--theme-accent-color);
-  }
-`
-
 const containerClass = css`
   max-width: 40rem;
   margin-inline: auto;
@@ -70,11 +36,3 @@ export default jsxRenderer(({ children, ...props }) => {
     </Layout>
   )
 })
-
-declare module 'hono' {
-  interface ContextRenderer {
-    // biome-ignore lint/style/useShorthandFunctionType: <explanation>
-    // biome-ignore lint/suspicious/noExplicitAny: frontmatter properties are unknown
-    (content: string | Promise<string>, props: Props & { frontmatter?: any }): Response
-  }
-}
