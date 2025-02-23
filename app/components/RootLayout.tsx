@@ -56,7 +56,7 @@ const ninjaAccessSnippets = {
 <link rel="preload" href="https://x4.shinobi.jp/ufo/060401300" as="script">
 `,
   body: html`
-<script type="text/javascript" src="//x4.shinobi.jp/ufo/060401300"></script> -->
+<script type="text/javascript" src="//x4.shinobi.jp/ufo/060401300"></script>
 <noscript>
   <a href="//x4.shinobi.jp/bin/gg?060401300" target="_blank" rel="noreferrer">
     <img src="//x4.shinobi.jp/bin/ll?060401300" border="0" alt="">
