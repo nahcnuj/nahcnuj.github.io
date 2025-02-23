@@ -27,6 +27,7 @@ export default createRoute((c) => {
       object-fit: scale-down;
     }
   `
+
   return c.render(
     <Article>
       <h1 class={headingClass}>

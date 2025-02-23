@@ -8,7 +8,13 @@ export default jsxRenderer(({ Layout, children, ...props }) => {
   const useMath = props.useMath ?? props.frontmatter?.usemath ?? false
 
   return (
-    <Layout title={title} description={description} ogImage={thumbnail} useMath={useMath}>
+    <Layout
+      title={title}
+      description={description}
+      ogImage={thumbnail}
+      ogImageAlt={thumbnail ? '' : undefined}
+      useMath={useMath}
+    >
       <Article>{children}</Article>
     </Layout>
   )
