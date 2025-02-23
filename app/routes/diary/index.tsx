@@ -1,7 +1,6 @@
 import { Hono } from 'hono'
 import type { H } from 'hono/types'
 import DiaryList from '../../islands/DiaryList'
-import type { Meta } from './type'
 
 const app = new Hono()
 
@@ -11,7 +10,7 @@ app.get('/index.html', (c) => {
 
   const diaries = ((files) =>
     Object.entries(files).map(([path, ...tail]) => [path.replace(/\.mdx$/, ''), ...tail] as const))(
-    import.meta.glob<{ frontmatter: Meta }>('./**/*.mdx', {
+    import.meta.glob<{ frontmatter: unknown }>('./**/*.mdx', {
       eager: true,
     }),
   )

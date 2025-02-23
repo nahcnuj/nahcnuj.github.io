@@ -1,6 +1,5 @@
 import { Hono } from 'hono'
 import WorkList from '../../components/WorkList'
-import type { Meta } from './type'
 
 const app = new Hono()
 
@@ -12,7 +11,7 @@ app.get('/index.html', (c) => {
     Object.entries(files)
       .sort(([a], [b]) => b.localeCompare(a))
       .map(([path, ...tail]) => [path.replace(/\.mdx$/, ''), ...tail] as const))(
-    import.meta.glob<{ frontmatter: Meta }>('./**/*.mdx', {
+    import.meta.glob<{ frontmatter: unknown }>('./**/*.mdx', {
       eager: true,
     }),
   )
