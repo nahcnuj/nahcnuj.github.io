@@ -1,5 +1,5 @@
 import { css } from 'hono/css'
-import { raw } from 'hono/html'
+import { html, raw } from 'hono/html'
 import type { PropsWithChildren } from 'hono/jsx'
 import { Script } from 'honox/server'
 
@@ -122,21 +122,24 @@ export default function Article({ children }: PropsWithChildren) {
     <article class={articleClass}>
       <aside style="height:100px;text-align:center">
         <div class={admaxClass}>
-          {/* BEGIN admax */}
-          <script src="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d" />
-          {/* END admax */}
+          {html`
+<!-- admax -->
+<script src="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d"></script>
+<!-- admax -->
+`}
         </div>
       </aside>
       {children}
       <aside style="height:100px;margin-top:1rem;text-align:center">
         <div class={admaxClass}>
-          {/* BEGIN admax */}
-          <div class="admax-switch" data-admax-id="11a058af25dce0b8884cd189862eed63" style="display:inline-block;" />
-          <script type="text/javascript">
-            {raw`(admaxads = window.admaxads || []).push({admax_id: "11a058af25dce0b8884cd189862eed63",type: "switch"});`}
-          </script>
-          <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async />
-          {/* END admax */}
+          {html`
+<!-- admax -->
+<div class="admax-switch" data-admax-id="11a058af25dce0b8884cd189862eed63" style="display:inline-block;"></div>
+<script type="text/javascript">
+(admaxads = window.admaxads || []).push({admax_id: "11a058af25dce0b8884cd189862eed63",type: "switch"});</script>
+<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>
+<!-- admax -->
+`}
         </div>
       </aside>
     </article>
