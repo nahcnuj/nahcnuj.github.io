@@ -106,7 +106,9 @@ const articleClass = css`
 
 const admaxClass = css`
   height: 100%;
-  margin-inline: calc(50% - 50vw);
+  @media screen and (min-width: 40rem) {
+    margin-inline: calc(50% - 45vw);
+  }
   text-align:center;
   background-color: var(--theme-base-color);
 
