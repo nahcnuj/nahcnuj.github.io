@@ -5,8 +5,6 @@
     "dev": "vite",
     "dev:expose": "vite --host",
     "build": "vite build --mode client && vite build",
-    "preview": "wrangler pages dev ./dist",
-    "deploy": "$npm_execpath run build && wrangler pages deploy ./dist",
     "format": "biome format --write .",
     "lint": "npm run lint:biome && npm run lint:text",
     "lint:fix": "npm run lint:biome:fix && npm run lint:text:fix",
@@ -36,7 +34,6 @@
     "textlint-filter-rule-comments": "^1.2.2",
     "textlint-rule-preset-ja-technical-writing": "^12.0.2",
     "textlint-rule-preset-japanese": "^10.0.4",
-    "vite": "^6.1.1",
-    "wrangler": "^3.109.2"
+    "vite": "^6.1.1"
   }
 }
