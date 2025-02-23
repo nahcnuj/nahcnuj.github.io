@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import Article from '../../components/Article'
 import AIDiaryList from '../../islands/AIDiaryList'
 import { ogImageDataURL } from './grok2/_renderer'
 
@@ -17,10 +18,10 @@ app.get('/index.html', (c) => {
   )
 
   return c.render(
-    <>
+    <Article>
       <h1>AIが生成した文章たち</h1>
       <AIDiaryList diaries={diaries} />
-    </>,
+    </Article>,
     { title, description, ogImage },
   )
 })
