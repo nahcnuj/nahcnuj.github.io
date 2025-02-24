@@ -138,7 +138,7 @@ export default jsxRenderer(({ children, ...props }) => {
           <Article>{children}</Article>
           <aside style={{ marginTop: '2rem', fontFamily: 'serif' }}>
             <p lang="en" style={{ fontSize: 'smaller' }}>
-              This article was written by Grok 2. However, Grok 2 does not bear responsibility for the content of this
+              This article was written by Grok 3. However, Grok 3 does not bear responsibility for the content of this
               output, and neither do I.
             </p>
           </aside>
