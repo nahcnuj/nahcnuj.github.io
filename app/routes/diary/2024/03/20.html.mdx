@@ -5,6 +5,7 @@ tags:
   - Hono
   - HonoX
   - GitHub Pages
+  - Vite
 ---
 import Inserted from '../../../../components/Inserted'
 
@@ -19,7 +20,7 @@ import Inserted from '../../../../components/Inserted'
 数年経って自作を維持していく気持ちもなくなっており、Hono🔥のフレームワークHonoXを試してみることにしました。
 HonoはYAPC::Hiroshima 2024の前夜祭でファイルベースルーティングができるようになったというトークを聞いて使ってみたかったフレームワークでした。
 
-既存のR MarkdownファイルはMDXに（主に拡張子を）変えて、MustacheテンプレートはHonoX（JSX）で書き換えました。
+既存のR MarkdownファイルはMDXに変えて、MustacheテンプレートはHonoXで書き換えました。
 インデックスページはパスを`/diary/index.html`のようにしたかったので、`app.get('/index', ...)`のようにして`index.html`が生成されるようにしました。
 <Inserted date={{ year: 2024, month: 3, day: 24 }}>[HonoXのバージョン0.1.9](https://github.com/honojs/honox/releases/tag/v0.1.9)にて`createApp`関数に`trailingSlash`オプションが追加されていました。
 こちらを`true`にすることで上記のような対処は必要なくなりました。</Inserted>
@@ -28,3 +29,4 @@ HonoはYAPC::Hiroshima 2024の前夜祭でファイルベースルーティン�
 devでリンクを辿るためにいちいち拡張子を消していました。
 `npm run preview`（`wrangler pages dev ./dist`）も拡張子なしのようですが、`.html`を付けてもリダイレクトしてくれました。
 Viteはこれまで使ったことがないので手探りで使い始めていますが、設定で弄れるのでしょうか…。
+<Inserted date={{ year: 2025, month: 2, day: 24 }}>自己解決しました。[詳しくはこちらの日記をご覧ください。](/diary/2025/02/24.html)</Inserted>

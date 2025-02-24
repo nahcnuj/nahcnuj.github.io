@@ -54,7 +54,7 @@ const articleClass = css`
   }
 
   & p, & li, & dd {
-    text-align: justify;
+    text-align: left;
   }
 
   & p + p {
@@ -96,6 +96,7 @@ const articleClass = css`
   }
 
   & code {
+    padding: 0.25em;
     font-size: 1em;
   }
 
