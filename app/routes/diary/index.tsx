@@ -32,6 +32,8 @@ app.get('/index.html', (c) => {
 app.get('/2020-07-04', rendererToRedirectTo('https://www.nahcnuj.work/diary/2020/07/04.html'))
 app.get('/2020-07-20', rendererToRedirectTo('https://www.nahcnuj.work/diary/2020/07/20.html'))
 
+app.get('/2025/02/08.html', rendererToRedirectTo('https://www.nahcnuj.work/essays/feel/2025/02/08.html'))
+
 export default app
 
 function rendererToRedirectTo(newUrl: string): H {
