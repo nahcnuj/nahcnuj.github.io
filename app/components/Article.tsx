@@ -122,7 +122,7 @@ export default function Article({ children }: { children: any }) {
         child.type === 'div'
       ) {
         paragraphCount++
-        if (paragraphCount >= 10) {
+        if (paragraphCount >= 7) {
           newChildren.push(
             <AdMax height="270px">
               {html`
