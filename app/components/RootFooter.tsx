@@ -14,15 +14,21 @@ const footerClass = css`
 export default function RootFooter() {
   return (
     <footer class={footerClass}>
-      <div>&copy; Junichi Hayashi</div>
       <div>
-        <a href="//x.com/pronahcnuj" rel="me noreferrer" target="_blank">
-          X
-        </a>
-        {' | '}
-        <a href="//github.com/nahcnuj" rel="me noreferrer" target="_blank">
-          GitHub
-        </a>
+        <div>&copy; Junichi Hayashi</div>
+        <div>Powered by Hono. Hosted by GitHub Pages.</div>
+      </div>
+      <div>
+        <div>
+          <a href="https://github.com/nahcnuj" rel="me noreferrer" target="_blank">
+            GitHub
+          </a>
+        </div>
+        <div>
+          <a href="https://x.com/pronahcnuj" rel="me noreferrer" target="_blank">
+            X（旧Twitter）
+          </a>
+        </div>
       </div>
     </footer>
   )
