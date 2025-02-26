@@ -13,6 +13,11 @@ type Meta = {
 }
 
 const rootStyle = css`
+  * {
+    text-underline-position: from-font;
+    text-decoration-thickness: from-font;
+  }
+
   html, body { margin: 0; padding: 0; }
 
   :root {
