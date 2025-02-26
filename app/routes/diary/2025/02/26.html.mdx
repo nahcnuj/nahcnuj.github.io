@@ -1,5 +1,5 @@
 ---
-title: Node.jsの新しいバージョンマネージャーfnm
+title: Node.jsのRust製バージョンマネージャーfnm
 description: 久しぶりにNode.jsのダウンロードページを見に行ったら新しいバージョンマネージャー fnm というものが推奨されていた。
 tags:
   - Node.js
@@ -8,7 +8,7 @@ tags:
 ---
 # 2025年2月26日
 
-## Node.jsの新しいバージョンマネージャーfnm
+## Node.jsのRust製バージョンマネージャーfnm
 
 <div style="min-height:600px;display:flex;align-items:center;justify-content:center">
   <blockquote class="twitter-tweet">
@@ -24,7 +24,8 @@ tags:
 </div>
 
 久しぶりに[Node.jsのダウンロードページ](https://nodejs.org/ja/download)にアクセスしたら新しいバージョンマネージャー**fnm**の利用が推奨されていました。
-公式の方法としては他に従来の`nvm`やDockerイメージの利用が選択できるようですが、`nvm`はグレーアウトして選択できませんでした。
+Rust製で高速らしいです。
+ちなみに、公式の方法として他に従来の`nvm`やDockerイメージがあるようですが、`nvm`はグレーアウトして選択できませんでした。
 
 fnmのインストールにはサイトの指示通りにコマンドを実行すれば良いのですが、自分のWindows環境では`fnm install`の後に環境変数の設定が必要でした。
 具体的には下記コマンドの実行が必要でした。
