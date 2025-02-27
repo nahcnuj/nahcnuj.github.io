@@ -13,6 +13,12 @@ type Meta = {
 }
 
 const rootStyle = css`
+  :root {
+    --theme-base-color: #e6e6ff;
+    --theme-main-color: #000033;
+    --theme-accent-color: #ff6666;
+  }
+
   * {
     text-underline-position: from-font;
     text-decoration-thickness: from-font;
@@ -20,17 +26,20 @@ const rootStyle = css`
 
   html, body { margin: 0; padding: 0; }
 
-  :root {
-    --theme-base-color: #e6e6ff;
-    --theme-main-color: #000033;
-    --theme-accent-color: #ff6666;
-  }
-
   html {
     background: var(--theme-base-color);
     color: var(--theme-main-color);
 
     scrollbar-gutter: stable both-edges;
+  }
+
+  body {
+    margin-right: 160px;
+  }
+
+  body > div > div:first-child {
+    margin-right: -160px !important;
+    transition: margin-right 0s 1000000000s;
   }
 
   a:visited {
@@ -76,11 +85,12 @@ const ninjaAccessSnippets = {
 
 const ninjaAdmaxSnippets = {
   head: html`\
-<link rel="preload" href="https://adm.shinobi.jp/st/t.js" as="script">
+<link rel="preload" href="https://adm.shinobi.jp/s/02b79cd08f6fdb3bd88a753f617eba49" as="script">
 `,
   body: html`\
-<script type="text/javascript">(admaxads = window.admaxads || []).push({admax_id: "02b79cd08f6fdb3bd88a753f617eba49",type: "action"});</script>
-<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>
+<!-- admax -->
+<script src="https://adm.shinobi.jp/s/02b79cd08f6fdb3bd88a753f617eba49"></script>
+<!-- admax -->
 `,
 } as const
 
