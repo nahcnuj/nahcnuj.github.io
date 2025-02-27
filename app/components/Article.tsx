@@ -98,6 +98,7 @@ const articleClass = css`
   & code {
     padding: 0.25em;
     font-size: 1em;
+    overflow-wrap: anywhere;
   }
 
   & p code {
