@@ -85,7 +85,7 @@ const ninjaAdmaxSnippets = {
 } as const
 
 const Layout = (props: PropsWithChildren<Meta>) => html`
-<html>
+<html lang="ja">
 <head prefix="og: http://ogp.me/ns#">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
