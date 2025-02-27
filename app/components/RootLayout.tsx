@@ -33,13 +33,15 @@ const rootStyle = css`
     scrollbar-gutter: stable both-edges;
   }
 
-  body {
-    margin-right: 160px;
-  }
+  @media screen and (min-width: 600px) {
+    body {
+      margin-right: 160px;
+    }
 
-  body > div > div:first-child {
-    margin-right: -160px !important;
-    transition: margin-right 0s 1000000000s;
+    body > div > div:first-child {
+      margin-right: -160px !important;
+      transition: margin-right 0s 1000000000s;
+    }
   }
 
   a:visited {
