@@ -1,0 +1,6 @@
+app/routes/fake/**
+
+app/routes/works/2011/01_funny-breakout.html.mdx
+app/routes/works/2011/02_change-seats.html.mdx
+app/routes/works/2012/01_breaking-enemies.html.mdx
+app/routes/works/2013/01_ochimono.html.mdx
