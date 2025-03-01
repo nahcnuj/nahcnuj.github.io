@@ -135,7 +135,7 @@ export function InlineMath({ children = '' }: { children?: string }) {
 
 export function AlignMath({ children, notag }: { children: string, notag?: true }) {
   const star = notag ? '*' : ''
-  return <div>{raw(renderMathToString(String.raw`\begin{align${star}}${children}\end{align${star}}`, { displayMode: true }))}</div>
+  return <div class={css`overflow-x:scroll`}>{raw(renderMathToString(String.raw`\begin{align${star}}${children}\end{align${star}}`, { displayMode: true }))}</div>
 }
 
 type UpperLatinAlphabet =
