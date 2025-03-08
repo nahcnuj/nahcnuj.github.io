@@ -40,11 +40,10 @@ export default createRoute((c) => {
     height: 100%;
     display:flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
 
     & > * {
       background: var(--theme-base-color);
-      padding-top: 0.2em;
     }
 
     & > *:nth-child(2) {
@@ -69,7 +68,7 @@ export default createRoute((c) => {
         </div>
         <div class={headerTextClass}>
           <div>Junichi Hayashi</div>
-          <div>A full-stack web engineer</div>
+          <div>A web engineer</div>
         </div>
       </h1>
 
@@ -139,6 +138,6 @@ export default createRoute((c) => {
         </PaperCard>
       </GridSheetLayout>
     </div>,
-    { title, description },
+    { title, description, showHeaderAd: false },
   )
 })

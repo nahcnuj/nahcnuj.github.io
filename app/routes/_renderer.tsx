@@ -32,13 +32,15 @@ export default jsxRenderer(({ children, ...props }) => {
     >
       <div class={containerClass}>
         {(props.showHeader ?? true) && <RootHeader />}
-        <AdMax height="100px" fullWidth>
-          {html`
+        {props.showHeaderAd && (
+          <AdMax height="100px" fullWidth>
+            {html`
 <!-- admax -->
 <script src="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d"></script>
 <!-- admax -->
 `}
-        </AdMax>
+          </AdMax>
+        )}
         {children}
         <AdMax height="100px" fullWidth>
           {html`

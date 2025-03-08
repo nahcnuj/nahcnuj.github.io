@@ -11,6 +11,7 @@ interface Props {
   useMath?: boolean
   showHeader?: boolean
   showFooter?: boolean
+  showHeaderAd?: boolean
 }
 
 declare module 'hono' {
