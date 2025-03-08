@@ -44,7 +44,7 @@ export default createRoute((c) => {
 
     & > * {
       background: var(--theme-base-color);
-      padding-top: 0.4rem;
+      padding-top: 0.2em;
     }
 
     & > *:nth-child(2) {
@@ -69,7 +69,7 @@ export default createRoute((c) => {
         </div>
         <div class={headerTextClass}>
           <div>Junichi Hayashi</div>
-          <span>A full-stack web engineer</span>
+          <div>A full-stack web engineer</div>
         </div>
       </h1>
 
