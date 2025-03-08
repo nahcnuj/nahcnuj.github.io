@@ -133,9 +133,13 @@ export function InlineMath({ children = '' }: { children?: string }) {
   return <span class={inlineMathClass} dangerouslySetInnerHTML={{ __html: renderMathToString(children) }} />
 }
 
-export function AlignMath({ children, notag }: { children: string, notag?: true }) {
+export function AlignMath({ children, notag }: { children: string; notag?: true }) {
   const star = notag ? '*' : ''
-  return <div class={css`overflow-x:scroll`}>{raw(renderMathToString(String.raw`\begin{align${star}}${children}\end{align${star}}`, { displayMode: true }))}</div>
+  return (
+    <div class={css`overflow-x:scroll`}>
+      {raw(renderMathToString(String.raw`\begin{align${star}}${children}\end{align${star}}`, { displayMode: true }))}
+    </div>
+  )
 }
 
 type UpperLatinAlphabet =

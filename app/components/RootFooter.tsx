@@ -21,12 +21,12 @@ export default function RootFooter() {
       <div>
         <div>
           <a href="https://github.com/nahcnuj" rel="me noreferrer" target="_blank">
-            GitHub
+            GitHub / nahcnuj
           </a>
         </div>
         <div>
           <a href="https://x.com/pronahcnuj" rel="me noreferrer" target="_blank">
-            X（旧Twitter）
+            X（旧Twitter） / @pronahcnuj
           </a>
         </div>
       </div>

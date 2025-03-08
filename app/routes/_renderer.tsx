@@ -7,8 +7,8 @@ import RootHeader from '../components/RootHeader'
 import RootLayout from '../components/RootLayout'
 
 const containerClass = css`
-  max-width: 40rem;
-  margin-inline: auto;
+  // max-width: 40rem;
+  // margin-inline: auto;
   @media screen and (max-width: 600px) {
     overflow-x: scroll;
   }

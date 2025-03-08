@@ -1,24 +1,32 @@
 import { css } from 'hono/css'
+import type { FC } from 'hono/jsx'
 import { createRoute } from 'honox/factory'
-import Article from '../components/Article'
+import GridSheetLayout from '../components/GridSheetLayout'
+import PaperCard from '../components/PaperCard'
 import RemoteImage from '../components/RemoteImage'
+
+const Div: FC = ({ children }) => {
+  return <div class={css`margin-block:1em`}>{children}</div>
+}
 
 export default createRoute((c) => {
   const title = 'Junichi Hayashi, a web engineer'
   const description = 'I am Junichi Hayashi, a web engineer.'
 
   const headingClass = css`
-    text-align: center;
+    height: 3em;
+    margin-bottom: 1.5em;
+
+    background: linear-gradient(to right, var(--theme-main-color) 0%, var(--theme-main-color) 50%, var(--theme-base-color) calc(100% - 3.1em));
 
     & span {
       display: inline-block;
     }
   `
   const headerImageClass = css`
+    display: inline-block;
     float: right;
-    height: calc(4 * var(--line-height-length));
-    margin-inline-start: 1rem;
-    padding-inline: 0.2rem;
+    height: 100%;
     background: var(--theme-base-color);
 
     & img {
@@ -28,68 +36,109 @@ export default createRoute((c) => {
     }
   `
 
+  const headerTextClass = css`
+    height: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    & > * {
+      background: var(--theme-base-color);
+      padding-top: 0.4rem;
+    }
+
+    & > *:nth-child(2) {
+      font-size: 1.3rem;
+      font-weight: normal;
+    }
+  `
+
+  const linkAboutMeClass = css`
+    display: inline-block;
+    margin-inline-end: 1em;
+    &:before {
+      content: "➤ ";
+    }
+  `
+
   return c.render(
-    <Article>
+    <div class={css`padding-inline:0.2em`}>
       <h1 class={headingClass}>
-        <span>Junichi Hayashi,</span> <span>a web engineer</span>
+        <div class={headerImageClass}>
+          <RemoteImage src="/author.jpg" width={150} height={150} alt="" />
+        </div>
+        <div class={headerTextClass}>
+          <div>Junichi Hayashi</div>
+          <span>A full-stack web engineer</span>
+        </div>
       </h1>
-      <div class={headerImageClass}>
-        <RemoteImage src="/author.jpg" width={150} height={150} alt="" />
-      </div>
 
-      <h2>I am ...</h2>
-      <p>林純一と申します。都内某企業でウェブエンジニアとして働いています。</p>
+      <GridSheetLayout columns={3}>
+        <PaperCard>
+          <h2>Enjoy Programming</h2>
+          <p lang="en">
+            I've been learning programming languages like C/C++, Java, Perl, TypeScript, Rust, Lean, and more. I'm
+            interested in semantics of programming languages and formal verification, and have been slowly working on
+            developing{' '}
+            <a href="https://github.com/nahcnuj/tibi" target="_blank" rel="noreferrer">
+              a compiler for a small homemade programming language
+            </a>{' '}
+            in Lean 4, along with proofs of its compilation correctness.
+          </p>
+          <Div>
+            <a href="/works/index.html" class={linkAboutMeClass}>
+              Past works
+            </a>
+            <a href="https://github.com/nahcnuj" target="_blank" rel="noreferrer" class={linkAboutMeClass}>
+              GitHub
+            </a>
+          </Div>
+        </PaperCard>
 
-      <h2>My mottos</h2>
-      <h3>Honor the legacy ―― 歴史的経緯に敬意を</h3>
-      <p>
-        拙い設計や朴訥な実装も、今日まで稼働を続け価値を生み出してきた大切な資産です。
-        それを生み出した先人たちに敬意を払い、感謝しながら、新たな価値のためにエンジニアリングに励みます。
-      </p>
-      <h3>Evolve continuously ―― 一歩ずつ、より良い明日へ</h3>
-      <p>
-        大きな変化によって一足飛びに改善させることはできずとも、日々できるところから、昨日より今日、今日より明日が良くなるように努めます。
-      </p>
-      <h3>Keep learning ―― 学び続ける</h3>
-      <p>
-        技術は日々進化しています。
-        自分が既に理解していることのすぐそばにある「まだ理解していないこと」に向き合い、学び続けます。
-      </p>
+        <PaperCard>
+          <h2>Engineer Web Services</h2>
+          <p lang="en">
+            I have over 4 years of experience in developing web services built on the{' '}
+            <abbr title="Linux, Apache, MySQL, Perl">LAMP</abbr> stack. I'm familiar with both on-premises and cloud
+            environments like AWS. For a detailed overview of my professional experience, please see{' '}
+            <a href="https://github.com/nahcnuj/nahcnuj/blob/main/CV.md" target="_blank" rel="noreferrer">
+              my full CV
+            </a>
+            . I still want to work as a programmer because I want to engage in programming during the working hours that
+            make up most of my life.
+          </p>
+          <Div>
+            <a
+              href="https://github.com/nahcnuj#junichi-hayashi"
+              target="_blank"
+              rel="noreferrer"
+              class={linkAboutMeClass}
+            >
+              Resume
+            </a>
+            <a
+              href="https://github.com/nahcnuj/nahcnuj/blob/main/CV.md"
+              target="_blank"
+              rel="noreferrer"
+              class={linkAboutMeClass}
+            >
+              CV
+            </a>
+            (on GitHub)
+          </Div>
+        </PaperCard>
 
-      <h2>I like ...</h2>
-      <h3>プログラミング</h3>
-      <p>
-        小学5年生のときに、父が所有していたポケットコンピュータでBASICと出会ってから、
-        <abbr title="Hot Soup Processor">HSP</abbr>、C、C++、C#、Java、Perl、TypeScript、Go、Rust、Lean 4など、
-        様々な言語でプログラミングを楽しんでいます。
-      </p>
-
-      <h3>Perl</h3>
-      <p>仕事で主に使っているプログラミング言語です。なんとなく「手作り感」があるのが好きです。</p>
-
-      <h3>TypeScript</h3>
-      <p>
-        Next.jsやNuxtを使ったウェブサイト構築に挑戦するのと同時に手を出した言語です。
-        それまで扱っていた動的型付けなPerlと対比して、静的に型が付くことの便利さを再確認させてくれました。
-      </p>
-
-      <h3>型</h3>
-      <p>プログラムの型注釈と命題の証明がカリー＝ハワード同型対応によって結び付くという強力さに惚れました。</p>
-
-      <h3>東山奈央さん（声優・歌手）</h3>
-      <p>
-        2ndシングル「イマココ/月がきれい」を聴いて、そのCDのリリースイベントに足を運んだところから歌手として好きになりました。
-      </p>
-
-      <h2>I belonged to ...</h2>
-      <ul>
-        <li>神戸市立工業高等専門学校電気工学科（2016年3月卒業）</li>
-        <li>大阪大学基礎工学部情報科学科（2018年3月卒業）</li>
-        <li>大阪大学大学院情報科学研究科コンピュータサイエンス専攻 修士課程（2019年10月中途退学）</li>
-        <li>シーサー株式会社（2020年4月～2023年12月）</li>
-        <li>現職（2024年1月～）</li>
-      </ul>
-    </Article>,
+        <PaperCard>
+          <h2>Refresh Myself with Music</h2>
+          <p lang="en">
+            I'm a big fan of Nao Toyama's music, having attended many of her live concerts and even joined a fan club
+            bus tour in 2024. I deeply connect with the lyrics she sings, gaining daily strength from them. I like the
+            sound of the piano and enjoy playing it to perform her songs apart from programming, though I'm still a
+            beginner.
+          </p>
+        </PaperCard>
+      </GridSheetLayout>
+    </div>,
     { title, description },
   )
 })

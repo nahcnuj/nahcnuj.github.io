@@ -3,7 +3,7 @@ import { css } from 'hono/css'
 const navItems = [
   { title: 'Index', href: '/' as const },
   { title: 'Diary', href: '/diary/index.html' as const },
-  { title: 'Works', href: '/works/index.html' as const },
+  { title: 'Work', href: '/works/index.html' as const },
   { title: 'Essay', href: '/essays/index.html' as const },
 ]
 
@@ -34,7 +34,6 @@ const listClass = css`
   grid-template-columns: repeat(var(--columns), 1fr);
 
   list-style: none;
-  // font-size: smaller;
   text-align: center;
 `
 
@@ -42,10 +41,13 @@ const itemClass = css`
   display: inline-block;
   height: 2em;
   line-height: 2em;
+  font-size: 1.2em;
 
   & a {
     display: inline-block;
     width: 80%;
+
+    font-family: monospace;
   }
 `
 
