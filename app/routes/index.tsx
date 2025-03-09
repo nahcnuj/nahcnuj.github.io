@@ -130,9 +130,9 @@ export default createRoute((c) => {
         <PaperCard>
           <h2>Refresh Myself with Music</h2>
           <p lang="en">
-            I'm a big fan of Nao Toyama's music, having attended many of her live concerts and even joined a fan club
+            I'm a big fan of Nao Toyama's songs, having attended many of her live concerts and even joined a fan club
             bus tour in 2024. I deeply connect with the lyrics she sings, gaining daily strength from them. I like the
-            sound of the piano and enjoy playing it to perform her songs apart from programming, though I'm still a
+            sound of the piano and enjoy playing it to perform her music apart from programming, though I'm still a
             beginner.
           </p>
         </PaperCard>
