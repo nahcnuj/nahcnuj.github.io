@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { html } from 'hono/html'
-import type { PropsWithChildren } from 'hono/jsx'
+import { jsxRenderer } from 'hono/jsx-renderer'
 import AdMax from './AdMax'
 
 const articleClass = css`
@@ -146,3 +146,11 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
 
   return <article class={articleClass}>{children}</article>
 }
+
+export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }) => {
+  return (
+    <Layout frontmatter={frontmatter}>
+      <Article>{children}</Article>
+    </Layout>
+  )
+})
