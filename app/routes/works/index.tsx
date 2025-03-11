@@ -18,7 +18,7 @@ app.get('/index.html', (c) => {
   const works = ((files) =>
     Object.entries(files)
       .sort(([a], [b]) => b.localeCompare(a))
-      .map(([path, { frontmatter }]) => [path.replace(/\.mdx$/, ''), frontmatter] as const))(
+      .map(([path, { frontmatter }]) => [path.slice(2).replace(/\.mdx$/, ''), frontmatter] as const))(
     import.meta.glob<{ frontmatter: Frontmatter }>('./**/*.mdx', {
       eager: true,
     }),
@@ -31,7 +31,7 @@ app.get('/index.html', (c) => {
 
       <WorkList works={works} />
     </>,
-    { title, description },
+    { frontmatter: { title, description } },
   )
 })
 

@@ -25,7 +25,7 @@ app.get('/index.html', (c) => {
       <h1>日記</h1>
       <DiaryList diaries={diaries} />
     </>,
-    { title, description },
+    { frontmatter: { title, description } },
   )
 })
 

@@ -3,12 +3,18 @@ import { html } from 'hono/html'
 import type { PropsWithChildren } from 'hono/jsx'
 import { Script } from 'honox/server'
 
+interface OpenGraphData {
+  image?: {
+    url: string
+    alt?: string
+  }
+}
+
 type Meta = {
   title: string
   description?: string
-  ogImage?: string
-  ogImageAlt?: string
-  useMath: boolean
+  openGraph?: OpenGraphData
+  useMath?: boolean
   headInjection?: unknown
 }
 
@@ -96,18 +102,25 @@ const ninjaAdmaxSnippets = {
 `,
 } as const
 
+const OpenGraph = ({ image }: OpenGraphData) =>
+  image ? (
+    <>
+      <meta property="og:image" content={image.url} />
+      {image.alt && <meta property="og:image:alt" content={image.alt} />}
+    </>
+  ) : null
+
 const Layout = (props: PropsWithChildren<Meta>) => html`
 <html lang="ja">
 <head prefix="og: http://ogp.me/ns#">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${props.title}</title>
-  ${props.description ? html`<meta name="description" content="${props.description}">` : ''}\
+  ${props.description ? html`<meta name="description" content="${props.description}">` : ''}
   <meta property="og:type" content="website">
   <meta property="og:title" content="${props.title}">
   ${props.description ? html`<meta property="og:description" content="${props.description}">` : ''}
-  ${props.ogImage ? html`<meta property="og:image" content="${props.ogImage}">` : ''}
-  ${props.ogImageAlt ? html`<meta property="og:image:alt" content="${props.ogImageAlt}">` : ''}
+  ${props.openGraph && <OpenGraph image={props.openGraph.image} />}
   ${<Script src="/app/client.ts" async />}
   ${<Style>{rootStyle}</Style>}
   ${ninjaAdmaxSnippets.head}\

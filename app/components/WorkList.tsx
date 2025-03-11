@@ -66,13 +66,13 @@ interface Props {
   description: string
   begins: number
   ends?: number
-  thumbnail: `/${string}`
+  thumbnail: string
 }
 
 function Work({ title, description, begins, ends, thumbnail }: Props) {
   return (
     <div class={workClass}>
-      <div class={thumbnailClass}>{thumbnail && <RemoteImage src={thumbnail} alt="" />}</div>
+      <div class={thumbnailClass}>{thumbnail && <img src={thumbnail} alt="" />}</div>
       <div class={contentClass}>
         <div class={titleClass}>{title}</div>
         <div>{description}</div>

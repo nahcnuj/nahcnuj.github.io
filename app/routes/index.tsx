@@ -138,6 +138,6 @@ export default createRoute((c) => {
         </PaperCard>
       </GridSheetLayout>
     </div>,
-    { title, description, showHeaderAd: false },
+    { frontmatter: { title, description, showHeaderAd: false } },
   )
 })

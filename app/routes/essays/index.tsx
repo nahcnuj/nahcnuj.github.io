@@ -25,7 +25,7 @@ app.get('/index.html', (c) => {
       <p>何かしらに言及したくなったときに取り留めもないままに書き連ねます。</p>
       <EssayList essays={essays} />
     </>,
-    { title, description },
+    { frontmatter: { title, description } },
   )
 })
 
