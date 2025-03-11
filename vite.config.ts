@@ -7,7 +7,6 @@ import rehypeSlug from 'rehype-slug'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig } from 'vite'
-// import Sitemap from 'vite-plugin-sitemap'
 
 const entry = './app/server.ts'
 
@@ -41,7 +40,6 @@ export default defineConfig(({ mode }) => {
           rehypeSlug,
         ],
       }),
-      // Sitemap({ hostname: 'https://www.nahcnuj.work', generateRobotsTxt: false }),
     ],
   }
 })
