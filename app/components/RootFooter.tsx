@@ -7,7 +7,7 @@ const footerClass = css`
   font-size: smaller;
 
   display: flex;
-  aligns-item: center;
+  align-items: center;
   justify-content: space-between;
 `
 
