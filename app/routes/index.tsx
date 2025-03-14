@@ -2,6 +2,7 @@ import { css } from 'hono/css'
 import type { FC } from 'hono/jsx'
 import { createRoute } from 'honox/factory'
 import GridSheetLayout from '../components/GridSheetLayout'
+import Headline from '../components/Headline'
 import PaperCard from '../components/PaperCard'
 import RemoteImage from '../components/RemoteImage'
 
@@ -13,43 +14,32 @@ export default createRoute((c) => {
   const title = 'Junichi Hayashi, a web engineer'
   const description = 'I am Junichi Hayashi, a web engineer.'
 
-  const headingClass = css`
-    height: 3em;
-    margin-bottom: 1.5em;
-
-    background: linear-gradient(to right, var(--theme-main-color) 0%, var(--theme-main-color) 50%, var(--theme-base-color) calc(100% - 3.1em));
-
-    & span {
-      display: inline-block;
-    }
+  const headlineClass = css`
+    height: fit-content;
+    display: flex;
+    align-items: center;
   `
+
   const headerImageClass = css`
-    display: inline-block;
-    float: right;
+    width: 100%;
+    max-width: 3em;
     height: 100%;
-    background: var(--theme-base-color);
+    max-height: 3em;
 
     & img {
       width: 100%;
       height: 100%;
       object-fit: scale-down;
+      vertical-align:middle;
     }
   `
 
   const headerTextClass = css`
-    height: 100%;
+    width: 100%;
+    min-height: 3em;
     display:flex;
     flex-direction: column;
-    justify-content: center;
-
-    & > * {
-      background: var(--theme-base-color);
-    }
-
-    & > *:nth-child(2) {
-      font-size: 1.3rem;
-      font-weight: normal;
-    }
+    justify-content: space-evenly;
   `
 
   const linkAboutMeClass = css`
@@ -62,15 +52,17 @@ export default createRoute((c) => {
 
   return c.render(
     <div class={css`padding-inline:0.2em`}>
-      <h1 class={headingClass}>
-        <div class={headerImageClass}>
-          <RemoteImage src="/author.jpg" width={150} height={150} alt="" />
+      <Headline>
+        <div class={headlineClass}>
+          <div class={headerTextClass}>
+            <div>Junichi Hayashi</div>
+            <div class={css`font-size:1.3rem;font-weight:normal`}>A web engineer</div>
+          </div>
+          <div class={headerImageClass}>
+            <RemoteImage src="/author.jpg" width={150} height={150} alt="" />
+          </div>
         </div>
-        <div class={headerTextClass}>
-          <div>Junichi Hayashi</div>
-          <div>A web engineer</div>
-        </div>
-      </h1>
+      </Headline>
 
       <GridSheetLayout columns={3}>
         <PaperCard>
