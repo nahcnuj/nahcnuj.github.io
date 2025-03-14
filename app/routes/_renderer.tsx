@@ -64,7 +64,7 @@ export default jsxRenderer(
       >
         <main class={mainClass}>
           {(props.showHeader ?? true) && <RootHeader />}
-          {props.showHeaderAd && (
+          {(props.showHeaderAd ?? true) && (
             <AdMax height="100px" fullWidth>
               {html`\
 <!-- admax -->
