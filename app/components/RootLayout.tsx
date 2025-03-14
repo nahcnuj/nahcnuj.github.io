@@ -36,18 +36,7 @@ const rootStyle = css`
     background: var(--theme-base-color);
     color: var(--theme-main-color);
 
-    scrollbar-gutter: stable both-edges;
-  }
-
-  @media screen and (min-width: 600px) {
-    body {
-      margin-right: 160px;
-    }
-
-    body > div > div:first-child {
-      margin-right: -160px !important;
-      transition: margin-right 0s 1000000000s;
-    }
+    scrollbar-gutter: stable;
   }
 
   a:visited {
@@ -91,17 +80,6 @@ const ninjaAccessSnippets = {
 `,
 } as const
 
-const ninjaAdmaxSnippets = {
-  head: html`\
-<link rel="preload" href="https://adm.shinobi.jp/s/02b79cd08f6fdb3bd88a753f617eba49" as="script">
-`,
-  body: html`\
-<!-- admax -->
-<script src="https://adm.shinobi.jp/s/02b79cd08f6fdb3bd88a753f617eba49"></script>
-<!-- admax -->
-`,
-} as const
-
 const OpenGraph = ({ image }: OpenGraphData) =>
   image ? (
     <>
@@ -116,27 +94,25 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${props.title}</title>
-  ${props.description ? html`<meta name="description" content="${props.description}">` : ''}
+  ${props.description ? html`<meta name="description" content="${props.description}">` : html`<!-- -->`}
   <meta property="og:type" content="website">
   <meta property="og:title" content="${props.title}">
-  ${props.description ? html`<meta property="og:description" content="${props.description}">` : ''}
+  ${props.description ? html`<meta property="og:description" content="${props.description}">` : html`<!-- -->`}
   ${props.openGraph && <OpenGraph image={props.openGraph.image} />}
   ${<Script src="/app/client.ts" async />}
   ${<Style>{rootStyle}</Style>}
-  ${ninjaAdmaxSnippets.head}\
-  ${import.meta.env.PROD ? gtagSnippets.head : ''}\
-  ${import.meta.env.PROD ? ninjaAccessSnippets.head : ''}\
+  ${import.meta.env.PROD ? gtagSnippets.head : html`<!-- -->\n`}\
+  ${import.meta.env.PROD ? ninjaAccessSnippets.head : html`<!-- -->\n`}\
+  ${props.headInjection}\
   ${
     props.useMath &&
     html`<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib" crossorigin="anonymous">`
   }\
-  ${props.headInjection}\
 </head>
 <body>
-  ${props.children}\
-  ${import.meta.env.PROD ? gtagSnippets.body : ''}\
-  ${import.meta.env.PROD ? ninjaAccessSnippets.body : ''}\
-  ${ninjaAdmaxSnippets.body}\
+  ${props.children}
+  ${import.meta.env.PROD ? gtagSnippets.body : html`<!-- -->\n`}\
+  ${import.meta.env.PROD ? ninjaAccessSnippets.body : html`<!-- -->\n`}\
 </body>
 </html>
 `

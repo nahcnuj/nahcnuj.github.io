@@ -5,12 +5,33 @@ import AdMax from '../components/AdMax'
 import RootFooter from '../components/RootFooter'
 import RootHeader from '../components/RootHeader'
 import RootLayout from '../components/RootLayout'
+import SideNav from '../islands/SideNav'
 
-const containerClass = css`
-  // max-width: 40rem;
-  // margin-inline: auto;
-  @media screen and (max-width: 600px) {
-    overflow-x: scroll;
+const mainClass = css`
+  @media screen and (min-width: 1200px) {
+    max-width: 1000px;
+  }
+`
+
+const sideClass = css`
+  min-width: 180px;
+  width: calc(100vw - 1020px);
+  height: 100%;
+
+  @media screen and (min-width: 1200px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  @media screen and (max-width: 1199px) {
+    height: 0;
+    overflow: hidden;
   }
 `
 
@@ -35,22 +56,26 @@ export default jsxRenderer(
         description={description}
         openGraph={openGraph}
         useMath={useMath}
-        headInjection={html`<link rel="preload" href="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d" as="script">`}
+        headInjection={html`\
+<link rel="preload" href="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d" as="script">
+<link rel="preload" href="https://adm.shinobi.jp/st/t.js" as="script">
+<link rel="preload" href="https://adm.shinobi.jp/s/ecef110ee254439d10de8dc383b54066" as="script">
+`}
       >
-        <div class={containerClass}>
+        <main class={mainClass}>
           {(props.showHeader ?? true) && <RootHeader />}
           {props.showHeaderAd && (
             <AdMax height="100px" fullWidth>
-              {html`
+              {html`\
 <!-- admax -->
-<script src="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d"></script>
+<script src="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d" defer></script>
 <!-- admax -->
 `}
             </AdMax>
           )}
           {children}
           <AdMax height="100px" fullWidth>
-            {html`
+            {html`\
 <!-- admax -->
 <div class="admax-switch" data-admax-id="11a058af25dce0b8884cd189862eed63" style="display:inline-block;"></div>
 <script type="text/javascript">
@@ -60,6 +85,18 @@ export default jsxRenderer(
 `}
           </AdMax>
           {(props.showFooter ?? true) && <RootFooter />}
+        </main>
+        <div class={sideClass}>
+          <div class={css`height:calc(100vh - 600px - 20px);overflow-y:auto`}>
+            <SideNav />
+          </div>
+          <aside class={css`height:600px;text-align:center`}>
+            {html`\
+<!-- admax -->
+<script src="https://adm.shinobi.jp/s/ecef110ee254439d10de8dc383b54066"></script>
+<!-- admax -->
+`}
+          </aside>
         </div>
       </RootLayout>
     )
