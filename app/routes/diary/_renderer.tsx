@@ -1,3 +1,3 @@
-import articleMdxRenderer from '../essays/_renderer'
+import { articleMdxRenderer } from '../../components/Article'
 
 export default articleMdxRenderer
