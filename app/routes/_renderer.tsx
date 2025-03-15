@@ -5,7 +5,7 @@ import AdMax from '../components/AdMax'
 import RootFooter from '../components/RootFooter'
 import RootHeader from '../components/RootHeader'
 import RootLayout from '../components/RootLayout'
-import SideNav from '../islands/SideNav'
+import SideNav from '../components/SideNav'
 
 const mainClass = css`
   @media screen and (min-width: 1200px) {
@@ -88,7 +88,7 @@ export default jsxRenderer(
         </main>
         <div class={sideClass}>
           <div class={css`height:calc(100vh - 600px - 20px);overflow-y:auto`}>
-            <SideNav />
+            <SideNav>{children}</SideNav>
           </div>
           <aside class={css`height:600px;text-align:center`}>
             {html`\

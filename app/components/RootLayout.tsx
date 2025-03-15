@@ -23,6 +23,9 @@ const rootStyle = css`
     --theme-base-color: #e6e6ff;
     --theme-main-color: #000033;
     --theme-accent-color: #ff6666;
+
+    scroll-behavior: smooth;
+    scroll-padding-block-start: 4em;
   }
 
   * {
