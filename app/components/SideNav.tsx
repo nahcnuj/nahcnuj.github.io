@@ -33,30 +33,24 @@ const findLast = <N extends 1 | 2 | 3 | 4 | 5 | 6, M extends Findable<N>>(
   outline: Outline<N>,
   n: M,
 ): Outline<M> | undefined => {
-  console.trace('100 findLast')
   if (outline.length === 0) {
-    console.debug('110 findLast')
     return undefined
   }
 
-  console.debug('200 findLast')
   const last = outline.at(-1)
   if (last) {
-    console.debug('210 findLast')
     const cmp = last.node.tag.localeCompare(`h${n}`)
+
     if (cmp === 0) {
-      console.debug('211 findLast')
       // biome-ignore lint/suspicious/noExplicitAny: outline is Outline<M> because Findable<N> always includes N
       return outline as any as Outline<M>
     }
 
     if (cmp > 0) {
-      console.debug('220 findLast', last)
       // biome-ignore lint/suspicious/noExplicitAny: `h${n}` may be in a deeper level
       return findLast(last.inner, n as any) as Outline<M>
     }
 
-    console.debug('230 findLast', last)
     return undefined
   }
 
