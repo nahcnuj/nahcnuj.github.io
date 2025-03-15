@@ -11,11 +11,13 @@ function isPromise<T>(promisable: any): promisable is Promise<T> {
 
 type IncrementMap = [never, 2, 3, 4, 5, 6, never]
 type Increment<N extends 1 | 2 | 3 | 4 | 5 | 6> = N extends 6 ? never : IncrementMap[N]
-type HeadingNode<N extends 1 | 2 | 3 | 4 | 5 | 6> = { tag: `h${N}`; props: { id: string }; children: JSXNode[] }
+type HeadingNode<N extends 1 | 2 | 3 | 4 | 5 | 6> = { tag: `h${N}`; props?: { id?: string }; children: JSXNode[] }
 
-type Outline<N extends 1 | 2 | 3 | 4 | 5 | 6 = 2> = Array<
-  N extends 6 ? never : { node: HeadingNode<N>; inner: Outline<Increment<N>> }
->
+type OutlineItem<N extends 1 | 2 | 3 | 4 | 5 | 6 = 2> = N extends 6
+  ? never
+  : { node: HeadingNode<N>; inner: Outline<Increment<N>> }
+
+type Outline<N extends 1 | 2 | 3 | 4 | 5 | 6 = 2> = Array<OutlineItem<N>>
 
 type Findable<N extends 1 | 2 | 3 | 4 | 5 | 6> = N extends 1
   ? 1 | 2 | 3 | 4 | 5 | 6
@@ -89,8 +91,7 @@ const parseChildren = (child: Child, acc: Outline = []): Outline => {
       throw new Error('outline is invalid')
     }
 
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    last.inner.push({ node: child, inner: [] } as any)
+    last.inner.push({ node: child, inner: [] } as OutlineItem<3>)
   }
 
   // TODO h4, h5, h6
@@ -104,13 +105,13 @@ export default function ({ children }: PropsWithChildren) {
   return outline.length > 0 ? (
     <ol>
       {outline.map(({ node, inner }) => (
-        <li key={node.props.id}>
-          <a href={`#${node.props.id}`}>{node.children}</a>
+        <li key={node?.props?.id}>
+          <a href={`#${node?.props?.id}`}>{node.children}</a>
           {inner.length > 0 && (
             <ol class={css`margin-inline-start:-1em`}>
               {inner.map(({ node }) => (
-                <li key={node.props.id}>
-                  <a href={`#${node.props.id}`}>{node.children}</a>
+                <li key={node?.props?.id}>
+                  <a href={`#${node?.props?.id}`}>{node.children}</a>
                 </li>
               ))}
             </ol>
