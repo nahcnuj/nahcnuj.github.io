@@ -15,9 +15,9 @@
   },
   "private": true,
   "dependencies": {
-    "@hono/vite-ssg": "^0.1.1",
+    "@hono/vite-ssg": "^0.1.2",
     "@mdx-js/rollup": "^3.1.0",
-    "hono": "^4.7.4",
+    "hono": "^4.7.5",
     "honox": "^0.1.38",
     "katex": "^0.16.21",
     "rehype-external-links": "^3.0.0",
@@ -25,7 +25,7 @@
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.0.0",
     "temporal-polyfill": "^0.2.5",
-    "vite": "^6.2.2"
+    "vite": "^6.2.3"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
