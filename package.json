@@ -17,7 +17,7 @@
   "dependencies": {
     "@hono/vite-ssg": "^0.1.2",
     "@mdx-js/rollup": "^3.1.0",
-    "hono": "^4.7.5",
+    "hono": "^4.7.6",
     "honox": "^0.1.39",
     "katex": "^0.16.21",
     "rehype-external-links": "^3.0.0",
