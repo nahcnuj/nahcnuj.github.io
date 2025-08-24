@@ -15,7 +15,7 @@ jobs:
           name: github-pages
           path: .
 
-      - uses: Cyb3r-Jak3/html5validator-action@41633d488eb36e18fd1a95ffc83daf1bf22a75bd
+      - uses: Cyb3r-Jak3/html5validator-action@4ea5e57383ed7e14432ebbaae1b64893b7c5210b
         with:
           root: .
           css: false
