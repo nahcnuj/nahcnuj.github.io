@@ -28,7 +28,7 @@
     "vite": "^7.1.5"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.2.3",
     "@types/katex": "^0.16.7",
     "textlint": "^15.2.2",
     "textlint-filter-rule-comments": "^1.2.2",
