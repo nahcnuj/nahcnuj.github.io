@@ -1,11 +1,9 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "ignore": ["dist", "public/nuxt-multibyte-url-demo", "public/nuxt-multibyte-url-fixed"]
+    "includes": ["**", "!**/dist", "!**/public/nuxt-multibyte-url-demo", "!**/public/nuxt-multibyte-url-fixed"]
   },
-  "organizeImports": {
-    "enabled": true
-  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
     "rules": {
