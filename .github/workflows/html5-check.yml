@@ -33,7 +33,7 @@ jobs:
           MSG_MINIMAL: actions url
 
       - if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: log.json
           path: log.log
