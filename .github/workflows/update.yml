@@ -1,0 +1,46 @@
+name: Update
+
+on:
+  push:
+    branches:
+      - source
+      - rclone-test
+  workflow_dispatch:
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Sync MDX files from Google Drive
+        uses: ./.github/actions/sync-mdx-from-gdrive
+        with:
+          rclone-config: ${{ secrets.RCLONE_CONFIG_BASE64 }}
+          service-account-file: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON_BASE64 }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci --omit dev --prefer-offline
+      - name: Build
+        run: npm run build
+    #   - name: Upload GitHub Pages artifact
+    #     uses: actions/upload-pages-artifact@v4.0.0
+    #     with:
+    #       path: dist
+    #   - name: Deploy to GitHub Pages
+    #     id: deployment
+    #     uses: actions/deploy-pages@v4.0.5
+      - if: failure()
+        uses: ./.github/actions/notify-failure
+        with:
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
