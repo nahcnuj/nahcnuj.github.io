@@ -7,7 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  sync-to-gdrive:
+  # Google Driveからダウンロードしてビルドするジョブ
+  build-from-gdrive:
     runs-on: ubuntu-latest
     
     steps:
@@ -25,16 +26,35 @@ jobs:
           service_account_filename: service-account-file.json
           service_account_file: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON_BASE64 }}
       
-      - name: List Google Drive files (test)
+      - name: Download from Google Drive and convert back (md → html.mdx)
         run: |
-          echo "Listing Google Drive root directory..."
-          rclone lsd remote:
+          echo "Downloading from Google Drive..."
+          mkdir -p ./temp_download
+          rclone sync remote: ./temp_download --progress --verbose
+          
+          echo "Converting md files to html.mdx..."
+          find ./temp_download -name "*.md" -type f | while read -r file; do
+            # temp_download/ を削除してrelativeパスを取得
+            relative_path="${file#./temp_download/}"
+            
+            # 拡張子を .md → .html.mdx に変更
+            new_path="${relative_path%.md}.html.mdx"
+            
+            # app/routes配下に配置
+            target_path="app/routes/$new_path"
+            
+            # ディレクトリを作成
+            mkdir -p "$(dirname "$target_path")"
+            
+            # ファイルをコピー
+            cp "$file" "$target_path"
+            
+            echo "Restored: $file → $target_path"
+          done
+          
+          echo "Files restored:"
+          find app/routes -name "*.mdx" -type f | head -20
       
-      - name: Sync files to Google Drive
+      - name: Verify restored files
         run: |
-          echo "Syncing files to Google Drive..."
-          rclone sync remote: ./dist --progress --verbose
-          echo "Sync completed!"
-    
-      - name: Show results (test)
-        run: ls -alR ./dist
+          find app/routes -name "*.mdx" -type f | sort
