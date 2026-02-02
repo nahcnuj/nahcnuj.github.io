@@ -1,0 +1,40 @@
+name: Rclone Test
+
+on:
+  push:
+    branches:
+      - rclone-test
+  workflow_dispatch:
+
+jobs:
+  sync-to-gdrive:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Rclone
+        uses: AnimMouse/setup-rclone@v1
+        with:
+          rclone_config: ${{ secrets.RCLONE_CONFIG_BASE64 }}
+      
+      - name: Add Rclone service account file
+        uses: AnimMouse/setup-rclone/service-account-file@v1
+        with:
+          service_account_filename: service-account-file.json
+          service_account_file: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON_BASE64 }}
+      
+      - name: List Google Drive files (test)
+        run: |
+          echo "Listing Google Drive root directory..."
+          rclone lsd remote:
+      
+      - name: Sync files to Google Drive
+        run: |
+          echo "Syncing files to Google Drive..."
+          rclone sync ./dist remote: --progress --verbose
+          echo "Sync completed!"
+    
+      - name: Show results (test)
+        run: ls -alR ./dist
