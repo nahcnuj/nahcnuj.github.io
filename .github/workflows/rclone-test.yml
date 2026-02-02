@@ -49,7 +49,7 @@ jobs:
             # ファイルをコピー
             cp "$file" "$target_path"
             
-            echo "Restored: $file → $target_path"
+            echo "Restored: $relative_path → $target_path"
           done
       
       - name: Verify restored files
