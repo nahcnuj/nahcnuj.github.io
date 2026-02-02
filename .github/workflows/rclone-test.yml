@@ -26,13 +26,13 @@ jobs:
           service_account_filename: service-account-file.json
           service_account_file: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON_BASE64 }}
       
-      - name: Download from Google Drive and convert back (md → html.mdx)
+      - name: Download from Google Drive
         run: |
-          echo "Downloading from Google Drive..."
           mkdir -p ./temp_download
-          rclone sync remote: ./temp_download --progress --verbose
-          
-          echo "Converting md files to html.mdx..."
+          rclone sync remote: ./temp_download
+      
+      - name: Convert md to html.mdx and move to app/routes
+        run: |
           find ./temp_download -name "*.md" -type f | while read -r file; do
             # temp_download/ を削除してrelativeパスを取得
             relative_path="${file#./temp_download/}"
@@ -51,9 +51,6 @@ jobs:
             
             echo "Restored: $file → $target_path"
           done
-          
-          echo "Files restored:"
-          find app/routes -name "*.mdx" -type f | head -20
       
       - name: Verify restored files
         run: |
