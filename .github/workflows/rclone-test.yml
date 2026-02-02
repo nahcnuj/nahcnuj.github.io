@@ -33,7 +33,7 @@ jobs:
       - name: Sync files to Google Drive
         run: |
           echo "Syncing files to Google Drive..."
-          rclone sync ./dist remote: --progress --verbose
+          rclone sync remote: ./dist --progress --verbose
           echo "Sync completed!"
     
       - name: Show results (test)
