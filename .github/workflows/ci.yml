@@ -24,9 +24,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: workspace
-          path: |
-            app/routes
-            !.git
+          path: app
 
   build:
     runs-on: ubuntu-latest
