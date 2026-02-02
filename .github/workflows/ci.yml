@@ -15,6 +15,11 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+      - name: Sync MDX files from Google Drive
+        uses: ./.github/actions/sync-mdx-from-gdrive
+        with:
+          rclone-config: ${{ secrets.RCLONE_CONFIG_BASE64 }}
+          service-account-file: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON_BASE64 }}
       - uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
