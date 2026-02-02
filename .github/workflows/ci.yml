@@ -20,18 +20,12 @@ jobs:
         with:
           rclone-config: ${{ secrets.RCLONE_CONFIG_BASE64 }}
           service-account-file: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON_BASE64 }}
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm ci --prefer-offline
       - name: Upload workspace
         uses: actions/upload-artifact@v4
         with:
           name: workspace
           path: |
-            .
+            app/routes
             !.git
 
   build:
@@ -44,11 +38,14 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
+          cache: 'npm'
       - name: Download workspace
         uses: actions/download-artifact@v4
         with:
           name: workspace
           path: .
+      - name: Install dependencies
+        run: npm ci --omit dev --prefer-offline
       - name: Build
         run: npm run build
       - if: failure()
@@ -66,11 +63,14 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
+          cache: 'npm'
       - name: Download workspace
         uses: actions/download-artifact@v4
         with:
           name: workspace
           path: .
+      - name: Install dependencies
+        run: npm ci --prefer-offline
       - name: Check
         run: npm run lint
       - if: failure()
