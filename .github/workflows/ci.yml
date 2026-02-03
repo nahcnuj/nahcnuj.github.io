@@ -38,7 +38,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - name: Download workspace
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: workspace
           path: .
@@ -63,7 +63,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - name: Download workspace
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: workspace
           path: .
@@ -88,7 +88,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - name: Download workspace
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: workspace
           path: .
