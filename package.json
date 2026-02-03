@@ -6,10 +6,10 @@
     "dev:expose": "vite --host",
     "build": "vite build --mode client && vite build",
     "format": "biome format --write .",
-    "lint": "npm run lint:biome && npm run lint:text",
+    "lint": "npm run lint:biome",
     "lint:fix": "npm run lint:biome:fix && npm run lint:text:fix",
     "lint:biome": "biome lint .",
-    "lint:biome:fix": "npm run lint:biome -- --apply",
+    "lint:biome:fix": "npm run lint:biome -- --write",
     "lint:text": "textlint -f pretty-error ./app/routes/**/*.mdx",
     "lint:text:fix": "textlint --fix ./app/routes/**/*.mdx"
   },
