@@ -62,7 +62,7 @@ export default function RelatedArticles({ articles, currentPath, maxItems = 5 }:
 
   return (
     <div class={relatedArticlesClass}>
-      <h2>関連記事</h2>
+      <h2>他の記事</h2>
       <ul>
         {selectedArticles.map((article) => (
           <li key={article.path}>
