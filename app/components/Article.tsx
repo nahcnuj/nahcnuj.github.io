@@ -2,6 +2,40 @@ import { css } from 'hono/css'
 import { html } from 'hono/html'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import AdMax from './AdMax'
+import RelatedArticles from './RelatedArticles'
+
+interface ArticleFrontmatter {
+  title: string
+  description?: string
+}
+
+interface ArticleLink {
+  path: string
+  title: string
+}
+
+// 全ディレクトリの記事を一括取得
+const allArticleFiles = import.meta.glob<{ frontmatter: ArticleFrontmatter }>('../routes/**/*.mdx', {
+  eager: true,
+})
+
+// 記事リスト生成のヘルパー関数
+function createArticleList(routePrefix: string): ArticleLink[] {
+  const pathPattern = new RegExp(`^\\.\\.\\/routes\\/${routePrefix}\\/`)
+  return Object.entries(allArticleFiles)
+    .filter(([path]) => path.includes(`/routes/${routePrefix}/`))
+    .map(([path, { frontmatter }]) => ({
+      path: path.replace(pathPattern, `/${routePrefix}/`).replace(/\.mdx$/, ''),
+      title: frontmatter.title,
+    }))
+}
+
+// 各ディレクトリの記事を取得
+const articlesByDirectory = {
+  diary: createArticleList('diary'),
+  essays: createArticleList('essays'),
+  works: createArticleList('works'),
+} as const
 
 const articleClass = css`
   --line-height: 2;
@@ -107,7 +141,15 @@ const articleClass = css`
 `
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export default function Article({ children }: { children: any }) {
+export default function Article({
+  children,
+  relatedArticles,
+  currentPath,
+}: {
+  children: any
+  relatedArticles?: ArticleLink[]
+  currentPath?: string
+}) {
   const childArray = children.children
 
   if (Array.isArray(childArray)) {
@@ -144,13 +186,31 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
     children.children = newChildren
   }
 
-  return <article class={articleClass}>{children}</article>
+  return (
+    <article class={articleClass}>
+      {children}
+      {relatedArticles && relatedArticles.length > 0 && currentPath && (
+        <RelatedArticles articles={relatedArticles} currentPath={currentPath} />
+      )}
+    </article>
+  )
 }
 
-export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }) => {
+export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }, c) => {
+  const currentPath = c.req.path
+
+  // 現在のパスに基づいて適切な記事リストを選択
+  const directoryKey = Object.keys(articlesByDirectory).find((key) => currentPath.startsWith(`/${key}/`)) as
+    | keyof typeof articlesByDirectory
+    | undefined
+
+  const relatedArticles = directoryKey ? articlesByDirectory[directoryKey] : undefined
+
   return (
     <Layout frontmatter={frontmatter}>
-      <Article>{children}</Article>
+      <Article relatedArticles={relatedArticles} currentPath={currentPath}>
+        {children}
+      </Article>
     </Layout>
   )
 })
