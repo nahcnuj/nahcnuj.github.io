@@ -21,7 +21,7 @@ jobs:
           rclone-config: ${{ secrets.RCLONE_CONFIG_BASE64 }}
           service-account-file: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON_BASE64 }}
       - name: Upload workspace
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: workspace
           path: '**/*.mdx'
@@ -38,7 +38,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - name: Download workspace
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: workspace
           path: .
@@ -63,7 +63,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - name: Download workspace
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: workspace
           path: .
@@ -88,7 +88,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - name: Download workspace
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: workspace
           path: .
