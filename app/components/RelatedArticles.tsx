@@ -14,8 +14,6 @@ interface RelatedArticlesProps {
 const relatedArticlesClass = css`
   margin-block-start: 3rem;
   padding: 1.5rem 1rem;
-  border-top: 2pt solid var(--theme-main-color);
-  background: var(--theme-base-color);
 
   & h2 {
     margin-block: 0 1rem;
@@ -36,15 +34,6 @@ const relatedArticlesClass = css`
 
   & li::before {
     content: "📄 ";
-  }
-
-  & a {
-    color: var(--theme-main-color);
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 `
 
