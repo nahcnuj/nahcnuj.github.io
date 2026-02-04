@@ -199,12 +199,15 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
 export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }, c) => {
   const currentPath = c.req.path
 
+  // index.htmlページの場合は関連記事を表示しない
+  const isIndexPage = currentPath.endsWith('/index.html')
+
   // 現在のパスに基づいて適切な記事リストを選択
   const directoryKey = Object.keys(articlesByDirectory).find((key) => currentPath.startsWith(`/${key}/`)) as
     | keyof typeof articlesByDirectory
     | undefined
 
-  const relatedArticles = directoryKey ? articlesByDirectory[directoryKey] : undefined
+  const relatedArticles = !isIndexPage && directoryKey ? articlesByDirectory[directoryKey] : undefined
 
   return (
     <Layout frontmatter={frontmatter}>
