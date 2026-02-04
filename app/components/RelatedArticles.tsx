@@ -29,6 +29,7 @@ const relatedArticlesClass = css`
   & li {
     margin-block: 0.5rem;
     padding-inline-start: 1em;
+    line-height: 1.2;
     text-indent: -1em;
   }
 
