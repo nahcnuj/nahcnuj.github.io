@@ -53,8 +53,7 @@ const itemClass = css`
 
 export default function RootHeader() {
   return (
-    <>
-      <header class={headerClass}>
+    <header class={headerClass}>
         <nav class={css`width:100%`}>
           <ul class={listClass}>
             {navItems.map(({ href, title }) => (
@@ -65,6 +64,5 @@ export default function RootHeader() {
           </ul>
         </nav>
       </header>
-    </>
   )
 }

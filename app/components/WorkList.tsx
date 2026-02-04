@@ -1,5 +1,4 @@
 import { css } from 'hono/css'
-import RemoteImage from './RemoteImage'
 
 const listClass = css`
   list-style: none;
