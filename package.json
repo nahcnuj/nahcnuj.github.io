@@ -1,5 +1,6 @@
 {
   "name": "nahcnuj.github.io",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,7 +14,6 @@
     "lint:text": "textlint -f pretty-error ./app/routes/**/*.mdx",
     "lint:text:fix": "textlint --fix ./app/routes/**/*.mdx"
   },
-  "private": true,
   "dependencies": {
     "@hono/vite-ssg": "^0.3.3",
     "@mdx-js/rollup": "^3.1.1",
@@ -36,5 +36,8 @@
     "textlint-plugin-mdx": "^1.0.2",
     "textlint-rule-preset-ja-technical-writing": "^12.0.2",
     "textlint-rule-preset-japanese": "^10.0.4"
+  },
+  "engines": {
+    "node": "24.x"
   }
 }
