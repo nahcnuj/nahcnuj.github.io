@@ -2,7 +2,6 @@ import { css } from 'hono/css'
 import type { PropsWithChildren } from 'hono/jsx'
 
 const style = css`
-  margin-block: 2rem;
   padding-block: 0.5rem;
   border-block: 2pt solid var(--theme-main-color);
   background: var(--theme-base-color);
