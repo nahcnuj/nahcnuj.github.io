@@ -1,134 +1,85 @@
 import { css } from 'hono/css'
-import type { FC } from 'hono/jsx'
 import { createRoute } from 'honox/factory'
-import GridSheetLayout from '../components/GridSheetLayout'
 import Headline from '../components/Headline'
-import PaperCard from '../components/PaperCard'
-import RemoteImage from '../components/RemoteImage'
-
-const Div: FC = ({ children }) => {
-  return <div class={css`margin-block:1em`}>{children}</div>
-}
+import Icon from '../components/Icon'
+import LinkRow from '../components/LinkRow'
 
 export default createRoute((c) => {
-  const title = 'Junichi Hayashi, a web engineer'
-  const description = 'I am Junichi Hayashi, a web engineer.'
+  const title = '林 純一 (Junichi Hayashi)'
+  const description =
+    '課題を発見し、解決することへの情熱。問題に向き合い、より良い仕組みを作るためにエンジニアリングを行います。'
 
-  const headlineClass = css`
-    height: fit-content;
+  const heroWrap = css`
     display: flex;
-    align-items: center;
-  `
-
-  const headerImageClass = css`
-    width: 100%;
-    max-width: 3em;
-    height: 100%;
-    max-height: 3em;
-
-    & img {
-      width: 100%;
-      height: 100%;
-      object-fit: scale-down;
-      vertical-align:middle;
-    }
-  `
-
-  const headerTextClass = css`
-    width: 100%;
-    min-height: 3em;
-    display:flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    align-items: center;
+    gap: 1rem;
+    min-height: calc(100vh - 25rem);
+    padding: 2rem 1rem;
   `
 
-  const linkAboutMeClass = css`
-    display: inline-block;
-    margin-inline-end: 1em;
-    &:before {
-      content: "➤ ";
+  const heroTitle = css`
+    margin: 0;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 6vw, 3.2rem);
+  `
+
+  const heroText = css`
+    text-align: center;
+    line-height: 1.1;
+    & p {
+      margin: 0.6rem 0 0;
+      font-weight: 400;
+      color: #444;
+      font-size: clamp(1rem, 2.6vw, 1.25rem);
+    }
+
+    /* hero phrase structure */
+    & .hero-phrase {
+      margin-top: 0.6rem;
+    }
+    & .hero-phrase .catch {
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      font-weight: 700;
+    }
+    & .hero-phrase .sub {
+      margin-top: 0.4rem;
+      font-weight: 400;
+      color: #444;
+      font-size: clamp(1rem, 2.6vw, 1.25rem);
+      & .line1 { line-height: 1.2; }
+      & .line2 { margin-top: 0.25rem; line-height: 1.2; }
     }
   `
 
   return c.render(
-    <div class={css`padding-inline:0.2em`}>
+    <div class={heroWrap}>
       <Headline>
-        <div class={headlineClass}>
-          <div class={headerTextClass}>
-            <div>Junichi Hayashi</div>
-            <div class={css`font-size:1.3rem;font-weight:normal`}>A web engineer</div>
-          </div>
-          <div class={headerImageClass}>
-            <RemoteImage src="/author.jpg" width={150} height={150} alt="" />
+        <div class={heroTitle}>林 純一 (Junichi Hayashi)</div>
+      </Headline>
+      <div class={heroText}>
+        <div class="hero-phrase">
+          <div class="catch">ウェブエンジニア</div>
+          <div class="sub">
+            <div class="line1">なぜエンジニアリングするのか</div>
+            <div class="line2">そこに課題があるから</div>
           </div>
         </div>
-      </Headline>
-
-      <GridSheetLayout columns={3}>
-        <PaperCard>
-          <h2>Enjoy Programming</h2>
-          <p lang="en">
-            I've been learning programming languages like C/C++, Java, Perl, TypeScript, Rust, Lean, and more. I'm
-            interested in semantics of programming languages and formal verification, and have been slowly working on
-            developing{' '}
-            <a href="https://github.com/nahcnuj/tibi" target="_blank" rel="noreferrer">
-              a compiler for a small homemade programming language
-            </a>{' '}
-            in Lean 4, along with proofs of its compilation correctness.
-          </p>
-          <Div>
-            <a href="/works/index.html" class={linkAboutMeClass}>
-              Past works
-            </a>
-            <a href="https://github.com/nahcnuj" target="_blank" rel="noreferrer" class={linkAboutMeClass}>
-              GitHub
-            </a>
-          </Div>
-        </PaperCard>
-
-        <PaperCard>
-          <h2>Engineer Web Services</h2>
-          <p lang="en">
-            I have over 4 years of experience in developing web services built on the{' '}
-            <abbr title="Linux, Apache, MySQL, Perl">LAMP</abbr> stack. I'm familiar with both on-premises and cloud
-            environments like AWS. For a detailed overview of my professional experience, please see{' '}
-            <a href="https://github.com/nahcnuj/nahcnuj/blob/main/CV.md" target="_blank" rel="noreferrer">
-              my full CV
-            </a>
-            . I still want to work as a programmer because I want to engage in programming during the working hours that
-            make up most of my life.
-          </p>
-          <Div>
-            <a
-              href="https://github.com/nahcnuj#junichi-hayashi"
-              target="_blank"
-              rel="noreferrer"
-              class={linkAboutMeClass}
-            >
-              Resume
-            </a>
-            <a
-              href="https://github.com/nahcnuj/nahcnuj/blob/main/CV.md"
-              target="_blank"
-              rel="noreferrer"
-              class={linkAboutMeClass}
-            >
-              CV
-            </a>
-            (on GitHub)
-          </Div>
-        </PaperCard>
-
-        <PaperCard>
-          <h2>Refresh Myself with Music</h2>
-          <p lang="en">
-            I'm a big fan of Nao Toyama's songs, having attended many of her live concerts and even joined a fan club
-            bus tour in 2024. I deeply connect with the lyrics she sings, gaining daily strength from them. I like the
-            sound of the piano and enjoy playing it to perform her music apart from programming, though I'm still a
-            beginner.
-          </p>
-        </PaperCard>
-      </GridSheetLayout>
+      </div>
+      <LinkRow>
+        <a href="/diary/index.html">
+          <Icon>📓</Icon>
+          <span>Diary</span>
+        </a>
+        <a href="/works/index.html">
+          <Icon>🧑‍💻</Icon>
+          <span>Work</span>
+        </a>
+        <a href="/essays/index.html">
+          <Icon>📝</Icon>
+          <span>Essay</span>
+        </a>
+      </LinkRow>
     </div>,
     { frontmatter: { title, description, showHeaderAd: false } },
   )
