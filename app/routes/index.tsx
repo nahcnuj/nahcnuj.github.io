@@ -12,28 +12,26 @@ function pickRandom<T>(arr: T[]): T | undefined {
   return arr[Math.floor(Math.random() * arr.length)]
 }
 
-// ビルド時に一度だけ決定される個別記事へのリンク（各セクションから1件ずつ）
-const diarySample = pickRandom(articlesByDirectory.diary)
-const worksSample = pickRandom(articlesByDirectory.works)
-const essaysSample = pickRandom(articlesByDirectory.essays)
+function pickRandomN<T>(arr: T[] | undefined, n: number): T[] {
+  if (!arr || arr.length === 0) return []
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a.slice(0, n)
+}
+
+// ビルド時に一度だけ決定される個別記事へのリンク（各セクションから2件ずつ）
+const diarySamples = pickRandomN(articlesByDirectory.diary, 2)
+const worksSamples = pickRandomN(articlesByDirectory.works, 2)
+const essaysSamples = pickRandomN(articlesByDirectory.essays, 2)
 
 const sampleLinks = [
-  {
-    href: diarySample?.path ?? '/diary/index.html',
-    label: diarySample?.title ?? 'Diary',
-    icon: '📓',
-  },
-  {
-    href: worksSample?.path ?? '/works/index.html',
-    label: worksSample?.title ?? 'Work',
-    icon: '🧑‍💻',
-  },
-  {
-    href: essaysSample?.path ?? '/essays/index.html',
-    label: essaysSample?.title ?? 'Essay',
-    icon: '📝',
-  },
-]
+  ...diarySamples.map((s) => ({ href: s.path, label: s.title, icon: '📓' })),
+  ...worksSamples.map((s) => ({ href: s.path, label: s.title, icon: '🧑‍💻' })),
+  ...essaysSamples.map((s) => ({ href: s.path, label: s.title, icon: '📝' })),
+].map((l) => ({ href: l.href ?? '/index.html', label: l.label ?? '', icon: l.icon }))
 
 export default createRoute((c) => {
   const title = '林 純一 (Junichi Hayashi)'
@@ -140,7 +138,7 @@ export default createRoute((c) => {
       <RelatedArticles
         articles={sampleLinks.map((l) => ({ path: l.href, title: l.label, icon: l.icon }))}
         currentPath="/index.html"
-        maxItems={3}
+        maxItems={6}
       />
     </div>,
     { frontmatter: { title, description, showHeaderAd: false } },
