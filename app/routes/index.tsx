@@ -23,9 +23,9 @@ function pickRandomN<T>(arr: T[] | undefined, n: number): T[] {
 }
 
 // ビルド時に一度だけ決定される個別記事へのリンク（各セクションから2件ずつ）
-const diarySamples = pickRandomN(articlesByDirectory.diary, 2)
-const worksSamples = pickRandomN(articlesByDirectory.works, 2)
-const essaysSamples = pickRandomN(articlesByDirectory.essays, 2)
+const diarySamples = pickRandomN(articlesByDirectory.diary, 2).sort((a, b) => a.path.localeCompare(b.path))
+const worksSamples = pickRandomN(articlesByDirectory.works, 2).sort((a, b) => a.path.localeCompare(b.path))
+const essaysSamples = pickRandomN(articlesByDirectory.essays, 2).sort((a, b) => a.path.localeCompare(b.path))
 
 const sampleLinks = [
   ...diarySamples.map((s) => ({ href: s.path, label: s.title, icon: '📓' })),
