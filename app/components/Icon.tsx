@@ -2,10 +2,10 @@ import { css } from 'hono/css'
 import type { PropsWithChildren } from 'hono/jsx'
 
 const wrap = css`
-  display: block;
-  font-size: clamp(3rem, 10vw, 5rem);
+  display: inline-block;
+  font-size: inherit; /* inherit from container so parent controls size */
   line-height: 1;
-  width: 100%;
+  width: auto;
   text-align: center;
 `
 
