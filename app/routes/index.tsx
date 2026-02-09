@@ -1,9 +1,39 @@
 import { css } from 'hono/css'
 import { createRoute } from 'honox/factory'
+import { articlesByDirectory } from '../components/Article'
 import Headline from '../components/Headline'
 import Icon from '../components/Icon'
 import LinkRow from '../components/LinkRow'
-import LinkRowItem from '../components/LinkRowItem' 
+import LinkRowItem from '../components/LinkRowItem'
+import RelatedArticles from '../components/RelatedArticles'
+
+function pickRandom<T>(arr: T[]): T | undefined {
+  if (!arr || arr.length === 0) return undefined
+  return arr[Math.floor(Math.random() * arr.length)]
+}
+
+// ビルド時に一度だけ決定される個別記事へのリンク（各セクションから1件ずつ）
+const diarySample = pickRandom(articlesByDirectory.diary)
+const worksSample = pickRandom(articlesByDirectory.works)
+const essaysSample = pickRandom(articlesByDirectory.essays)
+
+const sampleLinks = [
+  {
+    href: diarySample?.path ?? '/diary/index.html',
+    label: diarySample?.title ?? 'Diary',
+    icon: '📓',
+  },
+  {
+    href: worksSample?.path ?? '/works/index.html',
+    label: worksSample?.title ?? 'Work',
+    icon: '🧑‍💻',
+  },
+  {
+    href: essaysSample?.path ?? '/essays/index.html',
+    label: essaysSample?.title ?? 'Essay',
+    icon: '📝',
+  },
+]
 
 export default createRoute((c) => {
   const title = '林 純一 (Junichi Hayashi)'
@@ -79,7 +109,9 @@ export default createRoute((c) => {
           <div class="catch">ウェブエンジニア</div>
           <div class="sub">
             <div class="line1">なぜエンジニアリングするのか</div>
-            <div class="line2"><span style="letter-spacing:-0.15em;margin-right:0.3em">&mdash;&mdash;</span>そこに課題があるから。</div>
+            <div class="line2">
+              <span style="letter-spacing:-0.15em;margin-right:0.3em">&mdash;&mdash;</span>そこに課題があるから。
+            </div>
           </div>
         </div>
       </div>
@@ -89,13 +121,13 @@ export default createRoute((c) => {
             <Icon>📓</Icon>
             <span>Diary</span>
           </a>
-        </LinkRowItem> 
+        </LinkRowItem>
         <LinkRowItem>
           <a href="/works/index.html">
             <Icon>🧑‍💻</Icon>
             <span>Work</span>
           </a>
-        </LinkRowItem> 
+        </LinkRowItem>
         <LinkRowItem>
           <a href="/essays/index.html">
             <Icon>📝</Icon>
@@ -103,6 +135,13 @@ export default createRoute((c) => {
           </a>
         </LinkRowItem>
       </LinkRow>
+
+      {/* トップページから個別ページへの回遊を促すサンプルリンク（ビルド時固定） */}
+      <RelatedArticles
+        articles={sampleLinks.map((l) => ({ path: l.href, title: l.label, icon: l.icon }))}
+        currentPath="/index.html"
+        maxItems={3}
+      />
     </div>,
     { frontmatter: { title, description, showHeaderAd: false } },
   )

@@ -15,15 +15,17 @@ interface ArticleLink {
 }
 
 // 全ディレクトリの記事を一括取得
-const allArticleFiles = import.meta.glob<{ frontmatter: ArticleFrontmatter }>('../routes/**/*.mdx', {
-  eager: true,
-})
+// - 通常は `app/routes/**` を読み込みます
+// - 開発時（vite dev）のみ `app/fixtures/**` を追加で読み込み、動作確認用の記事を提供します
+const allArticleFiles = import.meta.env.DEV
+  ? import.meta.glob<{ frontmatter: ArticleFrontmatter }>('../{routes,fixtures}/**/*.mdx', { eager: true })
+  : import.meta.glob<{ frontmatter: ArticleFrontmatter }>('../routes/**/*.mdx', { eager: true })
 
 // 記事リスト生成のヘルパー関数
 function createArticleList(routePrefix: string): ArticleLink[] {
-  const pathPattern = new RegExp(`^\\.\\.\\/routes\\/${routePrefix}\\/`)
+  const pathPattern = new RegExp(`^../(?:routes|fixtures)/${routePrefix}/`)
   return Object.entries(allArticleFiles)
-    .filter(([path]) => path.includes(`/routes/${routePrefix}/`))
+    .filter(([path]) => path.includes(`/routes/${routePrefix}/`) || path.includes(`/fixtures/${routePrefix}/`))
     .map(([path, { frontmatter }]) => ({
       path: path.replace(pathPattern, `/${routePrefix}/`).replace(/\.mdx$/, ''),
       title: frontmatter.title,
@@ -31,7 +33,7 @@ function createArticleList(routePrefix: string): ArticleLink[] {
 }
 
 // 各ディレクトリの記事を取得
-const articlesByDirectory = {
+export const articlesByDirectory = {
   diary: createArticleList('diary'),
   essays: createArticleList('essays'),
   works: createArticleList('works'),
@@ -190,7 +192,10 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
     <article class={articleClass}>
       {children}
       {relatedArticles && relatedArticles.length > 0 && currentPath && (
-        <RelatedArticles articles={relatedArticles} currentPath={currentPath} />
+        <>
+          <h2>他の記事</h2>
+          <RelatedArticles articles={relatedArticles} currentPath={currentPath} />
+        </>
       )}
     </article>
   )
