@@ -12,6 +12,7 @@ interface ArticleFrontmatter {
 interface ArticleLink {
   path: string
   title: string
+  icon?: string
 }
 
 // 全ディレクトリの記事を一括取得
@@ -212,7 +213,11 @@ export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }
     | keyof typeof articlesByDirectory
     | undefined
 
-  const relatedArticles = !isIndexPage && directoryKey ? articlesByDirectory[directoryKey] : undefined
+  const iconForDirectory = (key?: string) => (key === 'diary' ? '📓' : key === 'works' ? '🧑‍💻' : key === 'essays' ? '📝' : undefined)
+
+  const relatedArticles = !isIndexPage && directoryKey
+    ? articlesByDirectory[directoryKey].map((a) => ({ ...a, icon: iconForDirectory(directoryKey) }))
+    : undefined
 
   return (
     <Layout frontmatter={frontmatter}>
