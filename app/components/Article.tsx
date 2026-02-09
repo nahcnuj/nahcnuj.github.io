@@ -15,6 +15,13 @@ interface ArticleLink {
   icon?: string
 }
 
+// アイコン定義（ディレクトリキー -> emoji）
+export const DIRECTORY_ICON: Record<string, string> = {
+  diary: '📓',
+  works: '🧑‍💻',
+  essays: '📝',
+}
+
 // 全ディレクトリの記事を一括取得
 // - 通常は `app/routes/**` を読み込みます
 // - 開発時（vite dev）のみ `app/fixtures/**` を追加で読み込み、動作確認用の記事を提供します
@@ -31,6 +38,7 @@ function createArticleList(routePrefix: string): ArticleLink[] {
       path: path.replace(pathPattern, `/${routePrefix}/`).replace(/\.mdx$/, ''),
       title: frontmatter.title,
     }))
+    .sort((a, b) => a.path.localeCompare(b.path))
 }
 
 // 各ディレクトリの記事を取得
@@ -143,17 +151,16 @@ const articleClass = css`
   }
 `
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export default function Article({
   children,
   relatedArticles,
   currentPath,
 }: {
-  children: any
+  children: { children?: unknown }
   relatedArticles?: ArticleLink[]
   currentPath?: string
 }) {
-  const childArray = children.children
+  const childArray = Array.isArray((children as any).children) ? (children as any).children : undefined
 
   if (Array.isArray(childArray)) {
     const newChildren = []
@@ -213,11 +220,13 @@ export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }
     | keyof typeof articlesByDirectory
     | undefined
 
-  const iconForDirectory = (key?: string) => (key === 'diary' ? '📓' : key === 'works' ? '🧑‍💻' : key === 'essays' ? '📝' : undefined)
+  const getRelatedArticlesForDirectory = (key?: keyof typeof articlesByDirectory): ArticleLink[] | undefined => {
+    if (!key) return undefined
+    const icon = DIRECTORY_ICON[key]
+    return articlesByDirectory[key].map((a) => ({ ...a, icon }))
+  }
 
-  const relatedArticles = !isIndexPage && directoryKey
-    ? articlesByDirectory[directoryKey].map((a) => ({ ...a, icon: iconForDirectory(directoryKey) }))
-    : undefined
+  const relatedArticles = !isIndexPage && directoryKey ? getRelatedArticlesForDirectory(directoryKey) : undefined
 
   return (
     <Layout frontmatter={frontmatter}>
