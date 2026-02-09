@@ -3,6 +3,7 @@ import { createRoute } from 'honox/factory'
 import Headline from '../components/Headline'
 import Icon from '../components/Icon'
 import LinkRow from '../components/LinkRow'
+import LinkRowItem from '../components/LinkRowItem' 
 
 export default createRoute((c) => {
   const title = '林 純一 (Junichi Hayashi)'
@@ -22,6 +23,18 @@ export default createRoute((c) => {
     margin: 0;
     font-weight: 700;
     font-size: clamp(1.6rem, 6vw, 3.2rem);
+    text-align: center;
+
+    .jp {
+      display: block;
+      font-weight: 700;
+    }
+    .en {
+      display: block;
+      font-weight: 400;
+      font-size: 1rem;
+      color: #444;
+    }
   `
 
   const heroText = css`
@@ -55,7 +68,10 @@ export default createRoute((c) => {
   return c.render(
     <div class={heroWrap}>
       <Headline>
-        <div class={heroTitle}>林 純一 (Junichi Hayashi)</div>
+        <div class={heroTitle}>
+          <div class="jp">林 純一</div>
+          <div class="en">Junichi Hayashi</div>
+        </div>
       </Headline>
       <div class={heroText}>
         <div class="hero-phrase">
@@ -67,18 +83,24 @@ export default createRoute((c) => {
         </div>
       </div>
       <LinkRow>
-        <a href="/diary/index.html">
-          <Icon>📓</Icon>
-          <span>Diary</span>
-        </a>
-        <a href="/works/index.html">
-          <Icon>🧑‍💻</Icon>
-          <span>Work</span>
-        </a>
-        <a href="/essays/index.html">
-          <Icon>📝</Icon>
-          <span>Essay</span>
-        </a>
+        <LinkRowItem>
+          <a href="/diary/index.html">
+            <Icon>📓</Icon>
+            <span>Diary</span>
+          </a>
+        </LinkRowItem> 
+        <LinkRowItem>
+          <a href="/works/index.html">
+            <Icon>🧑‍💻</Icon>
+            <span>Work</span>
+          </a>
+        </LinkRowItem> 
+        <LinkRowItem>
+          <a href="/essays/index.html">
+            <Icon>📝</Icon>
+            <span>Essay</span>
+          </a>
+        </LinkRowItem>
       </LinkRow>
     </div>,
     { frontmatter: { title, description, showHeaderAd: false } },
