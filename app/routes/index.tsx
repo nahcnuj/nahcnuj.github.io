@@ -60,6 +60,7 @@ export default createRoute((c) => {
       font-weight: 400;
       color: #444;
       font-size: clamp(1rem, 2.6vw, 1.25rem);
+      text-align: left;
       & .line1 { line-height: 1.2; }
       & .line2 { margin-top: 0.25rem; line-height: 1.2; }
     }
@@ -78,7 +79,7 @@ export default createRoute((c) => {
           <div class="catch">ウェブエンジニア</div>
           <div class="sub">
             <div class="line1">なぜエンジニアリングするのか</div>
-            <div class="line2">そこに課題があるから</div>
+            <div class="line2"><span style="letter-spacing:-0.15em;margin-right:0.3em">&mdash;&mdash;</span>そこに課題があるから。</div>
           </div>
         </div>
       </div>
