@@ -1,8 +1,11 @@
 import { css } from 'hono/css'
 
+import Icon from './Icon'
+
 interface Article {
   path: string
   title: string
+  icon?: string
 }
 
 interface RelatedArticlesProps {
@@ -14,11 +17,7 @@ interface RelatedArticlesProps {
 const relatedArticlesClass = css`
   margin-block-start: 3rem;
   padding: 1.5rem 1rem;
-
-  & h2 {
-    margin-block: 0 1rem;
-    font-size: 140%;
-  }
+  width: 80%;
 
   & ul {
     list-style: none;
@@ -28,13 +27,20 @@ const relatedArticlesClass = css`
 
   & li {
     margin-block: 0.5rem;
-    padding-inline-start: 1em;
+    padding-inline-start: 0;
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
     line-height: 1.2;
-    text-indent: -1em;
   }
 
-  & li::before {
-    content: "📄 ";
+  /* Icon inside related list should match text size */
+  & li > span {
+    display: inline-block;
+    width: auto;
+    text-align: left;
+    font-size: 1rem;
+    line-height: 1;
   }
 `
 
@@ -44,7 +50,7 @@ export default function RelatedArticles({ articles, currentPath, maxItems = 5 }:
 
   // ランダムに記事を選択
   const shuffled = [...filteredArticles].sort(() => Math.random() - 0.5)
-  const selectedArticles = shuffled.slice(0, maxItems)
+  const selectedArticles = shuffled.slice(0, maxItems).sort((a, b) => a.path.localeCompare(b.path))
 
   if (selectedArticles.length === 0) {
     return null
@@ -52,10 +58,10 @@ export default function RelatedArticles({ articles, currentPath, maxItems = 5 }:
 
   return (
     <div class={relatedArticlesClass}>
-      <h2>他の記事</h2>
       <ul>
         {selectedArticles.map((article) => (
           <li key={article.path}>
+            {article.icon ? <Icon>{article.icon}</Icon> : null}
             <a href={article.path}>{article.title}</a>
           </li>
         ))}

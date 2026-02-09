@@ -54,15 +54,15 @@ const itemClass = css`
 export default function RootHeader() {
   return (
     <header class={headerClass}>
-        <nav class={css`width:100%`}>
-          <ul class={listClass}>
-            {navItems.map(({ href, title }) => (
-              <li key={href} class={itemClass}>
-                <a href={href}>{title}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </header>
+      <nav class={css`width:100%`}>
+        <ul class={listClass}>
+          {navItems.map(({ href, title }) => (
+            <li key={href} class={itemClass}>
+              <a href={href}>{title}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </header>
   )
 }

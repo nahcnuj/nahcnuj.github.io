@@ -12,7 +12,8 @@
     "lint:biome": "biome lint .",
     "lint:biome:fix": "npm run lint:biome -- --write",
     "lint:text": "textlint -f pretty-error ./app/routes/**/*.mdx",
-    "lint:text:fix": "textlint --fix ./app/routes/**/*.mdx"
+    "lint:text:fix": "textlint --fix ./app/routes/**/*.mdx",
+    "test": "vitest"
   },
   "dependencies": {
     "@hono/vite-ssg": "^0.3.3",
@@ -35,7 +36,8 @@
     "textlint-filter-rule-comments": "^1.3.0",
     "textlint-plugin-mdx": "^1.0.2",
     "textlint-rule-preset-ja-technical-writing": "^12.0.2",
-    "textlint-rule-preset-japanese": "^10.0.4"
+    "textlint-rule-preset-japanese": "^10.0.4",
+    "vitest": "^4.0.18"
   },
   "engines": {
     "node": "24.x"
