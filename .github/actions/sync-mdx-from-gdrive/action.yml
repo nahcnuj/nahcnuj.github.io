@@ -32,8 +32,8 @@ runs:
     - name: Convert md to html.mdx and move to app/routes
       shell: bash
       run: |
-        find ./temp_download -name "*.md" -type f | while read -r file; do
-          # temp_download/ を削除してrelativeパスを取得
+        # Exclude top-level underscore-prefixed directories during find
+        find ./temp_download -path './temp_download/_*' -prune -o -name '*.md' -type f -print | while read -r file; do
           relative_path="${file#./temp_download/}"
           
           # 拡張子を .md → .html.mdx に変更
