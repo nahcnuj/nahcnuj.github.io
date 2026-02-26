@@ -4,11 +4,11 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import AdMax from './AdMax'
 import RelatedArticles from './RelatedArticles'
 
-interface ArticleFrontmatter {
-  title: string
-  description?: string
+// reuse global Frontmatter definition for shared fields
+interface ArticleFrontmatter extends Frontmatter {
+  // make `published` required for articles in diary/essays/works
   /**
-   * ISO-style publication date.  The source MDX files in diary/, essays/,
+   * ISO-style publication date.  The source MDX files in diary/, essays,
    * and works/ are required to provide this property.  The value is
    * normalized to the `YYYY-MM-DD` portion of `Date.prototype.toISOString()`.
    */
@@ -192,11 +192,15 @@ export default function Article({
   relatedArticles,
   currentPath,
 }: {
-  children: { children?: unknown }
+  // the JSX renderer gives us a `Child` (string, element, null, …); we
+  // only inspect `children` at runtime, so allow any value here.
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      children?: any
   relatedArticles?: ArticleLink[]
   currentPath?: string
 }) {
-  const childArray = Array.isArray((children as any).children) ? (children as any).children : undefined
+  // biome-ignore lint/suspicious/noExplicitAny: internal traversal of JSX tree
+  const childArray = children && Array.isArray((children as any).children) ? (children as any).children : undefined
 
   if (Array.isArray(childArray)) {
     const newChildren = []
@@ -245,6 +249,8 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
   )
 }
 
+// component passed to jsxRenderer is loosely typed; ignore TS complaints
+// @ts-expect-error
 export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }, c) => {
   const currentPath = c.req.path
 
@@ -274,6 +280,7 @@ export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }
   return (
     <Layout frontmatter={frontmatter}>
       <Article relatedArticles={relatedArticles} currentPath={currentPath}>
+        {/* children may be undefined; JSX accepts it */}
         {children}
       </Article>
     </Layout>

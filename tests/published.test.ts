@@ -19,9 +19,10 @@ describe('normalizePublished', () => {
 })
 
 describe('createArticleList filtering', () => {
-  const fakeFiles = {
+  // use a loose `any` type so we can simulate missing `published` values
+  const fakeFiles: Record<string, { frontmatter: any }> = {
     '../routes/diary/a.mdx': { frontmatter: { title: 'A', published: '2026-01-01' } },
-    '../routes/diary/b.mdx': { frontmatter: { title: 'B' } as unknown as { title: string } },
+    '../routes/diary/b.mdx': { frontmatter: { title: 'B' } },
     '../routes/diary/c.mdx': { frontmatter: { title: 'C', published: 'invalid' } },
     '../routes/diary/d.mdx': { frontmatter: { title: 'D', published: '2025-12-31T23:00:00Z' } },
     // a file in a different directory should be ignored entirely
