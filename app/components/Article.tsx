@@ -259,15 +259,15 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
 export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }, c) => {
   const currentPath = c.req.path
 
-  // If a document lacks a valid `published` date we should not render it at
-  // all; disable SSG output and return 404 so nothing is generated.
-  if (!frontmatter || !hasValidPublished(frontmatter)) {
+  // index.htmlページの場合は関連記事を表示しない
+  const isIndexPage = currentPath.endsWith('/index.html')
+
+  // If a non-index document lacks a valid `published` date we should not
+  // render it at all; disable SSG output and return 404 so nothing is generated.
+  if (!isIndexPage && (!frontmatter || !hasValidPublished(frontmatter))) {
     c.header(X_HONO_DISABLE_SSG_HEADER_KEY, 'true')
     return c.notFound()
   }
-
-  // index.htmlページの場合は関連記事を表示しない
-  const isIndexPage = currentPath.endsWith('/index.html')
 
   // 現在のパスに基づいて適切な記事リストを選択
   const directoryKey = Object.keys(articlesByDirectory).find((key) => currentPath.startsWith(`/${key}/`)) as
