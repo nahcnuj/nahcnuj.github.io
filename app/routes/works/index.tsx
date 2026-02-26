@@ -35,7 +35,7 @@ app.get('/index.html', (c: Context) => {
 
       <WorkList works={works} />
     </>,
-    { frontmatter: { title, description } },
+    { frontmatter: { title, description, published: '2020-01-01' } },
   )
 })
 

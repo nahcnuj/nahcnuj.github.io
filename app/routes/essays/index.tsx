@@ -29,7 +29,7 @@ app.get('/index.html', (c: Context) => {
       <p>何かしらに言及したくなったときに取り留めもないままに書き連ねます。</p>
       <EssayList essays={essays} />
     </>,
-    { frontmatter: { title, description } },
+    { frontmatter: { title, description, published: '2020-01-01' } },
   )
 })
 
