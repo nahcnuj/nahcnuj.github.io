@@ -1,4 +1,5 @@
-import { css, html } from 'hono/css'
+import { css } from 'hono/css'
+import { html } from 'hono/html'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { X_HONO_DISABLE_SSG_HEADER_KEY } from 'hono/ssg'
 

@@ -1,4 +1,5 @@
-import { css, html } from 'hono/css'
+import { css } from 'hono/css'
+import { html } from 'hono/html'
 import type { Child } from 'hono/jsx'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import AdMax from '../components/AdMax'
