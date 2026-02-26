@@ -19,5 +19,9 @@
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit"
-  }
+  },
+  "chat.tools.terminal.autoApprove": {
+    "npx vitest": true
+  },
+  "chat.agent.maxRequests": 2500000
 }

@@ -2,11 +2,19 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
+    // use bundler resolution for Vite; path mapping was previously used for
+    // Hono types but the package exports its own declarations so it's no
+    // longer necessary.
     "moduleResolution": "Bundler",
+    "baseUrl": ".",
     "strict": true,
     "lib": ["ESNext", "DOM"],
     "types": ["vite/client"],
     "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx"
+    "jsxImportSource": "hono/jsx",
+    "skipLibCheck": true,
+    // allow easier interop with commonjs/ESM packages
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   }
 }

@@ -1,12 +1,23 @@
 import { css } from 'hono/css'
 import { html } from 'hono/html'
 import { jsxRenderer } from 'hono/jsx-renderer'
+import { X_HONO_DISABLE_SSG_HEADER_KEY } from 'hono/ssg'
+
+// reuse shared Frontmatter definition for common fields
+import type { Frontmatter } from '../types'
 import AdMax from './AdMax'
 import RelatedArticles from './RelatedArticles'
 
-interface ArticleFrontmatter {
-  title: string
-  description?: string
+// we export this interface so that unit tests can construct artificial
+// file lists without having to redeclare the whole shape.
+export interface ArticleFrontmatter extends Frontmatter {
+  // make `published` required for articles in diary/essays/works
+  /**
+   * ISO-style publication date.  The source MDX files in diary/, essays,
+   * and works/ are required to provide this property.  The value is
+   * normalized to the `YYYY-MM-DD` portion of `Date.prototype.toISOString()`.
+   */
+  published: string
 }
 
 interface ArticleLink {
@@ -25,20 +36,50 @@ export const DIRECTORY_ICON: Record<string, string> = {
 // 全ディレクトリの記事を一括取得
 // - 通常は `app/routes/**` を読み込みます
 // - 開発時（vite dev）のみ `app/fixtures/**` を追加で読み込み、動作確認用の記事を提供します
+// NOTE: the value is typed with `ArticleFrontmatter` but the glob may still
+// load files missing `published` because TypeScript can't enforce frontmatter
+// at build time.  We filter later.
 const allArticleFiles = import.meta.env.DEV
   ? import.meta.glob<{ frontmatter: ArticleFrontmatter }>('../{routes,fixtures}/**/*.mdx', { eager: true })
   : import.meta.glob<{ frontmatter: ArticleFrontmatter }>('../routes/**/*.mdx', { eager: true })
 
+// normalize a value from frontmatter into a canonical date string
+// or `undefined` if the value is missing/invalid.  Accepts `YYYY-MM-DD` and
+// any other format that `new Date(...)` recognizes (ISO 8601, with or
+// without time/timezone).
+export function normalizePublished(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined
+  const d = new Date(value)
+  if (Number.isNaN(d.getTime())) return undefined
+  // only keep the date portion; this keeps the representation consistent
+  // even if the author supplied a time or timezone component.
+  return d.toISOString().split('T')[0]
+}
+
+/** Helper used by articleMdxRenderer to decide whether rendering should occur. */
+export function hasValidPublished(frontmatter: { published?: unknown }): boolean {
+  return normalizePublished(frontmatter?.published) !== undefined
+}
+
 // 記事リスト生成のヘルパー関数
-function createArticleList(routePrefix: string): ArticleLink[] {
+// `files` parameter is exported purely for unit tests; callers in the
+// application omit it and the default (`allArticleFiles`) is used.
+export function createArticleList(
+  routePrefix: string,
+  files: Record<string, { frontmatter: ArticleFrontmatter }> = allArticleFiles,
+): ArticleLink[] {
   const pathPattern = new RegExp(`^../(?:routes|fixtures)/${routePrefix}/`)
-  return Object.entries(allArticleFiles)
-    .filter(([path]) => path.includes(`/routes/${routePrefix}/`) || path.includes(`/fixtures/${routePrefix}/`))
-    .map(([path, { frontmatter }]) => ({
-      path: path.replace(pathPattern, `/${routePrefix}/`).replace(/\.mdx$/, ''),
-      title: frontmatter.title,
-    }))
-    .sort((a, b) => a.path.localeCompare(b.path))
+  return (
+    Object.entries(files)
+      .filter(([path]) => path.includes(`/routes/${routePrefix}/`) || path.includes(`/fixtures/${routePrefix}/`))
+      // only keep articles with a valid published date
+      .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))
+      .map(([path, { frontmatter }]) => ({
+        path: path.replace(pathPattern, `/${routePrefix}/`).replace(/\.mdx$/, ''),
+        title: frontmatter.title,
+      }))
+      .sort((a, b) => a.path.localeCompare(b.path))
+  )
 }
 
 // 各ディレクトリの記事を取得
@@ -156,11 +197,15 @@ export default function Article({
   relatedArticles,
   currentPath,
 }: {
-  children: { children?: unknown }
+  // the JSX renderer gives us a `Child` (string, element, null, …); we
+  // only inspect `children` at runtime, so allow any value here.
+  // biome-ignore lint/suspicious/noExplicitAny: runtime type check only
+  children?: any
   relatedArticles?: ArticleLink[]
   currentPath?: string
 }) {
-  const childArray = Array.isArray((children as any).children) ? (children as any).children : undefined
+  // biome-ignore lint/suspicious/noExplicitAny: internal traversal of JSX tree
+  const childArray = children && Array.isArray((children as any).children) ? (children as any).children : undefined
 
   if (Array.isArray(childArray)) {
     const newChildren = []
@@ -209,8 +254,17 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
   )
 }
 
+// component passed to jsxRenderer is loosely typed; ignore TS complaints
+// @ts-expect-error
 export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }, c) => {
   const currentPath = c.req.path
+
+  // If a document lacks a valid `published` date we should not render it at
+  // all; disable SSG output and return 404 so nothing is generated.
+  if (!frontmatter || !hasValidPublished(frontmatter)) {
+    c.header(X_HONO_DISABLE_SSG_HEADER_KEY, 'true')
+    return c.notFound()
+  }
 
   // index.htmlページの場合は関連記事を表示しない
   const isIndexPage = currentPath.endsWith('/index.html')
@@ -231,6 +285,7 @@ export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }
   return (
     <Layout frontmatter={frontmatter}>
       <Article relatedArticles={relatedArticles} currentPath={currentPath}>
+        {/* children may be undefined; JSX accepts it */}
         {children}
       </Article>
     </Layout>
