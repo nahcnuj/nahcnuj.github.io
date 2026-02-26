@@ -2,11 +2,11 @@
 // This file was accidentally removed; re‑creating it so the compiler and
 // editor continue to understand our extended context renderer signature.
 
-import type { Frontmatter } from './types'
 // Import the real `Context` type so we can extend it.  We don't need to
 // re-export anything from the package – augmenting the module merges with the
 // existing declarations and preserves the original exports.
 import type { Context as RealContext } from 'hono'
+import type { Frontmatter } from './types'
 
 // Augment the `hono` module itself.  Declaring this file as a module (via an
 // `export {}` at the bottom) ensures the augmentation merges with the
