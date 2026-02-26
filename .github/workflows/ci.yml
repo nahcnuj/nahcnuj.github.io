@@ -21,7 +21,7 @@ jobs:
           rclone-config: ${{ secrets.RCLONE_CONFIG_BASE64 }}
           service-account-file: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON_BASE64 }}
       - name: Upload workspace
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: workspace
           path: '**/*.mdx'
