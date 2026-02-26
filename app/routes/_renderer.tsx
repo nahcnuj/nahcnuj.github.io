@@ -1,11 +1,13 @@
 import { css } from 'hono/css'
 import { html } from 'hono/html'
+import type { Child } from 'hono/jsx'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import AdMax from '../components/AdMax'
 import RootFooter from '../components/RootFooter'
 import RootHeader from '../components/RootHeader'
 import RootLayout from '../components/RootLayout'
 import SideNav from '../components/SideNav'
+import type { Frontmatter } from '../types'
 
 const mainClass = css`
   @media screen and (min-width: 1200px) {
@@ -39,6 +41,9 @@ export default jsxRenderer(
   ({
     children,
     frontmatter: { title, description, usemath: useMath, thumbnail, ...props } = { title: 'Untitled' },
+  }: {
+    children?: Child
+    frontmatter?: Partial<Frontmatter>
   }) => {
     const openGraph = {
       image:
@@ -52,7 +57,7 @@ export default jsxRenderer(
 
     return (
       <RootLayout
-        title={title}
+        title={title ?? ''}
         description={description}
         openGraph={openGraph}
         useMath={useMath}

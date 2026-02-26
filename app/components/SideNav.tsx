@@ -31,7 +31,7 @@ type Findable<N extends 1 | 2 | 3 | 4 | 5 | 6> = N extends 1
           ? 5 | 6
           : 6
 
-const findLast = <N extends 1 | 2 | 3 | 4 | 5 | 6, M extends Findable<N>>(
+const _findLast = <N extends 1 | 2 | 3 | 4 | 5 | 6, M extends Findable<N>>(
   outline: Outline<N>,
   n: M,
 ): Outline<M> | undefined => {
@@ -50,7 +50,7 @@ const findLast = <N extends 1 | 2 | 3 | 4 | 5 | 6, M extends Findable<N>>(
 
     if (cmp > 0) {
       // biome-ignore lint/suspicious/noExplicitAny: `h${n}` may be in a deeper level
-      return findLast(last.inner, n as any) as Outline<M>
+      return _findLast(last.inner, n as any) as Outline<M>
     }
 
     return undefined
