@@ -2,32 +2,25 @@
 // This file was accidentally removed; re‑creating it so the compiler and
 // editor continue to understand our extended context renderer signature.
 
-/// <reference path="./global.d.ts" />
+import type { Frontmatter } from './types'
+// Import the real `Context` type so we can extend it.  We don't need to
+// re-export anything from the package – augmenting the module merges with the
+// existing declarations and preserves the original exports.
+import type { Context as RealContext } from 'hono'
 
-// Import a few types from the real package so we can reference them in our
-// augmentation.  We use direct paths because `moduleResolution: "Bundler"`
-// doesn't reliably pick up the `types` entry in `package.json`.
-import type { Hono as RealHono } from 'hono/dist/types/hono'
-import type { Context as RealContext } from 'hono/dist/types'
-
-// Augment the `hono` module itself.  Making this file a module (via the
-// `export {}` at the bottom) ensures the declaration merges with the
-// package's declarations rather than replacing them.
-
-// Declare module augmentation for Hono.  The following import
-// statements already make this file a module.
+// Augment the `hono` module itself.  Declaring this file as a module (via an
+// `export {}` at the bottom) ensures the augmentation merges with the
+// package's built‑in types rather than replacing them.
 
 declare module 'hono' {
-  // forward the actual class so consumers can import it normally
-  export { RealHono as Hono }
+  // augment the existing interface so that the renderer call signature
+  // accepts the optional metadata parameter we use for frontmatter.
+  interface ContextRenderer {
+    (content: string | Promise<string>, meta?: { frontmatter?: Frontmatter }): Response | Promise<Response>
+  }
 
-  // explicit renderer type with metadata parameter
-  type ContextRenderer = (
-    content: string | Promise<string>,
-    meta?: { frontmatter?: Frontmatter },
-  ) => Response | Promise<Response>
-
-  // extend the original Context interface rather than redefining it
+  // extend the existing Context interface instead of redefining it; the
+  // original export is preserved and consumers can still import `Context`.
   interface Context extends RealContext {
     /**
      * Render content using the current renderer.  The second argument is a
@@ -36,4 +29,7 @@ declare module 'hono' {
     render: ContextRenderer
   }
 }
+
+// ensure this file is treated as a module
+export {}
 

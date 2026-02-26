@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import type { ArticleFrontmatter } from '../app/components/Article'
 import { createArticleList, hasValidPublished, normalizePublished } from '../app/components/Article'
 
 describe('normalizePublished', () => {
@@ -20,7 +21,7 @@ describe('normalizePublished', () => {
 
 describe('createArticleList filtering', () => {
   // loose type allowing arbitrary published values for testing
-  const fakeFiles: Record<string, { frontmatter: any }> = {
+  const fakeFiles: Record<string, { frontmatter: unknown }> = {
     '../routes/diary/a.mdx': { frontmatter: { title: 'A', published: '2026-01-01' } },
     '../routes/diary/b.mdx': { frontmatter: { title: 'B' } },
     '../routes/diary/c.mdx': { frontmatter: { title: 'C', published: 'invalid' } },

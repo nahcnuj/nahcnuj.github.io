@@ -1,4 +1,8 @@
-interface Frontmatter {
+// Shared type definitions used throughout the project.  Extracted from
+// the previous `global.d.ts` so that the interface can be imported rather
+// than relying on ambient declarations.
+
+export interface Frontmatter {
   title: string
   description?: string
   thumbnail?:
@@ -21,11 +25,4 @@ interface Frontmatter {
   published?: string
 
   [key: string]: unknown
-}
-
-declare module 'hono' {
-  interface ContextRenderer {
-    // biome-ignore lint/style/useShorthandFunctionType: overwrite hono's interface declaration
-    (content: string | Promise<string>, meta?: { frontmatter?: Frontmatter }): Response | Promise<Response>
-  }
 }

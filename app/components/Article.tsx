@@ -4,8 +4,12 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import AdMax from './AdMax'
 import RelatedArticles from './RelatedArticles'
 
-// reuse global Frontmatter definition for shared fields
-interface ArticleFrontmatter extends Frontmatter {
+// reuse shared Frontmatter definition for common fields
+import type { Frontmatter } from '../types'
+
+// we export this interface so that unit tests can construct artificial
+// file lists without having to redeclare the whole shape.
+export interface ArticleFrontmatter extends Frontmatter {
   // make `published` required for articles in diary/essays/works
   /**
    * ISO-style publication date.  The source MDX files in diary/, essays,
