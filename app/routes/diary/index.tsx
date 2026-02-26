@@ -1,10 +1,12 @@
 import { Hono } from 'hono'
 import type { H } from 'hono/types'
+import { hasValidPublished } from '../../components/Article'
 import DiaryList from '../../islands/DiaryList'
 
 interface Frontmatter {
   title: string
   description?: string
+  published: string
 }
 
 const app = new Hono()
@@ -14,7 +16,10 @@ app.get('/index.html', (c) => {
   const description = 'There is the diary Junichi Hayashi wrote.'
 
   const diaries = ((files) =>
-    Object.entries(files).map(([path, { frontmatter }]) => [path.replace(/\.mdx$/, ''), frontmatter] as const))(
+    Object.entries(files)
+      // filter out unpublished/invalid items
+      .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))
+      .map(([path, { frontmatter }]) => [path.replace(/\.mdx$/, ''), frontmatter] as const))(
     import.meta.glob<{ frontmatter: Frontmatter }>('./**/*.mdx', {
       eager: true,
     }),

@@ -1,8 +1,3 @@
-import {} from 'hono'
-
-// biome-ignore lint/suspicious/noExplicitAny: frontmatter properties are unknown
-type WithFrontmatter<T> = T & { frontmatter?: any }
-
 interface Frontmatter {
   title: string
   description?: string
@@ -18,6 +13,12 @@ interface Frontmatter {
   showHeader?: boolean
   showFooter?: boolean
   showHeaderAd?: boolean
+
+  /**
+   * ISO date string indicating when the article was published.
+   * If not exists, those files should be ignored during static rendering.
+   */
+  published?: string
 
   [key: string]: unknown
 }

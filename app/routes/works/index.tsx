@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { hasValidPublished } from '../../components/Article'
 import WorkList from '../../components/WorkList'
 
 interface Frontmatter {
@@ -7,6 +8,7 @@ interface Frontmatter {
   begins: number
   ends?: number
   thumbnail: `/${string}`
+  published: string
 }
 
 const app = new Hono()
@@ -17,6 +19,8 @@ app.get('/index.html', (c) => {
 
   const works = ((files) =>
     Object.entries(files)
+      // drop unpublished/invalid
+      .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))
       .sort(([a], [b]) => b.localeCompare(a))
       .map(([path, { frontmatter }]) => [path.slice(2).replace(/\.mdx$/, ''), frontmatter] as const))(
     import.meta.glob<{ frontmatter: Frontmatter }>('./**/*.mdx', {

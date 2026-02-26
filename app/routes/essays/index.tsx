@@ -1,9 +1,11 @@
 import { Hono } from 'hono'
+import { hasValidPublished } from '../../components/Article'
 import EssayList from '../../islands/EssayList'
 
 interface Frontmatter {
   title: string
   description?: string
+  published: string
 }
 
 const app = new Hono()
@@ -13,7 +15,9 @@ app.get('/index.html', (c) => {
   const description = 'There are essays about something by Junichi Hayashi.'
 
   const essays = ((files) =>
-    Object.entries(files).map(([path, { frontmatter }]) => [path.replace(/\.mdx$/, ''), frontmatter] as const))(
+    Object.entries(files)
+      .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))
+      .map(([path, { frontmatter }]) => [path.replace(/\.mdx$/, ''), frontmatter] as const))(
     import.meta.glob<{ frontmatter: Frontmatter }>('./**/*.mdx', {
       eager: true,
     }),

@@ -17,21 +17,28 @@ function loadFixtureArticles() {
     }
   }
   walk(base)
-  const articles = files.map((file) => {
-    const rel = path.relative(base, file)
-    const parts = rel.split(path.sep)
-    const dir = parts[0]
-    const name = path.basename(file, '.mdx')
-    const routePath = `/${dir}/${name}`
-    const content = fs.readFileSync(file, 'utf8')
-    const fm = content.match(/---\s*([\s\S]*?)\s*---/)
-    let title = name
-    if (fm) {
-      const m = fm[1].match(/title:\s*["']?([\s\S]*?)["']?\s*$/m)
-      if (m) title = m[1]
-    }
-    return { path: routePath, title }
-  })
+  const articles = files
+    .map((file) => {
+      const rel = path.relative(base, file)
+      const parts = rel.split(path.sep)
+      const dir = parts[0]
+      const name = path.basename(file, '.mdx')
+      const routePath = `/${dir}/${name}`
+      const content = fs.readFileSync(file, 'utf8')
+      const fm = content.match(/---\s*([\s\S]*?)\s*---/)
+      let title = name
+      let published: string | undefined
+      if (fm) {
+        const m = fm[1].match(/title:\s*["']?([\s\S]*?)["']?\s*$/m)
+        if (m) title = m[1]
+        const m2 = fm[1].match(/published:\s*["']?([^"\n']+)["']?/)
+        if (m2) published = m2[1]
+      }
+      // mimic new validation: skip if no published
+      if (!published) return null
+      return { path: routePath, title }
+    })
+    .filter((a): a is { path: string; title: string } => a !== null)
   return articles
 }
 
