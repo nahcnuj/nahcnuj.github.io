@@ -1,5 +1,6 @@
-import { Hono } from 'hono'
-import type { H } from 'hono/types'
+/// <reference types="vite/client" />
+
+import { type Context, Hono } from 'hono'
 import { hasValidPublished } from '../../components/Article'
 import DiaryList from '../../islands/DiaryList'
 
@@ -11,11 +12,11 @@ interface Frontmatter {
 
 const app = new Hono()
 
-app.get('/index.html', (c) => {
+app.get('/index.html', (c: Context) => {
   const title = `Junichi Hayashi's Diary`
   const description = 'There is the diary Junichi Hayashi wrote.'
 
-  const diaries = ((files) =>
+  const diaries = ((files: Record<string, { frontmatter: Frontmatter }>) =>
     Object.entries(files)
       // filter out unpublished/invalid items
       .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))
@@ -41,8 +42,8 @@ app.get('/2025/02/08.html', rendererToRedirectTo('https://www.nahcnuj.work/essay
 
 export default app
 
-function rendererToRedirectTo(newUrl: string): H {
-  return (c) =>
+function rendererToRedirectTo(newUrl: string) {
+  return (c: Context) =>
     c.html(
       <html lang="ja">
         <head>

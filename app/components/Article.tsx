@@ -194,8 +194,8 @@ export default function Article({
 }: {
   // the JSX renderer gives us a `Child` (string, element, null, …); we
   // only inspect `children` at runtime, so allow any value here.
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      children?: any
+  // biome-ignore lint/suspicious/noExplicitAny: runtime type check only
+  children?: any
   relatedArticles?: ArticleLink[]
   currentPath?: string
 }) {

@@ -1,4 +1,4 @@
-import { Hono } from 'hono'
+import { type Context, Hono } from 'hono'
 import { hasValidPublished } from '../../components/Article'
 import WorkList from '../../components/WorkList'
 
@@ -13,11 +13,11 @@ interface Frontmatter {
 
 const app = new Hono()
 
-app.get('/index.html', (c) => {
+app.get('/index.html', (c: Context) => {
   const title = `Junichi Hayashi's Works`
   const description = 'There are the works Junichi Hayashi has made.'
 
-  const works = ((files) =>
+  const works = ((files: Record<string, { frontmatter: Frontmatter }>) =>
     Object.entries(files)
       // drop unpublished/invalid
       .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))

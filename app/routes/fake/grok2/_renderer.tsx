@@ -1,6 +1,7 @@
 import { join, relative } from 'node:path'
-import { Style, css } from 'hono/css'
+import { css, Style } from 'hono/css'
 import { html, raw } from 'hono/html'
+import type { Child } from 'hono/jsx'
 import { jsxRenderer, useRequestContext } from 'hono/jsx-renderer'
 import { Script } from 'honox/server'
 import AdMax from '../../../components/AdMax'
@@ -8,6 +9,7 @@ import Article from '../../../components/Article'
 
 interface Frontmatter {
   title: string
+  description?: string
 }
 
 const rootStyle = css`
@@ -49,7 +51,7 @@ const diaries = ((files) =>
   }),
 ).sort(([a], [b]) => a.localeCompare(b, 'en', { sensitivity: 'variant', caseFirst: 'upper' }))
 
-export default jsxRenderer(({ children, frontmatter, ...props }) => {
+export default jsxRenderer(({ children, frontmatter }: { children?: Child; frontmatter?: Partial<Frontmatter> }) => {
   const title = `${frontmatter?.title} #AI生成 #ai #日記 #diary #FAKE`
   const description = frontmatter?.description
 
