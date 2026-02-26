@@ -32,11 +32,8 @@ describe('createArticleList filtering', () => {
 
   it('drops entries without or with bad published', () => {
     // `createArticleList` expects `ArticleFrontmatter`, so cast for our
-  // synthetic data.
-  const list = createArticleList(
-    'diary',
-    fakeFiles as unknown as Record<string, { frontmatter: ArticleFrontmatter }>,
-  )
+    // synthetic data.
+    const list = createArticleList('diary', fakeFiles as unknown as Record<string, { frontmatter: ArticleFrontmatter }>)
     // only A and D should survive, sorted by path
     expect(list.map((item) => item.title)).toEqual(['A', 'D'])
   })

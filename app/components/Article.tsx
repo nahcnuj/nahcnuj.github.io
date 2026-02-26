@@ -1,11 +1,10 @@
-import { css } from 'hono/css'
-import { html } from 'hono/html'
+import { css, html } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
-import AdMax from './AdMax'
-import RelatedArticles from './RelatedArticles'
 
 // reuse shared Frontmatter definition for common fields
 import type { Frontmatter } from '../types'
+import AdMax from './AdMax'
+import RelatedArticles from './RelatedArticles'
 
 // we export this interface so that unit tests can construct artificial
 // file lists without having to redeclare the whole shape.

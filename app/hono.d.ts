@@ -13,11 +13,12 @@ import type { Context as RealContext } from 'hono'
 // package's built‑in types rather than replacing them.
 
 declare module 'hono' {
-  // augment the existing interface so that the renderer call signature
-  // accepts the optional metadata parameter we use for frontmatter.
-  interface ContextRenderer {
-    (content: string | Promise<string>, meta?: { frontmatter?: Frontmatter }): Response | Promise<Response>
-  }
+  // augment the existing renderer interface by aliasing a function type
+  // (only a call signature is needed, so a type alias is simpler).
+  type ContextRenderer = (
+    content: string | Promise<string>,
+    meta?: { frontmatter?: Frontmatter },
+  ) => Response | Promise<Response>
 
   // extend the existing Context interface instead of redefining it; the
   // original export is preserved and consumers can still import `Context`.
@@ -29,7 +30,3 @@ declare module 'hono' {
     render: ContextRenderer
   }
 }
-
-// ensure this file is treated as a module
-export {}
-

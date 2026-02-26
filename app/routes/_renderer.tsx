@@ -1,13 +1,12 @@
-import { css } from 'hono/css'
-import { html } from 'hono/html'
-import { jsxRenderer } from 'hono/jsx-renderer'
+import { css, html } from 'hono/css'
 import type { Child } from 'hono/jsx'
-import type { Frontmatter } from '../types'
+import { jsxRenderer } from 'hono/jsx-renderer'
 import AdMax from '../components/AdMax'
 import RootFooter from '../components/RootFooter'
 import RootHeader from '../components/RootHeader'
 import RootLayout from '../components/RootLayout'
 import SideNav from '../components/SideNav'
+import type { Frontmatter } from '../types'
 
 const mainClass = css`
   @media screen and (min-width: 1200px) {
