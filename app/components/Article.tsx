@@ -1,5 +1,6 @@
 import { css, html } from 'hono/css'
 import { jsxRenderer } from 'hono/jsx-renderer'
+import { X_HONO_DISABLE_SSG_HEADER_KEY } from 'hono/ssg'
 
 // reuse shared Frontmatter definition for common fields
 import type { Frontmatter } from '../types'
@@ -258,9 +259,9 @@ export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }
   const currentPath = c.req.path
 
   // If a document lacks a valid `published` date we should not render it at
-  // all; return a 404 so that nothing is generated during the static build.
+  // all; disable SSG output and return 404 so nothing is generated.
   if (!frontmatter || !hasValidPublished(frontmatter)) {
-    // Hono's context has `notFound` helper which short-circuits the handler.
+    c.header(X_HONO_DISABLE_SSG_HEADER_KEY, 'true')
     return c.notFound()
   }
 
