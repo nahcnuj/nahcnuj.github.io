@@ -104,6 +104,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   ${props.openGraph && <OpenGraph image={props.openGraph.image} />}
   ${<Script src="/app/client.ts" async />}
   ${<Style>{rootStyle}</Style>}
+  <link rel="alternate" type="application/rss+xml" title="nahcnuj.work" href="/feed.xml">
   ${import.meta.env.PROD ? gtagSnippets.head : html`<!-- -->\n`}\
   ${import.meta.env.PROD ? ninjaAccessSnippets.head : html`<!-- -->\n`}\
   ${props.headInjection}\

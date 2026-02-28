@@ -61,6 +61,32 @@ export function hasValidPublished(frontmatter: { published?: unknown }): boolean
   return normalizePublished(frontmatter?.published) !== undefined
 }
 
+export interface ArticleFeedItem {
+  path: string
+  title: string
+  published: string
+  description?: string
+}
+
+// フィード用記事リスト生成のヘルパー関数（公開日を含む）
+// `files` parameter is exported purely for unit tests.
+export function createFeedItems(
+  routePrefix: string,
+  files: Record<string, { frontmatter: ArticleFrontmatter }> = allArticleFiles,
+): ArticleFeedItem[] {
+  const pathPattern = new RegExp(`^../(?:routes|fixtures)/${routePrefix}/`)
+  return Object.entries(files)
+    .filter(([path]) => path.includes(`/routes/${routePrefix}/`))
+    .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))
+    .map(([path, { frontmatter }]) => ({
+      path: path.replace(pathPattern, `/${routePrefix}/`).replace(/\.mdx$/, ''),
+      title: frontmatter.title,
+      published: normalizePublished(frontmatter.published) as string,
+      description: frontmatter.description,
+    }))
+    .sort((a, b) => b.published.localeCompare(a.published))
+}
+
 // 記事リスト生成のヘルパー関数
 // `files` parameter is exported purely for unit tests; callers in the
 // application omit it and the default (`allArticleFiles`) is used.
