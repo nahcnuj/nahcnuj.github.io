@@ -46,6 +46,6 @@ ${feedItems
   </channel>
 </rss>`,
     200,
-    { 'Content-Type': 'application/xml; charset=UTF-8' },
+    { 'Content-Type': 'application/rss+xml; charset=UTF-8' },
   )
 })
