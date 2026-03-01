@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { createRoute } from 'honox/factory'
-import { articlesByDirectory } from '../components/Article'
+import { articlesByDirectory } from '../lib/articles'
 import Headline from '../components/Headline'
 import Icon from '../components/Icon'
 import LinkRow from '../components/LinkRow'

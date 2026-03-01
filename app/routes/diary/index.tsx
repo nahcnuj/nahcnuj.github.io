@@ -2,14 +2,8 @@
 
 import { type Context, Hono } from 'hono'
 import { redirectTo } from '../../../renderers'
-import { hasValidPublished } from '../../components/Article'
+import { articlesByDirectory } from '../../lib/articles'
 import DiaryList from '../../islands/DiaryList'
-
-interface Frontmatter {
-  title: string
-  description?: string
-  published: string
-}
 
 const app = new Hono()
 
@@ -17,15 +11,7 @@ app.get('/index.html', (c: Context) => {
   const title = `Junichi Hayashi's Diary`
   const description = 'There is the diary Junichi Hayashi wrote.'
 
-  const diaries = ((files: Record<string, { frontmatter: Frontmatter }>) =>
-    Object.entries(files)
-      // filter out unpublished/invalid items
-      .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))
-      .map(([path, { frontmatter }]) => [path.replace(/\.mdx$/, ''), frontmatter] as const))(
-    import.meta.glob<{ frontmatter: Frontmatter }>('./**/*.mdx', {
-      eager: true,
-    }),
-  )
+  const diaries = articlesByDirectory.diary.map(({ path, title, description }) => [path, { title, description }] as const)
 
   return c.render(
     <>

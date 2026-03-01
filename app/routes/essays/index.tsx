@@ -1,13 +1,7 @@
 import { type Context, Hono } from 'hono'
 import { redirectTo } from '../../../renderers'
-import { hasValidPublished } from '../../components/Article'
+import { articlesByDirectory } from '../../lib/articles'
 import EssayList from '../../islands/EssayList'
-
-interface Frontmatter {
-  title: string
-  description?: string
-  published: string
-}
 
 const app = new Hono()
 
@@ -15,14 +9,7 @@ app.get('/index.html', (c: Context) => {
   const title = `Junichi Hayashi's Essays`
   const description = 'There are essays about something by Junichi Hayashi.'
 
-  const essays = ((files: Record<string, { frontmatter: Frontmatter }>) =>
-    Object.entries(files)
-      .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))
-      .map(([path, { frontmatter }]) => [path.replace(/\.mdx$/, ''), frontmatter] as const))(
-    import.meta.glob<{ frontmatter: Frontmatter }>('./**/*.mdx', {
-      eager: true,
-    }),
-  )
+  const essays = articlesByDirectory.essays.map(({ path, title }) => [path, { title }] as const)
 
   return c.render(
     <>
