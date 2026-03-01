@@ -21,6 +21,7 @@ export const DIRECTORY_ICON = {
 export interface ArticleLink {
   path: string
   title: string
+  description?: string
   /** The icon emoji for this article's directory. */
   icon?: typeof DIRECTORY_ICON[keyof typeof DIRECTORY_ICON]
 }
@@ -79,6 +80,7 @@ export function createArticleList(
     .map(([path, { frontmatter }]) => ({
       path: path.replace(pathPattern, `/${routePrefix}/`).replace(/\.mdx$/, ''),
       title: frontmatter.title,
+      description: frontmatter.description,
     }))
     .sort((a, b) => a.path.localeCompare(b.path))
 }
