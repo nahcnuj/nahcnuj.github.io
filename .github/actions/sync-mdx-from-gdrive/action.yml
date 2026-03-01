@@ -51,15 +51,15 @@ runs:
           echo "Restored: $relative_path → $target_path"
         done
     
-    - name: Copy images directories to app/routes
+    - name: Copy images directories to public
       shell: bash
       run: |
         # Exclude top-level underscore-prefixed directories during find
         find ./temp_download -path './temp_download/_*' -prune -o -type d -name 'images' -print | while read -r dir; do
           relative_path="${dir#./temp_download/}"
           
-          # app/routes配下に配置
-          target_parent="app/routes/$(dirname "$relative_path")"
+          # publicディレクトリ配下に配置
+          target_parent="public/$(dirname "$relative_path")"
           
           # 親ディレクトリを作成
           mkdir -p "$target_parent"
@@ -80,7 +80,7 @@ runs:
         find app/routes -name "*.mdx" -type f | sort
         echo ""
         echo "Total images directories copied:"
-        find app/routes -type d -name "images" | wc -l
+        find public -type d -name "images" | wc -l
         echo ""
         echo "All images directories:"
-        find app/routes -type d -name "images" | sort
+        find public -type d -name "images" | sort
