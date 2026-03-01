@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import type { ArticleFrontmatter } from '../app/lib/articles'
-import { createArticleList, createFeedItems, hasValidPublished, normalizePublished } from '../app/lib/articles'
+import type { ArticleFrontmatter } from './articles'
+import { createArticleList, createFeedItems, hasValidPublished, normalizePublished } from './articles'
 
 // helper to cast loose test data to the expected parameter type
 function asFiles(raw: Record<string, { frontmatter: unknown }>) {

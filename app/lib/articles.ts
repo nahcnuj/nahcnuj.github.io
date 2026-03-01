@@ -1,42 +1,45 @@
 import type { Frontmatter } from '../types'
 
+declare const __normalizedDateBrand: unique symbol
+/** A date string validated and normalized to `YYYY-MM-DD`. */
+export type NormalizedDate = string & { readonly [__normalizedDateBrand]: true }
+
 /**
  * Frontmatter for articles in diary/, essays/, and works/.
- * `published` is required and normalized to `YYYY-MM-DD`.
+ * `published` is required and guaranteed to be a valid, `YYYY-MM-DD`-normalized date.
  */
 export interface ArticleFrontmatter extends Frontmatter {
-  published: string
+  published: NormalizedDate
 }
+
+export const DIRECTORY_ICON = {
+  diary: '📓',
+  works: '🧑‍💻',
+  essays: '📝',
+} as const
 
 export interface ArticleLink {
   path: string
   title: string
-  /** The icon emoji for this article's directory (e.g. '📓'). */
-  icon?: string
+  /** The icon emoji for this article's directory. */
+  icon?: typeof DIRECTORY_ICON[keyof typeof DIRECTORY_ICON]
 }
 
-export interface ArticleFeedItem extends Pick<ArticleFrontmatter, 'title' | 'description'> {
+export interface ArticleFeedItem extends Pick<ArticleFrontmatter, 'title' | 'description' | 'published'> {
   path: string
-  published: string
 }
 
-export const DIRECTORY_ICON: Record<string, string> = {
-  diary: '📓',
-  works: '🧑‍💻',
-  essays: '📝',
-}
-
-/** Normalizes a frontmatter value into a canonical `YYYY-MM-DD` date string,
+/** Normalizes a frontmatter value into a `NormalizedDate` (`YYYY-MM-DD`),
  * or `undefined` if the value is missing or invalid. */
-export function normalizePublished(value: unknown): string | undefined {
+export function normalizePublished(value: unknown): NormalizedDate | undefined {
   if (typeof value !== 'string') return undefined
   const d = new Date(value)
   if (Number.isNaN(d.getTime())) return undefined
-  return d.toISOString().split('T')[0]
+  return d.toISOString().split('T')[0] as NormalizedDate
 }
 
-/** Returns true if `frontmatter.published` is a valid date string. */
-export function hasValidPublished(frontmatter: { published?: unknown }): boolean {
+/** Returns true when `frontmatter.published` is valid, narrowing to `{ published: NormalizedDate }`. */
+export function hasValidPublished(frontmatter: { published?: unknown }): frontmatter is { published: NormalizedDate } {
   return normalizePublished(frontmatter?.published) !== undefined
 }
 
@@ -66,7 +69,7 @@ export function createFeedItems(
     .map(([path, { frontmatter }]) => ({
       path: path.replace(pathPattern, `/${routePrefix}/`).replace(/\.mdx$/, ''),
       title: frontmatter.title,
-      published: normalizePublished(frontmatter.published) as string,
+      published: frontmatter.published,
       description: frontmatter.description,
     }))
     .sort((a, b) => b.published.localeCompare(a.published))

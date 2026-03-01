@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { describe, expect, it } from 'vitest'
-import { articleMdxRenderer } from '../app/lib/articleMdxRenderer'
+import { articleMdxRenderer } from './articleMdxRenderer'
 
 // biome-ignore lint/suspicious/noExplicitAny: mock component for tests
 type AnyProps = any
