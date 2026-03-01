@@ -45,8 +45,12 @@ runs:
           # ディレクトリを作成
           mkdir -p "$(dirname "$target_path")"
           
-          # ファイルをコピー
-          cp "$file" "$target_path"
+          # ファイルをコピー (<blockquote> を複数行に整形して textlint が正しく処理できるようにする)
+          # - 開始タグの直後に改行を挿入 (例: <blockquote>content → <blockquote>\ncontent)
+          # - 終了タグの直前に改行を挿入 (例: content</blockquote> → content\n</blockquote>)
+          perl -0777 -pe \
+            's/(<blockquote[^>]*>)([^\n])/$1\n$2/g; s/([^\n])(<\/blockquote>)/$1\n$2/g' \
+            "$file" > "$target_path"
           
           echo "Restored: $relative_path → $target_path"
         done
