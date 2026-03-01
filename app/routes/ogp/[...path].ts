@@ -1,7 +1,6 @@
 import { ssgParams } from 'hono/ssg'
 import { createRoute } from 'honox/factory'
-import { createArticleList, hasValidPublished } from '../../components/Article'
-import type { ArticleFrontmatter } from '../../components/Article'
+import { createArticleList } from '../../lib/articles'
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -26,17 +25,15 @@ const STATIC_TITLES: Record<string, string> = {
 
 // ---------------------------------------------------------------------------
 // Build a path → title map from all MDX article files
+// (createArticleList already handles dev/prod glob and published filtering)
 // ---------------------------------------------------------------------------
 
-const allArticleFiles = import.meta.env.DEV
-  ? import.meta.glob<{ frontmatter: ArticleFrontmatter }>('../../{routes,fixtures}/**/*.mdx', { eager: true })
-  : import.meta.glob<{ frontmatter: ArticleFrontmatter }>('../../routes/**/*.mdx', { eager: true })
-
+const allSections = ['diary', 'essays', 'works'] as const
 const articleTitleByPath: Record<string, string> = {}
-for (const [filePath, mod] of Object.entries(allArticleFiles)) {
-  if (!hasValidPublished(mod.frontmatter)) continue
-  const articlePath = filePath.replace(/^\.\.\/\.\.\/(?:routes|fixtures)\//, '').replace(/\.mdx$/, '')
-  articleTitleByPath[articlePath] = mod.frontmatter?.title ?? SITE_NAME
+for (const section of allSections) {
+  for (const article of createArticleList(section)) {
+    articleTitleByPath[article.path.replace(/^\//, '')] = article.title
+  }
 }
 
 function getTitleForPath(path: string): string {
@@ -47,10 +44,7 @@ function getTitleForPath(path: string): string {
 // Paths to generate at SSG time
 // ---------------------------------------------------------------------------
 
-const allSections = ['diary', 'essays', 'works'] as const
-const articlePaths = allSections.flatMap((section) =>
-  createArticleList(section).map((a) => a.path.replace(/^\//, '')),
-)
+const articlePaths = Object.keys(articleTitleByPath)
 const allOgpPaths = [...Object.keys(STATIC_TITLES), ...articlePaths]
 
 // ---------------------------------------------------------------------------
