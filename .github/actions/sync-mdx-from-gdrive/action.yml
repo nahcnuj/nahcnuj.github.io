@@ -51,6 +51,25 @@ runs:
           echo "Restored: $relative_path → $target_path"
         done
     
+    - name: Copy images directories to app/routes
+      shell: bash
+      run: |
+        # Exclude top-level underscore-prefixed directories during find
+        find ./temp_download -path './temp_download/_*' -prune -o -type d -name 'images' -print | while read -r dir; do
+          relative_path="${dir#./temp_download/}"
+          
+          # app/routes配下に配置
+          target_parent="app/routes/$(dirname "$relative_path")"
+          
+          # 親ディレクトリを作成
+          mkdir -p "$target_parent"
+          
+          # ディレクトリをコピー
+          cp -r "$dir" "$target_parent/"
+          
+          echo "Copied: $relative_path → $target_parent/images"
+        done
+    
     - name: Verify restored files
       shell: bash
       run: |
@@ -59,3 +78,9 @@ runs:
         echo ""
         echo "All restored files:"
         find app/routes -name "*.mdx" -type f | sort
+        echo ""
+        echo "Total images directories copied:"
+        find app/routes -type d -name "images" | wc -l
+        echo ""
+        echo "All images directories:"
+        find app/routes -type d -name "images" | sort
