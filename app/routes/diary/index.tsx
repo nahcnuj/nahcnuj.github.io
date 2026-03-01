@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 
 import { type Context, Hono } from 'hono'
+import { redirectTo } from '../../../renderers'
 import { hasValidPublished } from '../../components/Article'
 import DiaryList from '../../islands/DiaryList'
 
@@ -35,27 +36,9 @@ app.get('/index.html', (c: Context) => {
   )
 })
 
-app.get('/2020-07-04', rendererToRedirectTo('https://www.nahcnuj.work/diary/2020/07/04.html'))
-app.get('/2020-07-20', rendererToRedirectTo('https://www.nahcnuj.work/diary/2020/07/20.html'))
+app.get('/2020-07-04', redirectTo('https://www.nahcnuj.work/diary/2020/07/04.html'))
+app.get('/2020-07-20', redirectTo('https://www.nahcnuj.work/diary/2020/07/20.html'))
 
-app.get('/2025/02/08.html', rendererToRedirectTo('https://www.nahcnuj.work/essays/feel/2025/02/08.html'))
+app.get('/2025/02/08.html', redirectTo('https://www.nahcnuj.work/essays/feel/2025/02/08.html'))
 
 export default app
-
-function rendererToRedirectTo(newUrl: string) {
-  return (c: Context) =>
-    c.html(
-      <html lang="ja">
-        <head>
-          <meta charset="utf-8" />
-          <meta http-equiv="refresh" content={`0;url=${newUrl}`} />
-          <link rel="canonical" href={newUrl} />
-        </head>
-        <body>
-          <h1>
-            This page has been moved to <a href={newUrl}>{newUrl}</a>.
-          </h1>
-        </body>
-      </html>,
-    )
-}

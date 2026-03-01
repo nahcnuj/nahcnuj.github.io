@@ -1,4 +1,5 @@
 import { type Context, Hono } from 'hono'
+import { redirectTo } from '../../../renderers'
 import { hasValidPublished } from '../../components/Article'
 import EssayList from '../../islands/EssayList'
 
@@ -34,3 +35,5 @@ app.get('/index.html', (c: Context) => {
 })
 
 export default app
+
+app.get('/feel/2025/02/08.html', redirectTo('https://www.nahcnuj.work/essays/feel/revalue-myself/00_intro.html'))
