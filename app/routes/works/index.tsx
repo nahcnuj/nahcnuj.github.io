@@ -1,5 +1,5 @@
 import { type Context, Hono } from 'hono'
-import { hasValidPublished } from '../../components/Article'
+import { hasValidPublished } from '../../lib/articles'
 import WorkList from '../../components/WorkList'
 
 interface Frontmatter {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import type { ArticleFrontmatter } from '../app/components/Article'
-import { createArticleList, createFeedItems, hasValidPublished, normalizePublished } from '../app/components/Article'
+import type { ArticleFrontmatter } from '../app/lib/articles'
+import { createArticleList, createFeedItems, hasValidPublished, normalizePublished } from '../app/lib/articles'
 
 describe('normalizePublished', () => {
   it('returns date portion for YYYY-MM-DD', () => {

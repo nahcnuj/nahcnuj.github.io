@@ -1,5 +1,5 @@
 import { createRoute } from 'honox/factory'
-import { createFeedItems } from '../components/Article'
+import { createFeedItems } from '../lib/articles'
 
 const SITE_URL = 'https://www.nahcnuj.work'
 

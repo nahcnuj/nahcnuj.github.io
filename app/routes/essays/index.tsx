@@ -1,6 +1,6 @@
 import { type Context, Hono } from 'hono'
 import { redirectTo } from '../../../renderers'
-import { hasValidPublished } from '../../components/Article'
+import { hasValidPublished } from '../../lib/articles'
 import EssayList from '../../islands/EssayList'
 
 interface Frontmatter {

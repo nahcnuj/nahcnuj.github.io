@@ -1,3 +1,3 @@
-import { articleMdxRenderer } from '../../components/Article'
+import { articleMdxRenderer } from '../../lib/articleMdxRenderer'
 
 export default articleMdxRenderer
