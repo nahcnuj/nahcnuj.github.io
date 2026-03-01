@@ -54,21 +54,29 @@ runs:
     - name: Copy images directories to public
       shell: bash
       run: |
+        copied_dirs=()
         # Exclude top-level underscore-prefixed directories during find
-        find ./temp_download -path './temp_download/_*' -prune -o -type d -name 'images' -print | while read -r dir; do
+        while IFS= read -r dir; do
           relative_path="${dir#./temp_download/}"
           
           # publicディレクトリ配下に配置
           target_parent="public/$(dirname "$relative_path")"
           
           # 親ディレクトリを作成
-          mkdir -p "$target_parent"
+          mkdir -p "$target_parent/images"
           
-          # ディレクトリをコピー
-          cp -r "$dir" "$target_parent/"
+          # ディレクトリを同期コピー (削除も反映)
+          rsync -a --delete "$dir"/ "$target_parent/images/"
           
           echo "Copied: $relative_path → $target_parent/images"
-        done
+          copied_dirs+=("$target_parent/images")
+        done < <(find ./temp_download -path './temp_download/_*' -prune -o -type d -name 'images' -print)
+        
+        echo ""
+        echo "Total images directories copied: ${#copied_dirs[@]}"
+        echo ""
+        echo "All images directories:"
+        printf '%s\n' "${copied_dirs[@]}" | sort
     
     - name: Verify restored files
       shell: bash
@@ -78,9 +86,3 @@ runs:
         echo ""
         echo "All restored files:"
         find app/routes -name "*.mdx" -type f | sort
-        echo ""
-        echo "Total images directories copied:"
-        find public -type d -name "images" | wc -l
-        echo ""
-        echo "All images directories:"
-        find public -type d -name "images" | sort
