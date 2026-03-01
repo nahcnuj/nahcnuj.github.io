@@ -38,21 +38,23 @@ const sideClass = css`
 `
 
 export default jsxRenderer(
-  ({
-    children,
-    frontmatter: { title, description, usemath: useMath, thumbnail, ...props } = { title: 'Untitled' },
-  }: {
-    children?: Child
-    frontmatter?: Partial<Frontmatter>
-  }) => {
+  (
+    {
+      children,
+      frontmatter: { title, description, usemath: useMath, thumbnail, ...props } = { title: 'Untitled' },
+    }: {
+      children?: Child
+      frontmatter?: Partial<Frontmatter>
+    },
+    c,
+  ) => {
+    const reqPath = c?.req?.path ?? '/'
+    const ogpPath = reqPath === '/' ? 'index' : reqPath.replace(/^\//, '').replace(/\.html$/, '')
     const openGraph = {
       image:
         typeof thumbnail === 'string'
           ? { url: thumbnail }
-          : (thumbnail ?? {
-              url: 'https://img.nahcnuj.work/author.jpg',
-              alt: "Junichi's face",
-            }),
+          : (thumbnail ?? { url: `/ogp/${ogpPath}.svg` }),
     }
 
     return (
