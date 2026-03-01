@@ -1,6 +1,6 @@
 import { type Context, Hono } from 'hono'
 import { redirectTo } from '../../../renderers'
-import { hasValidPublished } from '../../lib/articles'
+import { normalizePublished } from '../../lib/articles'
 import EssayList from '../../islands/EssayList'
 
 interface Frontmatter {
@@ -17,7 +17,7 @@ app.get('/index.html', (c: Context) => {
 
   const essays = ((files: Record<string, { frontmatter: Frontmatter }>) =>
     Object.entries(files)
-      .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))
+      .filter(([, { frontmatter }]) => normalizePublished(frontmatter.published) !== undefined)
       .map(([path, { frontmatter }]) => [path.replace(/\.mdx$/, ''), frontmatter] as const))(
     import.meta.glob<{ frontmatter: Frontmatter }>('./**/*.mdx', {
       eager: true,

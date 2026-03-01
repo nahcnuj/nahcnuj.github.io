@@ -1,5 +1,5 @@
 import { type Context, Hono } from 'hono'
-import { hasValidPublished } from '../../lib/articles'
+import { normalizePublished } from '../../lib/articles'
 import WorkList from '../../components/WorkList'
 
 interface Frontmatter {
@@ -19,8 +19,7 @@ app.get('/index.html', (c: Context) => {
 
   const works = ((files: Record<string, { frontmatter: Frontmatter }>) =>
     Object.entries(files)
-      // drop unpublished/invalid
-      .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))
+      .filter(([, { frontmatter }]) => normalizePublished(frontmatter.published) !== undefined)
       .sort(([a], [b]) => b.localeCompare(a))
       .map(([path, { frontmatter }]) => [path.slice(2).replace(/\.mdx$/, ''), frontmatter] as const))(
     import.meta.glob<{ frontmatter: Frontmatter }>('./**/*.mdx', {
