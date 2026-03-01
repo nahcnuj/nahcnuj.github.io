@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { ArticleFrontmatter } from './articles'
-import { createArticleList, createFeedItems, hasValidPublished, normalizePublished } from './articles'
+import { createArticleList, createFeedItems, normalizePublished } from './articles'
 
 // helper to cast loose test data to the expected parameter type
 function asFiles(raw: Record<string, { frontmatter: unknown }>) {
@@ -24,37 +24,16 @@ describe('normalizePublished', () => {
   })
 })
 
-describe('hasValidPublished', () => {
-  it('returns false when published is missing or invalid', () => {
-    expect(hasValidPublished({})).toBe(false)
-    expect(hasValidPublished({ published: 'not a date' })).toBe(false)
-  })
-
-  it('returns true for a valid date string', () => {
-    expect(hasValidPublished({ published: '2026-01-01' })).toBe(true)
-  })
-})
-
 describe('createArticleList', () => {
   const fakeFiles = {
     '../routes/diary/2026-01-01.mdx': { frontmatter: { title: 'A', published: '2026-01-01' } },
     '../routes/diary/2026-03-01.mdx': { frontmatter: { title: 'C', published: '2026-03-01' } },
     '../routes/diary/2026-02-01.mdx': { frontmatter: { title: 'B', published: '2026-02-01' } },
-    // missing published — should be excluded
-    '../routes/diary/no-date.mdx': { frontmatter: { title: 'X' } },
-    // invalid published — should be excluded
-    '../routes/diary/bad-date.mdx': { frontmatter: { title: 'Y', published: 'invalid' } },
     // fixture entry — should be included
     '../fixtures/diary/fixture.mdx': { frontmatter: { title: 'F', published: '2025-06-01' } },
     // different directory — should be excluded
     '../routes/works/w.mdx': { frontmatter: { title: 'W', published: '2026-01-01' } },
   }
-
-  it('drops entries without or with an invalid published date', () => {
-    const list = createArticleList('diary', asFiles(fakeFiles))
-    expect(list.map((item) => item.title)).not.toContain('X')
-    expect(list.map((item) => item.title)).not.toContain('Y')
-  })
 
   it('includes fixture directory entries', () => {
     const list = createArticleList('diary', asFiles(fakeFiles))
@@ -82,10 +61,6 @@ describe('createFeedItems', () => {
   const fakeFiles = {
     '../routes/diary/2026-01-01.mdx': { frontmatter: { title: 'A', published: '2026-01-01', description: 'desc A' } },
     '../routes/diary/2025-12-31.mdx': { frontmatter: { title: 'D', published: '2025-12-31' } },
-    // missing published — should be excluded
-    '../routes/diary/no-date.mdx': { frontmatter: { title: 'B' } },
-    // invalid published — should be excluded
-    '../routes/diary/bad-date.mdx': { frontmatter: { title: 'C', published: 'invalid' } },
     // fixtures directory — should be excluded from feed
     '../fixtures/diary/fixture.mdx': { frontmatter: { title: 'E', published: '2026-02-01' } },
     // different directory — should be excluded

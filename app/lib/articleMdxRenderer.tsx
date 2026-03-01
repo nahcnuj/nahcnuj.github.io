@@ -1,7 +1,7 @@
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { X_HONO_DISABLE_SSG_HEADER_KEY } from 'hono/ssg'
 import Article from '../components/Article'
-import { DIRECTORY_ICON, articlesByDirectory, hasValidPublished } from './articles'
+import { DIRECTORY_ICON, articlesByDirectory, normalizePublished } from './articles'
 import type { ArticleLink } from './articles'
 
 // component passed to jsxRenderer is loosely typed; ignore TS complaints
@@ -11,7 +11,7 @@ export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }
 
   // If a document lacks a valid `published` date we should not render it at
   // all; disable SSG output and return 404 so nothing is generated.
-  if (!frontmatter || !hasValidPublished(frontmatter)) {
+  if (!frontmatter || !normalizePublished(frontmatter.published)) {
     c.header(X_HONO_DISABLE_SSG_HEADER_KEY, 'true')
     return c.notFound()
   }
@@ -35,7 +35,6 @@ export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }
   return (
     <Layout frontmatter={frontmatter}>
       <Article relatedArticles={relatedArticles} currentPath={currentPath}>
-        {/* children may be undefined; JSX accepts it */}
         {children}
       </Article>
     </Layout>

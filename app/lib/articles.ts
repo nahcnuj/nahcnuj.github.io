@@ -38,11 +38,6 @@ export function normalizePublished(value: unknown): NormalizedDate | undefined {
   return d.toISOString().split('T')[0] as NormalizedDate
 }
 
-/** Returns true when `frontmatter.published` is valid, narrowing to `{ published: NormalizedDate }`. */
-export function hasValidPublished(frontmatter: { published?: unknown }): frontmatter is { published: NormalizedDate } {
-  return normalizePublished(frontmatter?.published) !== undefined
-}
-
 // 全ディレクトリの記事を一括取得し、publishedを正規化済みの値に変換する
 // - 通常は `app/routes/**` を読み込みます
 // - 開発時（vite dev）のみ `app/fixtures/**` を追加で読み込みます
@@ -65,7 +60,6 @@ export function createFeedItems(
   const pathPattern = new RegExp(`^../(?:routes|fixtures)/${routePrefix}/`)
   return Object.entries(files)
     .filter(([path]) => path.includes(`/routes/${routePrefix}/`))
-    .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))
     .map(([path, { frontmatter }]) => ({
       path: path.replace(pathPattern, `/${routePrefix}/`).replace(/\.mdx$/, ''),
       title: frontmatter.title,
@@ -82,7 +76,6 @@ export function createArticleList(
   const pathPattern = new RegExp(`^../(?:routes|fixtures)/${routePrefix}/`)
   return Object.entries(files)
     .filter(([path]) => path.includes(`/routes/${routePrefix}/`) || path.includes(`/fixtures/${routePrefix}/`))
-    .filter(([, { frontmatter }]) => hasValidPublished(frontmatter))
     .map(([path, { frontmatter }]) => ({
       path: path.replace(pathPattern, `/${routePrefix}/`).replace(/\.mdx$/, ''),
       title: frontmatter.title,
