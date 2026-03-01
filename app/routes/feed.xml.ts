@@ -14,11 +14,9 @@ function escapeXml(str: string): string {
 
 const buildTime = new Date()
 
-const feedItems = [
-  ...createFeedItems('diary'),
-  ...createFeedItems('essays'),
-  ...createFeedItems('works'),
-].sort((a, b) => b.published.localeCompare(a.published))
+const feedItems = [...createFeedItems('diary'), ...createFeedItems('essays'), ...createFeedItems('works')].sort(
+  (a, b) => b.published.localeCompare(a.published),
+)
 
 export default createRoute((c) => {
   return c.body(
