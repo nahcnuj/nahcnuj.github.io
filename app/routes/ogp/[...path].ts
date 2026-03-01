@@ -28,14 +28,14 @@ const STATIC_TITLES: Record<string, string> = {
 // Build a path → title map from all MDX article files
 // ---------------------------------------------------------------------------
 
-const allArticleFiles = import.meta.glob<{ frontmatter: ArticleFrontmatter }>('../../routes/**/*.mdx', {
-  eager: true,
-})
+const allArticleFiles = import.meta.env.DEV
+  ? import.meta.glob<{ frontmatter: ArticleFrontmatter }>('../../{routes,fixtures}/**/*.mdx', { eager: true })
+  : import.meta.glob<{ frontmatter: ArticleFrontmatter }>('../../routes/**/*.mdx', { eager: true })
 
 const articleTitleByPath: Record<string, string> = {}
 for (const [filePath, mod] of Object.entries(allArticleFiles)) {
   if (!hasValidPublished(mod.frontmatter)) continue
-  const articlePath = filePath.replace(/^\.\.\/\.\.\/routes\//, '').replace(/\.mdx$/, '')
+  const articlePath = filePath.replace(/^\.\.\/\.\.\/(?:routes|fixtures)\//, '').replace(/\.mdx$/, '')
   articleTitleByPath[articlePath] = mod.frontmatter?.title ?? SITE_NAME
 }
 
@@ -71,7 +71,7 @@ function xmlEscape(s: string): string {
  * Word-boundary splitting is tried first (for English titles); CJK titles are
  * split at character positions since they have no spaces.
  */
-function wrapLines(text: string, maxLen = 20): string[] {
+export function wrapLines(text: string, maxLen = 20): string[] {
   if (text.length <= maxLen) return [text]
 
   const words = text.split(' ')
@@ -151,6 +151,6 @@ export const GET = createRoute(
     const rawPath = c.req.param('path') ?? ''
     const articlePath = rawPath.replace(/\.svg$/, '')
     const title = getTitleForPath(articlePath)
-    return c.body(generateOgpSvg(title), 200, { 'Content-Type': 'image/svg+xml' })
+    return c.body(generateOgpSvg(title), 200, { 'Content-Type': 'image/svg+xml; charset=utf-8' })
   },
 )

@@ -9,6 +9,8 @@ import RootLayout from '../components/RootLayout'
 import SideNav from '../components/SideNav'
 import type { Frontmatter } from '../types'
 
+const SITE_URL = 'https://www.nahcnuj.work'
+
 const mainClass = css`
   @media screen and (min-width: 1200px) {
     max-width: 1000px;
@@ -54,7 +56,7 @@ export default jsxRenderer(
       image:
         typeof thumbnail === 'string'
           ? { url: thumbnail }
-          : (thumbnail ?? { url: `/ogp/${ogpPath}.svg` }),
+          : (thumbnail ?? { url: `${SITE_URL}/ogp/${ogpPath}.svg` }),
     }
 
     return (
