@@ -3,6 +3,7 @@ import { createRoute } from 'honox/factory'
 import { createArticleList } from '../../lib/articles'
 import { AUTHOR_PHOTO_URL, SITE_URL, THEME_BASE_COLOR, THEME_MAIN_COLOR } from '../../lib/site'
 import { wrapLines } from '../../lib/wrapLines'
+import { xmlEscape } from '../../lib/xmlEscape'
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -51,15 +52,6 @@ const allOgpPaths = [...Object.keys(STATIC_TITLES), ...articlePaths]
 // SVG helpers
 // ---------------------------------------------------------------------------
 
-function xmlEscape(s: string): string {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
-}
-
 function generateOgpSvg(title: string): string {
   const lines = wrapLines(title, 16)
   const n = lines.length
@@ -96,7 +88,7 @@ ${textElements}
 // Route handler
 // ---------------------------------------------------------------------------
 
-export const GET = createRoute(
+export default createRoute(
   ssgParams(allOgpPaths.map((p) => ({ path: `${p}.svg` }))),
   (c) => {
     const rawPath = c.req.param('path') ?? ''

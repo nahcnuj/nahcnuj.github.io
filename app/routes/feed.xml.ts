@@ -1,15 +1,7 @@
 import { createRoute } from 'honox/factory'
 import { createFeedItems } from '../lib/articles'
 import { SITE_URL } from '../lib/site'
-
-function escapeXml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
-}
+import { xmlEscape } from '../lib/xmlEscape'
 
 const buildTime = new Date()
 
@@ -33,10 +25,10 @@ ${feedItems
     const url = `${SITE_URL}${path}.html`
     const pubDate = new Date(published).toUTCString()
     return `    <item>
-      <title>${escapeXml(title)}</title>
+      <title>${xmlEscape(title)}</title>
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
-      <pubDate>${pubDate}</pubDate>${description ? `\n      <description>${escapeXml(description)}</description>` : ''}
+      <pubDate>${pubDate}</pubDate>${description ? `\n      <description>${xmlEscape(description)}</description>` : ''}
     </item>`
   })
   .join('\n')}

@@ -54,7 +54,7 @@ export default jsxRenderer(
     const openGraph = {
       image:
         typeof thumbnail === 'string'
-          ? { url: thumbnail }
+          ? { url: thumbnail, alt: title ?? '' }
           : (thumbnail ?? { url: `${SITE_URL}/ogp/${ogpPath}.svg`, alt: title ?? '' }),
     }
 
