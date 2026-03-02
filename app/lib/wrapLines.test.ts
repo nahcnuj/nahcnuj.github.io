@@ -58,4 +58,23 @@ describe('wrapLines', () => {
     const result = wrapLines(title)
     expect(result.length).toBeGreaterThan(1)
   })
+
+  describe('with maxLen=16 (OGP route default)', () => {
+    it('keeps a 16-char CJK title on a single line', () => {
+      // Fixture: app/fixtures/diary/2026-02-10.mdx
+      const title = '日本語タイトルのフィクスチャ記事'
+      expect(title.length).toBe(16)
+      const result = wrapLines(title, 16)
+      expect(result).toEqual([title])
+    })
+
+    it('wraps a 28-char CJK title to 2 lines, each ≤16 chars', () => {
+      // Fixture: app/fixtures/diary/2026-02-11.mdx
+      const title = '折り返しフィクスチャ：日本語のタイトルが複数行になる場合'
+      expect(title.length).toBe(28)
+      const result = wrapLines(title, 16)
+      expect(result.length).toBe(2)
+      expect(result.every((line) => line.length <= 16)).toBe(true)
+    })
+  })
 })
