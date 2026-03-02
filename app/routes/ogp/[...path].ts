@@ -13,6 +13,7 @@ const BG_COLOR = THEME_BASE_COLOR
 const DARK_COLOR = THEME_MAIN_COLOR
 const TEXT_COLOR = '#ffffff'
 const LABEL_COLOR = '#aaaaff'
+const AUTHOR_PHOTO_URL = 'https://img.nahcnuj.work/author.jpg'
 
 // ---------------------------------------------------------------------------
 // Static titles for non-article pages
@@ -81,10 +82,16 @@ function generateOgpSvg(title: string): string {
     .join('\n')
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <clipPath id="ac">
+      <circle cx="1110" cy="540" r="45"/>
+    </clipPath>
+  </defs>
   <rect width="1200" height="630" fill="${BG_COLOR}"/>
   <rect x="20" y="20" width="1160" height="590" rx="24" fill="${DARK_COLOR}"/>
 ${textElements}
   <text x="600" y="565" font-family="'Hiragino Sans','Yu Gothic','Meiryo',sans-serif" font-size="28" fill="${LABEL_COLOR}" text-anchor="middle">${SITE_NAME}</text>
+  <image x="1065" y="495" width="90" height="90" href="${AUTHOR_PHOTO_URL}" clip-path="url(#ac)" preserveAspectRatio="xMidYMid slice"/>
 </svg>`
 }
 
