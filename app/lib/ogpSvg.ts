@@ -16,7 +16,7 @@ const LABEL_COLOR = '#aaaaff'
 // ---------------------------------------------------------------------------
 
 const STATIC_TITLES: Record<string, string> = {
-  index: '林 純一 (Junichi Hayashi)',
+  index: '林 純一\n(Junichi Hayashi)',
   'diary/index': 'Diary',
   'works/index': 'Work',
   'essays/index': 'Essay',

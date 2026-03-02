@@ -9,6 +9,15 @@ describe('wrapLines', () => {
     expect(wrapLines('12345678901234567890')).toEqual(['12345678901234567890'])
   })
 
+  it('honours explicit \\n line breaks without further splitting', () => {
+    expect(wrapLines('林 純一\n(Junichi Hayashi)', 16)).toEqual(['林 純一', '(Junichi Hayashi)'])
+  })
+
+  it('limits explicit \\n splits to at most 3 lines', () => {
+    const result = wrapLines('a\nb\nc\nd', 20)
+    expect(result).toEqual(['a', 'b', 'c'])
+  })
+
   it('splits a Latin title at word boundaries', () => {
     const result = wrapLines('The quick brown fox jumps')
     expect(result.length).toBeGreaterThan(1)

@@ -18,9 +18,9 @@ describe('ogpSvg', () => {
 
   it('includes parts of the title for a known static path', () => {
     const svg = ogpSvg('index.svg')
-    // Title is word-wrapped, so check for parts that appear in individual text elements
+    // Title is split into two lines: Japanese name and English name in parens
     expect(svg).toContain('林 純一')
-    expect(svg).toContain('Hayashi')
+    expect(svg).toContain('(Junichi Hayashi)')
   })
 
   it('includes the site name label', () => {
