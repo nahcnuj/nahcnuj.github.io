@@ -24,4 +24,6 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: workspace
-          path: '**/*.mdx'
+          path: |
+            **/*.mdx
+            public/**/images/**
