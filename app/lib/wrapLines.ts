@@ -1,11 +1,15 @@
 /**
  * Wrap `text` into at most 3 lines.
- * Word-boundary splitting is tried first (for English titles); CJK titles are
+ * If `text` contains `\n`, those explicit line breaks are honoured directly
+ * (up to 3 lines) without further splitting.
+ * Word-boundary splitting is tried next (for English titles); CJK titles are
  * split at character positions since they have no spaces.
  * If any individual word exceeds `maxLen`, falls back to character-boundary
  * splitting so every returned line is bounded by `maxLen`.
  */
 export function wrapLines(text: string, maxLen = 20): string[] {
+  if (text.includes('\n')) return text.split('\n').slice(0, 3).map((l) => l.trim())
+
   if (text.length <= maxLen) return [text]
 
   const words = text.split(' ')

@@ -16,7 +16,7 @@ const LABEL_COLOR = '#aaaaff'
 // ---------------------------------------------------------------------------
 
 const STATIC_TITLES: Record<string, string> = {
-  index: '林 純一 (Junichi Hayashi)',
+  index: '林 純一\n(Junichi Hayashi)',
   'diary/index': 'Diary',
   'works/index': 'Work',
   'essays/index': 'Essay',
@@ -30,7 +30,7 @@ const allSections = ['diary', 'essays', 'works'] as const
 const articleTitleByPath: Record<string, string> = {}
 for (const section of allSections) {
   for (const article of createArticleList(section)) {
-    articleTitleByPath[article.path.replace(/^\//, '')] = article.title
+    articleTitleByPath[article.path.replace(/^\//, '').replace(/\.html$/, '')] = article.title
   }
 }
 

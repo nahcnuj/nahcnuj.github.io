@@ -18,9 +18,9 @@ describe('ogpSvg', () => {
 
   it('includes parts of the title for a known static path', () => {
     const svg = ogpSvg('index.svg')
-    // Title is word-wrapped, so check for parts that appear in individual text elements
+    // Title is split into two lines: Japanese name and English name in parens
     expect(svg).toContain('林 純一')
-    expect(svg).toContain('Hayashi')
+    expect(svg).toContain('(Junichi Hayashi)')
   })
 
   it('includes the site name label', () => {
@@ -54,5 +54,11 @@ describe('allOgpPaths', () => {
     expect(allOgpPaths).toContain('diary/index')
     expect(allOgpPaths).toContain('works/index')
     expect(allOgpPaths).toContain('essays/index')
+  })
+
+  it('contains no paths ending with .html (og:image strips .html, so OGP paths must match)', () => {
+    for (const p of allOgpPaths) {
+      expect(p).not.toMatch(/\.html$/)
+    }
   })
 })
