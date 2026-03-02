@@ -2,6 +2,7 @@ import { css, Style } from 'hono/css'
 import { html } from 'hono/html'
 import type { PropsWithChildren } from 'hono/jsx'
 import { Script } from 'honox/server'
+import { THEME_BASE_COLOR, THEME_MAIN_COLOR } from '../lib/site'
 
 interface OpenGraphData {
   image?: {
@@ -20,8 +21,8 @@ type Meta = {
 
 const rootStyle = css`
   :root {
-    --theme-base-color: #e6e6ff;
-    --theme-main-color: #000033;
+    --theme-base-color: ${THEME_BASE_COLOR};
+    --theme-main-color: ${THEME_MAIN_COLOR};
     --theme-accent-color: #ff6666;
 
     scroll-behavior: smooth;

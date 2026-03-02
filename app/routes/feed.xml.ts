@@ -1,16 +1,7 @@
 import { createRoute } from 'honox/factory'
 import { createFeedItems } from '../lib/articles'
-
-const SITE_URL = 'https://www.nahcnuj.work'
-
-function escapeXml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
-}
+import { SITE_URL } from '../lib/site'
+import { escapeXml } from '../lib/xmlEscape'
 
 const buildTime = new Date()
 

@@ -7,6 +7,7 @@ import RootFooter from '../components/RootFooter'
 import RootHeader from '../components/RootHeader'
 import RootLayout from '../components/RootLayout'
 import SideNav from '../components/SideNav'
+import { SITE_URL } from '../lib/site'
 import type { Frontmatter } from '../types'
 
 const mainClass = css`
@@ -38,21 +39,23 @@ const sideClass = css`
 `
 
 export default jsxRenderer(
-  ({
-    children,
-    frontmatter: { title, description, usemath: useMath, thumbnail, ...props } = { title: 'Untitled' },
-  }: {
-    children?: Child
-    frontmatter?: Partial<Frontmatter>
-  }) => {
+  (
+    {
+      children,
+      frontmatter: { title, description, usemath: useMath, thumbnail, ...props } = { title: 'Untitled' },
+    }: {
+      children?: Child
+      frontmatter?: Partial<Frontmatter>
+    },
+    c,
+  ) => {
+    const reqPath = c?.req?.path ?? '/'
+    const ogpPath = reqPath === '/' ? 'index' : reqPath.replace(/^\//, '').replace(/\.html$/, '')
     const openGraph = {
       image:
         typeof thumbnail === 'string'
-          ? { url: thumbnail }
-          : (thumbnail ?? {
-              url: 'https://img.nahcnuj.work/author.jpg',
-              alt: "Junichi's face",
-            }),
+          ? { url: thumbnail, alt: title ?? '' }
+          : (thumbnail ?? { url: `${SITE_URL}/ogp/${ogpPath}.svg`, alt: title ?? '' }),
     }
 
     return (
