@@ -43,7 +43,7 @@ jobs:
           name: workspace
           path: .
       - name: Install Japanese fonts
-        run: sudo apt-get install -y fonts-noto-cjk
+        run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
       - name: Install dependencies
         run: npm ci --omit dev --prefer-offline
       - name: Build
