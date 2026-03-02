@@ -1,6 +1,7 @@
 import { ssgParams } from 'hono/ssg'
 import { createRoute } from 'honox/factory'
-import { allOgpPaths, ogpPng } from '../../lib/ogpPng'
+import { ogpPng } from '../../lib/ogpPng'
+import { allOgpPaths } from '../../lib/ogpSvg'
 
 export default createRoute(
   ssgParams(allOgpPaths.map((p) => ({ path: `${p}.png` }))),
