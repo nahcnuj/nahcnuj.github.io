@@ -70,7 +70,7 @@ export function ogpSvg(svgFilename: `${string}.svg`): string {
   const textElements = lines
     .map(
       (line, i) =>
-        `  <text x="600" y="${Math.round(startY + i * lineHeight)}" font-family="'Hiragino Sans','Yu Gothic','Meiryo','Noto Sans CJK JP',sans-serif" font-size="${fontSize}" fill="${TEXT_COLOR}" text-anchor="middle">${escapeXml(line)}</text>`,
+        `  <text x="600" y="${Math.round(startY + i * lineHeight)}" font-family="'Noto Sans CJK JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif" font-size="${fontSize}" fill="${TEXT_COLOR}" text-anchor="middle">${escapeXml(line)}</text>`,
     )
     .join('\n')
 
@@ -83,7 +83,7 @@ export function ogpSvg(svgFilename: `${string}.svg`): string {
   <rect width="1200" height="630" fill="${THEME_BASE_COLOR}"/>
   <rect x="20" y="20" width="1160" height="590" rx="24" fill="${THEME_MAIN_COLOR}"/>
 ${textElements}
-  <text x="600" y="565" font-family="'Hiragino Sans','Yu Gothic','Meiryo','Noto Sans CJK JP',sans-serif" font-size="28" fill="${LABEL_COLOR}" text-anchor="middle">${SITE_NAME}</text>
+  <text x="600" y="565" font-family="'Noto Sans CJK JP','Hiragino Sans','Yu Gothic','Meiryo',sans-serif" font-size="28" fill="${LABEL_COLOR}" text-anchor="middle">${SITE_NAME}</text>
   <image x="1065" y="495" width="90" height="90" href="${AUTHOR_PHOTO_URL}" clip-path="url(#ac)" preserveAspectRatio="xMidYMid slice"/>
 </svg>`
 }
