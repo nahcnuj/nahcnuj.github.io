@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { wrapLines } from '../app/routes/ogp/[...path]'
+import { wrapLines } from '../app/lib/wrapLines'
 
 describe('wrapLines', () => {
   it('returns single-element array for short text', () => {
@@ -21,12 +21,14 @@ describe('wrapLines', () => {
   })
 
   it('truncates the third Latin line with an ellipsis when text remains', () => {
-    // Force 3+ lines: each word is 7 chars, so maxLen=20 allows 2 per line
-    const result = wrapLines('aaaaaaa bbbbbbb ccccccc ddddddd eeeeeee')
+    // Force remaining text after two lines: each word is 7 chars, maxLen=20 allows 2 per line.
+    // With 7 words, the third line cannot contain all remaining words within maxLen, so it must be truncated.
+    const result = wrapLines('aaaaaaa bbbbbbb ccccccc ddddddd eeeeeee fffffff ggggggg')
     expect(result.length).toBe(3)
     const third = result[2]
-    // Third line ends with '…' when remaining text exceeds maxLen
-    expect(third.endsWith('…') || third.length <= 20).toBe(true)
+    // Third line must end with '…' when remaining text exceeds maxLen
+    expect(third.endsWith('…')).toBe(true)
+    expect(third.length).toBeLessThanOrEqual(20)
   })
 
   it('splits a long CJK title at character boundaries', () => {
