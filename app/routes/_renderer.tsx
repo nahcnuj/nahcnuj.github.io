@@ -7,9 +7,8 @@ import RootFooter from '../components/RootFooter'
 import RootHeader from '../components/RootHeader'
 import RootLayout from '../components/RootLayout'
 import SideNav from '../components/SideNav'
+import { SITE_URL } from '../lib/site'
 import type { Frontmatter } from '../types'
-
-const SITE_URL = 'https://www.nahcnuj.work'
 
 const mainClass = css`
   @media screen and (min-width: 1200px) {
@@ -56,7 +55,7 @@ export default jsxRenderer(
       image:
         typeof thumbnail === 'string'
           ? { url: thumbnail }
-          : (thumbnail ?? { url: `${SITE_URL}/ogp/${ogpPath}.svg` }),
+          : (thumbnail ?? { url: `${SITE_URL}/ogp/${ogpPath}.svg`, alt: title ?? '' }),
     }
 
     return (

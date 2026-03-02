@@ -1,7 +1,6 @@
 import { createRoute } from 'honox/factory'
 import { createFeedItems } from '../lib/articles'
-
-const SITE_URL = 'https://www.nahcnuj.work'
+import { SITE_URL } from '../lib/site'
 
 function escapeXml(str: string): string {
   return str
