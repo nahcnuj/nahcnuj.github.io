@@ -1,7 +1,7 @@
 import { ssgParams } from 'hono/ssg'
 import { createRoute } from 'honox/factory'
 import { createArticleList } from '../../lib/articles'
-import { SITE_URL, THEME_BASE_COLOR, THEME_MAIN_COLOR } from '../../lib/site'
+import { AUTHOR_PHOTO_URL, SITE_URL, THEME_BASE_COLOR, THEME_MAIN_COLOR } from '../../lib/site'
 import { wrapLines } from '../../lib/wrapLines'
 
 // ---------------------------------------------------------------------------
@@ -9,11 +9,8 @@ import { wrapLines } from '../../lib/wrapLines'
 // ---------------------------------------------------------------------------
 
 const SITE_NAME = new URL(SITE_URL).host
-const BG_COLOR = THEME_BASE_COLOR
-const DARK_COLOR = THEME_MAIN_COLOR
 const TEXT_COLOR = '#ffffff'
 const LABEL_COLOR = '#aaaaff'
-const AUTHOR_PHOTO_URL = 'https://img.nahcnuj.work/author.jpg'
 
 // ---------------------------------------------------------------------------
 // Static titles for non-article pages
@@ -87,10 +84,10 @@ function generateOgpSvg(title: string): string {
       <circle cx="1110" cy="540" r="45"/>
     </clipPath>
   </defs>
-  <rect width="1200" height="630" fill="${BG_COLOR}"/>
-  <rect x="20" y="20" width="1160" height="590" rx="24" fill="${DARK_COLOR}"/>
+  <rect width="1200" height="630" fill="${THEME_BASE_COLOR}"/>
+  <rect x="20" y="20" width="1160" height="590" rx="24" fill="${THEME_MAIN_COLOR}"/>
 ${textElements}
-  <text x="600" y="565" font-family="'Hiragino Sans','Yu Gothic','Meiryo',sans-serif" font-size="28" fill="${LABEL_COLOR}" text-anchor="middle">${SITE_NAME}</text>
+  <text x="600" y="565" font-family="'Hiragino Sans','Yu Gothic','Meiryo','Noto Sans CJK JP',sans-serif" font-size="28" fill="${LABEL_COLOR}" text-anchor="middle">${SITE_NAME}</text>
   <image x="1065" y="495" width="90" height="90" href="${AUTHOR_PHOTO_URL}" clip-path="url(#ac)" preserveAspectRatio="xMidYMid slice"/>
 </svg>`
 }
