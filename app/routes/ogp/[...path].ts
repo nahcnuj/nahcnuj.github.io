@@ -1,14 +1,14 @@
 import { ssgParams } from 'hono/ssg'
 import { createRoute } from 'honox/factory'
 import { createArticleList } from '../../lib/articles'
-import { THEME_BASE_COLOR, THEME_MAIN_COLOR } from '../../lib/site'
+import { SITE_URL, THEME_BASE_COLOR, THEME_MAIN_COLOR } from '../../lib/site'
 import { wrapLines } from '../../lib/wrapLines'
 
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
 
-const SITE_NAME = 'nahcnuj.work'
+const SITE_NAME = new URL(SITE_URL).host
 const BG_COLOR = THEME_BASE_COLOR
 const DARK_COLOR = THEME_MAIN_COLOR
 const TEXT_COLOR = '#ffffff'
