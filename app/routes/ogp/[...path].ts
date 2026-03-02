@@ -64,7 +64,7 @@ function xmlEscape(s: string): string {
 }
 
 function generateOgpSvg(title: string): string {
-  const lines = wrapLines(title)
+  const lines = wrapLines(title, 16)
   const n = lines.length
   const fontSize = n === 1 ? 72 : n === 2 ? 60 : 52
   const lineHeight = fontSize * 1.4
