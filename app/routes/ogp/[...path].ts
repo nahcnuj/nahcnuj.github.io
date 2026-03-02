@@ -1,3 +1,4 @@
+import { Resvg } from '@resvg/resvg-js'
 import { ssgParams } from 'hono/ssg'
 import { createRoute } from 'honox/factory'
 import { createArticleList } from '../../lib/articles'
@@ -88,12 +89,22 @@ ${textElements}
 // Route handler
 // ---------------------------------------------------------------------------
 
+function svgToPng(svg: string): Uint8Array {
+  const resvg = new Resvg(svg, {
+    font: {
+      loadSystemFonts: true,
+    },
+  })
+  return resvg.render().asPng()
+}
+
 export default createRoute(
-  ssgParams(allOgpPaths.map((p) => ({ path: `${p}.svg` }))),
+  ssgParams(allOgpPaths.map((p) => ({ path: `${p}.png` }))),
   (c) => {
     const rawPath = c.req.param('path') ?? ''
-    const articlePath = rawPath.replace(/\.svg$/, '')
+    const articlePath = rawPath.replace(/\.png$/, '')
     const title = getTitleForPath(articlePath)
-    return c.body(generateOgpSvg(title), 200, { 'Content-Type': 'image/svg+xml; charset=utf-8' })
+    const png = svgToPng(generateOgpSvg(title))
+    return c.body(png, 200, { 'Content-Type': 'image/png' })
   },
 )

@@ -20,6 +20,9 @@ export default defineConfig(({ mode }) => {
     build: {
       emptyOutDir: false,
     },
+    ssr: {
+      external: ['@resvg/resvg-js'],
+    },
     plugins: [
       honox(),
       ssg({ entry }),
