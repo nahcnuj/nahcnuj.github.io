@@ -30,7 +30,7 @@ const allSections = ['diary', 'essays', 'works'] as const
 const articleTitleByPath: Record<string, string> = {}
 for (const section of allSections) {
   for (const article of createArticleList(section)) {
-    articleTitleByPath[article.path.replace(/^\//, '')] = article.title
+    articleTitleByPath[article.path.replace(/^\//, '').replace(/\.html$/, '')] = article.title
   }
 }
 

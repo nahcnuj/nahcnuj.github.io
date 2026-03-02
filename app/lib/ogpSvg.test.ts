@@ -55,4 +55,10 @@ describe('allOgpPaths', () => {
     expect(allOgpPaths).toContain('works/index')
     expect(allOgpPaths).toContain('essays/index')
   })
+
+  it('contains no paths ending with .html (og:image strips .html, so OGP paths must match)', () => {
+    for (const p of allOgpPaths) {
+      expect(p).not.toMatch(/\.html$/)
+    }
+  })
 })
