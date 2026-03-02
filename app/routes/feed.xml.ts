@@ -1,7 +1,7 @@
 import { createRoute } from 'honox/factory'
 import { createFeedItems } from '../lib/articles'
 import { SITE_URL } from '../lib/site'
-import { xmlEscape } from '../lib/xmlEscape'
+import { escapeXml } from '../lib/xmlEscape'
 
 const buildTime = new Date()
 
@@ -25,10 +25,10 @@ ${feedItems
     const url = `${SITE_URL}${path}.html`
     const pubDate = new Date(published).toUTCString()
     return `    <item>
-      <title>${xmlEscape(title)}</title>
+      <title>${escapeXml(title)}</title>
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
-      <pubDate>${pubDate}</pubDate>${description ? `\n      <description>${xmlEscape(description)}</description>` : ''}
+      <pubDate>${pubDate}</pubDate>${description ? `\n      <description>${escapeXml(description)}</description>` : ''}
     </item>`
   })
   .join('\n')}

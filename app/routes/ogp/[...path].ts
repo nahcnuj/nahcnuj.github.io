@@ -3,7 +3,7 @@ import { createRoute } from 'honox/factory'
 import { createArticleList } from '../../lib/articles'
 import { AUTHOR_PHOTO_URL, SITE_URL, THEME_BASE_COLOR, THEME_MAIN_COLOR } from '../../lib/site'
 import { wrapLines } from '../../lib/wrapLines'
-import { xmlEscape } from '../../lib/xmlEscape'
+import { escapeXml } from '../../lib/xmlEscape'
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -66,7 +66,7 @@ function generateOgpSvg(title: string): string {
   const textElements = lines
     .map(
       (line, i) =>
-        `  <text x="600" y="${Math.round(startY + i * lineHeight)}" font-family="'Hiragino Sans','Yu Gothic','Meiryo','Noto Sans CJK JP',sans-serif" font-size="${fontSize}" fill="${TEXT_COLOR}" text-anchor="middle">${xmlEscape(line)}</text>`,
+        `  <text x="600" y="${Math.round(startY + i * lineHeight)}" font-family="'Hiragino Sans','Yu Gothic','Meiryo','Noto Sans CJK JP',sans-serif" font-size="${fontSize}" fill="${TEXT_COLOR}" text-anchor="middle">${escapeXml(line)}</text>`,
     )
     .join('\n')
 
