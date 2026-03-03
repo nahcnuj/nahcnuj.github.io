@@ -103,6 +103,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   <meta property="og:title" content="${props.title}">
   ${props.description ? html`<meta property="og:description" content="${props.description}">` : html`<!-- -->`}
   ${props.openGraph && <OpenGraph image={props.openGraph.image} />}
+  <meta name="twitter:card" content="summary_large_image">
   ${<Script src="/app/client.ts" async />}
   ${<Style>{rootStyle}</Style>}
   <link rel="alternate" type="application/rss+xml" title="nahcnuj.work" href="/feed.xml">
