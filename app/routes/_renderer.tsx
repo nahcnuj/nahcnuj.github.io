@@ -50,12 +50,13 @@ export default jsxRenderer(
     c,
   ) => {
     const reqPath = c?.req?.path ?? '/'
-    const ogpPath = reqPath === '/' ? 'index' : reqPath.replace(/^\//, '').replace(/\.html$/, '')
+    const ogImagePath = reqPath === '/' ? 'index' : reqPath.replace(/^\//, '').replace(/\.html$/, '')
     const openGraph = {
+      url: `${SITE_URL}${reqPath}`,
       image:
         typeof thumbnail === 'string'
           ? { url: thumbnail, alt: title ?? '' }
-          : (thumbnail ?? { url: `${SITE_URL}/ogp/${ogpPath}.png`, alt: title ?? '' }),
+          : (thumbnail ?? { url: `${SITE_URL}/ogp/${ogImagePath}.png`, alt: title ?? '' }),
     }
 
     return (
