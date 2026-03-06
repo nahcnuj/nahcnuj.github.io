@@ -56,7 +56,7 @@ export default jsxRenderer(
       image:
         typeof thumbnail === 'string'
           ? { url: thumbnail, alt: title ?? '' }
-          : (thumbnail ?? { url: `${SITE_URL}/ogp/${ogpPath}.png`, alt: title ?? '' }),
+          : (thumbnail ?? { url: `${SITE_URL}/ogp/${ogImagePath}.png`, alt: title ?? '' }),
     }
 
     return (
