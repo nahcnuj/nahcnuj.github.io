@@ -5,6 +5,7 @@ import { Script } from 'honox/server'
 import { THEME_BASE_COLOR, THEME_MAIN_COLOR } from '../lib/site'
 
 interface OpenGraphData {
+  url?: string
   image?: {
     url: string
     alt?: string
@@ -84,11 +85,12 @@ const ninjaAccessSnippets = {
 `,
 } as const
 
-const OpenGraph = ({ image }: OpenGraphData) =>
-  image ? (
+const OpenGraph = ({ url, image }: OpenGraphData) =>
+  url || image ? (
     <>
-      <meta property="og:image" content={image.url} />
-      {image.alt && <meta property="og:image:alt" content={image.alt} />}
+      {url && <meta property="og:url" content={url} />}
+      {image && <meta property="og:image" content={image.url} />}
+      {image?.alt && <meta property="og:image:alt" content={image.alt} />}
     </>
   ) : null
 
@@ -102,7 +104,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   <meta property="og:type" content="website">
   <meta property="og:title" content="${props.title}">
   ${props.description ? html`<meta property="og:description" content="${props.description}">` : html`<!-- -->`}
-  ${props.openGraph && <OpenGraph image={props.openGraph.image} />}
+  ${props.openGraph && <OpenGraph url={props.openGraph.url} image={props.openGraph.image} />}
   <meta name="twitter:card" content="summary_large_image">
   ${<Script src="/app/client.ts" async />}
   ${<Style>{rootStyle}</Style>}
