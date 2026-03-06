@@ -104,6 +104,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   <meta property="og:type" content="website">
   <meta property="og:title" content="${props.title}">
   ${props.description ? html`<meta property="og:description" content="${props.description}">` : html`<!-- -->`}
+  ${props.openGraph?.url && html`<link rel="canonical" href="${props.openGraph.url}">`}
   ${props.openGraph && <OpenGraph url={props.openGraph.url} image={props.openGraph.image} />}
   <meta name="twitter:card" content="summary_large_image">
   ${<Script src="/app/client.ts" async />}
