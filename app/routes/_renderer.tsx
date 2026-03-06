@@ -50,7 +50,7 @@ export default jsxRenderer(
     c,
   ) => {
     const reqPath = c?.req?.path ?? '/'
-    const ogpPath = reqPath === '/' ? 'index' : reqPath.replace(/^\//, '').replace(/\.html$/, '')
+    const ogImagePath = reqPath === '/' ? 'index' : reqPath.replace(/^\//, '').replace(/\.html$/, '')
     const openGraph = {
       url: `${SITE_URL}${reqPath}`,
       image:
