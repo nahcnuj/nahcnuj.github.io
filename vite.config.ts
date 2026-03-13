@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: false,
     },
     ssr: {
-      external: ['@resvg/resvg-js'],
+      external: ['@resvg/resvg-js', '@oxc-project/runtime'],
     },
     plugins: [
       honox(),
