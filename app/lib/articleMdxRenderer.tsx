@@ -1,3 +1,4 @@
+import { HTTPException } from 'hono/http-exception'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { X_HONO_DISABLE_SSG_HEADER_KEY } from 'hono/ssg'
 import Article from '../components/Article'
@@ -13,7 +14,7 @@ export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }
   // all; disable SSG output and return 404 so nothing is generated.
   if (!frontmatter || !normalizePublished(frontmatter.published)) {
     c.header(X_HONO_DISABLE_SSG_HEADER_KEY, 'true')
-    return c.notFound()
+    throw new HTTPException(404)
   }
 
   // index.htmlページの場合は関連記事を表示しない
