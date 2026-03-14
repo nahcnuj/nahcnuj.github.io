@@ -19,13 +19,17 @@ function devFixturesPlugin(): Plugin {
       const routesDir = join(process.cwd(), 'app/routes')
 
       function copyMdxFiles(srcDir: string, destDir: string) {
+        let destDirCreated = false
         for (const entry of readdirSync(srcDir, { withFileTypes: true })) {
           const srcPath = join(srcDir, entry.name)
           const destPath = join(destDir, entry.name)
           if (entry.isDirectory()) {
             copyMdxFiles(srcPath, destPath)
           } else if (entry.name.endsWith('.mdx')) {
-            mkdirSync(destDir, { recursive: true })
+            if (!destDirCreated) {
+              mkdirSync(destDir, { recursive: true })
+              destDirCreated = true
+            }
             cpSync(srcPath, destPath)
             copiedPaths.push(destPath)
           }
