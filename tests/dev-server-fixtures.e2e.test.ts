@@ -6,7 +6,7 @@
  * MDX file discovered under `app/fixtures/` is reachable via HTTP (HTTP 200)
  * when the dev server is running.
  */
-import { type ViteDevServer, createServer } from 'vite'
+import { type ChildProcess, spawn } from 'node:child_process'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 const fixtureModules = import.meta.glob('../app/fixtures/**/*.mdx')
@@ -15,22 +15,28 @@ const fixtureRoutes = Object.keys(fixtureModules).map((modulePath) =>
 )
 
 describe('dev server (npm run dev): all fixture MDX files are routed correctly', () => {
-  let server: ViteDevServer
+  let devProcess: ChildProcess
   let baseUrl: string
 
   beforeAll(async () => {
-    // createServer reads vite.config.ts automatically, mirroring `npm run dev`
-    server = await createServer({
-      server: { port: 0 },
+    await new Promise<void>((resolve, reject) => {
+      devProcess = spawn('npm', ['run', 'dev'], { stdio: 'pipe' })
+
+      devProcess.stdout?.on('data', (data: Buffer) => {
+        const plain = data.toString().replace(/\x1b\[[0-9;]*m/g, '')
+        const match = plain.match(/https?:\/\/localhost:\d+/)
+        if (match) {
+          baseUrl = match[0]
+          resolve()
+        }
+      })
+
+      devProcess.on('error', reject)
     })
-    await server.listen()
-    const addr = server.httpServer?.address()
-    const port = typeof addr === 'object' && addr !== null ? addr.port : 5173
-    baseUrl = `http://localhost:${port}`
   }, 60_000)
 
-  afterAll(async () => {
-    await server.close()
+  afterAll(() => {
+    devProcess?.kill()
   })
 
   for (const route of fixtureRoutes) {
