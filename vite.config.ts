@@ -1,4 +1,4 @@
-import { cpSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs'
+import { cpSync, mkdirSync, readdirSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 import ssg from '@hono/vite-ssg'
 import mdx from '@mdx-js/rollup'
@@ -18,19 +18,21 @@ function devFixturesPlugin(): Plugin {
       const fixturesDir = join(process.cwd(), 'app/fixtures')
       const routesDir = join(process.cwd(), 'app/routes')
 
-      for (const dir of readdirSync(fixturesDir, { withFileTypes: true })) {
-        if (!dir.isDirectory()) continue
-        const srcDir = join(fixturesDir, dir.name)
-        const destDir = join(routesDir, dir.name)
-        for (const file of readdirSync(srcDir)) {
-          const dest = join(destDir, file)
-          if (!existsSync(dest)) {
+      function copyMdxFiles(srcDir: string, destDir: string) {
+        for (const entry of readdirSync(srcDir, { withFileTypes: true })) {
+          const srcPath = join(srcDir, entry.name)
+          const destPath = join(destDir, entry.name)
+          if (entry.isDirectory()) {
+            copyMdxFiles(srcPath, destPath)
+          } else if (entry.name.endsWith('.mdx')) {
             mkdirSync(destDir, { recursive: true })
-            cpSync(join(srcDir, file), dest)
-            copiedPaths.push(dest)
+            cpSync(srcPath, destPath)
+            copiedPaths.push(destPath)
           }
         }
       }
+
+      copyMdxFiles(fixturesDir, routesDir)
 
       server.httpServer?.once('close', () => {
         for (const file of copiedPaths) {

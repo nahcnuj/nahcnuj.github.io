@@ -11,7 +11,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 const fixtureModules = import.meta.glob('../app/fixtures/**/*.mdx')
 const fixtureRoutes = Object.keys(fixtureModules).map((modulePath) =>
-  modulePath.replace(/^\.\.\/app\/fixtures/, '').replace(/\.mdx$/, '')
+  modulePath.replace(/^\.\.\/app\/fixtures/, '').replace(/\.mdx$/, ''),
 )
 
 describe('dev server (npm run dev): all fixture MDX files are routed correctly', () => {
@@ -43,6 +43,10 @@ describe('dev server (npm run dev): all fixture MDX files are routed correctly',
 
   afterAll(() => {
     devProcess?.kill()
+  })
+
+  it('discovers at least one fixture MDX file', () => {
+    expect(fixtureRoutes.length).toBeGreaterThan(0)
   })
 
   for (const route of fixtureRoutes) {
