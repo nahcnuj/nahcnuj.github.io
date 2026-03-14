@@ -23,7 +23,8 @@ describe('dev server (npm run dev): all fixture MDX files are routed correctly',
       devProcess = spawn('npm', ['run', 'dev'], { stdio: 'pipe' })
 
       devProcess.stdout?.on('data', (data: Buffer) => {
-        const plain = data.toString().replace(/\x1b\[[0-9;]*m/g, '')
+        // biome-ignore lint/suspicious/noControlCharactersInRegex: intentional ANSI escape sequence
+        const plain = data.toString().replace(/\u001b\[[0-9;]*m/g, '')
         const match = plain.match(/https?:\/\/localhost:\d+/)
         if (match) {
           resolve(match[0])
