@@ -50,11 +50,6 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
-      - name: Download workspace
-        uses: actions/download-artifact@v8
-        with:
-          name: workspace
-          path: .
       - name: Install Japanese fonts
         run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
       - name: Install dependencies
