@@ -28,23 +28,21 @@ describe('articleMdxRenderer', () => {
     expect(typeof articleMdxRenderer).toBe('function')
   })
 
-  // When frontmatter is absent or invalid, the renderer calls c.notFound()
-  // inside the JSX rendering pipeline.  In bare Hono (without honox), this
-  // causes a rendering error rather than a clean 404, so we only assert that
-  // the response is NOT a successful 200.
-  it('does not return 200 when frontmatter is missing', async () => {
+  // When frontmatter is absent or invalid, the renderer throws HTTPException(404)
+  // so that the JSX serializer is bypassed and a clean 404 response is returned.
+  it('returns 404 when frontmatter is missing', async () => {
     const res = await makeApp().request('/diary/test')
-    expect(res.status).not.toBe(200)
+    expect(res.status).toBe(404)
   })
 
-  it('does not return 200 when published is absent', async () => {
+  it('returns 404 when published is absent', async () => {
     const res = await makeApp({ title: 'Test' }).request('/diary/test')
-    expect(res.status).not.toBe(200)
+    expect(res.status).toBe(404)
   })
 
-  it('does not return 200 when published is invalid', async () => {
+  it('returns 404 when published is invalid', async () => {
     const res = await makeApp({ title: 'Test', published: 'not-a-date' }).request('/diary/test')
-    expect(res.status).not.toBe(200)
+    expect(res.status).toBe(404)
   })
 
   it('returns 200 for a valid article', async () => {
