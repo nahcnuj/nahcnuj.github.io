@@ -63,7 +63,7 @@ export default defineConfig(({ command, mode }) => {
       external: ['@resvg/resvg-js', '@oxc-project/runtime'],
     },
     plugins: [
-      ...(command === 'serve' ? [devFixturesPlugin()] : []),
+      ...(command === 'serve' && mode === 'development' ? [devFixturesPlugin()] : []),
       honox(),
       ssg({ entry }),
       mdx({
