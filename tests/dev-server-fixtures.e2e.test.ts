@@ -19,19 +19,23 @@ describe('dev server (npm run dev): all fixture MDX files are routed correctly',
   let baseUrl: string
 
   beforeAll(async () => {
-    await new Promise<void>((resolve, reject) => {
+    baseUrl = await new Promise<string>((resolve, reject) => {
       devProcess = spawn('npm', ['run', 'dev'], { stdio: 'pipe' })
 
       devProcess.stdout?.on('data', (data: Buffer) => {
         const plain = data.toString().replace(/\x1b\[[0-9;]*m/g, '')
         const match = plain.match(/https?:\/\/localhost:\d+/)
         if (match) {
-          baseUrl = match[0]
-          resolve()
+          resolve(match[0])
         }
       })
 
       devProcess.on('error', reject)
+      devProcess.on('close', (code) => {
+        if (code !== 0) {
+          reject(new Error(`npm run dev exited with code ${code}`))
+        }
+      })
     })
   }, 60_000)
 
