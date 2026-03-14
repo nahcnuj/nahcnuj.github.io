@@ -14,7 +14,6 @@ function devFixturesPlugin(): Plugin {
   const copiedPaths: string[] = []
   return {
     name: 'dev-fixtures',
-    apply: 'serve',
     configureServer(server) {
       const fixturesDir = join(process.cwd(), 'app/fixtures')
       const routesDir = join(process.cwd(), 'app/routes')
@@ -44,7 +43,7 @@ function devFixturesPlugin(): Plugin {
 
 const entry = './app/server.ts'
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ command, mode }) => {
   if (mode === 'client') {
     return {
       plugins: [client()],
@@ -58,7 +57,7 @@ export default defineConfig(({ mode }) => {
       external: ['@resvg/resvg-js', '@oxc-project/runtime'],
     },
     plugins: [
-      devFixturesPlugin(),
+      ...(command === 'serve' ? [devFixturesPlugin()] : []),
       honox(),
       ssg({ entry }),
       mdx({
