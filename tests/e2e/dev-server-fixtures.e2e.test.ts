@@ -9,9 +9,9 @@
 import { type ChildProcess, spawn } from 'node:child_process'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-const fixtureModules = import.meta.glob('../app/fixtures/**/*.mdx')
+const fixtureModules = import.meta.glob('../../app/fixtures/**/*.mdx')
 const fixtureRoutes = Object.keys(fixtureModules).map((modulePath) =>
-  modulePath.replace(/^\.\.\/app\/fixtures/, '').replace(/\.mdx$/, ''),
+  modulePath.replace(/^\.\.\/\.\.\/app\/fixtures/, '').replace(/\.mdx$/, ''),
 )
 
 describe('dev server (npm run dev): all fixture MDX files are routed correctly', () => {
