@@ -62,6 +62,9 @@ export default defineConfig(({ command, mode }) => {
     ssr: {
       external: ['@resvg/resvg-js', '@oxc-project/runtime'],
     },
+    test: {
+      exclude: ['**/node_modules/**', '**/dist/**', '**/tests/e2e/**'],
+    },
     plugins: [
       ...(command === 'serve' && mode === 'development' ? [devFixturesPlugin()] : []),
       honox(),
