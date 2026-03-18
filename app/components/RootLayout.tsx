@@ -52,17 +52,20 @@ const rootStyle = css`
   }
 `
 
+const GA4_MEASUREMENT_ID = 'G-RMH8Q8RB96'
+
 const gtagSnippets = {
   head: html`\
-<link rel="preload" href="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" as="script">
+<link rel="preload" href="https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}" as="script">
 `,
   body: html`\
-<script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async></script>
+<script src="https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}" async></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-RMH8Q8RB96');
+  var debugMode = typeof location !== 'undefined' && new URLSearchParams(location.search).has('_ga_debug');
+  gtag('config', '${GA4_MEASUREMENT_ID}', debugMode ? { 'debug_mode': true } : {});
 </script>
 `,
 } as const
