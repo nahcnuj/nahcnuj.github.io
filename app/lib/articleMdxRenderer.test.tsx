@@ -49,4 +49,19 @@ describe('articleMdxRenderer', () => {
     const res = await makeApp({ title: 'Test', published: '2026-01-01' }).request('/diary/test-article')
     expect(res.status).toBe(200)
   })
+
+  it('includes breadcrumb with section link for an essay article', async () => {
+    const res = await makeApp({ title: 'Test', published: '2026-01-01' }).request('/essays/work/weekday-schedule.html')
+    expect(res.status).toBe(200)
+    const html = await res.text()
+    expect(html).toContain('href="/essays/index.html"')
+    expect(html).toContain('href="/"')
+  })
+
+  it('does not include breadcrumb on index pages', async () => {
+    const res = await makeApp({ title: 'Test', published: '2026-01-01' }).request('/essays/index.html')
+    expect(res.status).toBe(200)
+    const html = await res.text()
+    expect(html).not.toContain('href="/essays/index.html"')
+  })
 })
