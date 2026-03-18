@@ -2,8 +2,6 @@ import { css } from 'hono/css'
 import { html } from 'hono/html'
 import type { ArticleLink } from '../lib/articles'
 import AdMax from './AdMax'
-import Breadcrumb from './Breadcrumb'
-import type { BreadcrumbItem } from './Breadcrumb'
 import RelatedArticles from './RelatedArticles'
 
 const articleClass = css`
@@ -113,7 +111,6 @@ export default function Article({
   children,
   relatedArticles,
   currentPath,
-  breadcrumbItems,
 }: {
   // the JSX renderer gives us a `Child` (string, element, null, …); we
   // only inspect `children` at runtime, so allow any value here.
@@ -121,7 +118,6 @@ export default function Article({
   children?: any
   relatedArticles?: ArticleLink[]
   currentPath?: string
-  breadcrumbItems?: BreadcrumbItem[]
 }) {
   // biome-ignore lint/suspicious/noExplicitAny: internal traversal of JSX tree
   const childArray = children && Array.isArray((children as any).children) ? (children as any).children : undefined
@@ -162,7 +158,12 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
 
   return (
     <article class={articleClass}>
-      {breadcrumbItems && <Breadcrumb items={breadcrumbItems} />}
+      {relatedArticles && relatedArticles.length > 0 && currentPath && (
+        <>
+          <p>他の記事:</p>
+          <RelatedArticles articles={relatedArticles} currentPath={currentPath} maxItems={3} />
+        </>
+      )}
       {children}
       {relatedArticles && relatedArticles.length > 0 && currentPath && (
         <>
