@@ -1,4 +1,5 @@
 import { createClient } from 'honox/client'
+import { setupAdControl } from './lib/adControl'
 import { type GtagFn, setupScrollDepthTracking } from './lib/scrollDepthTracker'
 
 createClient()
@@ -27,4 +28,39 @@ setupScrollDepthTracking({
     maxScrollTop: document.documentElement.scrollHeight - document.documentElement.clientHeight,
   }),
   scheduleFrame: (fn) => requestAnimationFrame(fn),
+})
+
+setupAdControl({
+  getHeaderElement: () => document.querySelector('header'),
+  getHeaderAdElement: () => document.getElementById('header-ad'),
+  getReferrer: () => document.referrer,
+  whenReady: (fn) => {
+    if (document.readyState !== 'loading') {
+      fn()
+    } else {
+      document.addEventListener('DOMContentLoaded', fn, { once: true })
+    }
+  },
+  addScrollListener: (handler) => window.addEventListener('scroll', handler, { passive: true }),
+  getScrollPosition: () => ({
+    scrollTop: window.scrollY || document.documentElement.scrollTop,
+    maxScrollTop: document.documentElement.scrollHeight - document.documentElement.clientHeight,
+  }),
+  scheduleFrame: (fn) => requestAnimationFrame(fn),
+  getFixedAdHeight: () => {
+    // Look for a fixed-position element at the top-left of the viewport injected by the ad network.
+    // Requiring left === 0 excludes the right-side nav which is also fixed at top:0.
+    for (const el of document.body.children) {
+      if (el instanceof HTMLElement) {
+        const style = window.getComputedStyle(el)
+        if (style.position === 'fixed' || style.position === 'sticky') {
+          const rect = el.getBoundingClientRect()
+          if (parseFloat(style.top) === 0 && rect.left === 0) {
+            if (rect.height > 0) return rect.height
+          }
+        }
+      }
+    }
+    return 0
+  },
 })
