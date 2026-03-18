@@ -7,6 +7,9 @@ interface Props {
 
   /** If true, do centering beyond the parent's width. */
   fullWidth?: true
+
+  /** An optional id attribute for the wrapper element. */
+  id?: string
 }
 
 const admaxClass = css`
@@ -53,9 +56,9 @@ const fullWidthClass = css`
  * `AdMax` component shows an 忍者AdMax's advertisement.
  * This component reserves the specified height to minimize Cumulative Layout Shift of Core Web Vitals.
  */
-export default function AdMax({ height, fullWidth, children }: PropsWithChildren<Props>) {
+export default function AdMax({ height, fullWidth, id, children }: PropsWithChildren<Props>) {
   return (
-    <aside class={css`margin-block-start:1.5rem;margin-block-end:2rem;height:${height}`}>
+    <aside id={id} class={css`margin-block-start:1.5rem;margin-block-end:2rem;height:${height}`}>
       <div class={cx(admaxClass, fullWidth && fullWidthClass)}>{children}</div>
     </aside>
   )
