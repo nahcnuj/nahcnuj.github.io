@@ -67,6 +67,37 @@ const gtagSnippets = {
 `,
 } as const
 
+const scrollDepthSnippet = html`\
+<script>
+(function() {
+  var thresholds = [25, 50, 75, 90, 100];
+  var fired = {};
+  var ticking = false;
+  function checkScrollDepth() {
+    var scrollTop = window.scrollY || document.documentElement.scrollTop;
+    var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    if (scrollHeight > 0) {
+      var percent = Math.round(scrollTop / scrollHeight * 100);
+      for (var i = 0; i < thresholds.length; i++) {
+        var threshold = thresholds[i];
+        if (percent >= threshold && !fired[threshold]) {
+          fired[threshold] = true;
+          gtag('event', 'scroll_depth', { percent_scrolled: threshold });
+        }
+      }
+    }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(checkScrollDepth);
+    }
+  }, { passive: true });
+})();
+</script>
+`
+
 const ninjaAccessSnippets = {
   head: html`\
 <link rel="preload" href="https://x4.shinobi.jp/ufo/060401300" as="script">
@@ -121,6 +152,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
 <body>
   ${props.children}
   ${import.meta.env.PROD ? gtagSnippets.body : html`<!-- -->\n`}\
+  ${import.meta.env.PROD ? scrollDepthSnippet : html`<!-- -->\n`}\
   ${import.meta.env.PROD ? ninjaAccessSnippets.body : html`<!-- -->\n`}\
 </body>
 </html>
