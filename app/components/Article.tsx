@@ -158,12 +158,6 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
 
   return (
     <article class={articleClass}>
-      {relatedArticles && relatedArticles.length > 0 && currentPath && (
-        <>
-          <p>他の記事:</p>
-          <RelatedArticles articles={relatedArticles} currentPath={currentPath} maxItems={3} />
-        </>
-      )}
       {children}
       {relatedArticles && relatedArticles.length > 0 && currentPath && (
         <>
