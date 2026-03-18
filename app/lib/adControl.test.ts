@@ -21,6 +21,7 @@ function makeOptions(
     maxScrollTop?: number
     fixedAdHeight?: number
     scheduleFrame?: (fn: () => void) => void
+    whenReady?: (fn: () => void) => void
     header?: FakeHeader | null
     headerAd?: FakeHeaderAd | null
   } = {},
@@ -29,6 +30,8 @@ function makeOptions(
   const headerAd = opts.headerAd !== undefined ? opts.headerAd : makeHeaderAd()
   let scrollHandler: ScrollHandler | undefined
   let frameCallback: (() => void) | undefined
+  // By default, call fn immediately (DOM already ready)
+  const whenReady = opts.whenReady ?? ((fn: () => void) => fn())
 
   const scheduleFrame =
     opts.scheduleFrame ??
@@ -40,6 +43,7 @@ function makeOptions(
     getHeaderElement: () => header as unknown as HTMLElement | null,
     getHeaderAdElement: () => headerAd as unknown as HTMLElement | null,
     getReferrer: () => opts.referrer ?? '',
+    whenReady,
     addScrollListener: (handler) => {
       scrollHandler = handler
     },
@@ -80,6 +84,20 @@ describe('setupAdControl', () => {
 
     it('does not throw on an invalid referrer URL', () => {
       expect(() => makeOptions({ referrer: 'not-a-url' })).not.toThrow()
+    })
+
+    it('does not hide the header ad before whenReady fires', () => {
+      let readyFn: (() => void) | undefined
+      const { headerAd } = makeOptions({
+        referrer: 'https://t.co/abc123',
+        whenReady: (fn) => {
+          readyFn = fn
+        },
+      })
+      // whenReady has not fired yet — ad should still be visible
+      expect(headerAd.hidden).toBe(false)
+      readyFn?.()
+      expect(headerAd.hidden).toBe(true)
     })
   })
 

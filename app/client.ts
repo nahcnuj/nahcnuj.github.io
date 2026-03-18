@@ -34,6 +34,13 @@ setupAdControl({
   getHeaderElement: () => document.querySelector('header'),
   getHeaderAdElement: () => document.getElementById('header-ad'),
   getReferrer: () => document.referrer,
+  whenReady: (fn) => {
+    if (document.readyState !== 'loading') {
+      fn()
+    } else {
+      document.addEventListener('DOMContentLoaded', fn, { once: true })
+    }
+  },
   addScrollListener: (handler) => window.addEventListener('scroll', handler, { passive: true }),
   getScrollPosition: () => ({
     scrollTop: window.scrollY || document.documentElement.scrollTop,
@@ -41,17 +48,16 @@ setupAdControl({
   }),
   scheduleFrame: (fn) => requestAnimationFrame(fn),
   getFixedAdHeight: () => {
-    // Look for a fixed-position element at the top of the viewport injected by the ad network.
-    // Cache the result once a non-zero height is found (ad scripts load asynchronously).
+    // Look for a fixed-position element at the top-left of the viewport injected by the ad network.
+    // Requiring left === 0 excludes the right-side nav which is also fixed at top:0.
     for (const el of document.body.children) {
       if (el instanceof HTMLElement) {
         const style = window.getComputedStyle(el)
-        if (
-          (style.position === 'fixed' || style.position === 'sticky') &&
-          parseFloat(style.top) === 0
-        ) {
-          const height = el.getBoundingClientRect().height
-          if (height > 0) return height
+        if (style.position === 'fixed' || style.position === 'sticky') {
+          const rect = el.getBoundingClientRect()
+          if (parseFloat(style.top) === 0 && rect.left === 0) {
+            if (rect.height > 0) return rect.height
+          }
         }
       }
     }
