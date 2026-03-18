@@ -3,7 +3,7 @@ export type GtagFn = (command: string, name: string, params?: Record<string, unk
 export interface ScrollDepthTrackerOptions {
   gtagFn: GtagFn
   addScrollListener: (handler: () => void) => void
-  getScrollPosition: () => { scrollTop: number; scrollHeight: number }
+  getScrollPosition: () => { scrollTop: number; maxScrollTop: number }
   scheduleFrame: (fn: () => void) => void
 }
 
@@ -18,9 +18,9 @@ export function setupScrollDepthTracking({
   let ticking = false
 
   function checkScrollDepth() {
-    const { scrollTop, scrollHeight } = getScrollPosition()
-    if (scrollHeight > 0) {
-      const percent = Math.round((scrollTop / scrollHeight) * 100)
+    const { scrollTop, maxScrollTop } = getScrollPosition()
+    if (maxScrollTop > 0) {
+      const percent = Math.round((scrollTop / maxScrollTop) * 100)
       for (const threshold of thresholds) {
         if (percent >= threshold && !fired[threshold]) {
           fired[threshold] = true

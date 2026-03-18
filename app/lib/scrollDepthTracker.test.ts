@@ -5,7 +5,7 @@ type ScrollHandler = () => void
 
 function makeOptions(
   scrollTop: number,
-  scrollHeight: number,
+  maxScrollTop: number,
   opts?: { scheduleFrame?: (fn: () => void) => void },
 ) {
   const gtagFn = vi.fn()
@@ -23,7 +23,7 @@ function makeOptions(
     addScrollListener: (handler) => {
       scrollHandler = handler
     },
-    getScrollPosition: () => ({ scrollTop, scrollHeight }),
+    getScrollPosition: () => ({ scrollTop, maxScrollTop }),
     scheduleFrame,
   })
 
@@ -41,8 +41,8 @@ describe('setupScrollDepthTracking', () => {
       [75, 750, 1000],
       [90, 900, 1000],
       [100, 1000, 1000],
-    ])('%i%%: scrollTop=%i, scrollHeight=%i', (threshold, scrollTop, scrollHeight) => {
-      const { gtagFn, triggerScroll, runFrame } = makeOptions(scrollTop, scrollHeight)
+    ])('%i%%: scrollTop=%i, maxScrollTop=%i', (threshold, scrollTop, maxScrollTop) => {
+      const { gtagFn, triggerScroll, runFrame } = makeOptions(scrollTop, maxScrollTop)
       triggerScroll()
       runFrame()
       expect(gtagFn).toHaveBeenCalledWith('event', 'scroll_depth', { percent_scrolled: threshold })
@@ -81,7 +81,7 @@ describe('setupScrollDepthTracking', () => {
     expect(calls).toHaveLength(1)
   })
 
-  it('does not fire when scrollHeight is 0 (non-scrollable page)', () => {
+  it('does not fire when maxScrollTop is 0 (non-scrollable page)', () => {
     const { gtagFn, triggerScroll, runFrame } = makeOptions(0, 0)
     triggerScroll()
     runFrame()
@@ -131,7 +131,7 @@ describe('setupScrollDepthTracking', () => {
     setupScrollDepthTracking({
       gtagFn,
       addScrollListener,
-      getScrollPosition: () => ({ scrollTop: 0, scrollHeight: 1000 }),
+      getScrollPosition: () => ({ scrollTop: 0, maxScrollTop: 1000 }),
       scheduleFrame: vi.fn(),
     })
     expect(addScrollListener).toHaveBeenCalledOnce()
@@ -150,7 +150,7 @@ describe('setupScrollDepthTracking', () => {
         addScrollListener: (handler) => {
           scrollHandler = handler
         },
-        getScrollPosition: () => ({ scrollTop: currentScrollTop, scrollHeight: 1000 }),
+        getScrollPosition: () => ({ scrollTop: currentScrollTop, maxScrollTop: 1000 }),
         scheduleFrame: (fn) => {
           frameCallback = fn
         },
