@@ -31,7 +31,7 @@
     "vite": "^8.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.7",
+    "@biomejs/biome": "2.4.8",
     "@types/katex": "^0.16.8",
     "@types/node": "^24.12.0",
     "textlint": "^15.5.2",
