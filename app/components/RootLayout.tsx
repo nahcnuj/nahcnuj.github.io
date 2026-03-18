@@ -64,7 +64,7 @@ const gtagSnippets = {
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  var debugMode = typeof location !== 'undefined' && new URLSearchParams(location.search).has('_ga_debug');
+  const debugMode = typeof location !== 'undefined' && new URLSearchParams(location.search).get('_ga_debug') === '1';
   gtag('config', '${GA4_MEASUREMENT_ID}', debugMode ? { 'debug_mode': true } : {});
 </script>
 `,

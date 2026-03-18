@@ -31,7 +31,7 @@ description: "開発サーバーでスクロール深度トラッキングを確
 GA4 のリアルタイムレポート画面では `scroll_depth` のようなカスタムイベントは「イベント数（イベント名別）」に表示されません。
 リアルタイムで確認するには GA4 の **DebugView** 機能を使います。
 
-1. URL に `?_ga_debug=1` を付けてページを開く（例: `https://www.nahcnuj.work/essays/...?_ga_debug=1`）
+1. URL に `_ga_debug=1` をクエリパラメータとして付けてページを開く（例: `https://www.nahcnuj.work/essays/...?_ga_debug=1`、すでに他のクエリパラメータがある場合は `&_ga_debug=1`）
 2. GA4 管理画面の「管理」→「DebugView」を開く
 3. ページをスクロールする
 4. DebugView のタイムライン上に `scroll_depth` イベントがリアルタイムで表示されることを確認する
