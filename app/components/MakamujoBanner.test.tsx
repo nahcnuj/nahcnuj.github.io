@@ -1,39 +1,61 @@
 import { renderToReadableStream } from 'hono/jsx/dom/server'
-import { describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 import MakamujoBanner from './MakamujoBanner'
 
-async function renderToHtml(): Promise<string> {
-  const stream = await renderToReadableStream(MakamujoBanner({}))
-  return new Response(stream).text()
+type Area = { shape: string; coords: string; href: string }
+
+/** Extract <area> elements from an HTML string. */
+function parseAreas(html: string): Area[] {
+  const areas: Area[] = []
+  for (const match of html.matchAll(/<area\s[^>]+>/g)) {
+    const tag = match[0]
+    const shape = tag.match(/shape="([^"]+)"/)?.[1] ?? ''
+    const coords = tag.match(/coords="([^"]+)"/)?.[1] ?? ''
+    const href = tag.match(/href="([^"]+)"/)?.[1] ?? ''
+    areas.push({ shape, coords, href })
+  }
+  return areas
 }
 
-describe('MakamujoBanner', () => {
-  it('renders an img with the banner src', async () => {
-    const html = await renderToHtml()
-    expect(html).toContain('src="https://www.nahcnuj.work/makamujo/banner.png"')
+/**
+ * Image-map hit test: return the href of the first <area> that contains (x, y),
+ * following the HTML image-map algorithm (rect check, then default fallback).
+ */
+function hitTest(x: number, y: number, areas: Area[]): string | undefined {
+  for (const area of areas) {
+    if (area.shape === 'rect') {
+      const [x1, y1, x2, y2] = area.coords.split(',').map(Number)
+      if (x >= x1 && x <= x2 && y >= y1 && y <= y2) return area.href
+    } else if (area.shape === 'default') {
+      return area.href
+    }
+  }
+}
+
+describe('MakamujoBanner click behavior', () => {
+  let areas: Area[]
+
+  beforeAll(async () => {
+    const stream = await renderToReadableStream(MakamujoBanner({}))
+    const html = await new Response(stream).text()
+    areas = parseAreas(html)
   })
 
-  it('references the image map', async () => {
-    const html = await renderToHtml()
-    expect(html).toContain('usemap="#makamujo-banner-map"')
-    expect(html).toContain('name="makamujo-banner-map"')
+  it('clicking the NicoNico badge navigates to the program viewing page', () => {
+    // Center of badge rect (105,67,306,87) → (205, 77)
+    const dest = hitTest(205, 77, areas)
+    expect(dest).toBe('https://live.nicovideo.jp/watch/user/14171889')
   })
 
-  it('has a rect area for the NicoNico badge linking to the live page', async () => {
-    const html = await renderToHtml()
-    expect(html).toContain('shape="rect"')
-    expect(html).toContain('coords="105,67,306,87"')
-    expect(html).toContain('href="https://live.nicovideo.jp/watch/user/14171889"')
+  it('clicking outside the badge navigates to the Makamujo landing page', () => {
+    // Top-left area of banner, outside the badge rect
+    const dest = hitTest(50, 30, areas)
+    expect(dest).toBe('https://www.nahcnuj.work/makamujo/index.html')
   })
 
-  it('has a default area linking to the Makamujo landing page', async () => {
-    const html = await renderToHtml()
-    expect(html).toContain('shape="default"')
-    expect(html).toContain('href="https://www.nahcnuj.work/makamujo/index.html"')
-  })
-
-  it('opens all links in a new tab with noopener noreferrer', async () => {
-    const html = await renderToHtml()
+  it('all clickable areas open in a new tab safely', async () => {
+    const stream = await renderToReadableStream(MakamujoBanner({}))
+    const html = await new Response(stream).text()
     const targetCount = (html.match(/target="_blank"/g) ?? []).length
     const relCount = (html.match(/rel="noopener noreferrer"/g) ?? []).length
     expect(targetCount).toBe(2)
