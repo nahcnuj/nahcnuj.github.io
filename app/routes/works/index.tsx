@@ -29,8 +29,9 @@ app.get('/index.html', (c: Context) => {
   return c.render(
     <>
       <h1>Works</h1>
-      <MakamujoBanner />
       <p>私が制作したモノの一覧です。</p>
+
+      <MakamujoBanner />
 
       <WorkList works={works} />
     </>,
