@@ -26,6 +26,7 @@ export default function MakamujoBanner() {
           target="_blank"
           rel="noopener noreferrer"
           alt="ニコニコ生放送で配信中"
+          data-gtag-event="click_makamujo_nicovideo"
         />
         <area
           shape="default"
@@ -33,6 +34,7 @@ export default function MakamujoBanner() {
           target="_blank"
           rel="noopener noreferrer"
           alt="馬可無序プロジェクト"
+          data-gtag-event="click_makamujo_landing"
         />
       </map>
     </div>
