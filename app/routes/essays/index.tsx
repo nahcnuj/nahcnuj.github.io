@@ -1,6 +1,7 @@
 import { type Context, Hono } from 'hono'
 import { redirectTo } from '../../../renderers'
 import { articlesByDirectory } from '../../lib/articles'
+import MakamujoBanner from '../../components/MakamujoBanner'
 import EssayList from '../../islands/EssayList'
 
 const app = new Hono()
@@ -14,6 +15,7 @@ app.get('/index.html', (c: Context) => {
   return c.render(
     <>
       <h1>エッセイ</h1>
+      <MakamujoBanner />
       <p>何かしらに言及したくなったときに取り留めもないままに書き連ねます。</p>
       <EssayList essays={essays} />
     </>,
