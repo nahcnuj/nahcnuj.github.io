@@ -23,6 +23,7 @@ describe('MakamujoBanner E2E: click navigation', () => {
       devProcess = spawn('npm', ['run', 'dev'], {
         stdio: 'pipe',
         env: { ...process.env, NO_COLOR: '1' },
+        detached: true, // new process group so we can kill npm + vite together
       })
 
       devProcess.stdout?.on('data', (data: Buffer) => {
@@ -52,14 +53,21 @@ describe('MakamujoBanner E2E: click navigation', () => {
     await browser?.close()
     if (devProcess) {
       await new Promise<void>((resolve) => {
+        const pid = devProcess.pid
         const killTimeout = setTimeout(() => {
-          devProcess.kill('SIGKILL')
+          try {
+            if (pid) process.kill(-pid, 'SIGKILL')
+            else devProcess.kill('SIGKILL')
+          } catch { /* already dead */ }
         }, 5_000)
         devProcess.on('close', () => {
           clearTimeout(killTimeout)
           resolve()
         })
-        devProcess.kill('SIGTERM')
+        try {
+          if (pid) process.kill(-pid, 'SIGTERM')
+          else devProcess.kill('SIGTERM')
+        } catch { /* already dead */ }
       })
     }
   }, 30_000)
