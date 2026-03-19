@@ -18,6 +18,7 @@ describe('MakamujoBanner E2E: click navigation', () => {
   beforeAll(async () => {
     baseUrl = await new Promise<string>((resolve, reject) => {
       let resolved = false
+      let stderr = ''
 
       devProcess = spawn('npm', ['run', 'dev'], {
         stdio: 'pipe',
@@ -32,10 +33,14 @@ describe('MakamujoBanner E2E: click navigation', () => {
         }
       })
 
+      devProcess.stderr?.on('data', (data: Buffer) => {
+        stderr += data.toString()
+      })
+
       devProcess.on('error', reject)
       devProcess.on('close', (code) => {
-        if (!resolved && code !== 0) {
-          reject(new Error(`npm run dev exited with code ${code}`))
+        if (!resolved) {
+          reject(new Error(`npm run dev exited with code ${code} before URL was detected\n${stderr}`))
         }
       })
     })
@@ -45,7 +50,18 @@ describe('MakamujoBanner E2E: click navigation', () => {
 
   afterAll(async () => {
     await browser?.close()
-    devProcess?.kill()
+    if (devProcess) {
+      await new Promise<void>((resolve) => {
+        const killTimeout = setTimeout(() => {
+          devProcess.kill('SIGKILL')
+        }, 5_000)
+        devProcess.on('close', () => {
+          clearTimeout(killTimeout)
+          resolve()
+        })
+        devProcess.kill('SIGTERM')
+      })
+    }
   })
 
   /**
