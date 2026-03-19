@@ -160,9 +160,9 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
   return (
     <article class={articleClass}>
       {children}
+      <MakamujoBanner />
       {relatedArticles && relatedArticles.length > 0 && currentPath && (
         <>
-          <MakamujoBanner />
           <h2>他の記事</h2>
           <RelatedArticles articles={relatedArticles} currentPath={currentPath} />
         </>
