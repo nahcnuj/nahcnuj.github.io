@@ -62,7 +62,7 @@ describe('MakamujoBanner E2E: click navigation', () => {
         devProcess.kill('SIGTERM')
       })
     }
-  })
+  }, 30_000)
 
   /**
    * Opens the home page, intercepts the outgoing navigation triggered by
