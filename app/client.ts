@@ -1,5 +1,6 @@
 import { createClient } from 'honox/client'
 import { setupAdControl } from './lib/adControl'
+import { setupMakamujoBannerTracking } from './lib/makamujoBannerTracker'
 import { type GtagFn, setupScrollDepthTracking } from './lib/scrollDepthTracker'
 
 createClient()
@@ -17,7 +18,7 @@ const gtagFn: GtagFn = import.meta.env.PROD
       }
     }
   : (command, name, params) => {
-      console.log('[scroll_depth]', command, name, params)
+      console.log('[gtag]', command, name, params)
     }
 
 setupScrollDepthTracking({
@@ -63,4 +64,20 @@ setupAdControl({
     }
     return 0
   },
+})
+
+const whenReady = (fn: () => void) => {
+  if (document.readyState !== 'loading') {
+    fn()
+  } else {
+    document.addEventListener('DOMContentLoaded', fn, { once: true })
+  }
+}
+
+setupMakamujoBannerTracking({
+  gtagFn,
+  whenReady,
+  getAreaElements: () => Array.from(document.querySelectorAll<HTMLAreaElement>('area[data-gtag-event]')),
+  navigate: (href) => window.open(href, '_blank', 'noopener,noreferrer'),
+  maxDelayMs: 500,
 })

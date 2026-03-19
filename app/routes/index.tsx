@@ -5,6 +5,7 @@ import Headline from '../components/Headline'
 import Icon from '../components/Icon'
 import LinkRow from '../components/LinkRow'
 import LinkRowItem from '../components/LinkRowItem'
+import MakamujoBanner from '../components/MakamujoBanner'
 import RelatedArticles from '../components/RelatedArticles'
 
 function _pickRandom<T>(arr: T[]): T | undefined {
@@ -113,6 +114,7 @@ export default createRoute((c) => {
           </div>
         </div>
       </div>
+      <MakamujoBanner />
       <LinkRow>
         <LinkRowItem>
           <a href="/diary/index.html">

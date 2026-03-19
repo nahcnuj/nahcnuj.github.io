@@ -3,6 +3,7 @@
 import { type Context, Hono } from 'hono'
 import { redirectTo } from '../../../renderers'
 import { articlesByDirectory } from '../../lib/articles'
+import MakamujoBanner from '../../components/MakamujoBanner'
 import DiaryList from '../../islands/DiaryList'
 
 const app = new Hono()
@@ -16,6 +17,7 @@ app.get('/index.html', (c: Context) => {
   return c.render(
     <>
       <h1>日記</h1>
+      <MakamujoBanner />
       <DiaryList diaries={diaries} />
     </>,
     { frontmatter: { title, description, published: '2020-01-01' } },

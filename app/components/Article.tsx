@@ -2,6 +2,7 @@ import { css } from 'hono/css'
 import { html } from 'hono/html'
 import type { ArticleLink } from '../lib/articles'
 import AdMax from './AdMax'
+import MakamujoBanner from './MakamujoBanner'
 import RelatedArticles from './RelatedArticles'
 
 const articleClass = css`
@@ -156,9 +157,12 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
     children.children = newChildren
   }
 
+  const isIndexPage = currentPath?.endsWith('/index.html') ?? false
+
   return (
     <article class={articleClass}>
       {children}
+      {!isIndexPage && <MakamujoBanner />}
       {relatedArticles && relatedArticles.length > 0 && currentPath && (
         <>
           <h2>他の記事</h2>

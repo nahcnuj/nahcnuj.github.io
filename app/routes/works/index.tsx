@@ -1,4 +1,5 @@
 import { type Context, Hono } from 'hono'
+import MakamujoBanner from '../../components/MakamujoBanner'
 import WorkList from '../../components/WorkList'
 
 interface Frontmatter {
@@ -29,6 +30,8 @@ app.get('/index.html', (c: Context) => {
     <>
       <h1>Works</h1>
       <p>私が制作したモノの一覧です。</p>
+
+      <MakamujoBanner />
 
       <WorkList works={works} />
     </>,
