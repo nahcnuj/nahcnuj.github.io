@@ -1,6 +1,6 @@
 /**
  * E2E tests for MakamujoBanner: verify that clicking the banner image-map
- * areas navigates to the correct URLs.
+ * areas navigates to the correct URLs and fires the correct GA events.
  *
  * The banner has two clickable zones:
  *   - The "ニコニコ生放送で配信中" badge (rect 105,67,306,87) → NicoNico live page
@@ -73,12 +73,11 @@ describe('MakamujoBanner E2E: click navigation', () => {
   }, 30_000)
 
   /**
-   * Opens the home page, intercepts the outgoing navigation triggered by
-   * clicking at (x, y) relative to the banner image, and returns the target URL.
-   * External resource and navigation requests are blocked to prevent loading
-   * third-party sites during tests.
+   * Opens the home page, clicks at (x, y) relative to the banner image, and
+   * returns both the intercepted outgoing navigation URL and the GA event name
+   * that was fired (captured from the dev-mode `console.log('[gtag]', ...)` call).
    */
-  async function clickBannerAt(x: number, y: number): Promise<string> {
+  async function clickBannerAt(x: number, y: number): Promise<{ url: string; gtagEventName: string }> {
     const context = await browser.newContext()
 
     const navigationUrlPromise = new Promise<string>((resolve) => {
@@ -96,6 +95,30 @@ describe('MakamujoBanner E2E: click navigation', () => {
     })
 
     const page = await context.newPage()
+
+    // In dev mode, setupMakamujoBannerTracking calls
+    //   console.log('[gtag]', 'event', eventName, { event_callback, event_timeout })
+    // Capture it by inspecting the console message arguments.
+    const gtagEventNamePromise = new Promise<string>((resolve) => {
+      page.on('console', (msg) => {
+        if (msg.type() !== 'log') return
+        const args = msg.args()
+        if (args.length < 3) return
+        void (async () => {
+          try {
+            const [prefix, command, eventName] = await Promise.all([
+              args[0].jsonValue(),
+              args[1].jsonValue(),
+              args[2].jsonValue(),
+            ])
+            if (prefix === '[gtag]' && command === 'event' && typeof eventName === 'string') {
+              resolve(eventName)
+            }
+          } catch { /* ignore serialization errors */ }
+        })()
+      })
+    })
+
     await page.goto(baseUrl)
 
     const img = page.locator('img[usemap="#makamujo-banner-map"]')
@@ -105,20 +128,24 @@ describe('MakamujoBanner E2E: click navigation', () => {
     // Click at (x, y) relative to the top-left corner of the banner image
     await page.mouse.click(box.x + x, box.y + y)
 
-    const url = await navigationUrlPromise
+    // The gtag console.log fires synchronously on click; navigation fires 500 ms
+    // later (fallback timeout). Both promises should resolve before the test timeout.
+    const [url, gtagEventName] = await Promise.all([navigationUrlPromise, gtagEventNamePromise])
     await context.close()
-    return url
+    return { url, gtagEventName }
   }
 
-  it('clicking the NicoNico badge navigates to the program viewing page', async () => {
+  it('clicking the NicoNico badge navigates to the program viewing page and fires click_makamujo_nicovideo GA event', async () => {
     // The badge occupies rect (105,67)-(306,87); its center is (205, 77)
-    const url = await clickBannerAt(205, 77)
+    const { url, gtagEventName } = await clickBannerAt(205, 77)
     expect(url).toBe('https://live.nicovideo.jp/watch/user/14171889')
+    expect(gtagEventName).toBe('click_makamujo_nicovideo')
   }, 30_000)
 
-  it('clicking outside the badge navigates to the Makamujo landing page', async () => {
+  it('clicking outside the badge navigates to the Makamujo landing page and fires click_makamujo_landing GA event', async () => {
     // (50, 30) is in the top-left area of the banner, clearly outside the badge rect
-    const url = await clickBannerAt(50, 30)
+    const { url, gtagEventName } = await clickBannerAt(50, 30)
     expect(url).toBe('https://www.nahcnuj.work/makamujo/index.html')
+    expect(gtagEventName).toBe('click_makamujo_landing')
   }, 30_000)
 })
