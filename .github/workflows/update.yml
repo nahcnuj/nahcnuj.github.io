@@ -45,7 +45,7 @@ jobs:
           path: dist
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4.0.5
+        uses: actions/deploy-pages@v5.0.0
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:
