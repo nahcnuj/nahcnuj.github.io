@@ -97,6 +97,11 @@ const OpenGraph = ({ url, image }: OpenGraphData) =>
     </>
   ) : null
 
+  const adsenseSnippet = html`\
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1645913691678081"
+    crossorigin="anonymous"></script>
+  `
+
 const Layout = (props: PropsWithChildren<Meta>) => html`
 <html lang="ja">
 <head prefix="og: http://ogp.me/ns#">
@@ -115,6 +120,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   <link rel="alternate" type="application/rss+xml" title="nahcnuj.work" href="/feed.xml">
   ${import.meta.env.PROD ? gtagSnippets.head : html`<!-- -->\n`}\
   ${import.meta.env.PROD ? ninjaAccessSnippets.head : html`<!-- -->\n`}\
+  ${import.meta.env.PROD ? adsenseSnippet : html`<!-- -->\n`}\
   ${props.headInjection}\
   ${
     props.useMath &&
