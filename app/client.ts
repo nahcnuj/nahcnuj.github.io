@@ -50,7 +50,7 @@ setupAdControl({
   scheduleFrame: (fn) => requestAnimationFrame(fn),
   getFixedAdHeight: () => {
     // Look for a fixed-position element at the top-left of the viewport injected by the ad network.
-    // Requiring left === 0 excludes the right-side nav which is also fixed at top:0.
+    // Requiring left === 0 excludes any fixed/sticky element anchored to the right side of the viewport.
     for (const el of document.body.children) {
       if (el instanceof HTMLElement) {
         const style = window.getComputedStyle(el)

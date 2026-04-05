@@ -10,21 +10,51 @@ import SideNav from '../components/SideNav'
 import { SITE_URL } from '../lib/site'
 import type { Frontmatter } from '../types'
 
+const wrapperClass = css`
+  @media screen and (min-width: 1200px) {
+    display: flex;
+    align-items: flex-start;
+  }
+`
+
 const mainClass = css`
   @media screen and (min-width: 1200px) {
+    flex: 0 0 1000px;
     max-width: 1000px;
   }
 `
 
-const sideClass = css`
-  min-width: 180px;
-  width: calc(100vw - 1020px);
-  height: 100%;
+const leftSideClass = css`
+  @media screen and (max-width: 1359px) {
+    display: none;
+  }
+
+  @media screen and (min-width: 1360px) {
+    flex: 1 1 0;
+    min-width: 180px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+  }
+`
+
+const rightSideClass = css`
+  @media screen and (max-width: 1199px) {
+    display: none;
+  }
 
   @media screen and (min-width: 1200px) {
-    position: fixed;
+    min-width: 180px;
+    width: calc(100vw - 1020px);
+    flex: 0 0 auto;
+    position: sticky;
     top: 0;
-    right: 0;
+    height: 100vh;
 
     display: flex;
     flex-direction: column;
@@ -32,9 +62,9 @@ const sideClass = css`
     justify-content: space-between;
   }
 
-  @media screen and (max-width: 1199px) {
-    height: 0;
-    overflow: hidden;
+  @media screen and (min-width: 1360px) {
+    flex: 1 1 0;
+    width: auto;
   }
 `
 
@@ -71,20 +101,30 @@ export default jsxRenderer(
 <link rel="preload" href="https://adm.shinobi.jp/s/ecef110ee254439d10de8dc383b54066" as="script">
 `}
       >
-        <main class={mainClass}>
-          {(props.showHeader ?? true) && <RootHeader />}
-          {(props.showHeaderAd ?? true) && (
-            <AdMax id="header-ad" height="100px" fullWidth>
+        <div class={wrapperClass}>
+          <div class={leftSideClass}>
+            <aside class={css`height:600px;text-align:center`}>
               {html`\
+<!-- admax -->
+<script src="https://adm.shinobi.jp/s/ecef110ee254439d10de8dc383b54066"></script>
+<!-- admax -->
+`}
+            </aside>
+          </div>
+          <main class={mainClass}>
+            {(props.showHeader ?? true) && <RootHeader />}
+            {(props.showHeaderAd ?? true) && (
+              <AdMax id="header-ad" height="100px" fullWidth>
+                {html`\
 <!-- admax -->
 <script src="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d" defer></script>
 <!-- admax -->
 `}
-            </AdMax>
-          )}
-          {children}
-          <AdMax height="100px" fullWidth>
-            {html`\
+              </AdMax>
+            )}
+            {children}
+            <AdMax height="100px" fullWidth>
+              {html`\
 <!-- admax -->
 <div class="admax-switch" data-admax-id="11a058af25dce0b8884cd189862eed63" style="display:inline-block;"></div>
 <script type="text/javascript">
@@ -92,20 +132,21 @@ export default jsxRenderer(
 <script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>
 <!-- admax -->
 `}
-          </AdMax>
-          {(props.showFooter ?? true) && <RootFooter />}
-        </main>
-        <div class={sideClass}>
-          <div class={css`height:calc(100vh - 600px - 20px);overflow-y:auto`}>
-            <SideNav>{children}</SideNav>
-          </div>
-          <aside class={css`height:600px;text-align:center`}>
-            {html`\
+            </AdMax>
+            {(props.showFooter ?? true) && <RootFooter />}
+          </main>
+          <div class={rightSideClass}>
+            <div class={css`height:calc(100vh - 600px - 20px);overflow-y:auto`}>
+              <SideNav>{children}</SideNav>
+            </div>
+            <aside class={css`height:600px;text-align:center`}>
+              {html`\
 <!-- admax -->
 <script src="https://adm.shinobi.jp/s/ecef110ee254439d10de8dc383b54066"></script>
 <!-- admax -->
 `}
-          </aside>
+            </aside>
+          </div>
         </div>
       </RootLayout>
     )
