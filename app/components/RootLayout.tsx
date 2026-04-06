@@ -107,6 +107,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
 <head prefix="og: http://ogp.me/ns#">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="${THEME_MAIN_COLOR}">
   <title>${props.title}</title>
   ${props.description ? html`<meta name="description" content="${props.description}">` : html`<!-- -->`}
   <meta property="og:type" content="website">
