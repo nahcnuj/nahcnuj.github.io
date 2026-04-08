@@ -10,7 +10,6 @@ interface Article {
 
 interface RelatedArticlesProps {
   articles: Article[]
-  currentPath: string
 }
 
 const relatedArticlesClass = css`
@@ -43,18 +42,15 @@ const relatedArticlesClass = css`
   }
 `
 
-export default function RelatedArticles({ articles, currentPath }: RelatedArticlesProps) {
-  // 現在のページを除外
-  const selectedArticles = articles.filter((article) => article.path !== currentPath)
-
-  if (selectedArticles.length === 0) {
+export default function RelatedArticles({ articles }: RelatedArticlesProps) {
+  if (articles.length === 0) {
     return null
   }
 
   return (
     <div class={relatedArticlesClass}>
       <ul>
-        {selectedArticles.map((article) => (
+        {articles.map((article) => (
           <li key={article.path}>
             {article.icon ? <Icon>{article.icon}</Icon> : null}
             <a href={article.path}>{article.title}</a>

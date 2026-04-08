@@ -51,7 +51,7 @@ describe('RelatedArticles', () => {
       { path: '/a-first', title: 'A First' },
       { path: '/m-middle', title: 'M Middle' },
     ]
-    const node = RelatedArticles({ articles, currentPath: '/x' })
+    const node = RelatedArticles({ articles })
     const stream = await renderToReadableStream(node)
     const html = await new Response(stream).text()
     const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
@@ -59,23 +59,15 @@ describe('RelatedArticles', () => {
   })
 
   it('displays all provided articles', async () => {
-    const node = RelatedArticles({ articles: FIXTURE_ARTICLES, currentPath: '/x' })
+    const node = RelatedArticles({ articles: FIXTURE_ARTICLES })
     const stream = await renderToReadableStream(node)
     const html = await new Response(stream).text()
     const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
     expect(hrefs).toHaveLength(FIXTURE_ARTICLES.length)
   })
 
-  it('excludes currentPath', async () => {
-    const node = RelatedArticles({ articles: FIXTURE_ARTICLES, currentPath: '/diary/2026-02-09' })
-    const stream = await renderToReadableStream(node)
-    const html = await new Response(stream).text()
-    expect(html).not.toContain('href="/diary/2026-02-09"')
-  })
-
-  it('returns null when no related articles', () => {
-    const only = [{ path: '/single', title: 'Single' }]
-    const res = RelatedArticles({ articles: only, currentPath: '/single' })
+  it('returns null when no articles', () => {
+    const res = RelatedArticles({ articles: [] })
     expect(res).toBeNull()
   })
 })

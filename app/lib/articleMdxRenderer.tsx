@@ -37,7 +37,9 @@ export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }
   const getRelatedArticlesForDirectory = (key?: keyof typeof articlesByDirectory): ArticleLink[] | undefined => {
     if (!key) return undefined
     const icon = DIRECTORY_ICON[key]
-    const all = articlesByDirectory[key].map((a) => ({ ...a, icon }))
+    const all = articlesByDirectory[key]
+      .filter((a) => a.path !== currentPath)
+      .map((a) => ({ ...a, icon }))
     return pickRandomN(all, 5).sort((a, b) => a.path.localeCompare(b.path))
   }
 

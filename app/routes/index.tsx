@@ -112,7 +112,6 @@ export default createRoute((c) => {
       {/* トップページから個別ページへの回遊を促すサンプルリンク（ビルド時固定） */}
       <RelatedArticles
         articles={sampleLinks.map((l) => ({ path: l.href, title: l.label, icon: l.icon }))}
-        currentPath="/index.html"
       />
     </div>,
     { frontmatter: { title, description, showHeaderAd: false } },
