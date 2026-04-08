@@ -46,18 +46,20 @@ const relatedArticlesClass = css`
   }
 `
 
-export default function RelatedArticles({ articles, currentPath, maxItems = 5, preserveOrder = false }: RelatedArticlesProps) {
+export default function RelatedArticles({ articles, currentPath, maxItems, preserveOrder = false }: RelatedArticlesProps) {
   // 現在のページを除外
   const filteredArticles = articles.filter((article) => article.path !== currentPath)
+
+  const limit = maxItems ?? filteredArticles.length
 
   let selectedArticles: Article[]
   if (preserveOrder) {
     // 渡された順序を維持して maxItems 件に絞る
-    selectedArticles = filteredArticles.slice(0, maxItems)
+    selectedArticles = filteredArticles.slice(0, limit)
   } else {
     // ランダムに記事を選択
     const shuffled = [...filteredArticles].sort(() => Math.random() - 0.5)
-    selectedArticles = shuffled.slice(0, maxItems).sort((a, b) => a.path.localeCompare(b.path))
+    selectedArticles = shuffled.slice(0, limit).sort((a, b) => a.path.localeCompare(b.path))
   }
 
   if (selectedArticles.length === 0) {

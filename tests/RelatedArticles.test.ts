@@ -77,4 +77,45 @@ describe('RelatedArticles', () => {
     const res = RelatedArticles({ articles: only, currentPath: '/single' })
     expect(res).toBeNull()
   })
+
+  it('shows all articles when maxItems is omitted', async () => {
+    const node = RelatedArticles({ articles: FIXTURE_ARTICLES, currentPath: '/x' })
+    const stream = await renderToReadableStream(node)
+    const html = await new Response(stream).text()
+    const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
+    expect(hrefs).toHaveLength(FIXTURE_ARTICLES.length)
+  })
+
+  describe('preserveOrder', () => {
+    const orderedArticles = [
+      { path: '/z-last', title: 'Z Last' },
+      { path: '/a-first', title: 'A First' },
+      { path: '/m-middle', title: 'M Middle' },
+    ]
+
+    it('preserves input order when preserveOrder is true', async () => {
+      const node = RelatedArticles({ articles: orderedArticles, currentPath: '/x', preserveOrder: true })
+      const stream = await renderToReadableStream(node)
+      const html = await new Response(stream).text()
+      const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
+      expect(hrefs).toEqual(['/z-last', '/a-first', '/m-middle'])
+    })
+
+    it('slices to maxItems while preserving order', async () => {
+      const node = RelatedArticles({ articles: orderedArticles, currentPath: '/x', maxItems: 2, preserveOrder: true })
+      const stream = await renderToReadableStream(node)
+      const html = await new Response(stream).text()
+      const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
+      expect(hrefs).toHaveLength(2)
+      expect(hrefs).toEqual(['/z-last', '/a-first'])
+    })
+
+    it('excludes currentPath while preserving order of remaining articles', async () => {
+      const node = RelatedArticles({ articles: orderedArticles, currentPath: '/a-first', preserveOrder: true })
+      const stream = await renderToReadableStream(node)
+      const html = await new Response(stream).text()
+      const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
+      expect(hrefs).toEqual(['/z-last', '/m-middle'])
+    })
+  })
 })
