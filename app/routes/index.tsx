@@ -113,7 +113,6 @@ export default createRoute((c) => {
       <RelatedArticles
         articles={sampleLinks.map((l) => ({ path: l.href, title: l.label, icon: l.icon }))}
         currentPath="/index.html"
-        preserveOrder={true}
       />
     </div>,
     { frontmatter: { title, description, showHeaderAd: false } },

@@ -45,28 +45,29 @@ function loadFixtureArticles() {
 const FIXTURE_ARTICLES = loadFixtureArticles()
 
 describe('RelatedArticles', () => {
-  it('selects random items then displays them sorted by path', async () => {
-    const node = RelatedArticles({ articles: FIXTURE_ARTICLES, currentPath: '/x', maxItems: 2 })
-    // Render to HTML string using Hono server readable stream
+  it('displays articles in the given order', async () => {
+    const articles = [
+      { path: '/z-last', title: 'Z Last' },
+      { path: '/a-first', title: 'A First' },
+      { path: '/m-middle', title: 'M Middle' },
+    ]
+    const node = RelatedArticles({ articles, currentPath: '/x' })
     const stream = await renderToReadableStream(node)
     const html = await new Response(stream).text()
-
     const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
+    expect(hrefs).toEqual(['/z-last', '/a-first', '/m-middle'])
+  })
 
-    // should have maxItems links
-    expect(hrefs).toHaveLength(2)
-
-    // selected items must be subset of fixture paths
-    const fixturePaths = FIXTURE_ARTICLES.map((a) => a.path)
-    expect(hrefs.every((h) => fixturePaths.includes(h))).toBe(true)
-
-    // displayed order must be lexicographic by path
-    const sorted = [...hrefs].sort((a, b) => a.localeCompare(b))
-    expect(hrefs).toEqual(sorted)
+  it('displays all provided articles', async () => {
+    const node = RelatedArticles({ articles: FIXTURE_ARTICLES, currentPath: '/x' })
+    const stream = await renderToReadableStream(node)
+    const html = await new Response(stream).text()
+    const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
+    expect(hrefs).toHaveLength(FIXTURE_ARTICLES.length)
   })
 
   it('excludes currentPath', async () => {
-    const node = RelatedArticles({ articles: FIXTURE_ARTICLES, currentPath: '/diary/2026-02-09', maxItems: 3 })
+    const node = RelatedArticles({ articles: FIXTURE_ARTICLES, currentPath: '/diary/2026-02-09' })
     const stream = await renderToReadableStream(node)
     const html = await new Response(stream).text()
     expect(html).not.toContain('href="/diary/2026-02-09"')
@@ -76,46 +77,5 @@ describe('RelatedArticles', () => {
     const only = [{ path: '/single', title: 'Single' }]
     const res = RelatedArticles({ articles: only, currentPath: '/single' })
     expect(res).toBeNull()
-  })
-
-  it('shows all articles when maxItems is omitted', async () => {
-    const node = RelatedArticles({ articles: FIXTURE_ARTICLES, currentPath: '/x' })
-    const stream = await renderToReadableStream(node)
-    const html = await new Response(stream).text()
-    const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
-    expect(hrefs).toHaveLength(FIXTURE_ARTICLES.length)
-  })
-
-  describe('preserveOrder', () => {
-    const orderedArticles = [
-      { path: '/z-last', title: 'Z Last' },
-      { path: '/a-first', title: 'A First' },
-      { path: '/m-middle', title: 'M Middle' },
-    ]
-
-    it('preserves input order when preserveOrder is true', async () => {
-      const node = RelatedArticles({ articles: orderedArticles, currentPath: '/x', preserveOrder: true })
-      const stream = await renderToReadableStream(node)
-      const html = await new Response(stream).text()
-      const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
-      expect(hrefs).toEqual(['/z-last', '/a-first', '/m-middle'])
-    })
-
-    it('slices to maxItems while preserving order', async () => {
-      const node = RelatedArticles({ articles: orderedArticles, currentPath: '/x', maxItems: 2, preserveOrder: true })
-      const stream = await renderToReadableStream(node)
-      const html = await new Response(stream).text()
-      const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
-      expect(hrefs).toHaveLength(2)
-      expect(hrefs).toEqual(['/z-last', '/a-first'])
-    })
-
-    it('excludes currentPath while preserving order of remaining articles', async () => {
-      const node = RelatedArticles({ articles: orderedArticles, currentPath: '/a-first', preserveOrder: true })
-      const stream = await renderToReadableStream(node)
-      const html = await new Response(stream).text()
-      const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
-      expect(hrefs).toEqual(['/z-last', '/m-middle'])
-    })
   })
 })
