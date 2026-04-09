@@ -4,15 +4,7 @@ import { X_HONO_DISABLE_SSG_HEADER_KEY } from 'hono/ssg'
 import Article from '../components/Article'
 import { DIRECTORY_ICON, articlesByDirectory, normalizePublished } from './articles'
 import type { ArticleLink } from './articles'
-
-function pickRandomN<T>(arr: T[], n: number): T[] {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a.slice(0, n)
-}
+import { pickRandomN } from './random'
 
 // component passed to jsxRenderer is loosely typed; ignore TS complaints
 // @ts-expect-error

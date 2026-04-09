@@ -1,24 +1,15 @@
 import { css } from 'hono/css'
 import { createRoute } from 'honox/factory'
 import { articlesByDirectory } from '../lib/articles'
+import { pickRandomN } from '../lib/random'
 import Headline from '../components/Headline'
 import MakamujoBanner from '../components/MakamujoBanner'
 import RelatedArticles from '../components/RelatedArticles'
 
-function pickRandomN<T>(arr: T[] | undefined, n: number): T[] {
-  if (!arr || arr.length === 0) return []
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a.slice(0, n)
-}
-
 // ビルド時に一度だけ決定される個別記事へのリンク
 // diary: 5件（新→古）、essays: 5件（ランダム）、works: 2件（新→古）
-const diarySamples = [...(articlesByDirectory.diary ?? [])].sort((a, b) => b.path.localeCompare(a.path)).slice(0, 5)
-const worksSamples = [...(articlesByDirectory.works ?? [])].sort((a, b) => b.path.localeCompare(a.path)).slice(0, 2)
+const diarySamples = [...articlesByDirectory.diary].sort((a, b) => b.path.localeCompare(a.path)).slice(0, 5)
+const worksSamples = [...articlesByDirectory.works].sort((a, b) => b.path.localeCompare(a.path)).slice(0, 2)
 const essaysSamples = pickRandomN(articlesByDirectory.essays, 5)
 
 const sampleLinks = [
