@@ -30,6 +30,9 @@ export default createRoute((c) => {
     gap: 1rem;
     min-height: calc(100vh - 25rem);
     padding: 2rem 1rem;
+    @media screen and (max-width: 600px) {
+      padding-block-start: 0.5rem;
+    }
   `
 
   const heroTitle = css`
