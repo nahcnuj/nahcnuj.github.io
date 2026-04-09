@@ -10,8 +10,6 @@ interface Article {
 
 interface RelatedArticlesProps {
   articles: Article[]
-  currentPath: string
-  maxItems?: number
 }
 
 const relatedArticlesClass = css`
@@ -44,22 +42,15 @@ const relatedArticlesClass = css`
   }
 `
 
-export default function RelatedArticles({ articles, currentPath, maxItems = 5 }: RelatedArticlesProps) {
-  // 現在のページを除外
-  const filteredArticles = articles.filter((article) => article.path !== currentPath)
-
-  // ランダムに記事を選択
-  const shuffled = [...filteredArticles].sort(() => Math.random() - 0.5)
-  const selectedArticles = shuffled.slice(0, maxItems).sort((a, b) => a.path.localeCompare(b.path))
-
-  if (selectedArticles.length === 0) {
+export default function RelatedArticles({ articles }: RelatedArticlesProps) {
+  if (articles.length === 0) {
     return null
   }
 
   return (
     <div class={relatedArticlesClass}>
       <ul>
-        {selectedArticles.map((article) => (
+        {articles.map((article) => (
           <li key={article.path}>
             {article.icon ? <Icon>{article.icon}</Icon> : null}
             <a href={article.path}>{article.title}</a>

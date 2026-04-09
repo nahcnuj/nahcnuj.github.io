@@ -166,7 +166,7 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
       {relatedArticles && relatedArticles.length > 0 && currentPath && (
         <>
           <h2>他の記事</h2>
-          <RelatedArticles articles={relatedArticles} currentPath={currentPath} />
+          <RelatedArticles articles={relatedArticles} />
         </>
       )}
     </article>

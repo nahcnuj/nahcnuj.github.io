@@ -1,37 +1,21 @@
 import { css } from 'hono/css'
 import { createRoute } from 'honox/factory'
 import { articlesByDirectory } from '../lib/articles'
+import { pickRandomN } from '../lib/random'
 import Headline from '../components/Headline'
-import Icon from '../components/Icon'
-import LinkRow from '../components/LinkRow'
-import LinkRowItem from '../components/LinkRowItem'
 import MakamujoBanner from '../components/MakamujoBanner'
 import RelatedArticles from '../components/RelatedArticles'
 
-function _pickRandom<T>(arr: T[]): T | undefined {
-  if (!arr || arr.length === 0) return undefined
-  return arr[Math.floor(Math.random() * arr.length)]
-}
-
-function pickRandomN<T>(arr: T[] | undefined, n: number): T[] {
-  if (!arr || arr.length === 0) return []
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a.slice(0, n)
-}
-
-// ビルド時に一度だけ決定される個別記事へのリンク（各セクションから2件ずつ）
-const diarySamples = pickRandomN(articlesByDirectory.diary, 2).sort((a, b) => a.path.localeCompare(b.path))
-const worksSamples = pickRandomN(articlesByDirectory.works, 2).sort((a, b) => a.path.localeCompare(b.path))
-const essaysSamples = pickRandomN(articlesByDirectory.essays, 2).sort((a, b) => a.path.localeCompare(b.path))
+// ビルド時に一度だけ決定される個別記事へのリンク
+// diary: 5件（新→古）、essays: 5件（ランダム）、works: 2件（新→古）
+const diarySamples = [...articlesByDirectory.diary].sort((a, b) => b.path.localeCompare(a.path)).slice(0, 5)
+const worksSamples = [...articlesByDirectory.works].sort((a, b) => b.path.localeCompare(a.path)).slice(0, 2)
+const essaysSamples = pickRandomN(articlesByDirectory.essays, 5)
 
 const sampleLinks = [
   ...diarySamples.map((s) => ({ href: s.path, label: s.title, icon: '📓' })),
-  ...worksSamples.map((s) => ({ href: s.path, label: s.title, icon: '🧑‍💻' })),
   ...essaysSamples.map((s) => ({ href: s.path, label: s.title, icon: '📝' })),
+  ...worksSamples.map((s) => ({ href: s.path, label: s.title, icon: '🧑‍💻' })),
 ].map((l) => ({ href: l.href ?? '/index.html', label: l.label ?? '', icon: l.icon }))
 
 export default createRoute((c) => {
@@ -115,32 +99,10 @@ export default createRoute((c) => {
         </div>
       </div>
       <MakamujoBanner />
-      <LinkRow>
-        <LinkRowItem>
-          <a href="/diary/index.html">
-            <Icon>📓</Icon>
-            <span>Diary</span>
-          </a>
-        </LinkRowItem>
-        <LinkRowItem>
-          <a href="/works/index.html">
-            <Icon>🧑‍💻</Icon>
-            <span>Work</span>
-          </a>
-        </LinkRowItem>
-        <LinkRowItem>
-          <a href="/essays/index.html">
-            <Icon>📝</Icon>
-            <span>Essay</span>
-          </a>
-        </LinkRowItem>
-      </LinkRow>
 
       {/* トップページから個別ページへの回遊を促すサンプルリンク（ビルド時固定） */}
       <RelatedArticles
         articles={sampleLinks.map((l) => ({ path: l.href, title: l.label, icon: l.icon }))}
-        currentPath="/index.html"
-        maxItems={6}
       />
     </div>,
     { frontmatter: { title, description, showHeaderAd: false } },

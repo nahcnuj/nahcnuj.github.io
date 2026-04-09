@@ -4,6 +4,7 @@ import { X_HONO_DISABLE_SSG_HEADER_KEY } from 'hono/ssg'
 import Article from '../components/Article'
 import { DIRECTORY_ICON, articlesByDirectory, normalizePublished } from './articles'
 import type { ArticleLink } from './articles'
+import { pickRandomN } from './random'
 
 // component passed to jsxRenderer is loosely typed; ignore TS complaints
 // @ts-expect-error
@@ -28,7 +29,10 @@ export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }
   const getRelatedArticlesForDirectory = (key?: keyof typeof articlesByDirectory): ArticleLink[] | undefined => {
     if (!key) return undefined
     const icon = DIRECTORY_ICON[key]
-    return articlesByDirectory[key].map((a) => ({ ...a, icon }))
+    const all = articlesByDirectory[key]
+      .filter((a) => a.path !== currentPath)
+      .map((a) => ({ ...a, icon }))
+    return pickRandomN(all, 5).sort((a, b) => a.path.localeCompare(b.path))
   }
 
   const relatedArticles = !isIndexPage && directoryKey ? getRelatedArticlesForDirectory(directoryKey) : undefined
