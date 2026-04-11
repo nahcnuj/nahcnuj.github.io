@@ -3,7 +3,6 @@ import { join } from 'node:path'
 import ssg from '@hono/vite-ssg'
 import mdx from '@mdx-js/rollup'
 import honox from 'honox/vite'
-import client from 'honox/vite/client'
 import rehypeExternalLinks from 'rehype-external-links'
 import rehypeSlug from 'rehype-slug'
 import remarkFrontmatter from 'remark-frontmatter'
@@ -52,7 +51,14 @@ const entry = './app/server.ts'
 export default defineConfig(({ command, mode }) => {
   if (mode === 'client') {
     return {
-      plugins: [client()],
+      build: {
+        rollupOptions: { input: ['/app/client.ts'] },
+        assetsDir: 'static',
+        manifest: true,
+      },
+      oxc: {
+        jsx: { importSource: 'hono/jsx/dom' },
+      },
     }
   }
   return {
