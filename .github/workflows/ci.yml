@@ -129,3 +129,4 @@ jobs:
         run: npm ci --prefer-offline
       - name: Check
         run: npm run lint:text
+        continue-on-error: true

@@ -20,7 +20,7 @@
     "@hono/vite-ssg": "^0.3.3",
     "@mdx-js/rollup": "^3.1.1",
     "@resvg/resvg-js": "^2.6.2",
-    "hono": "^4.12.15",
+    "hono": "^4.12.16",
     "honox": "^0.1.55",
     "katex": "^0.16.45",
     "rehype-external-links": "^3.0.0",
@@ -31,7 +31,7 @@
     "vite": "^8.0.10"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.13",
+    "@biomejs/biome": "2.4.14",
     "@types/katex": "^0.16.8",
     "@types/node": "^24.12.2",
     "playwright": "^1.59.1",
