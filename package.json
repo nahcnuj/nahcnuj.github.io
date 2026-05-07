@@ -20,7 +20,7 @@
     "@hono/vite-ssg": "^0.3.3",
     "@mdx-js/rollup": "^3.1.1",
     "@resvg/resvg-js": "^2.6.2",
-    "hono": "^4.12.17",
+    "hono": "^4.12.18",
     "honox": "^0.1.55",
     "katex": "^0.16.45",
     "rehype-external-links": "^3.0.0",
@@ -28,7 +28,7 @@
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
     "temporal-polyfill": "^0.3.2",
-    "vite": "^8.0.10"
+    "vite": "^8.0.11"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.14",
