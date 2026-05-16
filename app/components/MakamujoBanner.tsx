@@ -10,7 +10,7 @@ export default function MakamujoBanner() {
   return (
     <div class={wrap}>
       <img
-        src="https://www.nahcnuj.work/makamujo/banner.png"
+        src="https://www.nahcnuj.work/makamujo/banner.svg"
         alt="馬可無序（まか・むじょ）- AI-VTuber"
         width="320"
         height="100"
