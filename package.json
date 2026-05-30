@@ -22,7 +22,7 @@
     "@resvg/resvg-js": "^2.6.2",
     "hono": "^4.12.23",
     "honox": "^0.1.56",
-    "katex": "^0.16.47",
+    "katex": "^0.17.0",
     "rehype-external-links": "^3.0.0",
     "rehype-slug": "^6.0.0",
     "remark-frontmatter": "^5.0.0",
