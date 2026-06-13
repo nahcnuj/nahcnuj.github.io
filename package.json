@@ -20,7 +20,7 @@
     "@hono/vite-ssg": "^0.3.3",
     "@mdx-js/rollup": "^3.1.1",
     "@resvg/resvg-js": "^2.6.2",
-    "hono": "^4.12.23",
+    "hono": "^4.12.24",
     "honox": "^0.1.56",
     "katex": "^0.17.0",
     "rehype-external-links": "^3.0.0",
