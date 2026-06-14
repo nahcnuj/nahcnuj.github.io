@@ -1,6 +1,9 @@
 name: Update
 
 on:
+  pull_request:
+    branches:
+      - source
   push:
     branches:
       - source
@@ -11,15 +14,11 @@ jobs:
     uses: ./.github/workflows/prepare.yml
     secrets: inherit
 
-  update-and-deploy:
+  update:
     needs: prepare
     runs-on: ubuntu-latest
     permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      contents: read
     steps:
       - uses: actions/checkout@v6
         with:
@@ -39,10 +38,34 @@ jobs:
         run: npm ci --omit dev --ignore-scripts --prefer-offline
       - name: Build
         run: npm run build
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: website-build-dist
+          path: dist
+          if-no-files-found: error
+          retention-days: 7
       - name: Upload GitHub Pages artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: dist
+      - if: failure()
+        uses: ./.github/actions/notify-failure
+        with:
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: update
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5.0.0
