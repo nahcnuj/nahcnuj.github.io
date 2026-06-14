@@ -10,6 +10,24 @@ import { type ChildProcess, spawn } from 'node:child_process'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { chromium, type Browser } from 'playwright'
 
+function spawnNpmRunDev() {
+  const npmExecPath = process.env.npm_execpath
+  if (npmExecPath) {
+    return spawn(process.execPath, [npmExecPath, 'run', 'dev'], {
+      stdio: 'pipe',
+      env: { ...process.env, NO_COLOR: '1' },
+      detached: true,
+    })
+  }
+
+  const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm'
+  return spawn(npmCommand, ['run', 'dev'], {
+    stdio: 'pipe',
+    env: { ...process.env, NO_COLOR: '1' },
+    detached: true,
+  })
+}
+
 describe('MakamujoBanner E2E: click navigation', () => {
   let devProcess: ChildProcess
   let baseUrl: string
@@ -20,11 +38,7 @@ describe('MakamujoBanner E2E: click navigation', () => {
       let resolved = false
       let stderr = ''
 
-      devProcess = spawn('npm', ['run', 'dev'], {
-        stdio: 'pipe',
-        env: { ...process.env, NO_COLOR: '1' },
-        detached: true, // new process group so we can kill npm + vite together
-      })
+      devProcess = spawnNpmRunDev() // new process group so we can kill npm + vite together
 
       devProcess.stdout?.on('data', (data: Buffer) => {
         const match = data.toString().match(/https?:\/\/localhost:\d+/)
@@ -54,16 +68,31 @@ describe('MakamujoBanner E2E: click navigation', () => {
     if (devProcess) {
       await new Promise<void>((resolve) => {
         const pid = devProcess.pid
-        const killTimeout = setTimeout(() => {
+        let settled = false
+        const finish = () => {
+          if (settled) return
+          settled = true
+          clearTimeout(forceKillTimeout)
+          clearTimeout(forceResolveTimeout)
+          resolve()
+        }
+
+        const forceKillTimeout = setTimeout(() => {
           try {
             if (pid) process.kill(-pid, 'SIGKILL')
             else devProcess.kill('SIGKILL')
           } catch { /* already dead */ }
         }, 5_000)
-        devProcess.on('close', () => {
-          clearTimeout(killTimeout)
-          resolve()
+
+        // Avoid hanging forever when child-process close events are not emitted.
+        const forceResolveTimeout = setTimeout(() => {
+          finish()
+        }, 8_000)
+
+        devProcess.once('close', () => {
+          finish()
         })
+
         try {
           if (pid) process.kill(-pid, 'SIGTERM')
           else devProcess.kill('SIGTERM')

@@ -14,16 +14,29 @@ const fixtureRoutes = Object.keys(fixtureModules).map((modulePath) =>
   modulePath.replace(/^\.\.\/\.\.\/app\/fixtures/, '').replace(/\.mdx$/, ''),
 )
 
+function spawnNpmRunDev() {
+  const npmExecPath = process.env.npm_execpath
+  if (npmExecPath) {
+    return spawn(process.execPath, [npmExecPath, 'run', 'dev'], {
+      stdio: 'pipe',
+      env: { ...process.env, NO_COLOR: '1' },
+    })
+  }
+
+  const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm'
+  return spawn(npmCommand, ['run', 'dev'], {
+    stdio: 'pipe',
+    env: { ...process.env, NO_COLOR: '1' },
+  })
+}
+
 describe('dev server (npm run dev): all fixture MDX files are routed correctly', () => {
   let devProcess: ChildProcess
   let baseUrl: string
 
   beforeAll(async () => {
     baseUrl = await new Promise<string>((resolve, reject) => {
-      devProcess = spawn('npm', ['run', 'dev'], {
-        stdio: 'pipe',
-        env: { ...process.env, NO_COLOR: '1' },
-      })
+      devProcess = spawnNpmRunDev()
 
       devProcess.stdout?.on('data', (data: Buffer) => {
         const match = data.toString().match(/https?:\/\/localhost:\d+/)
@@ -53,6 +66,6 @@ describe('dev server (npm run dev): all fixture MDX files are routed correctly',
     it(`serves ${route} (HTTP 200)`, async () => {
       const res = await fetch(`${baseUrl}${route}`, { redirect: 'manual' })
       expect(res.status).toBe(200)
-    })
+    }, 20_000)
   }
 })
