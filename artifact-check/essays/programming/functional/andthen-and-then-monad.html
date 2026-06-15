@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000047">
+  <title>「andThen」からモナドを理解する：高度な抽象化の第一歩</title>
+  <meta name="description" content="「andThen」からモナドへの一歩を踏み出しましょう。 この記事では、Option、Except、Stateなどのデータ構造に見られる「andThen」関数の共通性を通じて、モナドが持つ高度な抽象化概念を紹介します。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="「andThen」からモナドを理解する：高度な抽象化の第一歩">
+  <meta property="og:description" content="「andThen」からモナドへの一歩を踏み出しましょう。 この記事では、Option、Except、Stateなどのデータ構造に見られる「andThen」関数の共通性を通じて、モナドが持つ高度な抽象化概念を紹介します。">
+  <link rel="canonical" href="https://www.nahcnuj.work/essays/programming/functional/andthen-and-then-monad.html">
+  <meta property="og:url" content="https://www.nahcnuj.work/essays/programming/functional/andthen-and-then-monad.html"/><meta property="og:image" content="https://www.nahcnuj.work/img/essays/programming/functional/andthen-and-then-monad-thumb.jpg"/><meta property="og:image:alt" content="「andThen」からモナドを理解する：高度な抽象化の第一歩"/>
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <style id="hono-css">:root{--theme-base-color:#e6e6ff;--theme-main-color:#000047;--theme-accent-color:#ff6666;scroll-behavior:smooth;scroll-padding-block-start:4em}*{text-underline-position:from-font;text-decoration-thickness:from-font}html,body{margin:0;padding:0}html{background:var(--theme-base-color);color:var(--theme-main-color);scrollbar-gutter:stable}a:visited{color:var(--theme-main-color)}a:active,a:hover{color:var(--theme-accent-color)}.css-2922413349{@media screen and (min-width:1200px){display:flex;align-items:flex-start}}.css-2215753291{@media screen and (max-width:1359px){display:none}@media screen and (min-width:1360px){flex:1 1 0;min-width:180px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}}.css-1709399083{height:600px;text-align:center}.css-2395742824{@media screen and (min-width:1200px){flex:0 0 1000px;max-width:1000px}}.css-4272536150{width:100%;position:sticky;top:0;z-index:1;display:flex;justify-content:space-evenly;background:var(--theme-base-color);box-shadow:var(--theme-base-color) 0 2px 5px 5px}.css-3675043563{width:100%}.css-2722279092{--columns:4;margin-block:0.5em;padding-inline-start:0;display:grid;grid-template-columns:repeat(var(--columns),1fr);list-style:none;text-align:center}.css-835375805{display:inline-block;height:2em;line-height:2em;font-size:1.2em;& a{display:inline-block;width:80%;font-family:monospace}}.css-1420991062{margin-block-start:1.5rem;margin-block-end:2rem;height:100px}.css-2243956019{position:relative;height:calc(100% + 1.2rem);box-sizing:border-box;padding-block-end:0.5rem;background:linear-gradient(to bottom,rgba(173,216,230,0.5),var(--theme-base-color) 5%,var(--theme-base-color) 95%,rgba(173,216,230,0.5)
+);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;&::before{position:absolute;top:-0.8rem;left:0.8rem;padding:0.05rem 0.4rem;background-color:color-mix(in srgb,var(--theme-base-color) 50%,lightblue);border-radius:0.1rem;box-shadow:0 0.1rem 0.1rem rgba(0,0,0,0.1);content:"Advertisement";font-family:serif;font-size:0.8rem}@media screen and (min-width:40rem){margin-inline:calc(50% - 364px)}}.css-2748090328{--line-height:2;--line-height-length:calc(var(--line-height) * 1rem);line-height:var(--line-height-length);@supports (line-height-step:1px){line-height-step:var(--line-height-length)}& h1,& h2,& h3,& h4,& h5,& h6,& p,& ul,& ol,& dl,& div{box-sizing:border-box;margin-block:0;line-height:inherit}& h1,& h2,& h3,& h4,& h5,& h6,& p{padding-inline:0.2rem}& > ul,& > ol,& > dl{padding-inline-end:0.2rem}& h2,& h3,& h4,& h5,& h6{margin-block-start:2rem;margin-block-end:0;& + &{margin-block-start:0.5rem}}& h1{font-size:200%}& h2{font-size:160%}& h3{font-size:120%}& h2{margin-block-end:0.5rem}& h1{margin-block:2rem;padding-block:0.5rem;border-block:2pt solid var(--theme-main-color);background:var(--theme-base-color);line-height:1.5}& h3::before{content:"■";margin-inline-end:0.3ex}& p,& li,& dd{text-align:left}& p + p{margin-block-start:var(--line-height-length)}&,& honox-island{& > p,& > ul,& > ol{padding-block-end:0.5pt;background:linear-gradient(#ccf 0.5pt,transparent 0.5pt) top/100% var(--line-height-length)}}& figure{max-width:80%;margin-inline:auto;text-align:center;& img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:scale-down}}& pre{box-sizing:border-box;margin-inline:0.5rem;padding-block:calc(var(--line-height-length) / 4 - 2pt);padding-inline:0.75em;border:1pt solid var(--theme-main-color);border-radius:0.5rem;overflow-x:scroll;scrollbar-width:none;font-size:1rem;line-height:1.5}& code{padding:0.25em;font-size:1em;overflow-wrap:anywhere}& p code{font-size:1rem}}.css-1532263570{margin-block-start:1.5rem;margin-block-end:2rem;height:270px}.css-2527492588{position:relative;height:calc(100% + 1.2rem);box-sizing:border-box;padding-block-end:0.5rem;background:linear-gradient(to bottom,rgba(173,216,230,0.5),var(--theme-base-color) 5%,var(--theme-base-color) 95%,rgba(173,216,230,0.5)
+);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;&::before{position:absolute;top:-0.8rem;left:0.8rem;padding:0.05rem 0.4rem;background-color:color-mix(in srgb,var(--theme-base-color) 50%,lightblue);border-radius:0.1rem;box-shadow:0 0.1rem 0.1rem rgba(0,0,0,0.1);content:"Advertisement";font-family:serif;font-size:0.8rem}}.css-3920250683{display:flex;justify-content:center;margin:0.8rem 0}.css-4042297198{margin-block-start:3rem;padding:1.5rem 1rem;width:80%;@media screen and (max-width:600px){margin-block-start:1rem}& ul{list-style:none;padding:0;margin:0}& li{margin-block:0.5rem;padding-inline-start:0;display:flex;gap:0.6rem;align-items:center;line-height:1.2}& li > span{display:inline-block;width:auto;text-align:left;font-size:1rem;line-height:1}}.css-3562055242{display:inline-block;font-size:inherit;line-height:1;width:auto;text-align:center}.css-1143593031{margin-block-start:2em;padding-block:1em;border-top:2pt solid var(--theme-main-color);font-size:smaller;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1em}.css-3969210646{display:flex;flex-direction:column;gap:0.3em}.css-2033899531{@media screen and (max-width:1199px){display:none}@media screen and (min-width:1200px){min-width:180px;width:calc(100vw - 1020px);flex:0 0 auto;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;flex-wrap:wrap;justify-content:space-between}@media screen and (min-width:1360px){flex:1 1 0;width:auto}}.css-3717118579{height:calc(100vh - 600px - 20px);overflow-y:auto}</style>
+  <link rel="alternate" type="application/rss+xml" title="nahcnuj.work" href="/feed.xml">
+  <link rel="preload" href="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" as="script">
+  <link rel="preload" href="https://x4.shinobi.jp/ufo/060401300" as="script">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1645913691678081"
+    crossorigin="anonymous"></script>
+    <link rel="preload" href="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d" as="script">
+<link rel="preload" href="https://adm.shinobi.jp/st/t.js" as="script">
+<link rel="preload" href="https://adm.shinobi.jp/s/ecef110ee254439d10de8dc383b54066" as="script">
+  </head>
+<body>
+  <div class="css-2922413349"><div class="css-2215753291"><aside class="css-1709399083"><!-- admax -->
+<script src="https://adm.shinobi.jp/s/ecef110ee254439d10de8dc383b54066"></script>
+<!-- admax -->
+</aside></div><main class="css-2395742824"><header class="css-4272536150"><nav class="css-3675043563"><ul class="css-2722279092"><li class="css-835375805"><a href="/">Index</a></li><li class="css-835375805"><a href="/diary/index.html">Diary</a></li><li class="css-835375805"><a href="/works/index.html">Work</a></li><li class="css-835375805"><a href="/essays/index.html">Essay</a></li></ul></nav></header><aside id="header-ad" class="css-1420991062"><div class="css-2243956019"><!-- admax -->
+<script src="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d" defer></script>
+<!-- admax -->
+</div></aside><article class="css-2748090328"><h1 id="andthenからモナドを理解する高度な抽象化の第一歩">「<code>andThen</code>」からモナドを理解する：高度な抽象化の第一歩</h1>
+<h2 id="はじめに">はじめに</h2>
+<p>関数型プログラミングには、「<strong>モナド（monad）</strong>」という強力な抽象化ツールが存在します。
+しかし、それはしばしば初心者にとって難解なものとされます。
+モナドが提供する抽象化の対象は、我々が日常的に利用するデータ構造や操作の中に実は数多く存在しているのです。
+その共通性に着目することで、モナドはそれほど遠い存在ではなく、むしろ身近なものであることが分かります。</p>
+<p>ある種のデータ構造には、その構造を持つ値から始めて関数を次々と適用していく<code>andThen</code>関数が考えられます。
+この記事で<code>andThen</code>関数を出発点として、モナドの理解への第一歩を踏み出しましょう。</p>
+<h2 id="optionやmaybeにおけるandthen"><code>Option</code>や<code>Maybe</code>における<code>andThen</code></h2>
+<p><code>Option</code>（あるいは<code>Maybe</code>）は、値が存在しない状況を表現するデータ型です。
+何らかの値<code>x</code>が存在する場合（<code>some x</code>）には<code>Option</code>の値を返す関数<code>f</code>を適用し、存在しない場合（<code>none</code>）はそのまま存在しないとする<code>andThen</code>関数を考えましょう。
+<a href="https://live.lean-lang.org/#codez=CYUwZgBAhgdsAqALEMIAoBuEBcEDyADgC4CWA9qoI3AAlOpLpRIEmE+x5qgTcC26GkUQccAXgBQECAFsoRAMaIIWAO4kiiMRAA+EGBRDiIQgHzbd6rQGcyEvQA8DxyDZEjQkKQE8AImQCuAIwAbPVwAOWlmVj5UMKJhdTAfVDQ7UOlaI3VxKVl5O2VVTM0IAAZ7ExgQQq1UIwhLa3QAJggAKm1qZxAbKAkCIOx1WARkJPq9AFZaD29/IIM6qz0ARlKAWlWIQGNrQDsGQBIFQCSGQEBjQBMGbcBzBkbAWAURbCEIP3cIIgAnEgwSKADO7t7+wbgkCh0GMSlMoF5fIE9HcdBUIOsSnsjqczgdACvxgFUGQBWDIARBhudweT1e70+3x6fRAA3EQ0BqFhemmkLmMN08I2u0AMgyADW1ABTqgHUGXHnXkCnGAPwZRfj7o8Xm8Pl8RCQYOYiLAZAz3IrlarghAALIUKDASLsCCKZDPSriPyKo23aAAkYiADEchAMgA1pINUqVTA1UA" rel="nofollow noopener noreferrer" target="_blank">Lean 4でコード例を示す<span aria-label="open in new window" style="padding-inline-end:0.5ex;font-size:small;vertical-align:middle"> ⧉</span></a>と以下のようになります。</p>
+<pre><code class="language-lean4">def andThen (v : Option α) (f : α → Option β) : Option β :=
+  match v with
+  | none   =&gt; none
+  | some x =&gt; f x
+</code></pre>
+<p>この関数の使用例として、正の自然数に対してだけその数を2倍した値を返し、0に対しては値を返さない（言い換えると<code>none</code>を返す）<code>mayDouble</code>関数を適用するコードを示します。</p>
+<pre><code class="language-lean4">def mayDouble : Nat → Option Nat :=
+  fun (x : Nat) =&gt;
+    match x with
+    | 0 =&gt; none
+    | n =&gt; some (2 * n)
+
+#eval andThen (some 5) mayDouble -- some 10 （正なので倍にされた）
+#eval andThen (some 0) mayDouble -- none （0なので値を返さなかった）
+#eval andThen  none    mayDouble -- none （値がないのでそのまま）
+</code></pre>
+<h2 id="例外処理におけるandthen">例外処理における<code>andThen</code></h2>
+<aside class="css-1532263570"><div class="css-2527492588">
+<!-- admax -->
+<div class="admax-switch" data-admax-id="70a63675255ffbb9d4ac3fedd2a19b3d" style="display:inline-block;"></div>
+<script type="text/javascript">
+(admaxads = window.admaxads || []).push({admax_id: "70a63675255ffbb9d4ac3fedd2a19b3d",type: "switch"});</script>
+<!-- admax -->
+</div></aside><p><code>Either</code>や<code>Except</code>のような構造は、成功か失敗かの結果を表現します。
+このデータ型に対しては、前の処理が成功して値<code>x</code>を持つ場合（<code>ok x</code>）にのみ次の関数<code>f</code>を適用し、失敗してエラー<code>e</code>である場合（<code>error e</code>）はそのままエラーを受け流すような<code>andThen</code>関数を考えられます。
+<a href="https://live.lean-lang.org/#codez=CYUwZgBAhgdsAqALEMIAoBuEBcECiAHgMYgAOALhIK3AEgjcACU6kutEgSYT7FmU2BNwI7kIkK1CLxwBeAFAQIAWyjkiiCFgDuAS3KIZEAD4QAdCABOJgPYmIICBIB8nYeWNnL13QcPmA1hAKzZewhIAikpUEhgcwBXACMAGxAASTAABXMAZxwIADlFdkduCABlchMNGABzXPzsaVkwaNQ0f1w88kZ7XVkFJRV/TW1u/QgABlsHFwsrACIkyg0s0cMZ4YNUIK9fNAAmCAAqCBh6MJACKDlSROxdWARkZq2IAFZGKLjElPSsiUKKJ4AjKMpHUILEAJ4QMoaDAaKDxU7nS7XW5wJAodBPUZvGIJZJpTK2P7OUzTCBzBZLFYg34QqHlWHwxEXK4gG6yO7ox6ktwzPCuEwAQhmOI++O+RKE3CmvP502FNLBkOhjIRUgAxCAMPDoGiHpifC9RXivpkpABac3EwHjQAQ/4Bja0AdgyAEgVAOYMgAQjQD5SoArBkdrsAsAqASH+NVqdZz9WgscbPgSMharVL/jzZvMIIsxisILavYADBkAMgyjHOAYwZAPoMfsAFQyAS4ZAD8Mwc12viuvuGMjyfJcsswuj4rNlutbb5AuFWcAskqOwBnioAwFzzgEZNQDqpr7XYBdBkdgD8GVeBoA" rel="nofollow noopener noreferrer" target="_blank">Lean 4でコード例を示します。<span aria-label="open in new window" style="padding-inline-end:0.5ex;font-size:small;vertical-align:middle"> ⧉</span></a>
+前節で示した<code>Option</code>の<code>andThen</code>と見た目が似ていますね。</p>
+<pre><code class="language-lean4">def andThen (v : Except ε α) (f : α → Except ε β) : Except ε β :=
+  match v with
+  | .error e =&gt; Except.error e
+  | .ok x    =&gt; f x
+</code></pre>
+<p>この関数の使用例として、自然数を返す処理が成功した場合に、その結果が正の自然数だった場合にはそれを2倍した値で成功とし、そうでない（すなわち0だった）場合にはエラーを返す<code>doubleIfPos</code>関数を適用するコードを示します。</p>
+<pre><code class="language-lean4">def doubleIfPos : Nat → Except String Nat :=
+  fun (x : Nat) =&gt;
+    match x with
+    | 0 =&gt; .error &quot;It is 0.&quot;
+    | n =&gt; .ok (2 * n)
+
+#eval andThen (.ok 5) doubleIfPos
+-- Except.ok 10 （正の値で成功なので倍）
+#eval andThen (.ok 0) doubleIfPos
+-- Except.error &quot;It is 0.&quot; （成功だが0だったのでエラー）
+#eval andThen (.error &quot;Error!&quot;) doubleIfPos
+-- Except.error &quot;Error!&quot; （前の処理が失敗なのでそのまま）
+</code></pre>
+<h2 id="状態遷移におけるandthen">状態遷移における<code>andThen</code></h2>
+<p>状態を保持しながら計算するための構造は、与えられた状態に対して計算結果とともに次の状態を返すような関数の型<code>State</code>と考えることができます。</p>
+<pre><code class="language-lean4">def State (σ : Type) (α : Type) := σ → (σ × α)
+-- σが状態を区別するための値の型で、αが計算結果の型です。
+</code></pre>
+<p>少し分かりにくい構造ですが、簡単な例を通して説明していきます。
+ある自然数から0まで1ずつカウントダウンしていくことを考えましょう。
+状態の種類としては、初期状態<code>Init</code>、カウントダウン中の<code>Progress</code>、停止状態<code>Stop</code>を考えましょう。</p>
+<aside class="css-1532263570"><div class="css-2527492588">
+<!-- admax -->
+<div class="admax-switch" data-admax-id="70a63675255ffbb9d4ac3fedd2a19b3d" style="display:inline-block;"></div>
+<script type="text/javascript">
+(admaxads = window.admaxads || []).push({admax_id: "70a63675255ffbb9d4ac3fedd2a19b3d",type: "switch"});</script>
+<!-- admax -->
+</div></aside><p>（任意の状態における）自然数からカウントダウンを1回行う関数<code>step</code>を考えます。
+既に0だったら停止状態にしておけば良いですね。停止状態のようなそれ以降遷移しない一定の状態は、前の状態（引数）によらず常に一定の値を返す関数として表現できます。今の例では<code>(Stop, 0)</code>を返す関数で表現できます（<code>finished</code>と名付けます）。
+また、1のときも停止状態に遷移させます。
+2以上のときは1減らしてカウントダウン中とするわけですが、もし停止状態だったら減らさないでおきたいですね。初期状態かカウントダウン中だったら減らすことにしましょう。
+<a href="https://live.lean-lang.org/#codez=CYUwZgBAygLghjEEAUhh4AgLggFQJ4AcQBKFQRuBMcDjMBeCdQJMIV0B1iUogKE9EjgDtg2ABYh+KAG4VYCJOg4pIWckxmJ6EQE3AJLGrlbanCBDABXccgDOFVCRoA+I8YgAbEDBRWA5DaIAaFAAPCg4dOilLJ2NIYMsvbgBLQVMAYxgEiSQAWVw9SIAfCABJfgSPAFpyiEBcJUB8c0A2p0BpQ05C2AB7fAhKiEAdBUAjayaWiAAFACc2gHNRkEtrbsAzxUAwF0AkhkAs30BFBkBohkHQUYykiYgAJRB8Uc4OsQgcvO5eEySEy1FgaXh1G/eZiAA5BFoTOYIAB9CAOFDtfABAAMXB44AglkQnSwfw8qi+11yX2saMM0SByHEqIQdkczggAFsEClhBBxAB3MrCKIQQrQ5zgsCPZ4gYCswoARk59gepV5/IphWBAGoAExg0XdOWAU7lAFByrIpZnE1gcmopVJpdOsTJgLINBtaMA6Fop4OQkIC/C4tuchRKZXyY0m01mipQ3qmM0sTvKgrh8MgCQAzG9ZFi8r9/hg6NqQf7kB6YAFo1x7vgFbpMZ9ZLjk6mgaD7YHfSGIHK8wj8MKi/GS4gyx4U4DxFXRcga8GAuHuCBAnBKfg3BgnAIhKJxDHEciwRAC5xuwAjXAQJIwcbWADcEH3+zgLlH48n09nghEVwLy9Oq+bG7o293/H3bSPJ72EgSc9LwnKcQBnYw53vCxIIXXdYyRU4SAQzo6FfLcdz3A8IGPU8AKAzgxxAm8ILvWDkBgq5yNIq4l2QpDkXo59Ux5F43wgD9MJ/bC/zPC9OAAYmmYBUiQGNOG6NNdX7LMczhQS+REiAKMXeDkXEqpJIzQdZgCBtuHk4SUiQZSUBM2iGKffB1J7REtPGIMdIgEcBKExSTKo+dKLM1TEMsxirIkoEpIha0oQgWF9NcoylOo8RuXFF5LOszT7UdcKuCAA" rel="nofollow noopener noreferrer" target="_blank">Lean 4のコードで示す<span aria-label="open in new window" style="padding-inline-end:0.5ex;font-size:small;vertical-align:middle"> ⧉</span></a>と以下のようになります。</p>
+<pre><code class="language-lean4">def finished : State MyStates Nat := fun _ =&gt; (Stop, 0)
+
+def step : Nat → State MyStates Nat :=
+  fun (n : Nat) =&gt;
+    match n with
+    | 0   =&gt; finished
+    | 1   =&gt; finished
+    | _+2 =&gt; -- 2以上
+        fun s =&gt;
+          match s with
+          | Stop          =&gt; (Stop, n)
+          | Init|Progress =&gt; (Progress, n-1)
+</code></pre>
+<p>このような<code>State</code>の構造に対して、現在の状態<code>v</code>と次の状態へと移行する計算<code>f</code>をつなぐような<code>andThen</code>関数が考えられます。</p>
+<pre><code class="language-lean4">def andThen (v : State σ α) (f : α → State σ β) : State σ β :=
+  fun (s : σ) =&gt;
+    let ((s&#39; : σ), (x : α)) := v s
+    f x s&#39;
+</code></pre>
+<p>具体例でこの関数が<code>andThen</code>と呼べるものになっていることを確認しましょう。
+少し難しいのでひとまずそうなっていることを認めていただいて<a href="#andthen%E9%96%A2%E6%95%B0%E3%81%A8%E3%83%A2%E3%83%8A%E3%83%89%E3%81%AEbind%E9%96%A2%E6%95%B0">次の節まで読み飛ばし</a>ていただいても構いません。</p>
+<p>初期状態として3（＝<code>(Init, 3)</code>）から始めて、1回カウントダウン（<code>step</code>関数を適用）すればカウントダウン中の2（＝<code>(Progress, 2)</code>）になり、さらに1回カウントダウンするとカウントダウン中の1（＝<code>(Progress, 1)</code>）、更にカウントダウンすると停止状態（＝<code>finished = (Stop, 0)</code>）になることを、<code>andThen</code>関数を使って確かめます。</p>
+<pre><code class="language-lean4">-- 初期状態
+def i3 : State MyStates Nat := fun _ =&gt; (Init, 3)
+
+-- 初期状態の確認
+#reduce i3
+-- fun s =&gt; (Init, 3)
+
+-- 1回カウントダウン
+#reduce andThen i3 step
+-- fun s =&gt; (Progress, 2)
+
+-- 2回カウントダウン
+#reduce andThen (andThen i3 step) step
+-- fun s =&gt; (Progress, 1)
+
+-- 3回カウントダウン
+#reduce andThen (andThen (andThen i3 step) step) step
+-- fun s =&gt; (Stop, 0)
+
+-- これは`finished`の“定数”と同じ
+#reduce andThen finished step
+-- fun s =&gt; (Stop, 0)
+</code></pre>
+<aside class="css-1532263570"><div class="css-2527492588">
+<!-- admax -->
+<div class="admax-switch" data-admax-id="70a63675255ffbb9d4ac3fedd2a19b3d" style="display:inline-block;"></div>
+<script type="text/javascript">
+(admaxads = window.admaxads || []).push({admax_id: "70a63675255ffbb9d4ac3fedd2a19b3d",type: "switch"});</script>
+<!-- admax -->
+</div></aside><p>さて、<code>State</code>に対する<code>andThen</code>関数は<code>Option</code>や<code>Except</code>の<code>andThen</code>とは全く異なるように見えるでしょう。
+しかし、実はこれにも共通しているところがあり、その共通点こそが「モナド」なのです。</p>
+<h2 id="andthen関数とモナドのbind関数"><code>andThen</code>関数とモナドの<code>bind</code>関数</h2>
+<p><code>Option</code>、<code>Except</code>、<code>State</code>の3つの構造に対して<code>andThen</code>関数を見てきましたが、その共通点は一体どこにあるのでしょうか。
+前節で見たように処理の中身は違うことがあるようなので、それぞれの1️行目に秘密がありそうです。</p>
+<pre><code class="language-lean4">def andThen (v : Option   α) (f : α → Option   β) : Option   β :=
+
+def andThen (v : Except ε α) (f : α → Except ε β) : Except ε β :=
+
+def andThen (v : State σ  α) (f : α → State σ  β) : State σ  β :=
+</code></pre>
+<p>お分かりいただけますでしょうか。
+<code>andThen</code>関数はそのシグネチャが<code>Option</code>, <code>Except ε</code>, <code>State σ</code>で共通しているのです。
+「このようなシグネチャの<code>andThen</code>関数を定義できる型」を総称する気持ちで<code>m</code>と名付けて置き換えてみましょう。</p>
+<pre><code class="language-lean4">def andThen (v : m α) (f : α → m β) : m β :=
+</code></pre>
+<p>モナドの定義に触れたことがある方にはどこか見覚えのあるのではないでしょうか。
+これがまさしく、モナドのbind操作のシグネチャと一致するのです。</p>
+<p>実際、Lean 4では<code>Monad</code>にはこれと同じシグネチャの関数<code>bind</code>を定義することが（型クラス<code>Bind</code>を通して）要請されます。</p>
+<aside class="css-1532263570"><div class="css-2527492588">
+<!-- admax -->
+<div class="admax-switch" data-admax-id="70a63675255ffbb9d4ac3fedd2a19b3d" style="display:inline-block;"></div>
+<script type="text/javascript">
+(admaxads = window.admaxads || []).push({admax_id: "70a63675255ffbb9d4ac3fedd2a19b3d",type: "switch"});</script>
+<!-- admax -->
+</div></aside><pre><code class="language-lean4">  bind : {α β : Type u} → m α → (α → m β) → m β
+</code></pre>
+<p>（<a href="https://github.com/leanprover/lean4/blob/b1e0c1b59463973210363b1f4886043efc3a2bb6/src/Init/Prelude.lean#L2729" rel="nofollow noopener noreferrer" target="_blank">Lean 4のGitHubリポジトリより引用<span aria-label="open in new window" style="padding-inline-end:0.5ex;font-size:small;vertical-align:middle"> ⧉</span></a>）</p>
+<h2 id="おわりに">おわりに</h2>
+<p>本記事では、<code>Option</code>, <code>Except</code>, <code>State</code>の3つの構造に対する<code>andThen</code>関数を通じて、それらのシグネチャが<code>Monad</code>の<code>bind</code>関数のシグネチャへと一般化できることを見ました。
+モナドという抽象化ツールは難解に見えますが、よく使われるデータ構造や操作からその共通点を見つけることで、ほんの少しでも理解へ近づける手助けになれましたら幸いです。</p>
+<h2 id="参考文献">参考文献</h2>
+<ul>
+<li>Christiansen, David T. &quot;<a href="https://lean-lang.org/functional_programming_in_lean/monads.html" rel="nofollow noopener noreferrer" target="_blank">Monads<span aria-label="open in new window" style="padding-inline-end:0.5ex;font-size:small;vertical-align:middle"> ⧉</span></a>.&quot; <em>Functional Programming in Lean</em>. 2024年11月15日閲覧。</li>
+</ul><div class="css-3920250683"><img src="https://www.nahcnuj.work/makamujo/banner.svg" alt="馬可無序（まか・むじょ）- AI-VTuber" width="320" height="100" usemap="#makamujo-banner-map" style="max-width: 100%; height: auto;"/><map name="makamujo-banner-map"><area shape="rect" coords="105,67,306,87" href="https://live.nicovideo.jp/watch/user/14171889" target="_blank" rel="noopener noreferrer" alt="ニコニコ生放送で配信中" data-gtag-event="click_makamujo_nicovideo"/><area shape="default" href="https://www.nahcnuj.work/makamujo/index.html" target="_blank" rel="noopener noreferrer" alt="馬可無序プロジェクト" data-gtag-event="click_makamujo_landing"/></map></div><h2>他の記事</h2><div class="css-4042297198"><ul><li><span class="css-3562055242" aria-hidden="true">📝</span><a href="/essays/edu/arith_mul-comm.html">掛け算の順序問題：数式から意味を復元せんとすることが無理である</a></li><li><span class="css-3562055242" aria-hidden="true">📝</span><a href="/essays/feel/revalue-myself/00_intro.html">労5年あるいは人30年の感想</a></li><li><span class="css-3562055242" aria-hidden="true">📝</span><a href="/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html">ガウシアンフィルターのフーリエ変換を導出する</a></li><li><span class="css-3562055242" aria-hidden="true">📝</span><a href="/essays/math/is-sqrt-of-squared-x-pm-x.html">√(x²) ≟ ±x</a></li><li><span class="css-3562055242" aria-hidden="true">📝</span><a href="/essays/work/weekday-schedule.html">平日の時間の使い方</a></li></ul></div></article><aside class="css-1420991062"><div class="css-2243956019"><!-- admax -->
+<div class="admax-switch" data-admax-id="11a058af25dce0b8884cd189862eed63" style="display:inline-block;"></div>
+<script type="text/javascript">
+(admaxads = window.admaxads || []).push({admax_id: "11a058af25dce0b8884cd189862eed63",type: "switch"});</script>
+<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>
+<!-- admax -->
+</div></aside><footer class="css-1143593031"><div class="css-3969210646"><div>© Junichi Hayashi</div><div>Powered by Hono. Hosted by GitHub Pages.</div></div><div class="css-3969210646"><div><a href="https://github.com/nahcnuj" rel="me noreferrer" target="_blank">GitHub / nahcnuj</a></div><div><a href="https://x.com/pronahcnuj" rel="me noreferrer" target="_blank">X（旧Twitter） / @pronahcnuj</a></div></div></footer></main><div class="css-2033899531"><div class="css-3717118579"><ol><li><a href="#はじめに">はじめに</a></li><li><a href="#optionやmaybeにおけるandthen"><code>Option</code>や<code>Maybe</code>における<code>andThen</code></a></li><li><a href="#例外処理におけるandthen">例外処理における<code>andThen</code></a></li><li><a href="#状態遷移におけるandthen">状態遷移における<code>andThen</code></a></li><li><a href="#andthen関数とモナドのbind関数"><code>andThen</code>関数とモナドの<code>bind</code>関数</a></li><li><a href="#おわりに">おわりに</a></li><li><a href="#参考文献">参考文献</a></li></ol></div><aside class="css-1709399083"><!-- admax -->
+<script src="https://adm.shinobi.jp/s/ecef110ee254439d10de8dc383b54066"></script>
+<!-- admax -->
+</aside></div></div>
+  <script src="https://www.googletagmanager.com/gtag/js?id=G-RMH8Q8RB96" async></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  const debugMode = typeof location !== 'undefined' && new URLSearchParams(location.search).get('_ga_debug') === '1';
+  gtag('config', 'G-RMH8Q8RB96', debugMode ? { 'debug_mode': true } : {});
+</script>
+  <script type="text/javascript" src="//x4.shinobi.jp/ufo/060401300"></script>
+<noscript>
+  <a href="//x4.shinobi.jp/bin/gg?060401300" target="_blank" rel="noreferrer">
+    <img src="//x4.shinobi.jp/bin/ll?060401300" border="0" alt="">
+  </a>
+  <br>
+  <span style="font-size:9px">
+    <img style="margin:0;vertical-align:text-bottom;" src="//img.shinobi.jp/tadaima/fj.gif" width="19" height="11" alt="">
+  </span>
+</noscript>
+</body>
+</html>

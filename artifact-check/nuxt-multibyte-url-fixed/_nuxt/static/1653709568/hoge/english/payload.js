@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/hoge/english", {data:[{data:{title:"Hello world",body:"It works well if the URL consists of ASCII characters only"}}],fetch:{},mutations:void 0});

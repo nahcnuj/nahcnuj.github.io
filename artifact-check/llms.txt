@@ -1,0 +1,23 @@
+# Junichi Hayashi
+
+> I am Junichi Hayashi, a web engineer working at a company in Tokyo. I love programming and type theory.
+
+I work as a web engineer at a company in Tokyo while enjoying various programming languages and technologies.
+Below, I summarize my favorite things and my background.
+
+Favorites:
+- Programming: From BASIC to Rust, experience with diverse languages
+- Perl: My main work language at the first company, I love its handmade feel
+- TypeScript: Rediscovering the convenience of static typing
+- Types: Captivated by the Curry-Howard correspondence
+
+Affiliations:
+- Kobe City College of Technology: Department of Electrical Engineering, graduated March 2016
+- Osaka University, School of Engineering Science: Department of Information Science, graduated March 2018
+- Osaka University, Graduate School of Information Science and Technology: Computer Science Master's program, withdrawn October 2019
+- Seesaa Inc.: April 2020 – December 2023
+- current job: January 2024 - Present
+
+## Optional
+- [Resume](https://github.com/nahcnuj/nahcnuj/blob/main/README.md): My brief biography
+- [CV](https://github.com/nahcnuj/nahcnuj/blob/main/CV.md): My detailed biography, including past works

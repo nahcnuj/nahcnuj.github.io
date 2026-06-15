@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/hoge/%E6%97%A5%E6%9C%AC%E8%AA%9E", {data:[{data:{title:"ハローワールド",body:"payload.js の読み込みに失敗する"}}],fetch:{},mutations:void 0});
