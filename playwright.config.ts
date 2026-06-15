@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test'
 /**
  * Playwright configuration for VRT (Visual Regression Tests)
  * Captures screenshots at multiple screen sizes per AGENTS.md guidelines
+ * Platform: Windows only (platform-specific font rendering)
  */
 export default defineConfig({
   testDir: './tests/e2e',

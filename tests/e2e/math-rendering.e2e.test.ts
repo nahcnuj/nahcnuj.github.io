@@ -2,53 +2,70 @@
  * E2E Tests: Math rendering in essay pages
  *
  * Functional verification tests that check KaTeX elements render correctly.
- * Tests are platform-agnostic and run on Linux CI.
+ * Tests are platform-agnostic and run on Linux CI with Vitest.
  *
  * Platform: Linux
  * Run with: npm run test:e2e
  */
 
-import { expect, test } from '@playwright/test'
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { chromium } from 'playwright'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const baseDir = join(__dirname, '../../dist')
 
-test.describe('Math Rendering E2E', () => {
+describe('Math Rendering E2E', () => {
+  let browser
+
+  beforeAll(async () => {
+    browser = await chromium.launch()
+  })
+
   // Verify KaTeX elements are rendered on mobile
-  test('math page renders KaTeX on mobile (375px)', async ({ page }) => {
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
+  it('math page renders KaTeX on mobile (375px)', async () => {
+    const page = await browser.newPage()
     await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
     await page.waitForLoadState('networkidle')
 
     const katexElements = await page.locator('.katex').count()
     expect(katexElements).toBeGreaterThan(0)
+
+    await page.close()
   })
 
   // Verify KaTeX elements are rendered on medium screen
-  test('math page renders KaTeX on medium PC (1280px)', async ({ page }) => {
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
+  it('math page renders KaTeX on medium PC (1280px)', async () => {
+    const page = await browser.newPage()
     await page.setViewportSize({ width: 1280, height: 1024 })
+    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
     await page.waitForLoadState('networkidle')
 
     const katexElements = await page.locator('.katex').count()
     expect(katexElements).toBeGreaterThan(0)
+
+    await page.close()
   })
 
   // Verify KaTeX elements are rendered on wide screen
-  test('math page renders KaTeX on wide PC (1440px)', async ({ page }) => {
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
+  it('math page renders KaTeX on wide PC (1440px)', async () => {
+    const page = await browser.newPage()
     await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
     await page.waitForLoadState('networkidle')
 
     const katexElements = await page.locator('.katex').count()
     expect(katexElements).toBeGreaterThan(0)
+
+    await page.close()
   })
 
   // Verify KaTeX elements are rendered with correct classes
-  test('KaTeX elements are rendered with correct classes', async ({ page }) => {
+  it('KaTeX elements are rendered with correct classes', async () => {
+    const page = await browser.newPage()
     await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
     await page.waitForLoadState('networkidle')
 
@@ -63,10 +80,13 @@ test.describe('Math Rendering E2E', () => {
     // Verify MathML annotation exists
     const mathmlElements = await page.locator('math').count()
     expect(mathmlElements).toBeGreaterThan(0)
+
+    await page.close()
   })
 
   // Verify math renders without errors
-  test('math content renders without KaTeX errors', async ({ page }) => {
+  it('math content renders without KaTeX errors', async () => {
+    const page = await browser.newPage()
     await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
     await page.waitForLoadState('networkidle')
 
@@ -77,5 +97,11 @@ test.describe('Math Rendering E2E', () => {
     // Verify no error elements are present
     const errorElements = await page.locator('.katex-error').count()
     expect(errorElements).toBe(0)
+
+    await page.close()
+  })
+
+  afterAll(async () => {
+    if (browser) await browser.close()
   })
 })
