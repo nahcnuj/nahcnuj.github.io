@@ -10,6 +10,7 @@ import remarkFrontmatter from 'remark-frontmatter'
 import remarkMath from 'remark-math'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig, type Plugin } from 'vite'
+import { remarkAlignEnvironments } from './app/lib/remarkAlignEnvironments'
 import { rehypeWrapDisplayMath } from './app/lib/rehypeWrapDisplayMath'
 
 function devFixturesPlugin(): Plugin {
@@ -80,7 +81,7 @@ export default defineConfig(({ command, mode }) => {
       ssg({ entry }),
       mdx({
         jsxImportSource: 'hono/jsx',
-        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkMath],
+        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkMath, remarkAlignEnvironments],
         rehypePlugins: [
           [
             rehypeKatex,
