@@ -21,3 +21,6 @@ wrangler.toml
 yarn.lock
 pnpm-lock.yaml
 bun.lockb
+
+test-results/
+playwright-report/
