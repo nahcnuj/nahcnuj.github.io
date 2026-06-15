@@ -3,7 +3,6 @@ import { html } from 'hono/html'
 import type { ArticleLink } from '../lib/articles'
 import AdMax from './AdMax'
 import MakamujoBanner from './MakamujoBanner'
-import { $, $$ } from './Math'
 import RelatedArticles from './RelatedArticles'
 
 const articleClass = css`
@@ -121,130 +120,6 @@ export default function Article({
   relatedArticles?: ArticleLink[]
   currentPath?: string
 }) {
-  const toTemplate = (tex: string) => Object.assign([tex], { raw: [tex] }) as unknown as TemplateStringsArray
-
-  const tokenizeMath = (value: string) => {
-    const parts: Array<string | { tex: string; display: boolean }> = []
-    let plainStart = 0
-    let i = 0
-
-    const isEscaped = (index: number) => {
-      let backslashes = 0
-      for (let j = index - 1; j >= 0 && value[j] === '\\'; j--) backslashes++
-      return backslashes % 2 === 1
-    }
-
-    while (i < value.length) {
-      if (value[i] !== '$' || isEscaped(i)) {
-        i++
-        continue
-      }
-
-      const display = value[i + 1] === '$'
-      const delimiterLength = display ? 2 : 1
-      const openAt = i
-      const contentStart = openAt + delimiterLength
-
-      let closeAt = contentStart
-      while (closeAt < value.length) {
-        if (value[closeAt] !== '$' || isEscaped(closeAt)) {
-          closeAt++
-          continue
-        }
-
-        if (display) {
-          if (value[closeAt + 1] === '$' && !isEscaped(closeAt + 1)) break
-          closeAt++
-          continue
-        }
-
-        break
-      }
-
-      const hasClose = display ? closeAt + 1 < value.length && value[closeAt + 1] === '$' : closeAt < value.length
-      if (!hasClose) {
-        i = openAt + delimiterLength
-        continue
-      }
-
-      if (openAt > plainStart) parts.push(value.slice(plainStart, openAt))
-      parts.push({ tex: value.slice(contentStart, closeAt), display })
-
-      i = closeAt + delimiterLength
-      plainStart = i
-    }
-
-    if (plainStart < value.length) parts.push(value.slice(plainStart))
-    return parts
-  }
-
-  // biome-ignore lint/suspicious/noExplicitAny: traversal over arbitrary JSX-like nodes
-  const rewriteMarkdownMath = (node: any): any => {
-    if (typeof node === 'string') {
-      const tokens = tokenizeMath(node)
-      if (tokens.length === 1 && typeof tokens[0] === 'string') return node
-      return tokens.map((token) => {
-        if (typeof token === 'string') return token
-        return token.display ? $$(toTemplate(token.tex)) : $(toTemplate(token.tex))
-      })
-    }
-
-    if (!node || typeof node !== 'object') return node
-
-    if (Array.isArray(node)) {
-      return node.flatMap((child) => {
-        const rewritten = rewriteMarkdownMath(child)
-        return Array.isArray(rewritten) ? rewritten : [rewritten]
-      })
-    }
-
-    // biome-ignore lint/suspicious/noExplicitAny: runtime traversal over unknown JSX node shape
-    const readNodeChildren = (target: any): unknown[] | undefined => {
-      if (Array.isArray(target.children)) return target.children
-      const propsChildren = target.props?.children
-      if (Array.isArray(propsChildren)) return propsChildren
-      if (propsChildren === undefined || propsChildren === null) return undefined
-      return [propsChildren]
-    }
-
-    // biome-ignore lint/suspicious/noExplicitAny: runtime traversal over unknown JSX node shape
-    const writeNodeChildren = (target: any, nextChildren: unknown[]) => {
-      if (Array.isArray(target.children)) {
-        target.children = nextChildren
-        return
-      }
-      if (target.props) {
-        target.props.children = nextChildren
-      }
-    }
-
-    const elementType = node.type
-    if (elementType === 'pre' || elementType === 'code') return node
-
-    const nodeChildren = readNodeChildren(node)
-
-    if (elementType === 'p' && Array.isArray(nodeChildren) && nodeChildren.every((child: unknown) => typeof child === 'string')) {
-      const paragraphText = nodeChildren.join('')
-      const displayOnly = paragraphText.match(/^\s*\$\$([\s\S]+?)\$\$\s*$/)
-      if (displayOnly) {
-        return $$(toTemplate(displayOnly[1]))
-      }
-    }
-
-    if (Array.isArray(nodeChildren)) {
-      const rewrittenChildren = nodeChildren.flatMap((child: unknown) => {
-        const rewritten = rewriteMarkdownMath(child)
-        return Array.isArray(rewritten) ? rewritten : [rewritten]
-      })
-      writeNodeChildren(node, rewrittenChildren)
-    }
-
-    return node
-  }
-
-  const rewrittenChildren = rewriteMarkdownMath(children)
-  children = Array.isArray(rewrittenChildren) ? <>{rewrittenChildren}</> : rewrittenChildren
-
   // biome-ignore lint/suspicious/noExplicitAny: internal traversal of JSX tree
   const childArray = children && Array.isArray((children as any).children) ? (children as any).children : undefined
 
