@@ -14,7 +14,7 @@
     "lint:text": "textlint -f pretty-error ./app/routes/**/*.mdx",
     "lint:text:fix": "textlint --fix ./app/routes/**/*.mdx",
     "test": "vitest run",
-    "test:e2e": "vitest run --config vitest.config.e2e.ts",
+    "test:e2e": "playwright test tests/e2e/math-rendering.e2e.test.ts",
     "test:vrt": "playwright test --config playwright.config.ts"
   },
   "dependencies": {

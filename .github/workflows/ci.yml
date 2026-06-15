@@ -86,19 +86,53 @@ jobs:
         with:
           name: website-build-dist
           path: dist
-      - name: Install Japanese fonts
-        run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
       - name: Install dependencies
         run: npm ci --ignore-scripts --prefer-offline
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
       - name: E2E Test
+        run: npm run test:e2e
+      - name: Upload test results on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-test-results-linux
+          path: test-results/
+          retention-days: 7
+      - if: failure()
+        uses: ./.github/actions/notify-failure
+        with:
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  vrt:
+    runs-on: windows-latest
+    needs: build
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - name: Download build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: website-build-dist
+          path: dist
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --prefer-offline
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: VRT Test
         run: npm run test:vrt
       - name: Upload test results on failure
         if: failure()
         uses: actions/upload-artifact@v7
         with:
-          name: vrt-test-results-linux
+          name: vrt-test-results-windows
           path: test-results/
           retention-days: 7
       - if: failure()
