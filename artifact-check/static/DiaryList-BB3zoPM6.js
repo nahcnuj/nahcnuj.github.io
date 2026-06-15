@@ -1,1 +1,0 @@
-import{n as e}from"./client-DkPmJ4bt.js";function t({diaries:t}){return e(`ul`,{children:t.sort(([e],[t])=>t.localeCompare(e)).map(([t,n])=>e(`li`,{children:[e(`a`,{href:t,children:n.title}),n.description&&`：${n.description}`]},t))})}export{t as default};

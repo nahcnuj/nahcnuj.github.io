@@ -1,1 +1,0 @@
-import{n as e}from"./client-DkPmJ4bt.js";function t({essays:t}){return e(`ul`,{children:t.sort(([e],[t])=>t.localeCompare(e)).map(([t,n])=>e(`li`,{children:e(`a`,{href:t,children:n.title})},t))})}export{t as default};
