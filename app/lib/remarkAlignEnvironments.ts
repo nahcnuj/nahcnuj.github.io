@@ -14,44 +14,30 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
   return (tree) => {
     visit(tree, 'math', (node) => {
       if (typeof node.value === 'string') {
-        const originalValue = node.value
         let value = node.value
         let conversions = 0
 
-        // Convert align [star] to split
-        value = value.replace(/\\begin\{align\*\}([\s\S]*?)\\end\{align\*\}/g, (_, content) => {
+        // Pre-process: escape & in align environments to avoid HTML escaping issues
+        // Convert align/align* with multi-line alignment to array environment
+        value = value.replace(/\\begin\{align\*?\}([\s\S]*?)\\end\{align\*?\}/g, (fullMatch, content) => {
           conversions++
-          return `\\begin{split}${content}\\end{split}`
+          // Replace & with & (keep as is) and \\ with line breaks
+          // array environment with aligned cells
+          return `\\begin{array}{l}
+${content.replace(/\\\\/g, ' \\\\').replace(/&/g, '')}
+\\end{array}`
         })
 
-        // Convert align to split
-        value = value.replace(/\\begin\{align\}([\s\S]*?)\\end\{align\}/g, (_, content) => {
-          conversions++
-          return `\\begin{split}${content}\\end{split}`
-        })
-
-        // Convert gather [star] to gathered
-        value = value.replace(/\\begin\{gather\*\}([\s\S]*?)\\end\{gather\*\}/g, (_, content) => {
+        // Convert gather/gather* - similar approach
+        value = value.replace(/\\begin\{gather\*?\}([\s\S]*?)\\end\{gather\*?\}/g, (fullMatch, content) => {
           conversions++
           return `\\begin{gathered}${content}\\end{gathered}`
         })
 
-        // Convert gather to gathered
-        value = value.replace(/\\begin\{gather\}([\s\S]*?)\\end\{gather\}/g, (_, content) => {
+        // Convert multline/multline* to aligned
+        value = value.replace(/\\begin\{multline\*?\}([\s\S]*?)\\end\{multline\*?\}/g, (_, content) => {
           conversions++
-          return `\\begin{gathered}${content}\\end{gathered}`
-        })
-
-        // Convert multline [star] to split
-        value = value.replace(/\\begin\{multline\*\}([\s\S]*?)\\end\{multline\*\}/g, (_, content) => {
-          conversions++
-          return `\\begin{split}${content}\\end{split}`
-        })
-
-        // Convert multline to split
-        value = value.replace(/\\begin\{multline\}([\s\S]*?)\\end\{multline\}/g, (_, content) => {
-          conversions++
-          return `\\begin{split}${content}\\end{split}`
+          return `\\begin{aligned}${content}\\end{aligned}`
         })
 
         if (conversions > 0) {

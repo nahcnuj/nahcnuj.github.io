@@ -86,7 +86,7 @@ export default defineConfig(({ command, mode }) => {
           [
             rehypeKatex,
             {
-              strict: false,
+              strict: true,
               trust: true,
             },
           ],
