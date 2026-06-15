@@ -50,6 +50,19 @@ const rootStyle = css`
   a:active, a:hover {
     color: var(--theme-accent-color);
   }
+
+  /* Display math styling */
+  .katex-display {
+    display: block;
+    margin: 1em 0;
+    text-align: center;
+    overflow-x: auto;
+  }
+
+  p .katex-display {
+    display: inline-block;
+    margin: 0.5em 0;
+  }
 `
 
 const GA4_MEASUREMENT_ID = 'G-RMH8Q8RB96'

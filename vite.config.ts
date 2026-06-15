@@ -10,6 +10,7 @@ import remarkFrontmatter from 'remark-frontmatter'
 import remarkMath from 'remark-math'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig, type Plugin } from 'vite'
+import { rehypeWrapDisplayMath } from './app/lib/rehypeWrapDisplayMath'
 
 function devFixturesPlugin(): Plugin {
   const copiedPaths: string[] = []
@@ -81,7 +82,14 @@ export default defineConfig(({ command, mode }) => {
         jsxImportSource: 'hono/jsx',
         remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkMath],
         rehypePlugins: [
-          rehypeKatex,
+          [
+            rehypeKatex,
+            {
+              strict: false,
+              trust: true,
+            },
+          ],
+          rehypeWrapDisplayMath,
           () =>
             rehypeExternalLinks({
               rel: ['nofollow', 'noopener', 'noreferrer'],
