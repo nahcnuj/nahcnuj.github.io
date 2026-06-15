@@ -10,8 +10,8 @@ import remarkFrontmatter from 'remark-frontmatter'
 import remarkMath from 'remark-math'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig, type Plugin } from 'vite'
-import { remarkAlignEnvironments } from './app/lib/remarkAlignEnvironments'
 import { rehypeWrapDisplayMath } from './app/lib/rehypeWrapDisplayMath'
+import { remarkAlignEnvironments } from './app/lib/remarkAlignEnvironments'
 
 function devFixturesPlugin(): Plugin {
   const copiedPaths: string[] = []
