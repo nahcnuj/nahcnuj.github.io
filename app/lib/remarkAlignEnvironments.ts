@@ -12,20 +12,11 @@ import { visit } from 'unist-util-visit'
  */
 export const remarkAlignEnvironments: Plugin<[], Root> = () => {
   return (tree) => {
-    let nodeCount = 0
-    let totalConversions = 0
-    
     visit(tree, 'math', (node) => {
-      nodeCount++
       if (typeof node.value === 'string') {
         const originalValue = node.value
         let value = node.value
         let conversions = 0
-
-        // Check what we're starting with
-        const hasAlign = /\\begin\{align\*\}/.test(value)
-        const hasSplit = /\\begin\{split\}/.test(value)
-        console.log(`[remarkAlignEnvironments] Node ${nodeCount}: has align=${hasAlign}, has split=${hasSplit}`)
 
         // Convert align [star] to split
         value = value.replace(/\\begin\{align\*\}([\s\S]*?)\\end\{align\*\}/g, (_, content) => {
@@ -64,19 +55,12 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
         })
 
         if (conversions > 0) {
-          totalConversions += conversions
-          console.log(`[remarkAlignEnvironments] Node ${nodeCount}: ${conversions} conversions`)
-          const hasSplitAfter = /\\begin\{split\}/.test(value)
-          console.log(`[remarkAlignEnvironments] After: has split=${hasSplitAfter}`)
+          console.log(`[remarkAlignEnvironments] ${conversions} conversions in math block`)
         }
 
         node.value = value
       }
     })
-    
-    if (totalConversions > 0) {
-      console.log(`[remarkAlignEnvironments] Total: ${nodeCount} nodes, ${totalConversions} conversions`)
-    }
   }
 }
 
