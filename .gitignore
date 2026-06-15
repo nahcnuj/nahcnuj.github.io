@@ -1,5 +1,6 @@
 .raku/
 local/
+artifact-check/
 
 public/img/annict-logo-ver3.png
 
