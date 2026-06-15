@@ -101,16 +101,6 @@ jobs:
           name: vrt-test-results-linux
           path: test-results/
           retention-days: 7
-      - name: Generate Linux VRT baselines if needed
-        if: failure()
-        run: npm run test:vrt -- --update-snapshots || true
-      - name: Upload updated baselines
-        if: failure()
-        uses: actions/upload-artifact@v7
-        with:
-          name: vrt-baselines-linux
-          path: tests/e2e/math-rendering.vrt.test.ts-snapshots/
-          retention-days: 7
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:
