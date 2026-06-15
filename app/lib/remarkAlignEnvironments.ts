@@ -1,5 +1,5 @@
-import type { Plugin } from 'unified'
 import type { Root } from 'mdast'
+import type { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
 
 /**
@@ -17,31 +17,34 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
         let value = node.value
         let conversions = 0
 
-        // Pre-process: escape & in align environments to avoid HTML escaping issues
-        // Convert align/align* with multi-line alignment to array environment
-        value = value.replace(/\\begin\{align\*?\}([\s\S]*?)\\end\{align\*?\}/g, (fullMatch, content) => {
+        // For align* with &, replace & with placeholder before transformation
+        // This prevents MDX from HTML-escaping the & character
+        value = value.replace(/\\begin\{align\*?\}([\s\S]*?)\\end\{align\*?\}/g, (match, content) => {
+          // Keep the aligned environment but decode/re-escape properly
+          // Replace & with a placeholder temporarily
+          const placeholder = '\x00AMPERSAND\x00'
+          const protected_content = content.replace(/&/g, placeholder)
           conversions++
-          // Replace & with & (keep as is) and \\ with line breaks
-          // array environment with aligned cells
-          return `\\begin{array}{l}
-${content.replace(/\\\\/g, ' \\\\').replace(/&/g, '')}
-\\end{array}`
+          // Use aligned which supports the alignment
+          return `\\begin{aligned}${protected_content}\\end{aligned}`
         })
 
-        // Convert gather/gather* - similar approach
-        value = value.replace(/\\begin\{gather\*?\}([\s\S]*?)\\end\{gather\*?\}/g, (fullMatch, content) => {
+        // Convert gather [star] to gathered
+        value = value.replace(/\\begin\{gather\*?\}([\s\S]*?)\\end\{gather\*?\}/g, (_, content) => {
+          const protectedContent = content.replace(/&/g, '\uFFFD')
           conversions++
-          return `\\begin{gathered}${content}\\end{gathered}`
+          return `\\begin{gathered}${protectedContent}\\end{gathered}`
         })
 
-        // Convert multline/multline* to aligned
+        // Convert multline [star] to aligned
         value = value.replace(/\\begin\{multline\*?\}([\s\S]*?)\\end\{multline\*?\}/g, (_, content) => {
+          const protectedContent = content.replace(/&/g, '\uFFFD')
           conversions++
-          return `\\begin{aligned}${content}\\end{aligned}`
+          return `\\begin{aligned}${protectedContent}\\end{aligned}`
         })
 
         if (conversions > 0) {
-          console.log(`[remarkAlignEnvironments] ${conversions} conversions in math block`)
+          console.log(`[remarkAlignEnvironments] conversions=${conversions}`)
         }
 
         node.value = value
@@ -49,4 +52,3 @@ ${content.replace(/\\\\/g, ' \\\\').replace(/&/g, '')}
     })
   }
 }
-

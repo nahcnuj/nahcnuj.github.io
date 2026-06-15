@@ -10,6 +10,7 @@ import remarkFrontmatter from 'remark-frontmatter'
 import remarkMath from 'remark-math'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig, type Plugin } from 'vite'
+import { rehypeDecodeHtmlEntitiesInMath } from './app/lib/rehypeDecodeHtmlEntitiesInMath'
 import { rehypeWrapDisplayMath } from './app/lib/rehypeWrapDisplayMath'
 import { remarkAlignEnvironments } from './app/lib/remarkAlignEnvironments'
 
@@ -81,13 +82,18 @@ export default defineConfig(({ command, mode }) => {
       ssg({ entry }),
       mdx({
         jsxImportSource: 'hono/jsx',
-        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkMath, remarkAlignEnvironments],
+        markdown: {
+          breaks: false,
+        },
+        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkAlignEnvironments, remarkMath],
         rehypePlugins: [
+          rehypeDecodeHtmlEntitiesInMath,
           [
             rehypeKatex,
             {
-              strict: true,
+              strict: false,
               trust: true,
+              output: 'htmlAndMathml',
             },
           ],
           rehypeWrapDisplayMath,
