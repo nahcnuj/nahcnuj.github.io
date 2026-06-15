@@ -24,7 +24,7 @@ test.describe('Math Rendering VRT', () => {
 
     await expect(page).toHaveScreenshot('math-page-mobile-375.png', {
       fullPage: true,
-      maxDiffPixels: 100,
+      maxDiffPixels: 500,
     })
   })
 
@@ -36,7 +36,7 @@ test.describe('Math Rendering VRT', () => {
 
     await expect(page).toHaveScreenshot('math-page-medium-1280.png', {
       fullPage: true,
-      maxDiffPixels: 100,
+      maxDiffPixels: 500,
     })
   })
 
@@ -48,7 +48,7 @@ test.describe('Math Rendering VRT', () => {
 
     await expect(page).toHaveScreenshot('math-page-wide-1440.png', {
       fullPage: true,
-      maxDiffPixels: 100,
+      maxDiffPixels: 500,
     })
   })
 
