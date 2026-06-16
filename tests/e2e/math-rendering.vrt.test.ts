@@ -22,7 +22,7 @@ test.describe('Math Rendering VRT', () => {
     await page.setViewportSize({ width: 375, height: 812 })
     await page.waitForLoadState('networkidle')
 
-    await expect(page).toHaveScreenshot('math-page-mobile-375.png', {
+    await expect(page).toHaveScreenshot({
       fullPage: true,
       maxDiffPixels: 100,
     })
@@ -34,7 +34,7 @@ test.describe('Math Rendering VRT', () => {
     await page.setViewportSize({ width: 1280, height: 1024 })
     await page.waitForLoadState('networkidle')
 
-    await expect(page).toHaveScreenshot('math-page-medium-1280.png', {
+    await expect(page).toHaveScreenshot({
       fullPage: true,
       maxDiffPixels: 100,
     })
@@ -46,7 +46,7 @@ test.describe('Math Rendering VRT', () => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.waitForLoadState('networkidle')
 
-    await expect(page).toHaveScreenshot('math-page-wide-1440.png', {
+    await expect(page).toHaveScreenshot({
       fullPage: true,
       maxDiffPixels: 100,
     })
