@@ -20,7 +20,7 @@ test.describe('Math Rendering VRT', () => {
   test('math page renders correctly on mobile (375px)', async ({ page }) => {
     await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
     await page.setViewportSize({ width: 375, height: 812 })
-    await page.waitForLoadState('networkidle')
+    await page.waitForLoadState('domcontentloaded')
 
     await expect(page).toHaveScreenshot('math-page-mobile-375.png', {
       fullPage: true,
@@ -32,7 +32,7 @@ test.describe('Math Rendering VRT', () => {
   test('math page renders correctly on medium PC (1280px)', async ({ page }) => {
     await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
     await page.setViewportSize({ width: 1280, height: 1024 })
-    await page.waitForLoadState('networkidle')
+    await page.waitForLoadState('domcontentloaded')
 
     await expect(page).toHaveScreenshot('math-page-medium-1280.png', {
       fullPage: true,
@@ -44,7 +44,7 @@ test.describe('Math Rendering VRT', () => {
   test('math page renders correctly on wide PC (1440px)', async ({ page }) => {
     await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.waitForLoadState('networkidle')
+    await page.waitForLoadState('domcontentloaded')
 
     await expect(page).toHaveScreenshot('math-page-wide-1440.png', {
       fullPage: true,
@@ -55,7 +55,7 @@ test.describe('Math Rendering VRT', () => {
   // Verify KaTeX elements are rendered
   test('KaTeX elements are rendered with correct classes', async ({ page }) => {
     await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
-    await page.waitForLoadState('networkidle')
+    await page.waitForLoadState('domcontentloaded')
 
     // Check for KaTeX elements
     const katexElements = await page.locator('.katex').count()
