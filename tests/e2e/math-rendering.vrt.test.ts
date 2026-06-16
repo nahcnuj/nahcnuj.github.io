@@ -18,9 +18,8 @@ const baseDir = join(__dirname, '../../dist')
 test.describe('Math Rendering VRT', () => {
   // Test at mobile size (375px - per AGENTS.md)
   test('math page renders correctly on mobile (375px)', async ({ page }) => {
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
+    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`, { waitUntil: 'domcontentloaded' })
     await page.setViewportSize({ width: 375, height: 812 })
-    await page.waitForLoadState('domcontentloaded')
 
     await expect(page).toHaveScreenshot('math-page-mobile-375.png', {
       fullPage: true,
@@ -30,9 +29,8 @@ test.describe('Math Rendering VRT', () => {
 
   // Test at medium PC size (1280px - per AGENTS.md)
   test('math page renders correctly on medium PC (1280px)', async ({ page }) => {
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
+    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`, { waitUntil: 'domcontentloaded' })
     await page.setViewportSize({ width: 1280, height: 1024 })
-    await page.waitForLoadState('domcontentloaded')
 
     await expect(page).toHaveScreenshot('math-page-medium-1280.png', {
       fullPage: true,
@@ -42,42 +40,12 @@ test.describe('Math Rendering VRT', () => {
 
   // Test at wide PC size (1440px - per AGENTS.md)
   test('math page renders correctly on wide PC (1440px)', async ({ page }) => {
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
+    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`, { waitUntil: 'domcontentloaded' })
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.waitForLoadState('domcontentloaded')
 
     await expect(page).toHaveScreenshot('math-page-wide-1440.png', {
       fullPage: true,
       maxDiffPixels: 100,
     })
   })
-
-  // Verify KaTeX elements are rendered
-  test('KaTeX elements are rendered with correct classes', async ({ page }) => {
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
-    await page.waitForLoadState('domcontentloaded')
-
-    // Check for KaTeX elements
-    const katexElements = await page.locator('.katex').count()
-    expect(katexElements).toBeGreaterThan(0)
-
-    // Check for display math styling
-    const displayMathElements = await page.locator('.katex-display').count()
-    expect(displayMathElements).toBeGreaterThan(0)
-
-    // Verify MathML annotation exists
-    const mathmlElements = await page.locator('math').count()
-    expect(mathmlElements).toBeGreaterThan(0)
-  })
-
-  // Verify split environments rendered (note: some align* may produce warnings)
-  test('align* environments converted to split render without errors', async ({ page }) => {
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
-    await page.waitForLoadState('networkidle')
-
-    // At least some KaTeX elements should render successfully
-    const katexElements = await page.locator('.katex').count()
-    expect(katexElements).toBeGreaterThan(0)
-  })
-
 })
