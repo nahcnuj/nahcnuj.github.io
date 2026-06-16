@@ -19,7 +19,8 @@ export default defineConfig({
     baseURL: 'file://',
     trace: 'on-first-retry',
   },
-  snapshotPathTemplate: '{snapshotDir}/{testFileDir}/{testFileName}-{platform}{ext}',
+  snapshotPathTemplate: '{snapshotDir}/{testFileDir}/{testFileName}{ext}',
+
 
   projects: [
     {
