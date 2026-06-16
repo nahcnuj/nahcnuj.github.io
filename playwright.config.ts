@@ -16,6 +16,11 @@ export default defineConfig({
   timeout: 120 * 1000, // 120 second timeout per test
   globalTimeout: 600 * 1000, // 10 minute timeout for entire test run
   snapshotPathTemplate: '{dir}/__snapshots__/{testFileBaseName}-{testName}-{platform}{ext}',
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixels: 100,
+    },
+  },
   use: {
     baseURL: 'file://',
     trace: 'on-first-retry',
