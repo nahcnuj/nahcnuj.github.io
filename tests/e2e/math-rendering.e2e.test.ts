@@ -8,17 +8,18 @@
  * Run with: npm run test:e2e
  */
 
-import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
+import type { Browser } from 'playwright'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const baseDir = join(__dirname, '../../dist')
 
 describe('Math Rendering E2E', () => {
-  let browser
+  let browser: Browser | null = null
 
   beforeAll(async () => {
     browser = await chromium.launch()

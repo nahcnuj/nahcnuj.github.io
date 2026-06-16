@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["**", "!**/dist", "!**/public/nuxt-multibyte-url-demo", "!**/public/nuxt-multibyte-url-fixed"]
+    "includes": ["**", "!**/dist", "!**/public/nuxt-multibyte-url-demo", "!**/public/nuxt-multibyte-url-fixed", "!**/playwright-report", "!**/test-results"]
   },
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
