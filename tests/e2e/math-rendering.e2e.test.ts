@@ -10,8 +10,8 @@
 
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { chromium } from 'playwright'
 import type { Browser } from 'playwright'
+import { chromium } from 'playwright'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 const __filename = fileURLToPath(import.meta.url)
