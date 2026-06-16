@@ -6,5 +6,6 @@ export default defineConfig({
     // Run E2E test files serially to avoid port conflicts between dev-server instances
     fileParallelism: false,
     testTimeout: 30000, // Increase timeout for browser operations
+    passWithNoTests: true,
   },
 })
