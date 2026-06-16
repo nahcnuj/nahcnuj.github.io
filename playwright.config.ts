@@ -24,12 +24,19 @@ export default defineConfig({
   use: {
     baseURL: 'file://',
     trace: 'on-first-retry',
+    navigationTimeout: 30000,
+    actionTimeout: 10000,
   },
 
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        // Ensure consistent rendering
+        locale: 'en-US',
+        colorScheme: 'light',
+      },
     },
   ],
 
