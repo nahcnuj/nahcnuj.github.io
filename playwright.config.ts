@@ -13,6 +13,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
+  timeout: 60 * 1000, // 60 second timeout per test
   use: {
     baseURL: 'file://',
     trace: 'on-first-retry',
