@@ -49,10 +49,10 @@ test.describe('Math Rendering VRT', () => {
     console.log(`[VRT] Viewport set took ${viewportDuration}ms`)
     
     const loadStart = Date.now()
-    // Wait for KaTeX CSS to ensure fonts are loaded
+    // Wait for all DOM content and network to settle
     await page.waitForLoadState('domcontentloaded')
-    // Additional wait for fonts to fully load
-    await page.waitForTimeout(500)
+    // Give fonts and styles time to fully render
+    await page.waitForTimeout(1500)
     const loadDuration = Date.now() - loadStart
     console.log(`[VRT] DOM content loaded took ${loadDuration}ms`)
 
@@ -83,6 +83,10 @@ test.describe('Math Rendering VRT', () => {
     await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
     await page.setViewportSize({ width: 1280, height: 1024 })
 
+    // Wait for fonts and styles to fully render
+    await page.waitForLoadState('domcontentloaded')
+    await page.waitForTimeout(1500)
+
     await expect(page).toHaveScreenshot({
       fullPage: true,
       maxDiffPixels: 100,
@@ -96,6 +100,10 @@ test.describe('Math Rendering VRT', () => {
     
     await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
     await page.setViewportSize({ width: 1440, height: 900 })
+
+    // Wait for fonts and styles to fully render
+    await page.waitForLoadState('domcontentloaded')
+    await page.waitForTimeout(1500)
 
     await expect(page).toHaveScreenshot({
       fullPage: true,

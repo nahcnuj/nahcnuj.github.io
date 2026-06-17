@@ -34,6 +34,8 @@ export default defineConfig({
       name: 'chromium',
       use: { 
         ...devices['Desktop Chrome'],
+        // Force Linux-based snapshots for CI consistency
+        _snapshotSuffix: 'linux',
         // Ensure consistent rendering
         locale: 'en-US',
         colorScheme: 'light',
