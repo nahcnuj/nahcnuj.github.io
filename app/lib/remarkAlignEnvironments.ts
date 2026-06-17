@@ -29,19 +29,22 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
           return `\\begin{aligned}${protected_content}\\end{aligned}`
         })
 
-        // Convert gather [star] to gathered
+        // Convert gather [star] to gathered, removing & alignment markers
         value = value.replace(/\\begin\{gather\*?\}([\s\S]*?)\\end\{gather\*?\}/g, (_, content) => {
-          const protectedContent = content.replace(/&/g, '\uFFFD')
+          // Remove & characters and their associated whitespace from alignment environments
+          const cleanedContent = content
+            .split('\n')
+            .map((line: string) => line.replace(/^\s*&\s*/, '').replace(/\s*&\s*$/, '')) // Remove & from both start and end
+            .join('\n')
           conversions++
-          return `\\begin{gathered}${protectedContent}\\end{gathered}`
+          return `\\begin{gathered}${cleanedContent}\\end{gathered}`
         })
 
-        // Clean up stray & at the beginning of lines in gathered environments
-        // This handles cases where alignment marks are incorrectly placed
+        // Also clean up already-existing gathered environments
         value = value.replace(/\\begin\{gathered\}([\s\S]*?)\\end\{gathered\}/g, (match, content) => {
           const cleanedContent = content
             .split('\n')
-            .map((line: string) => line.replace(/^\s*&\s*/, '')) // Remove & alignment marker from line start
+            .map((line: string) => line.replace(/^\s*&\s*/, '').replace(/\s*&\s*$/, '')) // Remove & from both start and end
             .join('\n')
           conversions++
           return `\\begin{gathered}${cleanedContent}\\end{gathered}`
