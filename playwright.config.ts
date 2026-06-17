@@ -25,6 +25,8 @@ export default defineConfig({
     trace: 'on-first-retry',
     navigationTimeout: 30000,
     actionTimeout: 10000,
+    // Enable debug mode on CI
+    ...(process.env.CI && { screenshot: 'only-on-failure' }),
   },
 
   projects: [

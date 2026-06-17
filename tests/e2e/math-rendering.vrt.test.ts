@@ -17,6 +17,8 @@ const __dirname = dirname(__filename)
 const baseDir = join(__dirname, '../../dist')
 
 test.describe('Math Rendering VRT', () => {
+  test.setTimeout(30 * 1000) // 30 second timeout per test
+  
   // Test at mobile size (375px - per AGENTS.md)
   test('math page renders correctly on mobile (375px)', async ({ page }) => {
     const testName = 'mobile (375px)'
