@@ -15,7 +15,6 @@ export default defineConfig({
   reporter: 'html',
   timeout: 120 * 1000, // 120 second timeout per test
   globalTimeout: 600 * 1000, // 10 minute timeout for entire test run
-  snapshotPathTemplate: '{snapshotDir}/{snapshotName}-{platform}{ext}',
   expect: {
     toHaveScreenshot: {
       maxDiffPixels: 100,
