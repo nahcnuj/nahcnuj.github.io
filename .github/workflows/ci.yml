@@ -33,7 +33,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Upload build artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v8
         with:
           name: website-build-dist
           path: dist
@@ -94,7 +94,7 @@ jobs:
         run: npm run test:e2e
       - name: Upload test results on failure
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v8
         with:
           name: e2e-test-results-linux
           path: test-results/
@@ -134,7 +134,7 @@ jobs:
         run: npm run test:vrt
       - name: Upload test results on failure
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v8
         with:
           name: vrt-test-results-windows
           path: test-results/
