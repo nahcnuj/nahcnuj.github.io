@@ -90,6 +90,7 @@ jobs:
         run: npm ci --ignore-scripts --prefer-offline
       - name: Install Playwright browsers
         run: npx playwright install chromium
+      - name: E2E Test
         run: npm run test:e2e
       - name: Upload test results on failure
         if: failure()
