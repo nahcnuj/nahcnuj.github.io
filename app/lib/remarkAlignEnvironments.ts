@@ -32,17 +32,22 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
         // Convert gather [star] to gathered, completely removing & characters
         value = value.replace(/\\begin\{gather\*?\}([\s\S]*?)\\end\{gather\*?\}/g, (_, content) => {
           // Remove ALL & characters from gather environment  
-          const cleanedContent = content.replace(/\s*&\s*/g, ' ').trim()
+          const cleanedContent = content.replace(/&/g, ' ').trim()
           conversions++
+          console.log(`[remarkAlignEnvironments] removed & from gather`)
           return `\\begin{gathered}${cleanedContent}\\end{gathered}`
         })
 
         // Also clean up already-existing gathered environments by removing & characters
         value = value.replace(/\\begin\{gathered\}([\s\S]*?)\\end\{gathered\}/g, (match, content) => {
-          // Remove ALL & characters from gathered environment
-          const cleanedContent = content.replace(/\s*&\s*/g, ' ').trim()
-          conversions++
-          return `\\begin{gathered}${cleanedContent}\\end{gathered}`
+          // Check if content has & and remove it
+          if (content.includes('&')) {
+            const cleanedContent = content.replace(/&/g, ' ').trim()
+            conversions++
+            console.log(`[remarkAlignEnvironments] removed & from existing gathered`)
+            return `\\begin{gathered}${cleanedContent}\\end{gathered}`
+          }
+          return match
         })
 
         // Convert multline [star] to aligned
