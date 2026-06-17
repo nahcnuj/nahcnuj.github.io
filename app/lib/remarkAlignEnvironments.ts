@@ -36,6 +36,17 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
           return `\\begin{gathered}${protectedContent}\\end{gathered}`
         })
 
+        // Clean up stray & at the beginning of lines in gathered environments
+        // This handles cases where alignment marks are incorrectly placed
+        value = value.replace(/\\begin\{gathered\}([\s\S]*?)\\end\{gathered\}/g, (match, content) => {
+          const cleanedContent = content
+            .split('\n')
+            .map((line: string) => line.replace(/^\s*&\s*/, '')) // Remove & alignment marker from line start
+            .join('\n')
+          conversions++
+          return `\\begin{gathered}${cleanedContent}\\end{gathered}`
+        })
+
         // Convert multline [star] to aligned
         value = value.replace(/\\begin\{multline\*?\}([\s\S]*?)\\end\{multline\*?\}/g, (_, content) => {
           const protectedContent = content.replace(/&/g, '\uFFFD')
