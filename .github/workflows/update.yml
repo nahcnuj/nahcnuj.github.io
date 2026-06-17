@@ -46,7 +46,12 @@ jobs:
         if: steps.dist-cache.outputs.cache-hit != 'true'
         run: npm run build
       - name: Check for KaTeX errors
+        if: always()
         run: |
+          if [ ! -d dist ]; then
+            echo "⚠️  dist directory not found, skipping KaTeX error check"
+            exit 0
+          fi
           if grep -r "katex-error" dist/ > /dev/null 2>&1; then
             echo "❌ KaTeX errors found in build output"
             grep -r "katex-error" dist/ | head -20
