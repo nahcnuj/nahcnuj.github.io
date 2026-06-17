@@ -7,9 +7,10 @@
  * Run with: npm run test:vrt
  * Update baselines: npm run test:vrt -- --update-snapshots
  */
-import { expect, test } from '@playwright/test'
-import { fileURLToPath } from 'node:url'
+
 import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { expect, test } from '@playwright/test'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -79,5 +80,4 @@ test.describe('Math Rendering VRT', () => {
     const katexElements = await page.locator('.katex').count()
     expect(katexElements).toBeGreaterThan(0)
   })
-
 })
