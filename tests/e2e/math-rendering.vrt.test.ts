@@ -21,41 +21,61 @@ test.describe('Math Rendering VRT', () => {
   test('math page renders correctly on mobile (375px)', async ({ page }) => {
     const testName = 'mobile (375px)'
     const filePath = `file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`
-    console.log(`[VRT] Starting ${testName} test`)
+    const startTime = Date.now()
+    
+    console.log(`[VRT] [${new Date().toISOString()}] Starting ${testName} test`)
     console.log(`[VRT] Base directory: ${baseDir}`)
     console.log(`[VRT] Loading: ${filePath}`)
     
+    // Block external resources (ads, analytics, etc.) to speed up loading
+    await page.route('https://**', (route) => route.abort('blockedbyclient'))
+    
     try {
+      const navStart = Date.now()
       await page.goto(filePath)
-      console.log(`[VRT] ${testName}: Navigation successful`)
+      const navDuration = Date.now() - navStart
+      console.log(`[VRT] Navigation took ${navDuration}ms`)
     } catch (error) {
       console.error(`[VRT] ${testName}: Navigation failed -`, error)
       throw error
     }
     
+    const viewportStart = Date.now()
     await page.setViewportSize({ width: 375, height: 812 })
-    console.log(`[VRT] ${testName}: Viewport set to 375x812`)
+    const viewportDuration = Date.now() - viewportStart
+    console.log(`[VRT] Viewport set took ${viewportDuration}ms`)
     
-    await page.waitForLoadState('networkidle')
-    console.log(`[VRT] ${testName}: Page loaded`)
+    const loadStart = Date.now()
+    // Wait for KaTeX CSS to ensure fonts are loaded
+    await page.waitForLoadState('domcontentloaded')
+    const loadDuration = Date.now() - loadStart
+    console.log(`[VRT] DOM content loaded took ${loadDuration}ms`)
 
     try {
+      const ssStart = Date.now()
       await expect(page).toHaveScreenshot({
         fullPage: true,
         maxDiffPixels: 100,
       })
-      console.log(`[VRT] ${testName}: Screenshot comparison passed`)
+      const ssDuration = Date.now() - ssStart
+      console.log(`[VRT] Screenshot took ${ssDuration}ms`)
+      console.log(`[VRT] ${testName}: Screenshot comparison PASSED`)
     } catch (error) {
-      console.error(`[VRT] ${testName}: Screenshot comparison failed -`, error)
+      console.error(`[VRT] ${testName}: Screenshot comparison FAILED`)
       throw error
     }
+    
+    const totalDuration = Date.now() - startTime
+    console.log(`[VRT] Total test duration: ${totalDuration}ms`)
   })
 
   // Test at medium PC size (1280px - per AGENTS.md)
   test('math page renders correctly on medium PC (1280px)', async ({ page }) => {
+    // Block external resources to speed up loading
+    await page.route('https://**', (route) => route.abort('blockedbyclient'))
+    
     await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
     await page.setViewportSize({ width: 1280, height: 1024 })
-    await page.waitForLoadState('networkidle')
 
     await expect(page).toHaveScreenshot({
       fullPage: true,
@@ -65,9 +85,11 @@ test.describe('Math Rendering VRT', () => {
 
   // Test at wide PC size (1440px - per AGENTS.md)
   test('math page renders correctly on wide PC (1440px)', async ({ page }) => {
+    // Block external resources to speed up loading
+    await page.route('https://**', (route) => route.abort('blockedbyclient'))
+    
     await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.waitForLoadState('networkidle')
 
     await expect(page).toHaveScreenshot({
       fullPage: true,
@@ -77,8 +99,10 @@ test.describe('Math Rendering VRT', () => {
 
   // Verify KaTeX elements are rendered
   test('KaTeX elements are rendered with correct classes', async ({ page }) => {
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
-    await page.waitForLoadState('networkidle')
+    // Block external resources to speed up loading
+    await page.route('https://**', (route) => route.abort('blockedbyclient'))
+    
+    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`, { waitUntil: 'domcontentloaded' })
 
     // Check for KaTeX elements
     const katexElements = await page.locator('.katex').count()
@@ -95,8 +119,10 @@ test.describe('Math Rendering VRT', () => {
 
   // Verify split environments rendered (note: some align* may produce warnings)
   test('align* environments converted to split render without errors', async ({ page }) => {
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
-    await page.waitForLoadState('networkidle')
+    // Block external resources to speed up loading
+    await page.route('https://**', (route) => route.abort('blockedbyclient'))
+    
+    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`, { waitUntil: 'domcontentloaded' })
 
     // At least some KaTeX elements should render successfully
     const katexElements = await page.locator('.katex').count()
