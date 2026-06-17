@@ -20,9 +20,6 @@ export default defineConfig({
       maxDiffPixels: 100,
     },
   },
-  snapshotPathTemplate: '{snapshotDir}/{testFileDir}/{testFileName}-snapshots/{platform}/{arg}{ext}',
-  snapshotDir: 'tests/e2e/math-rendering.vrt.test.ts-snapshots',
-  snapshotSuffix: '-linux', // Use -linux suffix for all platforms to match CI baselines
   use: {
     baseURL: 'file://',
     trace: 'on-first-retry',
@@ -41,6 +38,9 @@ export default defineConfig({
         locale: 'en-US',
         colorScheme: 'light',
       },
+      // Force -linux suffix for all platforms to match CI baselines
+      snapshotDir: 'tests/e2e/math-rendering.vrt.test.ts-snapshots',
+      snapshotPathTemplate: '{snapshotDir}/{arg}{ext}',
     },
   ],
 
