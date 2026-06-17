@@ -20,6 +20,9 @@ export default defineConfig({
       maxDiffPixels: 100,
     },
   },
+  // Set snapshot directory at global level for consistent path resolution
+  snapshotDir: 'tests/e2e/math-rendering.vrt.test.ts-snapshots',
+  snapshotPathTemplate: '{snapshotDir}/{arg}{ext}',
   use: {
     baseURL: 'file://',
     trace: 'on-first-retry',
@@ -38,9 +41,6 @@ export default defineConfig({
         locale: 'en-US',
         colorScheme: 'light',
       },
-      // Force -linux suffix for all platforms to match CI baselines
-      snapshotDir: 'tests/e2e/math-rendering.vrt.test.ts-snapshots',
-      snapshotPathTemplate: '{snapshotDir}/{arg}{ext}',
     },
   ],
 
