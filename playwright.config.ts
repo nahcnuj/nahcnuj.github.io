@@ -22,7 +22,7 @@ export default defineConfig({
   },
   // Set snapshot directory at global level for consistent path resolution
   snapshotDir: 'tests/e2e/math-rendering.vrt.test.ts-snapshots',
-  snapshotPathTemplate: '{snapshotDir}/{arg}{ext}',
+  snapshotPathTemplate: '{arg}{ext}',
   use: {
     baseURL: 'file://',
     trace: 'on-first-retry',
