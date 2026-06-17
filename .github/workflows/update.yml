@@ -45,6 +45,14 @@ jobs:
       - name: Build
         if: steps.dist-cache.outputs.cache-hit != 'true'
         run: npm run build
+      - name: Check for KaTeX errors
+        run: |
+          if grep -r "katex-error" dist/ > /dev/null 2>&1; then
+            echo "❌ KaTeX errors found in build output"
+            grep -r "katex-error" dist/ | head -20
+            exit 1
+          fi
+          echo "✅ No KaTeX errors found"
       - name: Save dist cache
         if: steps.dist-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
