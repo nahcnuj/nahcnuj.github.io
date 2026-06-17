@@ -51,6 +51,8 @@ test.describe('Math Rendering VRT', () => {
     const loadStart = Date.now()
     // Wait for KaTeX CSS to ensure fonts are loaded
     await page.waitForLoadState('domcontentloaded')
+    // Additional wait for fonts to fully load
+    await page.waitForTimeout(500)
     const loadDuration = Date.now() - loadStart
     console.log(`[VRT] DOM content loaded took ${loadDuration}ms`)
 
