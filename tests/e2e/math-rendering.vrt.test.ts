@@ -59,7 +59,7 @@ test.describe('Math Rendering VRT', () => {
     try {
       const ssStart = Date.now()
       await expect(page).toHaveScreenshot({
-        name: 'Math-Rendering-VRT-math-page-renders-correctly-on-mobile-375px-1-linux.png',
+        name: 'Math-Rendering-VRT-math-page-renders-correctly-on-mobile-375px-1-linux',
         fullPage: true,
         maxDiffPixels: 100,
       })
@@ -89,7 +89,7 @@ test.describe('Math Rendering VRT', () => {
     await page.waitForTimeout(1500)
 
     await expect(page).toHaveScreenshot({
-      name: 'Math-Rendering-VRT-math-page-renders-correctly-on-medium-PC-1280px-1-linux.png',
+      name: 'Math-Rendering-VRT-math-page-renders-correctly-on-medium-PC-1280px-1-linux',
       fullPage: true,
       maxDiffPixels: 100,
     })
@@ -108,7 +108,7 @@ test.describe('Math Rendering VRT', () => {
     await page.waitForTimeout(1500)
 
     await expect(page).toHaveScreenshot({
-      name: 'Math-Rendering-VRT-math-page-renders-correctly-on-wide-PC-1440px-1-linux.png',
+      name: 'Math-Rendering-VRT-math-page-renders-correctly-on-wide-PC-1440px-1-linux',
       fullPage: true,
       maxDiffPixels: 100,
     })
