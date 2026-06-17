@@ -19,14 +19,36 @@ const baseDir = join(__dirname, '../../dist')
 test.describe('Math Rendering VRT', () => {
   // Test at mobile size (375px - per AGENTS.md)
   test('math page renders correctly on mobile (375px)', async ({ page }) => {
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
+    const testName = 'mobile (375px)'
+    const filePath = `file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`
+    console.log(`[VRT] Starting ${testName} test`)
+    console.log(`[VRT] Base directory: ${baseDir}`)
+    console.log(`[VRT] Loading: ${filePath}`)
+    
+    try {
+      await page.goto(filePath)
+      console.log(`[VRT] ${testName}: Navigation successful`)
+    } catch (error) {
+      console.error(`[VRT] ${testName}: Navigation failed -`, error)
+      throw error
+    }
+    
     await page.setViewportSize({ width: 375, height: 812 })
+    console.log(`[VRT] ${testName}: Viewport set to 375x812`)
+    
     await page.waitForLoadState('networkidle')
+    console.log(`[VRT] ${testName}: Page loaded`)
 
-    await expect(page).toHaveScreenshot({
-      fullPage: true,
-      maxDiffPixels: 100,
-    })
+    try {
+      await expect(page).toHaveScreenshot({
+        fullPage: true,
+        maxDiffPixels: 100,
+      })
+      console.log(`[VRT] ${testName}: Screenshot comparison passed`)
+    } catch (error) {
+      console.error(`[VRT] ${testName}: Screenshot comparison failed -`, error)
+      throw error
+    }
   })
 
   // Test at medium PC size (1280px - per AGENTS.md)
