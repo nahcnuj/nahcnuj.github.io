@@ -39,6 +39,7 @@ test.describe('Math Rendering VRT', () => {
       console.log(`[VRT] Navigation took ${navDuration}ms`)
     } catch (error) {
       console.error(`[VRT] ${testName}: Navigation failed -`, error)
+      console.error(`[VRT] Error details:`, JSON.stringify(error, null, 2))
       throw error
     }
     
@@ -64,6 +65,7 @@ test.describe('Math Rendering VRT', () => {
       console.log(`[VRT] ${testName}: Screenshot comparison PASSED`)
     } catch (error) {
       console.error(`[VRT] ${testName}: Screenshot comparison FAILED`)
+      console.error(`[VRT] Error details:`, error instanceof Error ? error.message : JSON.stringify(error, null, 2))
       throw error
     }
     
