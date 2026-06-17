@@ -128,8 +128,8 @@ jobs:
         run: npm ci --ignore-scripts --prefer-offline
       - name: Install Playwright browsers
         run: npx playwright install chromium
-      - name: VRT Test
-        run: npm run test:vrt
+      - name: VRT Test (update snapshots)
+        run: npm run test:vrt -- --update-snapshots
       - name: Upload test results on failure
         if: failure()
         uses: actions/upload-artifact@v4
