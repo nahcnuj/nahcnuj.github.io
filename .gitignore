@@ -32,4 +32,3 @@ vrt_compare.txt
 vrt_output.txt
 vrt_results.txt
 vrt-test-*.txt
-tests/e2e/math-rendering.vrt.test.ts-snapshots/
