@@ -32,6 +32,41 @@ runs:
     - name: Convert md to html.mdx and move to app/routes
       shell: bash
       run: |
+        # Create a Perl script to process files
+        cat > /tmp/process_mdx.pl << 'PERLEOF'
+        use strict;
+        use warnings;
+        
+        my $file = $ARGV[0];
+        my $target = $ARGV[1];
+        
+        open(my $fh, '<', $file) or die "Cannot open $file: $!";
+        my $content = do { local $/; <$fh> };
+        close($fh);
+        
+        # 1. <blockquote> タグを複数行に整形
+        $content =~ s/(<blockquote[^>]*>)([^\n])/$1\n$2/g;
+        $content =~ s/([^\n])(<\/blockquote>)/$1\n$2/g;
+        
+        # 2. aligned → align* に変換
+        $content =~ s/\\begin\{aligned\}/\\begin{align*}/g;
+        $content =~ s/\\end\{aligned\}/\\end{align*}/g;
+        
+        # 3. align* 環境内の & 記号を削除
+        $content =~ s/\\begin\{align\*\}(.*?)\\end\{align\*\}/
+          my $math = $1;
+          $math =~ s\/&\s*\/\/g;
+          "\\\\begin{align*}$math\\\\end{align*}"
+        /gse;
+        
+        # Write to target
+        open($fh, '>', $target) or die "Cannot write $target: $!";
+        print $fh $content;
+        close($fh);
+        
+        print "✓ Processed: $target\n";
+        PERLEOF
+        
         # Exclude top-level underscore-prefixed directories during find
         find ./temp_download -path './temp_download/_*' -prune -o -name '*.md' -type f -print | while read -r file; do
           relative_path="${file#./temp_download/}"
@@ -45,42 +80,8 @@ runs:
           # ディレクトリを作成
           mkdir -p "$(dirname "$target_path")"
           
-          # ファイルを処理: Perlスクリプトで複数の変換を一括実行
-          perl << 'EOF' "$file"
-            use strict;
-            use warnings;
-            
-            my $file = $ARGV[0];
-            open(my $fh, '<', $file) or die "Cannot open $file: $!";
-            my $content = do { local $/; <$fh> };
-            close($fh);
-            
-            # 1. <blockquote> タグを複数行に整形
-            $content =~ s/(<blockquote[^>]*>)([^\n])/$1\n$2/g;
-            $content =~ s/([^\n])(<\/blockquote>)/$1\n$2/g;
-            
-            # 2. aligned → align* に変換
-            $content =~ s/\\begin\{aligned\}/\\begin{align*}/g;
-            $content =~ s/\\end\{aligned\}/\\end{align*}/g;
-            
-            # 3. align* 環境内の & 記号を削除
-            $content =~ s/\\begin\{align\*\}(.*?)\\end\{align\*\}/
-              my $math = $1;
-              $math =~ s\/&\s*\/\/g;
-              "\\\\begin{align*}$math\\\\end{align*}"
-            /gse;
-            
-            open($fh, '>', $file) or die "Cannot write $file: $!";
-            print $fh $content;
-            close($fh);
-            
-            print "Processed: $file\n";
-          EOF
-          
-          # Copy processed file to target
-          cp "$file" "$target_path"
-          
-          echo "Restored: $relative_path → $target_path"
+          # Perlスクリプトで処理
+          perl /tmp/process_mdx.pl "$file" "$target_path"
         done
     
     - name: Copy images directories to public
