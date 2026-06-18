@@ -19,19 +19,24 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
     name: 'fix-mdx-align-environments',
     transform(code, id) {
       if (!id.endsWith('.mdx') && !id.endsWith('.md')) return null
-      if (!code.includes('&') || !code.includes('\\begin{aligned')) return null
+      if (!code.includes('\\begin{aligned')) return null
 
       const before = code
       let modified = code
 
-      // Remove ALL & characters from aligned environments
-      // KaTeX doesn't support & alignment markers in the way they're being used
-      modified = modified.replace(/\\begin\{aligned\}([\s\S]*?)\\end\{aligned\}/g, (match) => {
+      // Convert aligned environment to align* and remove & characters
+      // aligned + & causes KaTeX parsing errors, but align* doesn't use &
+      modified = modified.replace(/\\begin\{aligned\}/g, '\\begin{align*}')
+      modified = modified.replace(/\\end\{aligned\}/g, '\\end{align*}')
+
+      // Remove all & characters (they're not needed in align*)
+      // Use regex to match the entire align* block and remove & inside it
+      modified = modified.replace(/\\begin\{align\*\}([\s\S]*?)\\end\{align\*\}/g, (match) => {
         return match.replace(/&/g, '')
       })
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] removed & from aligned block in ${id.substring(id.lastIndexOf('/'))}`)
+        console.log(`[fixMdxAlign] converted aligned to align* and removed & in ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
