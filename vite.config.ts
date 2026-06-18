@@ -24,21 +24,23 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
       const before = code
       let modified = code
 
-      // Remove all & characters first
+      // Step 1: Remove all & characters
       modified = modified.replace(/&/g, '')
+      console.log('[fixMdxAlign] removed all & characters')
 
-      // Flatten aligned environments: remove unnecessary newlines/whitespace
-      // This helps KaTeX parse the content more reliably
-      modified = modified.replace(/\$\$\n\\begin\{aligned\}([\s\S]*?)\n\\end\{aligned\}\$\$/g, (match) => {
-        // Remove internal newlines but preserve \\ for line breaks in math
+      // Step 2: Flatten aligned environments
+      // Match any aligned block with flexible whitespace
+      modified = modified.replace(/\\begin\{aligned\}([\s\S]*?)\\end\{aligned\}/g, (match) => {
+        // Remove newlines and excessive whitespace, but preserve \\
         let flattened = match
-          .replace(/\n\s+/g, ' ')  // newline + spaces -> single space
-          .replace(/\s+\n/g, ' ')  // spaces + newline -> single space
+          .replace(/\n\s*/g, ' ')  // newlines + spaces -> single space
+          .replace(/\s+/g, ' ')    // multiple spaces -> single space
+        console.log('[fixMdxAlign] flattened aligned block, before=' + match.length + ' after=' + flattened.length)
         return flattened
       })
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] flattened aligned blocks and removed & in ${id.substring(id.lastIndexOf('/'))}`)
+        console.log(`[fixMdxAlign] processed aligned blocks in ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
