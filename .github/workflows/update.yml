@@ -51,8 +51,6 @@ jobs:
         if: steps.dist-cache.outputs.cache-hit != 'true'
         run: npm run build
       - name: Check for KaTeX errors
-        # no math rendering issues to deploy
-        if: true
         run: |
           if [ ! -d dist ]; then
             echo "⚠️  dist directory not found, skipping KaTeX error check"
