@@ -16,35 +16,49 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
       if (typeof node.value === 'string') {
         let value = node.value
         let conversions = 0
+        let hadAmpersand = false
 
-        // For align* with &, replace & with placeholder before transformation
-        // This prevents MDX from HTML-escaping the & character
-        value = value.replace(/\\begin\{align\*?\}([\s\S]*?)\\end\{align\*?\}/g, (match, content) => {
-          // Keep the aligned environment but decode/re-escape properly
-          // Replace & with a placeholder temporarily
-          const placeholder = '\x00AMPERSAND\x00'
-          const protected_content = content.replace(/&/g, placeholder)
+        // First pass: remove ALL & characters from the entire math environment at line beginnings
+        // This is critical because even in gathered/aligned, leading & causes KaTeX parse errors
+        const lines = value.split('\n')
+        const cleanedLines = lines.map(line => {
+          // Remove & at the start of the line (with optional whitespace)
+          if (line.match(/^\s*&/)) {
+            hadAmpersand = true
+            return line.replace(/^\s*&\s*/, '')
+          }
+          return line
+        })
+        value = cleanedLines.join('\n')
+
+        if (hadAmpersand) {
           conversions++
-          // Use aligned which supports the alignment
-          return `\\begin{aligned}${protected_content}\\end{aligned}`
+          console.log(`[remarkAlignEnvironments] removed leading & from line beginnings`)
+        }
+
+        // For align* with &, convert to aligned for KaTeX compatibility
+        value = value.replace(/\\begin\{align\*?\}([\s\S]*?)\\end\{align\*?\}/g, (match, content) => {
+          // Remove remaining & alignment markers that weren't at line starts
+          const cleanedContent = content.replace(/&/g, ' ')
+          conversions++
+          console.log(`[remarkAlignEnvironments] converted align to aligned`)
+          return `\\begin{aligned}${cleanedContent}\\end{aligned}`
         })
 
-        // Convert gather [star] to gathered, completely removing & characters
+        // Convert gather [star] to gathered, removing any remaining & characters
         value = value.replace(/\\begin\{gather\*?\}([\s\S]*?)\\end\{gather\*?\}/g, (_, content) => {
-          // Remove ALL & characters from gather environment  
           const cleanedContent = content.replace(/&/g, ' ').trim()
           conversions++
-          console.log(`[remarkAlignEnvironments] removed & from gather`)
+          console.log(`[remarkAlignEnvironments] converted gather to gathered`)
           return `\\begin{gathered}${cleanedContent}\\end{gathered}`
         })
 
-        // Also clean up already-existing gathered environments by removing & characters
+        // Clean up existing gathered environments - remove any remaining & characters
         value = value.replace(/\\begin\{gathered\}([\s\S]*?)\\end\{gathered\}/g, (match, content) => {
-          // Check if content has & and remove it
           if (content.includes('&')) {
             const cleanedContent = content.replace(/&/g, ' ').trim()
             conversions++
-            console.log(`[remarkAlignEnvironments] removed & from existing gathered`)
+            console.log(`[remarkAlignEnvironments] cleaned & from gathered`)
             return `\\begin{gathered}${cleanedContent}\\end{gathered}`
           }
           return match
@@ -52,13 +66,14 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
 
         // Convert multline [star] to aligned
         value = value.replace(/\\begin\{multline\*?\}([\s\S]*?)\\end\{multline\*?\}/g, (_, content) => {
-          const protectedContent = content.replace(/&/g, '\uFFFD')
+          const cleanedContent = content.replace(/&/g, ' ')
           conversions++
-          return `\\begin{aligned}${protectedContent}\\end{aligned}`
+          console.log(`[remarkAlignEnvironments] converted multline to aligned`)
+          return `\\begin{aligned}${cleanedContent}\\end{aligned}`
         })
 
         if (conversions > 0) {
-          console.log(`[remarkAlignEnvironments] conversions=${conversions}`)
+          console.log(`[remarkAlignEnvironments] total conversions=${conversions}`)
         }
 
         node.value = value
