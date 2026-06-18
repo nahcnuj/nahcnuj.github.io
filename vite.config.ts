@@ -17,32 +17,23 @@ import { remarkAlignEnvironments } from './app/lib/remarkAlignEnvironments'
 function fixMdxAlignEnvironmentsPlugin(): Plugin {
   return {
     name: 'fix-mdx-align-environments',
-    resolveId(id) {
-      if (id.endsWith('.mdx') || id.endsWith('.md')) return null
-      return null
-    },
-    load(id) {
-      if (id.endsWith('.mdx') || id.endsWith('.md')) {
-        // This runs after the actual file load
-        return null
-      }
-      return null
-    },
     transform(code, id) {
       if (!id.endsWith('.mdx') && !id.endsWith('.md')) return null
-      if (!code.includes('\\begin{aligned}') && !code.includes('\\begin{align')) return null
+      if (!code.includes('&') || (!code.includes('$$') && !code.includes('\\begin'))) return null
 
-      // Fix & at beginning of aligned blocks
+      // Remove ALL & characters globally from any math blocks
+      const before = code
       let modified = code
-      const before = modified
-      modified = modified.replace(/\\begin\{aligned\}\n&\s+/g, '\\begin{aligned}\n')
-      modified = modified.replace(/\\begin\{align\*?\}\n&\s+/g, '\\begin{align}\n')
 
-      // Remove all & alignment markers globally from math blocks
-      modified = modified.replace(/(\$\$|`)([^`$]*?)&\s+/g, '$1$2 ')
+      // Simple: just replace every & with space in files that have math
+      // This is aggressive but necessary because & causes KaTeX parse errors
+      if (code.includes('\\begin{aligned}') || code.includes('\\begin{align') || 
+          code.includes('\\begin{gather') || code.includes('\\begin{multline')) {
+        modified = code.replace(/&/g, ' ')
+      }
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] fixed & in ${id}`)
+        console.log(`[fixMdxAlign] removed ALL & from ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
