@@ -19,23 +19,16 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
     name: 'fix-mdx-align-environments',
     transform(code, id) {
       if (!id.endsWith('.mdx') && !id.endsWith('.md')) return null
-      if (!code.includes('\\begin{aligned')) return null
+      // Match both .aligned and .mdx files since some might be in different formats
+      if (!code.includes('&')) return null
 
       const before = code
-      let modified = code
-
-      // Strategy: Remove & characters from the source before markdown processing
-      // This prevents KaTeX parsing errors that occur when & appears in align* environments
-      
-      // Simply remove all & characters that are part of alignment markers
-      // Keep it simple: just remove any & followed by whitespace
-      // This handles: "& text", "{}={} &", etc.
-      modified = modified.replace(/&\s+/g, ' ')
-      // Also remove & at end of lines
-      modified = modified.replace(/&$/gm, '')
+      // Remove ALL & characters from the code
+      // This is a blunt approach but necessary for KaTeX compatibility
+      const modified = code.replace(/&/g, '')
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] removed alignment markers (&) from ${id.substring(id.lastIndexOf('/'))}`)
+        console.log(`[fixMdxAlign] removed all & from ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
