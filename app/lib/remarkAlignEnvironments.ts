@@ -5,8 +5,8 @@ import { visit } from 'unist-util-visit'
 /**
  * Convert multi-line environments for KaTeX compatibility
  *
- * rehype-katex doesn't handle top-level align [*], align, gather [*], gather, multline [*]
- * Convert them to split/gathered which are KaTeX-safe inside display math
+ * This plugin MUST run AFTER remarkMath in the plugin chain to process math nodes.
+ * It removes & alignment markers that cause KaTeX parse errors.
  *
  * See: https://github.com/remarkjs/remark-math/issues/11
  */
@@ -16,27 +16,17 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
       if (typeof node.value === 'string') {
         let value = node.value
         let conversions = 0
-        
-        // DEBUG: log input
-        const hasAmp = value.includes('&')
-        console.log(`[remarkAlignEnvironments] processing math node, has &: ${hasAmp}, length: ${value.length}`)
 
-        // CRITICAL FIX: Remove ALL & alignment markers from aligned/aligned/gathered/etc
-        // KaTeX has a parse error when & appears at position 1: "Expected 'EOF', got '&'"
-        // The & character is only for alignment and isn't necessary - we can just remove it
-        
-        // Remove ALL & characters globally - they cause KaTeX parse errors
+        // Remove ALL & characters - they cause KaTeX parse error at position 1
         if (value.includes('&')) {
-          const beforeLength = value.length
           value = value.replace(/&/g, ' ')
-          const afterLength = value.length
           conversions++
-          console.log(`[remarkAlignEnvironments] removed ALL & alignment markers (${beforeLength} -> ${afterLength})`)
+          console.log(`[remarkAlignEnvironments] removed & alignment markers`)
         }
 
-        // Still convert unsupported environments to supported ones for compatibility
+        // Convert unsupported environments to KaTeX-compatible ones
         // For align* environments, convert to aligned
-        value = value.replace(/\\begin\{align\*?\}([\s\S]*?)\\end\{align\*?\}/g, (match, content) => {
+        value = value.replace(/\\begin\{align\*?\}([\s\S]*?)\\end\{align\*?\}/g, (_, content) => {
           conversions++
           console.log(`[remarkAlignEnvironments] converted align to aligned`)
           return `\\begin{aligned}${content}\\end{aligned}`
@@ -60,14 +50,7 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
           console.log(`[remarkAlignEnvironments] total conversions=${conversions}`)
         }
 
-        // DEBUG: verify value before assignment
-        const valueHasAmpAfter = value.includes('&')
-        console.log(`[remarkAlignEnvironments] before node.value assignment, has &: ${valueHasAmpAfter}`)
-        
         node.value = value
-        
-        // DEBUG: verify value after assignment
-        console.log(`[remarkAlignEnvironments] after node.value assignment, node.value has &: ${node.value.includes('&')}`)
       }
     })
   }

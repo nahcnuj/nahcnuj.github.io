@@ -85,7 +85,7 @@ export default defineConfig(({ command, mode }) => {
         markdown: {
           breaks: false,
         },
-        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkAlignEnvironments, remarkMath],
+        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkMath, remarkAlignEnvironments],
         rehypePlugins: [
           rehypeDecodeHtmlEntitiesInMath,
           [
