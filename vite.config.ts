@@ -24,18 +24,16 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
       const before = code
       let modified = code
 
-      // Convert aligned environments to array which KaTeX definitely supports
-      // Remove & markers since array uses column specification instead
+      // Remove & characters BEFORE converting environments
+      // This ensures all alignment markers are gone before KaTeX sees the code
+      modified = modified.replace(/&/g, '')
+
+      // Now convert aligned to array for better KaTeX support
       modified = modified.replace(/\\begin\{aligned\}/g, '\\begin{array}{ll}')
       modified = modified.replace(/\\end\{aligned\}/g, '\\end{array}')
-      
-      // Remove & characters from within array blocks
-      modified = modified.replace(/\\begin\{array\{ll\}\}([\s\S]*?)\\end\{array\}/g, (match) => {
-        return match.replace(/&/g, '')
-      })
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] converted aligned to array and removed & in ${id.substring(id.lastIndexOf('/'))}`)
+        console.log(`[fixMdxAlign] removed & and converted aligned to array in ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
