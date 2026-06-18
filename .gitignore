@@ -22,13 +22,17 @@ yarn.lock
 pnpm-lock.yaml
 bun.lockb
 
-test-results/
+test-*/
+test_*/
 playwright-report/
 
 # VRT testing temporary files
-prod_page.html
-temp_compare.mjs
-vrt_compare.txt
-vrt_output.txt
-vrt_results.txt
-vrt-test-*.txt
+*.html
+temp-*
+temp_*
+vrt_*
+vrt-*
+
+# files Copilot accidentially commits
+*artifact*
+*.log
