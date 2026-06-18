@@ -1,71 +1,58 @@
 ---
-title: ガウシアンフィルターのフーリエ変換を導出する
-description: ガウシアンフィルターのフーリエ変換の導出をやってみました。
-usemath: true
+title: ガウシアンフィルターのフ�Eリエ変換を導�Eする
+description: ガウシアンフィルターのフ�Eリエ変換の導�Eをやってみました、Eusemath: true
 published: 2021-05-06
 ---
-# ガウシアンフィルタのフーリエ変換を導出する
+# ガウシアンフィルタのフ�Eリエ変換を導�Eする
 
-本記事は[2021年5月6日にアップロードしたGist](https://gist.github.com/nahcnuj/3f1c481237f9eea4a9918cb948ff7b65)を基にしています。
-
-## 問題
-
-> 以下の式で示される空間領域のガウシアンフィルタのフーリエ変換を求めなさい。
->
+本記事�E[2021年5朁E日にアチE�EロードしたGist](https://gist.github.com/nahcnuj/3f1c481237f9eea4a9918cb948ff7b65)を基にしてぁE��す、E
+## 問顁E
+> 以下�E式で示される空間領域のガウシアンフィルタのフ�Eリエ変換を求めなさい、E>
 > 空間領域のガウシアンフィルタ
 >
 > $$h_{\mathrm{g}}(x, y) = \frac{1}{2\pi\sigma^2} e^{-\frac{x^2+y^2}{2\sigma^2}}$$
 >
 
-出典は以下の投稿です。
-<div style="min-height:400px;display:flex;align-items:center;justify-content:center">
+出典は以下�E投稿です、E<div style="min-height:400px;display:flex;align-items:center;justify-content:center">
 <iframe src="https://best-friends.chat/@mira/106182662941893419/embed" class="mastodon-embed" style="max-width: 100%; border: 0" width="400" allowfullscreen="allowfullscreen"></iframe><script src="https://best-friends.chat/embed.js" async="async"></script>
 </div>
 
-## 導出過程
-
-略解の行間を埋めるように導出の過程を示す。$j^2 = -1$とする。
-
-まず、$x$に関する積分と$y$に関する積分とを分離する。
-
+## 導�E過稁E
+略解の行間を埋めるように導�Eの過程を示す、Ej^2 = -1$とする、E
+まず、Ex$に関する積�Eと$y$に関する積�Eとを�E離する、E
 $$\begin{align*}
-& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} e^{-\frac{x^2+y^2}{2\sigma^2}} e^{-j2\pi(ux+vy)} dx dy \\
-{}={} &
-  \int_{-\infty}^{\infty} \exp\!{\left(-\frac{x^2}{2\sigma^2}-j2\pi ux\right)} dx
+\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} e^{-\frac{x^2+y^2}{2\sigma^2}} e^{-j2\pi(ux+vy)} dx dy \\
+{}={} \int_{-\infty}^{\infty} \exp\!{\left(-\frac{x^2}{2\sigma^2}-j2\pi ux\right)} dx
   \int_{-\infty}^{\infty} \exp\!{\left(-\frac{y^2}{2\sigma^2}-j2\pi vy\right)} dy
   .
 \end{align*}$$
 
-左の被積分関数の指数を$f(x, u)$と置いて平方完成すると以下のようになる。
-
+左の被積�E関数の持E��めEf(x, u)$と置ぁE��平方完�Eすると以下�Eようになる、E
 $$\begin{align*}
-f(x, u) := {} & -\frac{x^2}{2\sigma^2} - j2\pi ux \\
-{}={} & -\frac{1}{2\sigma^2} (x^2 + j4\pi\sigma^2 ux) \\
-{}={} & -\frac{1}{2\sigma^2}\!\left( (x+j2\sigma^2\pi u)^2+(2\pi\sigma^2)^2u^2 \right)\!.
+f(x, u) := {} -\frac{x^2}{2\sigma^2} - j2\pi ux \\
+{}={} -\frac{1}{2\sigma^2} (x^2 + j4\pi\sigma^2 ux) \\
+{}={} -\frac{1}{2\sigma^2}\!\left( (x+j2\sigma^2\pi u)^2+(2\pi\sigma^2)^2u^2 \right)\!.
 \end{align*}$$
 
-これを用いて被積分関数$\exp(f(x, u))$は以下のように整理できる。
-
+これを用ぁE��被積�E関数$\exp(f(x, u))$は以下�Eように整琁E��きる、E
 $$\begin{align*}
-\exp(f(x, u)) = {} & \exp\!{\left( -\frac{1}{2\sigma^2}\!\left( (x+j2\sigma^2\pi u)^2+(2\pi\sigma^2)^2u^2 \right) \right)} \\
-{}={} & \exp\!{\left( -\frac{1}{2\sigma^2} (x+j2\sigma^2\pi u)^2 \right)} \exp{(-2\pi^2\sigma^2 u^2)} .
+\exp(f(x, u)) = {} \exp\!{\left( -\frac{1}{2\sigma^2}\!\left( (x+j2\sigma^2\pi u)^2+(2\pi\sigma^2)^2u^2 \right) \right)} \\
+{}={} \exp\!{\left( -\frac{1}{2\sigma^2} (x+j2\sigma^2\pi u)^2 \right)} \exp{(-2\pi^2\sigma^2 u^2)} .
 \end{align*}$$
 
-右の指数関数はその指数に積分変数$x$を含まないから定数とみなせることに注意して、ガウス積分の結果を使えば以下のように積分できる。
-
+右の持E��関数はそ�E持E��に積�E変数$x$を含まなぁE��ら定数とみなせることに注意して、ガウス積�Eの結果を使え�E以下�Eように積�Eできる、E
 $$\begin{align*}
-\int_{-\infty}^{\infty} \exp(f(x, u)) \, dx ={} & \exp{(-2\pi^2\sigma^2 u^2)} \int_{-\infty}^{\infty} \exp\!{\left(-\frac{1}{2\sigma^2} (x+j2\pi\sigma^2 u)^2 \right)} dx \\
-{}={} & \exp{(-2\pi^2\sigma^2 u^2)} \sqrt{2\pi\sigma^2} .
+\int_{-\infty}^{\infty} \exp(f(x, u)) \, dx ={} \exp{(-2\pi^2\sigma^2 u^2)} \int_{-\infty}^{\infty} \exp\!{\left(-\frac{1}{2\sigma^2} (x+j2\pi\sigma^2 u)^2 \right)} dx \\
+{}={} \exp{(-2\pi^2\sigma^2 u^2)} \sqrt{2\pi\sigma^2} .
 \end{align*}$$
 
-したがって以下の通り解が得られる。
-
+したがって以下�E通り解が得られる、E
 $$\begin{align*}
-F( h_{\mathrm{g}}(x, y) ) = {} & \frac{1}{2\pi\sigma^2}
+F( h_{\mathrm{g}}(x, y) ) = {} \frac{1}{2\pi\sigma^2}
   \int_{-\infty}^{\infty} \exp\!{\left(f(x, u) \right)} \, dx
   \int_{-\infty}^{\infty} \exp\!{\left(f(y, v) \right)} \, dy \\
-{}={} & \frac{1}{2\pi\sigma^2}
+{}={} \frac{1}{2\pi\sigma^2}
   \cdot \exp{(-2\pi^2\sigma^2 u^2)} \sqrt{2\pi\sigma^2} 
   \cdot \exp{(-2\pi^2\sigma^2 v^2)} \sqrt{2\pi\sigma^2} \\
-{}={} & \exp\!{\left( -2 \pi^2 \sigma^2 (u^2 + v^2) \right)} .
+{}={} \exp\!{\left( -2 \pi^2 \sigma^2 (u^2 + v^2) \right)} .
 \end{align*}$$
