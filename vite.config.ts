@@ -19,17 +19,23 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
     name: 'fix-mdx-align-environments',
     transform(code, id) {
       if (!id.endsWith('.mdx') && !id.endsWith('.md')) return null
-      
-      const hasAmpersand = code.includes('&')
-      if (!hasAmpersand) return null
+      if (!code.includes('\\begin{aligned')) return null
 
       const before = code
-      // Escape & characters for KaTeX compatibility
-      // \& tells KaTeX to render a literal ampersand and not treat it as an alignment marker
-      const modified = code.replace(/&/g, '\\&')
+      let modified = code
+
+      // Convert aligned environments to array which KaTeX definitely supports
+      // Remove & markers since array uses column specification instead
+      modified = modified.replace(/\\begin\{aligned\}/g, '\\begin{array}{ll}')
+      modified = modified.replace(/\\end\{aligned\}/g, '\\end{array}')
+      
+      // Remove & characters from within array blocks
+      modified = modified.replace(/\\begin\{array\{ll\}\}([\s\S]*?)\\end\{array\}/g, (match) => {
+        return match.replace(/&/g, '')
+      })
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] escaped & to \\& in ${id.substring(id.lastIndexOf('/'))}`)
+        console.log(`[fixMdxAlign] converted aligned to array and removed & in ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
