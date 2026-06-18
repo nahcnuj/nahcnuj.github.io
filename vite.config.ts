@@ -19,21 +19,19 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
     name: 'fix-mdx-align-environments',
     transform(code, id) {
       if (!id.endsWith('.mdx') && !id.endsWith('.md')) return null
-      if (!code.includes('&') || (!code.includes('$$') && !code.includes('\\begin'))) return null
+      if (!code.includes('&') || !code.includes('\\begin{aligned')) return null
 
-      // Remove ALL & characters globally from any math blocks
       const before = code
       let modified = code
 
-      // Simple: just replace every & with space in files that have math
-      // This is aggressive but necessary because & causes KaTeX parse errors
-      if (code.includes('\\begin{aligned}') || code.includes('\\begin{align') || 
-          code.includes('\\begin{gather') || code.includes('\\begin{multline')) {
-        modified = code.replace(/&/g, ' ')
-      }
+      // ONLY remove & from the beginning of lines in aligned blocks
+      // This fixes the KaTeX "position 1" error while preserving alignment functionality
+      // Aligned blocks need & for alignment between columns, so only fix line-starts
+      modified = modified.replace(/\\begin\{aligned\}\n(&\s+)/g, '\\begin{aligned}\n')
+      modified = modified.replace(/\n(&\s+)/g, '\n')
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] removed ALL & from ${id.substring(id.lastIndexOf('/'))}`)
+        console.log(`[fixMdxAlign] removed & from line starts in ${id.substring(id.lastIndexOf('/')) }`)
         return { code: modified }
       }
       return null
