@@ -19,8 +19,13 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
     name: 'fix-mdx-align-environments',
     transform(code, id) {
       if (!id.endsWith('.mdx') && !id.endsWith('.md')) return null
-      // Match both .aligned and .mdx files since some might be in different formats
-      if (!code.includes('&')) return null
+      
+      const hasAmpersand = code.includes('&')
+      if (hasAmpersand && id.includes('derive-fourier')) {
+        console.log(`[fixMdxAlign] processing ${id}, has &=${hasAmpersand}`)
+      }
+      
+      if (!hasAmpersand) return null
 
       const before = code
       // Remove ALL & characters from the code
