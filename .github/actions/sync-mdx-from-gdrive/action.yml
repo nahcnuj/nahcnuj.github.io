@@ -52,8 +52,13 @@ runs:
         $content =~ s/\\begin\{aligned\}/\\begin{align*}/g;
         $content =~ s/\\end\{aligned\}/\\end{align*}/g;
         
-        # 3. Remove & markers from align* environments (not valid in align*)
-        $content =~ s/&\s*//g;
+        # 3. Remove & markers only within align* environments
+        while ($content =~ /\\begin\{align\*\}(.*?)\\end\{align\*\}/s) {
+          my $math_content = $1;
+          my $original = $&;
+          $math_content =~ s/&\s*//g;
+          $content =~ s/\Q$original\E/\\begin{align*}$math_content\\end{align*}/;
+        }
         
         # Write to target
         open($fh, '>', $target) or die "Cannot write $target: $!";
