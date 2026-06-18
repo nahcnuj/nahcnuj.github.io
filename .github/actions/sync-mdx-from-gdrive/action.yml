@@ -32,42 +32,6 @@ runs:
     - name: Convert md to html.mdx and move to app/routes
       shell: bash
       run: |
-        # Create a Perl script to process files
-        cat > /tmp/process_mdx.pl << 'PERLEOF'
-        use strict;
-        use warnings;
-        
-        my $file = $ARGV[0];
-        my $target = $ARGV[1];
-        
-        open(my $fh, '<', $file) or die "Cannot open $file: $!";
-        my $content = do { local $/; <$fh> };
-        close($fh);
-        
-        # 1. <blockquote> タグを複数行に整形
-        $content =~ s/(<blockquote[^>]*>)([^\n])/$1\n$2/g;
-        $content =~ s/([^\n])(<\/blockquote>)/$1\n$2/g;
-        
-        # 2. aligned → align* に変換
-        $content =~ s/\\begin\{aligned\}/\\begin{align*}/g;
-        $content =~ s/\\end\{aligned\}/\\end{align*}/g;
-        
-        # 3. Remove & markers only within align* environments
-        while ($content =~ /\\begin\{align\*\}(.*?)\\end\{align\*\}/s) {
-          my $math_content = $1;
-          my $original = $&;
-          $math_content =~ s/&\s*//g;
-          $content =~ s/\Q$original\E/\\begin{align*}$math_content\\end{align*}/;
-        }
-        
-        # Write to target
-        open($fh, '>', $target) or die "Cannot write $target: $!";
-        print $fh $content;
-        close($fh);
-        
-        print "✓ Processed: $target\n";
-        PERLEOF
-        
         # Exclude top-level underscore-prefixed directories during find
         find ./temp_download -path './temp_download/_*' -prune -o -name '*.md' -type f -print | while read -r file; do
           relative_path="${file#./temp_download/}"
@@ -81,8 +45,13 @@ runs:
           # ディレクトリを作成
           mkdir -p "$(dirname "$target_path")"
           
-          # Perlスクリプトで処理
-          perl /tmp/process_mdx.pl "$file" "$target_path"
+          # ファイルを処理: sed で複数の変換
+          sed -e 's/\\begin{aligned}/\\begin{align*}/g' \
+              -e 's/\\end{aligned}/\\end{align*}/g' \
+              -e 's/&\s*//g' \
+              "$file" > "$target_path"
+          
+          echo "Restored: $relative_path → $target_path"
         done
     
     - name: Copy images directories to public
