@@ -36,3 +36,4 @@ vrt-*
 # files Copilot accidentially commits
 *artifact*
 *.log
+*.txt
