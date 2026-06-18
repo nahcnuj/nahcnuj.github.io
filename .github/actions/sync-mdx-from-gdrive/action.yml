@@ -50,11 +50,12 @@ runs:
           # 2. \begin{aligned} を \begin{align*} に変換
           # 3. \end{aligned} を \end{align*} に変換
           # NOTE: & は全体削除は避け、remark/vite plugins で個別対応
-          cat "$file" | \
-            perl -0777 -pe 's/(<blockquote[^>]*>)([^\n])/$1\n$2/g; s/([^\n])(<\/blockquote>)/$1\n$2/g' | \
-            sed 's/\\begin{aligned}/\\begin{align*}/g' | \
-            sed 's/\\end{aligned}/\\end{align*}/g' \
-            > "$target_path"
+          perl -i.bak -0777 -pe \
+            's/(<blockquote[^>]*>)([^\n])/$1\n$2/g; s/([^\n])(<\/blockquote>)/$1\n$2/g; s/\\begin\{aligned\}/\\begin{align*}/g; s/\\end\{aligned\}/\\end{align*}/g' \
+            "$file"
+          
+          # Copy processed file to target
+          cp "$file" "$target_path"
           
           echo "Restored: $relative_path → $target_path"
         done
