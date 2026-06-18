@@ -12,51 +12,27 @@ import { visit } from 'unist-util-visit'
  */
 export const remarkAlignEnvironments: Plugin<[], Root> = () => {
   return (tree) => {
-    let mathNodeCount = 0
-    visit(tree, 'math', (node) => {
-      mathNodeCount++
-      if (typeof node.value === 'string') {
-        const content = node.value
-        const first100 = content.substring(0, 100).replace(/\n/g, ' ').replace(/&/g, '&AMP;')
-        console.log(`[remarkAlign #${mathNodeCount}] input (first 100): ${first100}`)
-        
-        let value = content
-        let conversions = 0
-
-        // Remove ALL & characters - they cause KaTeX parse error at position 1
-        if (value.includes('&')) {
-          value = value.replace(/&/g, ' ')
-          conversions++
-          console.log(`[remarkAlign #${mathNodeCount}] removed & markers`)
+    // HACK: Recursively visit ALL nodes and fix & in their string values
+    // This ensures & is removed even if it appears in non-math contexts
+    visit(tree, (node: any) => {
+      if (node.type === 'math' && typeof node.value === 'string') {
+        // Math nodes - remove & characters that cause KaTeX errors
+        if (node.value.includes('&')) {
+          node.value = node.value.replace(/&/g, ' ')
+          console.log(`[remarkAlignEnvironments] fixed & in math node`)
         }
-
-        // Convert unsupported environments to KaTeX-compatible ones
-        value = value.replace(/\\begin\{align\*?\}([\s\S]*?)\\end\{align\*?\}/g, (_, content) => {
-          conversions++
-          console.log(`[remarkAlign #${mathNodeCount}] converted align to aligned`)
-          return `\\begin{aligned}${content}\\end{aligned}`
-        })
-
-        value = value.replace(/\\begin\{gather\*?\}([\s\S]*?)\\end\{gather\*?\}/g, (_, content) => {
-          conversions++
-          console.log(`[remarkAlign #${mathNodeCount}] converted gather to gathered`)
-          return `\\begin{gathered}${content.trim()}\\end{gathered}`
-        })
-
-        value = value.replace(/\\begin\{multline\*?\}([\s\S]*?)\\end\{multline\*?\}/g, (_, content) => {
-          conversions++
-          console.log(`[remarkAlign #${mathNodeCount}] converted multline to aligned`)
-          return `\\begin{aligned}${content}\\end{aligned}`
-        })
-
-        if (conversions > 0) {
-          console.log(`[remarkAlign #${mathNodeCount}] total conversions=${conversions}`)
+      } else if (node.type === 'html' && typeof node.value === 'string') {
+        // HTML nodes - might contain escaped math content
+        if (node.value.includes('&amp;') && (node.value.includes('\\int') || node.value.includes('\\begin'))) {
+          node.value = node.value.replace(/&amp;(\s*\\)/g, ' $1')
+          console.log(`[remarkAlignEnvironments] fixed &amp; in HTML node`)
         }
-        
-        const afterFirst100 = value.substring(0, 100).replace(/\n/g, ' ').replace(/&/g, '&AMP;')
-        console.log(`[remarkAlign #${mathNodeCount}] output (first 100): ${afterFirst100}`)
-
-        node.value = value
+      } else if (node.type === 'text' && typeof node.value === 'string') {
+        // Text nodes - fix any escaped math
+        if (node.value.includes('&amp;') && node.value.includes('\\')) {
+          node.value = node.value.replace(/&amp;(\s*\\)/g, ' $1')
+          console.log(`[remarkAlignEnvironments] fixed &amp; in text node`)
+        }
       }
     })
   }
