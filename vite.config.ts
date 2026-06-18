@@ -29,8 +29,17 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
       modified = modified.replace(/\\begin\{aligned\}/g, '\\begin{align*}')
       modified = modified.replace(/\\end\{aligned\}/g, '\\end{align*}')
 
-      // Remove all & characters (they're not needed in align*)
-      // Use regex to match the entire align* block and remove & inside it
+      // Debug: show what we're working with before & removal
+      if (id.includes('derive-fourier')) {
+        const alignBlocks = [...modified.matchAll(/\\begin\{align\*\}([\s\S]*?)\\end\{align\*\}/g)]
+        console.log(`[fixMdxAlign] Found ${alignBlocks.length} align blocks`)
+        alignBlocks.forEach((match, idx) => {
+          console.log(`[fixMdxAlign] Block ${idx} char count: ${match[1].length}`)
+          console.log(`[fixMdxAlign] Block ${idx} first 50 chars: ${match[1].substring(0, 50)}`)
+        })
+      }
+
+      // Remove all & characters
       modified = modified.replace(/\\begin\{align\*\}([\s\S]*?)\\end\{align\*\}/g, (match) => {
         return match.replace(/&/g, '')
       })
