@@ -49,6 +49,8 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
     },
   }
 }
+
+function devFixturesPlugin(): Plugin {
   const copiedPaths: string[] = []
   return {
     name: 'dev-fixtures',
