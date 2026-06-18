@@ -24,14 +24,13 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
       const before = code
       let modified = code
 
-      // ONLY remove & from the beginning of lines in aligned blocks
-      // This fixes the KaTeX "position 1" error while preserving alignment functionality
-      // Aligned blocks need & for alignment between columns, so only fix line-starts
-      modified = modified.replace(/\\begin\{aligned\}\n(&\s+)/g, '\\begin{aligned}\n')
-      modified = modified.replace(/\n(&\s+)/g, '\n')
+      // Remove & from the beginning of lines (with optional leading whitespace) in aligned blocks
+      // The pattern is: newline, optional spaces, ampersand, optional space
+      // This preserves & characters used for column alignment within lines
+      modified = modified.replace(/\n\s*&\s+/g, '\n')
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] removed & from line starts in ${id.substring(id.lastIndexOf('/')) }`)
+        console.log(`[fixMdxAlign] fixed line-start & in ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
