@@ -1,0 +1,7 @@
+---
+title: DependabotがGitHubのリポジトリシークレットを読めるようにした
+description: Dependabotがリポジトリシークレットを読み取れずにワークフローが失敗していた。GitHubリポジトリの設定にDependabot用のリポジトリシークレットの設定が別で用意されていたのでそれを設定した。
+published: 2026-02-03
+---# DependabotがGitHubのリポジトリシークレットを読めるようにした## 経緯
+Dependabotが作成したプルリクのCIが失敗していたので確認したところ、[前日に設定した](./2026-02-02.html)はずのリポジトリシークレットが読み込まれていなかった。## 対応
+> Dependabot Secrets を使いましょう。引用元：[GitHub: Dependabot で GitHub Secrets にアクセスさせる \| knmts\.com](https://knmts.com/247/#:~:text=Dependabot%20Secrets%20%E3%82%92%E4%BD%BF%E3%81%84%E3%81%BE%E3%81%97%E3%82%87%E3%81%86%E3%80%82)

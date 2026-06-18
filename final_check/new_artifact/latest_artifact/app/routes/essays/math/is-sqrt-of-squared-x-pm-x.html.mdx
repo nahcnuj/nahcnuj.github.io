@@ -1,0 +1,63 @@
+---
+id: 20260511T1510
+title: √(x²) ≟ ±x
+description:
+tags: []
+aliases: []
+created: 2026-05-11T15:30:00
+updated: 2026-05-11T15:30:00
+published: 2026-05-11
+usemath: true
+---
+import { $, $$ } from '../../../components/Math'
+
+# √(x²) ≟ ±x
+Xで話題に挙がっていた以下の数式について考える。
+{$$`\sqrt{x^2} = \pm x`}
+
+<blockquote class="twitter-tweet">
+<p lang="ja" dir="ltr">この間違い見飽きた聞き飽きた <a href="https://t.co/pDuuXo5efy">pic.twitter.com/pDuuXo5efy</a></p>&mdash; ℕ 浪くん (@nrou_mathmatics) <a href="https://twitter.com/nrou_mathmatics/status/2053138791859425372?ref_src=twsrc%5Etfw">May 9, 2026</a>
+</blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+この記事では {$`x`} は実数とする。
+
+## 論理和の略記
+方程式 {$`x^2 = 4`} の解は {$`x = +2,\ {-2}`} である。
+これらを {$`x = \pm 2`} と省略して書くこともある。
+これは {$`x = +2 \lor x = {-2}`} くらいの意味だろう（{$`+2 \neq {-2}`} だから {$`x = +2 \land x = {-2}`} は偽だ）。
+
+この考え方を冒頭の式に適用すると、次の論理式 (★) の略記といえる。
+{$$`\sqrt{x^2} = +x \lor \sqrt{x^2} = {-x} \tag{$\bigstar$}`}
+この命題は真である。
+
+（証明）
+{$`x \ge 0`} のときは {$`\sqrt{x^2} = +x`} だから、(★) は真。
+{$`x \lt 0`} のときは {$`\sqrt{x^2} = {-x}`} だから、(★) は真。
+したがって、任意の実数 {$`x`} に対して論理式 (★) は真である。（証明終）
+
+このように考えるならば冒頭の式は正しいと言えそうだ。
+
+## 複号同順
+「±」という記号は、以下のように「複号同順」という言葉と共に使われることもある。
+{$$` (x \pm y)^2 = x^2 \pm 2 x y + y^2 \qquad\text{（複号同順）}`}
+
+これは複数ある復号の同じ側を取ることにして、以下の2つの恒等式をまとめて書いたものである。
+{$$`\\begin{align*}
+\begin{cases}
+(x + y)^2 = x^2 + 2 x y + y^2 \\
+(x - y)^2 = x^2 - 2 x y + y^2
+\end{cases}
+\\end{align*}`}
+
+これらはどちらも成り立つ。
+
+一方、冒頭の式には復号が1つしか出てこないので無理筋かもしれないが、「どちらも」真となるか、すなわち次の命題を考える。
+{$$`\sqrt{x^2} = +x \land \sqrt{x^2} = -x \tag{$\diamondsuit$}`}
+
+反例はすぐに挙げられるだろう。(♢) は偽である。
+例えば {$`x = 2`} が {$`\sqrt{x^2} = \sqrt{2^2} = \sqrt{4} = 2 \neq {-2}`} であるから反例となる。
+
+もっとも、冒頭の式には復号が1つしか出てこないから、このように考えるのは野暮かもしれない。
+
+## 結局
+{$$`\sqrt{x^2} = \left| x \right|.`}

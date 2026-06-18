@@ -1,0 +1,105 @@
+---
+title: 「andThen」からモナドを理解する：高度な抽象化の第一歩
+description: >-
+  「andThen」からモナドへの一歩を踏み出しましょう。
+  この記事では、Option、Except、Stateなどのデータ構造に見られる「andThen」関数の共通性を通じて、モナドが持つ高度な抽象化概念を紹介します。
+thumbnail: https://www.nahcnuj.work/img/essays/programming/functional/andthen-and-then-monad-thumb.jpg
+published: 2024-11-17
+---
+# 「`andThen`」からモナドを理解する：高度な抽象化の第一歩## はじめに関数型プログラミングには、「**モナド（monad）**」という強力な抽象化ツールが存在します。
+しかし、それはしばしば初心者にとって難解なものとされます。
+モナドが提供する抽象化の対象は、我々が日常的に利用するデータ構造や操作の中に実は数多く存在しているのです。
+その共通性に着目することで、モナドはそれほど遠い存在ではなく、むしろ身近なものであることが分かります。ある種のデータ構造には、その構造を持つ値から始めて関数を次々と適用していく`andThen`関数が考えられます。
+この記事で`andThen`関数を出発点として、モナドの理解への第一歩を踏み出しましょう。## `Option`や`Maybe`における`andThen``Option`（あるいは`Maybe`）は、値が存在しない状況を表現するデータ型です。
+何らかの値`x`が存在する場合（`some x`）には`Option`の値を返す関数`f`を適用し、存在しない場合（`none`）はそのまま存在しないとする`andThen`関数を考えましょう。
+[Lean 4でコード例を示す](https://live.lean-lang.org/#codez=CYUwZgBAhgdsAqALEMIAoBuEBcEDyADgC4CWA9qoI3AAlOpLpRIEmE+x5qgTcC26GkUQccAXgBQECAFsoRAMaIIWAO4kiiMRAA+EGBRDiIQgHzbd6rQGcyEvQA8DxyDZEjQkKQE8AImQCuAIwAbPVwAOWlmVj5UMKJhdTAfVDQ7UOlaI3VxKVl5O2VVTM0IAAZ7ExgQQq1UIwhLa3QAJggAKm1qZxAbKAkCIOx1WARkJPq9AFZaD29/IIM6qz0ARlKAWlWIQGNrQDsGQBIFQCSGQEBjQBMGbcBzBkbAWAURbCEIP3cIIgAnEgwSKADO7t7+wbgkCh0GMSlMoF5fIE9HcdBUIOsSnsjqczgdACvxgFUGQBWDIARBhudweT1e70+3x6fRAA3EQ0BqFhemmkLmMN08I2u0AMgyADW1ABTqgHUGXHnXkCnGAPwZRfj7o8Xm8Pl8RCQYOYiLAZAz3IrlarghAALIUKDASLsCCKZDPSriPyKo23aAAkYiADEchAMgA1pINUqVTA1UA)と以下のようになります。```lean4
+def andThen (v : Option α) (f : α → Option β) : Option β :=
+  match v with
+  | none   => none
+  | some x => f x
+```この関数の使用例として、正の自然数に対してだけその数を2倍した値を返し、0に対しては値を返さない（言い換えると`none`を返す）`mayDouble`関数を適用するコードを示します。```lean4
+def mayDouble : Nat → Option Nat :=
+  fun (x : Nat) =>
+    match x with
+    | 0 => none
+    | n => some (2 * n)#eval andThen (some 5) mayDouble -- some 10 （正なので倍にされた）
+#eval andThen (some 0) mayDouble -- none （0なので値を返さなかった）
+#eval andThen  none    mayDouble -- none （値がないのでそのまま）
+```## 例外処理における`andThen``Either`や`Except`のような構造は、成功か失敗かの結果を表現します。
+このデータ型に対しては、前の処理が成功して値`x`を持つ場合（`ok x`）にのみ次の関数`f`を適用し、失敗してエラー`e`である場合（`error e`）はそのままエラーを受け流すような`andThen`関数を考えられます。
+[Lean 4でコード例を示します。](https://live.lean-lang.org/#codez=CYUwZgBAhgdsAqALEMIAoBuEBcECiAHgMYgAOALhIK3AEgjcACU6kutEgSYT7FmU2BNwI7kIkK1CLxwBeAFAQIAWyjkiiCFgDuAS3KIZEAD4QAdCABOJgPYmIICBIB8nYeWNnL13QcPmA1hAKzZewhIAikpUEhgcwBXACMAGxAASTAABXMAZxwIADlFdkduCABlchMNGABzXPzsaVkwaNQ0f1w88kZ7XVkFJRV/TW1u/QgABlsHFwsrACIkyg0s0cMZ4YNUIK9fNAAmCAAqCBh6MJACKDlSROxdWARkZq2IAFZGKLjElPSsiUKKJ4AjKMpHUILEAJ4QMoaDAaKDxU7nS7XW5wJAodBPUZvGIJZJpTK2P7OUzTCBzBZLFYg34QqHlWHwxEXK4gG6yO7ox6ktwzPCuEwAQhmOI++O+RKE3CmvP502FNLBkOhjIRUgAxCAMPDoGiHpifC9RXivpkpABac3EwHjQAQ/4Bja0AdgyAEgVAOYMgAQjQD5SoArBkdrsAsAqASH+NVqdZz9WgscbPgSMharVL/jzZvMIIsxisILavYADBkAMgyjHOAYwZAPoMfsAFQyAS4ZAD8Mwc12viuvuGMjyfJcsswuj4rNlutbb5AuFWcAskqOwBnioAwFzzgEZNQDqpr7XYBdBkdgD8GVeBoA)
+前節で示した`Option`の`andThen`と見た目が似ていますね。```lean4
+def andThen (v : Except ε α) (f : α → Except ε β) : Except ε β :=
+  match v with
+  | .error e => Except.error e
+  | .ok x    => f x
+```この関数の使用例として、自然数を返す処理が成功した場合に、その結果が正の自然数だった場合にはそれを2倍した値で成功とし、そうでない（すなわち0だった）場合にはエラーを返す`doubleIfPos`関数を適用するコードを示します。```lean4
+def doubleIfPos : Nat → Except String Nat :=
+  fun (x : Nat) =>
+    match x with
+    | 0 => .error "It is 0."
+    | n => .ok (2 * n)#eval andThen (.ok 5) doubleIfPos
+-- Except.ok 10 （正の値で成功なので倍）
+#eval andThen (.ok 0) doubleIfPos
+-- Except.error "It is 0." （成功だが0だったのでエラー）
+#eval andThen (.error "Error!") doubleIfPos
+-- Except.error "Error!" （前の処理が失敗なのでそのまま）
+```## 状態遷移における`andThen`状態を保持しながら計算するための構造は、与えられた状態に対して計算結果とともに次の状態を返すような関数の型`State`と考えることができます。```lean4
+def State (σ : Type) (α : Type) := σ → (σ × α)
+-- σが状態を区別するための値の型で、αが計算結果の型です。
+```少し分かりにくい構造ですが、簡単な例を通して説明していきます。
+ある自然数から0まで1ずつカウントダウンしていくことを考えましょう。
+状態の種類としては、初期状態`Init`、カウントダウン中の`Progress`、停止状態`Stop`を考えましょう。（任意の状態における）自然数からカウントダウンを1回行う関数`step`を考えます。
+既に0だったら停止状態にしておけば良いですね。停止状態のようなそれ以降遷移しない一定の状態は、前の状態（引数）によらず常に一定の値を返す関数として表現できます。今の例では`(Stop, 0)`を返す関数で表現できます（`finished`と名付けます）。
+また、1のときも停止状態に遷移させます。
+2以上のときは1減らしてカウントダウン中とするわけですが、もし停止状態だったら減らさないでおきたいですね。初期状態かカウントダウン中だったら減らすことにしましょう。
+[Lean 4のコードで示す](https://live.lean-lang.org/#codez=CYUwZgBAygLghjEEAUhh4AgLggFQJ4AcQBKFQRuBMcDjMBeCdQJMIV0B1iUogKE9EjgDtg2ABYh+KAG4VYCJOg4pIWckxmJ6EQE3AJLGrlbanCBDABXccgDOFVCRoA+I8YgAbEDBRWA5DaIAaFAAPCg4dOilLJ2NIYMsvbgBLQVMAYxgEiSQAWVw9SIAfCABJfgSPAFpyiEBcJUB8c0A2p0BpQ05C2AB7fAhKiEAdBUAjayaWiAAFACc2gHNRkEtrbsAzxUAwF0AkhkAs30BFBkBohkHQUYykiYgAJRB8Uc4OsQgcvO5eEySEy1FgaXh1G/eZiAA5BFoTOYIAB9CAOFDtfABAAMXB44AglkQnSwfw8qi+11yX2saMM0SByHEqIQdkczggAFsEClhBBxAB3MrCKIQQrQ5zgsCPZ4gYCswoARk59gepV5/IphWBAGoAExg0XdOWAU7lAFByrIpZnE1gcmopVJpdOsTJgLINBtaMA6Fop4OQkIC/C4tuchRKZXyY0m01mipQ3qmM0sTvKgrh8MgCQAzG9ZFi8r9/hg6NqQf7kB6YAFo1x7vgFbpMZ9ZLjk6mgaD7YHfSGIHK8wj8MKi/GS4gyx4U4DxFXRcga8GAuHuCBAnBKfg3BgnAIhKJxDHEciwRAC5xuwAjXAQJIwcbWADcEH3+zgLlH48n09nghEVwLy9Oq+bG7o293/H3bSPJ72EgSc9LwnKcQBnYw53vCxIIXXdYyRU4SAQzo6FfLcdz3A8IGPU8AKAzgxxAm8ILvWDkBgq5yNIq4l2QpDkXo59Ux5F43wgD9MJ/bC/zPC9OAAYmmYBUiQGNOG6NNdX7LMczhQS+REiAKMXeDkXEqpJIzQdZgCBtuHk4SUiQZSUBM2iGKffB1J7REtPGIMdIgEcBKExSTKo+dKLM1TEMsxirIkoEpIha0oQgWF9NcoylOo8RuXFF5LOszT7UdcKuCAA)と以下のようになります。```lean4
+def finished : State MyStates Nat := fun _ => (Stop, 0)def step : Nat → State MyStates Nat :=
+  fun (n : Nat) =>
+    match n with
+    | 0   => finished
+    | 1   => finished
+    | _+2 => -- 2以上
+        fun s =>
+          match s with
+          | Stop          => (Stop, n)
+          | Init|Progress => (Progress, n-1)
+```このような`State`の構造に対して、現在の状態`v`と次の状態へと移行する計算`f`をつなぐような`andThen`関数が考えられます。```lean4
+def andThen (v : State σ α) (f : α → State σ β) : State σ β :=
+  fun (s : σ) =>
+    let ((s' : σ), (x : α)) := v s
+    f x s'
+```具体例でこの関数が`andThen`と呼べるものになっていることを確認しましょう。
+少し難しいのでひとまずそうなっていることを認めていただいて[次の節まで読み飛ばし](#andthen関数とモナドのbind関数)ていただいても構いません。初期状態として3（＝`(Init, 3)`）から始めて、1回カウントダウン（`step`関数を適用）すればカウントダウン中の2（＝`(Progress, 2)`）になり、さらに1回カウントダウンするとカウントダウン中の1（＝`(Progress, 1)`）、更にカウントダウンすると停止状態（＝`finished = (Stop, 0)`）になることを、`andThen`関数を使って確かめます。```lean4
+-- 初期状態
+def i3 : State MyStates Nat := fun _ => (Init, 3)-- 初期状態の確認
+#reduce i3
+-- fun s => (Init, 3)-- 1回カウントダウン
+#reduce andThen i3 step
+-- fun s => (Progress, 2)-- 2回カウントダウン
+#reduce andThen (andThen i3 step) step
+-- fun s => (Progress, 1)-- 3回カウントダウン
+#reduce andThen (andThen (andThen i3 step) step) step
+-- fun s => (Stop, 0)-- これは`finished`の“定数”と同じ
+#reduce andThen finished step
+-- fun s => (Stop, 0)
+```さて、`State`に対する`andThen`関数は`Option`や`Except`の`andThen`とは全く異なるように見えるでしょう。
+しかし、実はこれにも共通しているところがあり、その共通点こそが「モナド」なのです。## `andThen`関数とモナドの`bind`関数`Option`、`Except`、`State`の3つの構造に対して`andThen`関数を見てきましたが、その共通点は一体どこにあるのでしょうか。
+前節で見たように処理の中身は違うことがあるようなので、それぞれの1️行目に秘密がありそうです。
+```lean4
+def andThen (v : Option   α) (f : α → Option   β) : Option   β :=def andThen (v : Except ε α) (f : α → Except ε β) : Except ε β :=def andThen (v : State σ  α) (f : α → State σ  β) : State σ  β :=
+```
+お分かりいただけますでしょうか。
+`andThen`関数はそのシグネチャが`Option`, `Except ε`, `State σ`で共通しているのです。
+「このようなシグネチャの`andThen`関数を定義できる型」を総称する気持ちで`m`と名付けて置き換えてみましょう。
+```lean4
+def andThen (v : m α) (f : α → m β) : m β :=
+```
+モナドの定義に触れたことがある方にはどこか見覚えのあるのではないでしょうか。
+これがまさしく、モナドのbind操作のシグネチャと一致するのです。実際、Lean 4では`Monad`にはこれと同じシグネチャの関数`bind`を定義することが（型クラス`Bind`を通して）要請されます。
+```lean4
+  bind : {α β : Type u} → m α → (α → m β) → m β
+```
+（[Lean 4のGitHubリポジトリより引用](https://github.com/leanprover/lean4/blob/b1e0c1b59463973210363b1f4886043efc3a2bb6/src/Init/Prelude.lean#L2729)）## おわりに本記事では、`Option`, `Except`, `State`の3つの構造に対する`andThen`関数を通じて、それらのシグネチャが`Monad`の`bind`関数のシグネチャへと一般化できることを見ました。
+モナドという抽象化ツールは難解に見えますが、よく使われるデータ構造や操作からその共通点を見つけることで、ほんの少しでも理解へ近づける手助けになれましたら幸いです。## 参考文献
+- Christiansen, David T. "[Monads](https://lean-lang.org/functional_programming_in_lean/monads.html)." *Functional Programming in Lean*. 2024年11月15日閲覧。
