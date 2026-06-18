@@ -23,17 +23,11 @@ runs:
         service_account_filename: service-account-file.json
         service_account_file: ${{ inputs.service-account-file }}
     
-    - name: Clear rclone cache
-      shell: bash
-      run: |
-        rclone cache-clear remote:
-        echo "✓ Rclone cache cleared"
-    
     - name: Download from Google Drive
       shell: bash
       run: |
         mkdir -p ./temp_download
-        rclone sync remote: ./temp_download --fast-list
+        rclone sync remote: ./temp_download --fast-list --no-traverse
     
     - name: Convert md to html.mdx and move to app/routes
       shell: bash
@@ -47,6 +41,12 @@ runs:
           
           # app/routes配下に配置
           target_path="app/routes/$new_path"
+          
+          # Skip if file already exists in repo (preserve repo version)
+          if [ -f "$target_path" ]; then
+            echo "Skipped (exists): $relative_path"
+            continue
+          fi
           
           # ディレクトリを作成
           mkdir -p "$(dirname "$target_path")"
