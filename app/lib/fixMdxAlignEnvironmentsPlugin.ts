@@ -1,13 +1,18 @@
 import type { Plugin } from 'vite'
 
 /**
- * Fix KaTeX compatibility issues in aligned math environments
+ * Convert aligned to align* for KaTeX compatibility
  *
- * This Vite plugin:
- * 1. Removes all & characters (alignment markers that KaTeX doesn't support)
- * 2. Flattens multiline aligned blocks by normalizing whitespace
+ * KaTeX does not support the \begin{aligned} environment which requires
+ * & as alignment markers. This plugin converts aligned → align* which
+ * doesn't require alignment markers but still displays equations properly.
  *
- * This runs at the source transformation level before MDX processing.
+ * Example:
+ * Before: \begin{aligned} & expr \\
+ *         {}={} & value \end{aligned}
+ * After:  \begin{align*} expr \\ = value \end{align*}
+ *
+ * See: https://katex.org/docs/supported.html (no mention of aligned support)
  */
 export function fixMdxAlignEnvironmentsPlugin(): Plugin {
   return {
@@ -19,23 +24,18 @@ export function fixMdxAlignEnvironmentsPlugin(): Plugin {
       const before = code
       let modified = code
 
-      // Step 1: Remove all & characters
-      modified = modified.replace(/&/g, '')
-      console.log('[fixMdxAlign] removed all & characters')
+      // Convert \begin{aligned} to \begin{align*}
+      modified = modified.replace(/\\begin\{aligned\}/g, '\\begin{align*}')
+      modified = modified.replace(/\\end\{aligned\}/g, '\\end{align*}')
 
-      // Step 2: Flatten aligned environments
-      // Match any aligned block with flexible whitespace
-      modified = modified.replace(/\\begin\{aligned\}([\s\S]*?)\\end\{aligned\}/g, (match) => {
-        // Remove newlines and excessive whitespace, but preserve \\
-        const flattened = match
-          .replace(/\n\s*/g, ' ') // newlines + spaces -> single space
-          .replace(/\s+/g, ' ') // multiple spaces -> single space
-        console.log('[fixMdxAlign] flattened aligned block, before=' + match.length + ' after=' + flattened.length)
-        return flattened
+      // Remove & alignment markers (not needed in align*)
+      // Only remove & that appear within align* blocks
+      modified = modified.replace(/\\begin\{align\*\}([\s\S]*?)\\end\{align\*\}/g, (match) => {
+        return match.replace(/&\s*/g, '')
       })
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] processed aligned blocks in ${id.substring(id.lastIndexOf('/'))}`)
+        console.log(`[fixMdxAlign] converted aligned to align* in ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
