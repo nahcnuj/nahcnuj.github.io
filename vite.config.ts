@@ -24,28 +24,18 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
       const before = code
       let modified = code
 
-      // Convert aligned environment to align* and remove & characters
-      // aligned + & causes KaTeX parsing errors, but align* doesn't use &
-      modified = modified.replace(/\\begin\{aligned\}/g, '\\begin{align*}')
-      modified = modified.replace(/\\end\{aligned\}/g, '\\end{align*}')
-
-      // Debug: show what we're working with before & removal
-      if (id.includes('derive-fourier')) {
-        const alignBlocks = [...modified.matchAll(/\\begin\{align\*\}([\s\S]*?)\\end\{align\*\}/g)]
-        console.log(`[fixMdxAlign] Found ${alignBlocks.length} align blocks`)
-        alignBlocks.forEach((match, idx) => {
-          console.log(`[fixMdxAlign] Block ${idx} char count: ${match[1].length}`)
-          console.log(`[fixMdxAlign] Block ${idx} first 50 chars: ${match[1].substring(0, 50)}`)
-        })
-      }
-
-      // Remove all & characters
-      modified = modified.replace(/\\begin\{align\*\}([\s\S]*?)\\end\{align\*\}/g, (match) => {
-        return match.replace(/&/g, '')
-      })
+      // Strategy: Remove & characters from the source before markdown processing
+      // This prevents KaTeX parsing errors that occur when & appears in align* environments
+      
+      // Simply remove all & characters that are part of alignment markers
+      // Keep it simple: just remove any & followed by whitespace
+      // This handles: "& text", "{}={} &", etc.
+      modified = modified.replace(/&\s+/g, ' ')
+      // Also remove & at end of lines
+      modified = modified.replace(/&$/gm, '')
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] converted aligned to align* and removed & in ${id.substring(id.lastIndexOf('/'))}`)
+        console.log(`[fixMdxAlign] removed alignment markers (&) from ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
