@@ -52,12 +52,8 @@ runs:
         $content =~ s/\\begin\{aligned\}/\\begin{align*}/g;
         $content =~ s/\\end\{aligned\}/\\end{align*}/g;
         
-        # 3. align* 環境内の & 記号を削除
-        $content =~ s/\\begin\{align\*\}(.*?)\\end\{align\*\}/
-          my $math = $1;
-          $math =~ s\/&\s*\/\/g;
-          "\\\\begin{align*}$math\\\\end{align*}"
-        /gse;
+        # 3. Remove & markers from align* environments (not valid in align*)
+        $content =~ s/&\s*//g;
         
         # Write to target
         open($fh, '>', $target) or die "Cannot write $target: $!";
