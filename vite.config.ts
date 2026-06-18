@@ -14,7 +14,41 @@ import { rehypeDecodeHtmlEntitiesInMath } from './app/lib/rehypeDecodeHtmlEntiti
 import { rehypeWrapDisplayMath } from './app/lib/rehypeWrapDisplayMath'
 import { remarkAlignEnvironments } from './app/lib/remarkAlignEnvironments'
 
-function devFixturesPlugin(): Plugin {
+function fixMdxAlignEnvironmentsPlugin(): Plugin {
+  return {
+    name: 'fix-mdx-align-environments',
+    resolveId(id) {
+      if (id.endsWith('.mdx') || id.endsWith('.md')) return null
+      return null
+    },
+    load(id) {
+      if (id.endsWith('.mdx') || id.endsWith('.md')) {
+        // This runs after the actual file load
+        return null
+      }
+      return null
+    },
+    transform(code, id) {
+      if (!id.endsWith('.mdx') && !id.endsWith('.md')) return null
+      if (!code.includes('\\begin{aligned}') && !code.includes('\\begin{align')) return null
+
+      // Fix & at beginning of aligned blocks
+      let modified = code
+      const before = modified
+      modified = modified.replace(/\\begin\{aligned\}\n&\s+/g, '\\begin{aligned}\n')
+      modified = modified.replace(/\\begin\{align\*?\}\n&\s+/g, '\\begin{align}\n')
+
+      // Remove all & alignment markers globally from math blocks
+      modified = modified.replace(/(\$\$|`)([^`$]*?)&\s+/g, '$1$2 ')
+
+      if (modified !== before) {
+        console.log(`[fixMdxAlign] fixed & in ${id}`)
+        return { code: modified }
+      }
+      return null
+    },
+  }
+}
   const copiedPaths: string[] = []
   return {
     name: 'dev-fixtures',
@@ -77,6 +111,7 @@ export default defineConfig(({ command, mode }) => {
       exclude: ['**/node_modules/**', '**/dist/**', '**/tests/e2e/**'],
     },
     plugins: [
+      fixMdxAlignEnvironmentsPlugin(),
       ...(command === 'serve' && mode === 'development' ? [devFixturesPlugin()] : []),
       honox(),
       ssg({ entry }),
