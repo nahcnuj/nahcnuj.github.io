@@ -32,9 +32,9 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
       // Match any aligned block with flexible whitespace
       modified = modified.replace(/\\begin\{aligned\}([\s\S]*?)\\end\{aligned\}/g, (match) => {
         // Remove newlines and excessive whitespace, but preserve \\
-        let flattened = match
-          .replace(/\n\s*/g, ' ')  // newlines + spaces -> single space
-          .replace(/\s+/g, ' ')    // multiple spaces -> single space
+        const flattened = match
+          .replace(/\n\s*/g, ' ') // newlines + spaces -> single space
+          .replace(/\s+/g, ' ') // multiple spaces -> single space
         console.log('[fixMdxAlign] flattened aligned block, before=' + match.length + ' after=' + flattened.length)
         return flattened
       })
