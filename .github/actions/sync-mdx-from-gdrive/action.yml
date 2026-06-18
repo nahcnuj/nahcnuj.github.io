@@ -45,14 +45,37 @@ runs:
           # ディレクトリを作成
           mkdir -p "$(dirname "$target_path")"
           
-          # ファイルを処理:
-          # 1. <blockquote> タグを複数行に整形
-          # 2. \begin{aligned} を \begin{align*} に変換
-          # 3. \end{aligned} を \end{align*} に変換
-          # NOTE: & は全体削除は避け、remark/vite plugins で個別対応
-          perl -i.bak -0777 -pe \
-            's/(<blockquote[^>]*>)([^\n])/$1\n$2/g; s/([^\n])(<\/blockquote>)/$1\n$2/g; s/\\begin\{aligned\}/\\begin{align*}/g; s/\\end\{aligned\}/\\end{align*}/g' \
-            "$file"
+          # ファイルを処理: Perlスクリプトで複数の変換を一括実行
+          perl << 'EOF' "$file"
+            use strict;
+            use warnings;
+            
+            my $file = $ARGV[0];
+            open(my $fh, '<', $file) or die "Cannot open $file: $!";
+            my $content = do { local $/; <$fh> };
+            close($fh);
+            
+            # 1. <blockquote> タグを複数行に整形
+            $content =~ s/(<blockquote[^>]*>)([^\n])/$1\n$2/g;
+            $content =~ s/([^\n])(<\/blockquote>)/$1\n$2/g;
+            
+            # 2. aligned → align* に変換
+            $content =~ s/\\begin\{aligned\}/\\begin{align*}/g;
+            $content =~ s/\\end\{aligned\}/\\end{align*}/g;
+            
+            # 3. align* 環境内の & 記号を削除
+            $content =~ s/\\begin\{align\*\}(.*?)\\end\{align\*\}/
+              my $math = $1;
+              $math =~ s\/&\s*\/\/g;
+              "\\\\begin{align*}$math\\\\end{align*}"
+            /gse;
+            
+            open($fh, '>', $file) or die "Cannot write $file: $!";
+            print $fh $content;
+            close($fh);
+            
+            print "Processed: $file\n";
+          EOF
           
           # Copy processed file to target
           cp "$file" "$target_path"
