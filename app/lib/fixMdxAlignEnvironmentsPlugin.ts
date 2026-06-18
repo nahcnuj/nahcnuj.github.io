@@ -16,26 +16,19 @@ import type { Plugin } from 'vite'
  */
 export function fixMdxAlignEnvironmentsPlugin(): Plugin {
   let transformCallCount = 0
+  let processedCount = 0
   
   return {
     name: 'fix-mdx-align-environments',
     transform(code, id) {
       transformCallCount++
       
-      // Log all markdown/mdx file transforms
-      if (id.endsWith('.mdx') || id.endsWith('.md')) {
+      // Log ALL transforms for debugging
+      if (id.includes('derive-fourier') || id.includes('.mdx') || id.includes('.md')) {
         const filename = id.substring(id.lastIndexOf('/') + 1)
+        const shortId = id.length > 100 ? id.substring(id.length - 100) : id
         const hasAligned = code.includes('\\begin{aligned}') || code.includes('\\\\begin{aligned}')
-        console.log(`[fixMdxAlign] #${transformCallCount} ${filename}: ${code.length}b, hasAligned=${hasAligned}`)
-        
-        if (hasAligned) {
-          console.log(`[fixMdxAlign] Found aligned in ${filename}`)
-          // Log first 200 chars around aligned
-          const idx = code.indexOf('\\begin{aligned}')
-          if (idx !== -1) {
-            console.log(`[fixMdxAlign] Context: ${code.substring(Math.max(0, idx - 50), idx + 100)}`)
-          }
-        }
+        console.log(`[fixMdxAlign] transform #${transformCallCount} id="${shortId}" file="${filename}" size=${code.length}b aligned=${hasAligned}`)
       }
       
       if (!id.endsWith('.mdx') && !id.endsWith('.md')) return null
@@ -72,7 +65,8 @@ export function fixMdxAlignEnvironmentsPlugin(): Plugin {
       })
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] ✓ converted aligned to align* in ${id.substring(id.lastIndexOf('/'))}`)
+        processedCount++
+        console.log(`[fixMdxAlign] ✓ #${processedCount} converted aligned to align* in ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
