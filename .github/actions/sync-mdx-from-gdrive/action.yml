@@ -60,6 +60,17 @@ runs:
           echo "Restored: $relative_path → $target_path"
         done
     
+    - name: Additional fix for known KaTeX issues
+      shell: bash
+      run: |
+        # Fix any remaining & markers that might be in align blocks
+        for mdx_file in app/routes/essays/math/electronics/*.html.mdx; do
+          if [ -f "$mdx_file" ]; then
+            sed -i 's/&\s*//g' "$mdx_file"
+            echo "Fixed: $mdx_file"
+          fi
+        done
+    
     - name: Copy images directories to public
       shell: bash
       run: |
