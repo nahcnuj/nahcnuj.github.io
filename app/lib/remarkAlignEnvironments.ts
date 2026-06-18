@@ -16,36 +16,45 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
       if (typeof node.value === 'string') {
         let value = node.value
         let conversions = 0
-        let hadAmpersand = false
 
-        // First pass: remove ALL & characters from the entire math environment at line beginnings
-        // This is critical because even in gathered/aligned, leading & causes KaTeX parse errors
-        const lines = value.split('\n')
-        const cleanedLines = lines.map(line => {
-          // Remove & at the start of the line (with optional whitespace)
-          if (line.match(/^\s*&/)) {
-            hadAmpersand = true
-            return line.replace(/^\s*&\s*/, '')
-          }
-          return line
-        })
-        value = cleanedLines.join('\n')
-
-        if (hadAmpersand) {
+        // AGGRESSIVE FIRST PASS: Remove ALL & characters that cause KaTeX parse errors
+        // & at position 1 is the problem we're seeing
+        
+        // Remove & from the very beginning of the math block
+        const hasLeadingAmp = value.match(/^&\s+/)
+        if (hasLeadingAmp) {
+          value = value.replace(/^&\s+/, '')
           conversions++
-          console.log(`[remarkAlignEnvironments] removed leading & from line beginnings`)
+          console.log(`[remarkAlignEnvironments] removed leading & from block start`)
         }
 
-        // For align* with &, convert to aligned for KaTeX compatibility
+        // Remove & from beginning of any line
+        const lines = value.split('\n')
+        let lineCleanups = 0
+        const cleanedLines = lines.map(line => {
+          const beforeClean = line
+          const cleaned = line.replace(/^\s*&\s+/, '')
+          if (cleaned !== beforeClean) {
+            lineCleanups++
+          }
+          return cleaned
+        })
+        
+        if (lineCleanups > 0) {
+          value = cleanedLines.join('\n')
+          conversions++
+          console.log(`[remarkAlignEnvironments] removed leading & from ${lineCleanups} lines`)
+        }
+
+        // For align* environments, convert to aligned
         value = value.replace(/\\begin\{align\*?\}([\s\S]*?)\\end\{align\*?\}/g, (match, content) => {
-          // Remove remaining & alignment markers that weren't at line starts
           const cleanedContent = content.replace(/&/g, ' ')
           conversions++
           console.log(`[remarkAlignEnvironments] converted align to aligned`)
           return `\\begin{aligned}${cleanedContent}\\end{aligned}`
         })
 
-        // Convert gather [star] to gathered, removing any remaining & characters
+        // Convert gather [star] to gathered
         value = value.replace(/\\begin\{gather\*?\}([\s\S]*?)\\end\{gather\*?\}/g, (_, content) => {
           const cleanedContent = content.replace(/&/g, ' ').trim()
           conversions++
@@ -53,7 +62,7 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
           return `\\begin{gathered}${cleanedContent}\\end{gathered}`
         })
 
-        // Clean up existing gathered environments - remove any remaining & characters
+        // Clean up existing gathered environments
         value = value.replace(/\\begin\{gathered\}([\s\S]*?)\\end\{gathered\}/g, (match, content) => {
           if (content.includes('&')) {
             const cleanedContent = content.replace(/&/g, ' ').trim()
@@ -71,6 +80,13 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
           console.log(`[remarkAlignEnvironments] converted multline to aligned`)
           return `\\begin{aligned}${cleanedContent}\\end{aligned}`
         })
+
+        // Final safety check: make sure no & remains at the start
+        if (value.match(/^&/)) {
+          value = value.replace(/^&\s*/, '')
+          conversions++
+          console.log(`[remarkAlignEnvironments] removed remaining leading &`)
+        }
 
         if (conversions > 0) {
           console.log(`[remarkAlignEnvironments] total conversions=${conversions}`)
