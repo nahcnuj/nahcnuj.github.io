@@ -58,9 +58,9 @@ jobs:
             echo "⚠️  dist directory not found, skipping KaTeX error check"
             exit 0
           fi
-          if grep -r "katex-error" dist/ > /dev/null 2>&1; then
+          if grep -r "katex-error" dist/ >katex-error.log 2>&1; then
             echo "❌ KaTeX errors found in build output"
-            grep -r "katex-error" dist/ | head -20
+            cat katex-error.log || :
             exit 1
           fi
           echo "✅ No KaTeX errors found"
