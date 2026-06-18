@@ -45,11 +45,14 @@ runs:
           # ディレクトリを作成
           mkdir -p "$(dirname "$target_path")"
           
-          # ファイルを処理: sed で複数の変換
-          sed -e 's/\\begin{aligned}/\\begin{align*}/g' \
-              -e 's/\\end{aligned}/\\end{align*}/g' \
-              -e 's/\&\s*//g' \
-              "$file" > "$target_path"
+          # ファイルを処理: awk で複数行対応の変換
+          awk 'BEGIN { RS=""; ORS="" } 
+            { 
+              gsub(/\\\\begin\{aligned\}/, "\\\\begin{align*}");
+              gsub(/\\\\end\{aligned\}/, "\\\\end{align*}");
+              gsub(/&\s*/, "");
+              print;
+            }' "$file" > "$target_path"
           
           echo "Restored: $relative_path → $target_path"
         done
