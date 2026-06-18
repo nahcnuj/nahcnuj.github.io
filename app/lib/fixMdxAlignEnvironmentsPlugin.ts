@@ -15,9 +15,29 @@ import type { Plugin } from 'vite'
  * See: https://katex.org/docs/supported.html (no mention of aligned support)
  */
 export function fixMdxAlignEnvironmentsPlugin(): Plugin {
+  let transformCallCount = 0
+  
   return {
     name: 'fix-mdx-align-environments',
     transform(code, id) {
+      transformCallCount++
+      
+      // Log all markdown/mdx file transforms
+      if (id.endsWith('.mdx') || id.endsWith('.md')) {
+        const filename = id.substring(id.lastIndexOf('/') + 1)
+        const hasAligned = code.includes('\\begin{aligned}') || code.includes('\\\\begin{aligned}')
+        console.log(`[fixMdxAlign] #${transformCallCount} ${filename}: ${code.length}b, hasAligned=${hasAligned}`)
+        
+        if (hasAligned) {
+          console.log(`[fixMdxAlign] Found aligned in ${filename}`)
+          // Log first 200 chars around aligned
+          const idx = code.indexOf('\\begin{aligned}')
+          if (idx !== -1) {
+            console.log(`[fixMdxAlign] Context: ${code.substring(Math.max(0, idx - 50), idx + 100)}`)
+          }
+        }
+      }
+      
       if (!id.endsWith('.mdx') && !id.endsWith('.md')) return null
       
       // Check for both escaped and unescaped forms
@@ -52,7 +72,7 @@ export function fixMdxAlignEnvironmentsPlugin(): Plugin {
       })
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] converted aligned to align* in ${id.substring(id.lastIndexOf('/'))}`)
+        console.log(`[fixMdxAlign] ✓ converted aligned to align* in ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
