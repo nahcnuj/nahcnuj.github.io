@@ -21,19 +21,15 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
       if (!id.endsWith('.mdx') && !id.endsWith('.md')) return null
       
       const hasAmpersand = code.includes('&')
-      if (hasAmpersand && id.includes('derive-fourier')) {
-        console.log(`[fixMdxAlign] processing ${id}, has &=${hasAmpersand}`)
-      }
-      
       if (!hasAmpersand) return null
 
       const before = code
-      // Remove ALL & characters from the code
-      // This is a blunt approach but necessary for KaTeX compatibility
-      const modified = code.replace(/&/g, '')
+      // Escape & characters for KaTeX compatibility
+      // \& tells KaTeX to render a literal ampersand and not treat it as an alignment marker
+      const modified = code.replace(/&/g, '\\&')
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] removed all & from ${id.substring(id.lastIndexOf('/'))}`)
+        console.log(`[fixMdxAlign] escaped & to \\& in ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
