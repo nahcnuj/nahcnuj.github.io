@@ -19,18 +19,35 @@ export function fixMdxAlignEnvironmentsPlugin(): Plugin {
     name: 'fix-mdx-align-environments',
     transform(code, id) {
       if (!id.endsWith('.mdx') && !id.endsWith('.md')) return null
-      if (!code.includes('\\begin{aligned')) return null
+      
+      // Check for both escaped and unescaped forms
+      const hasAligned = code.includes('\\begin{aligned}') || code.includes('\\\\begin{aligned}')
+      const hasAlignedEscaped = code.includes('&amp;\\\\begin{aligned}') || code.includes('&amp;\\begin{aligned}')
+      
+      if (!hasAligned && !hasAlignedEscaped) return null
 
       const before = code
       let modified = code
 
-      // Convert \begin{aligned} to \begin{align*}
-      modified = modified.replace(/\\begin\{aligned\}/g, '\\begin{align*}')
-      modified = modified.replace(/\\end\{aligned\}/g, '\\end{align*}')
+      // Handle double-escaped backslashes from MDX processing
+      // \\\\ becomes \\ in the actual content
+      if (modified.includes('\\\\begin{aligned}')) {
+        modified = modified.replace(/\\\\begin\{aligned\}/g, '\\\\begin{align*}')
+        modified = modified.replace(/\\\\end\{aligned\}/g, '\\\\end{align*}')
+      }
+
+      // Handle single-escaped backslashes
+      if (modified.includes('\\begin{aligned}')) {
+        modified = modified.replace(/\\begin\{aligned\}/g, '\\begin{align*}')
+        modified = modified.replace(/\\end\{aligned\}/g, '\\end{align*}')
+      }
 
       // Remove & alignment markers (not needed in align*)
-      // Only remove & that appear within align* blocks
+      // Handle both escaped and unescaped forms
       modified = modified.replace(/\\begin\{align\*\}([\s\S]*?)\\end\{align\*\}/g, (match) => {
+        return match.replace(/&\s*/g, '')
+      })
+      modified = modified.replace(/\\\\begin\{align\*\}([\s\S]*?)\\\\end\{align\*\}/g, (match) => {
         return match.replace(/&\s*/g, '')
       })
 
