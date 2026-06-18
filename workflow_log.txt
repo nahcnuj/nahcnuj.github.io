@@ -1,0 +1,1015 @@
+﻿prepare / prepare	UNKNOWN STEP	・ｿ2026-06-18T09:55:53.3286703Z Current runner version: '2.335.1'
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3314447Z ##[group]Runner Image Provisioner
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3315463Z Hosted Compute Agent
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3316080Z Version: 20260527.539
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3316816Z Commit: a891dd388383b896fa6ac04a82c0b75cec981078
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3317598Z Build Date: 2026-05-27T21:39:57Z
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3318787Z Worker ID: {83ef40a2-47a8-4b64-9a6a-82489bef88b6}
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3319657Z Azure Region: westus
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3320250Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3321985Z ##[group]Operating System
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3322708Z Ubuntu
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3323237Z 24.04.4
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3323827Z LTS
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3324346Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3324989Z ##[group]Runner Image
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3325645Z Image: ubuntu-24.04
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3326211Z Version: 20260607.184.1
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3327531Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260607.184/images/ubuntu/Ubuntu2404-Readme.md
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3329372Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260607.184
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3330398Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3333450Z ##[group]GITHUB_TOKEN Permissions
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3335725Z Actions: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3336438Z ArtifactMetadata: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3337206Z Attestations: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3338156Z Checks: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3338853Z CodeQuality: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3339429Z Contents: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3340054Z CopilotRequests: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3340735Z Deployments: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3341288Z Discussions: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3341914Z Issues: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3342459Z Metadata: read
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3343109Z Models: read
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3343817Z Packages: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3344386Z Pages: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3345017Z PullRequests: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3345614Z RepositoryProjects: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3346381Z SecurityEvents: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3347014Z Statuses: write
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3347578Z VulnerabilityAlerts: read
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3348710Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3351067Z Secret source: Actions
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3351995Z Prepare workflow directory
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3719621Z Prepare all required actions
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.3761196Z Getting action download info
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:53.7790439Z Download action repository 'actions/checkout@v6' (SHA:df4cb1c069e1874edd31b4311f1884172cec0e10)
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.1713211Z Download action repository 'actions/upload-artifact@v7' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.3544202Z Uses: nahcnuj/nahcnuj.github.io/.github/workflows/prepare.yml@refs/pull/711/merge (546bfd96a2446e6305e5f124e0ab3829190bc611)
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.3549590Z Complete job name: prepare / prepare
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4335614Z ##[group]Run actions/checkout@v6
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4336576Z with:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4337019Z   fetch-depth: 0
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4337501Z   repository: nahcnuj/nahcnuj.github.io
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4342794Z   token: ***
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4343296Z   ssh-strict: true
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4343801Z   ssh-user: git
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4344274Z   persist-credentials: true
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4344775Z   clean: true
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4345239Z   sparse-checkout-cone-mode: true
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4345819Z   fetch-tags: false
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4346282Z   show-progress: true
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4346735Z   lfs: false
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4347157Z   submodules: false
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4347616Z   set-safe-directory: true
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.4348960Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5388180Z Syncing repository: nahcnuj/nahcnuj.github.io
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5390355Z ##[group]Getting Git version info
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5391300Z Working directory is '/home/runner/work/nahcnuj.github.io/nahcnuj.github.io'
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5392502Z [command]/usr/bin/git version
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5469329Z git version 2.54.0
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5496962Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5513382Z Temporarily overriding HOME='/home/runner/work/_temp/0893f4a3-18dd-4b2b-81c2-2dfa2b6d7b95' before making global git config changes
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5515420Z Adding repository directory to the temporary git global config as a safe directory
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5519804Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/nahcnuj.github.io/nahcnuj.github.io
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5574569Z Deleting the contents of '/home/runner/work/nahcnuj.github.io/nahcnuj.github.io'
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5579040Z ##[group]Determining repository object format
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5581872Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5582746Z ##[group]Initializing the repository
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5587601Z [command]/usr/bin/git init /home/runner/work/nahcnuj.github.io/nahcnuj.github.io
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5710309Z hint: Using 'master' as the name for the initial branch. This default branch name
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5712116Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5713344Z hint: to use in all of your new repositories, which will suppress this warning,
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5714261Z hint: call:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5714749Z hint:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5715536Z hint: 	git config --global init.defaultBranch <name>
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5716814Z hint:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5717566Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5719067Z hint: 'development'. The just-created branch can be renamed via this command:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5720004Z hint:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5720506Z hint: 	git branch -m <name>
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5721163Z hint:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5722081Z hint: Disable this message with "git config set advice.defaultBranchName false"
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5723810Z Initialized empty Git repository in /home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git/
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5729395Z [command]/usr/bin/git remote add origin https://github.com/nahcnuj/nahcnuj.github.io
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5775831Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5776862Z ##[group]Disabling automatic garbage collection
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5780043Z [command]/usr/bin/git config --local gc.auto 0
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5812973Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5814125Z ##[group]Setting up auth
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5815129Z Removing SSH command configuration
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5821538Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.5857009Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6206418Z Removing HTTP extra header
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6213849Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6246585Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6468655Z Removing includeIf entries pointing to credentials config files
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6475113Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6506568Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6733356Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6772981Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git.path /home/runner/work/_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6802679Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6836635Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6868494Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6902914Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6904353Z ##[group]Fetching the repository
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:54.6914056Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +546bfd96a2446e6305e5f124e0ab3829190bc611:refs/remotes/pull/711/merge
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1324980Z From https://github.com/nahcnuj/nahcnuj.github.io
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1326497Z  * [new branch]      copilot/add-banner-for-makamujo-project  -> origin/copilot/add-banner-for-makamujo-project
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1328389Z  * [new branch]      copilot/feat-rss                         -> origin/copilot/feat-rss
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1329860Z  * [new branch]      dependabot/npm_and_yarn/biomejs/biome-2.5.0 -> origin/dependabot/npm_and_yarn/biomejs/biome-2.5.0
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1331473Z  * [new branch]      dependabot/npm_and_yarn/patch-72fe2bc309 -> origin/dependabot/npm_and_yarn/patch-72fe2bc309
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1332983Z  * [new branch]      dependabot/npm_and_yarn/playwright-1.61.0 -> origin/dependabot/npm_and_yarn/playwright-1.61.0
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1334531Z  * [new branch]      dependabot/npm_and_yarn/types/node-24.13.2 -> origin/dependabot/npm_and_yarn/types/node-24.13.2
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1335849Z  * [new branch]      feat/katex                               -> origin/feat/katex
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1336893Z  * [new branch]      source                                   -> origin/source
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1338203Z  * [new ref]         546bfd96a2446e6305e5f124e0ab3829190bc611 -> pull/711/merge
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1372537Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1373706Z ##[group]Determining the checkout info
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1375196Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1381758Z [command]/usr/bin/git sparse-checkout disable
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1432596Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1463843Z ##[group]Checking out the ref
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1467055Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/711/merge
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1716247Z Note: switching to 'refs/remotes/pull/711/merge'.
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1717098Z 
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1717677Z You are in 'detached HEAD' state. You can look around, make experimental
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1719276Z changes and commit them, and you can discard any commits you make in this
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1720746Z state without impacting any branches by switching back to a branch.
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1721555Z 
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1722099Z If you want to create a new branch to retain commits you create, you may
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1723480Z do so (now or later) by using -c with the switch command. Example:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1724159Z 
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1724465Z   git switch -c <new-branch-name>
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1724947Z 
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1725214Z Or undo this operation with:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1725653Z 
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1725897Z   git switch -
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1726219Z 
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1726723Z Turn off this advice by setting config variable advice.detachedHead to false
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1727457Z 
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1728576Z HEAD is now at 546bfd9 Merge a5e5d2d9a695d36a38258aa13312e07f483c96af into 59be4f0cbe1c05e613e6c1caecd91df79fdbb643
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1731209Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1777220Z [command]/usr/bin/git log -1 --format=%H
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.1804089Z 546bfd96a2446e6305e5f124e0ab3829190bc611
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.2143288Z Prepare all required actions
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.2144003Z Getting action download info
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.3582352Z Download action repository 'AnimMouse/setup-rclone@v1' (SHA:26ef2133e09fd383329a1d4c1fbe6a71db1976c9)
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.6356019Z Getting action download info
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.7967450Z Download action repository 'actions/cache@v5' (SHA:27d5ce7f107fe9357f9df03efb73ab90386fccae)
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:56.9019999Z Download action repository 'AnimMouse/tool-cache@v1' (SHA:c58dc704bd326aa5d6f995afe80ac0486ec59c5e)
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1410421Z ##[group]Run ./.github/actions/sync-mdx-from-gdrive
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1410777Z with:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1412473Z   rclone-config: ***
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1505987Z   service-account-file: ***
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1506288Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1712258Z ##[group]Run AnimMouse/setup-rclone@v1
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1712575Z with:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1714129Z   rclone_config: ***
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1714375Z   version: latest
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1717204Z   token: ***
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1717412Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1788989Z ##[group]Run $GITHUB_ACTION_PATH/scripts/version/Unix-like.sh
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1789531Z ^[[36;1m$GITHUB_ACTION_PATH/scripts/version/Unix-like.sh^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1994638Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1995074Z env:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1995297Z   version: latest
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1999182Z   GITHUB_TOKEN: ***
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.1999462Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.7343380Z ##[group]Run actions/cache/restore@v5
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.7343680Z with:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.7343893Z   path: /opt/hostedtoolcache/Rclone
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.7344177Z   key: Rclone-v1.74.3-Linux-X64
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.7344447Z   enableCrossOsArchive: false
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.7344714Z   fail-on-cache-miss: false
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.7344955Z   lookup-only: false
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:57.7345172Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:58.1990073Z Cache hit for: Rclone-v1.74.3-Linux-X64
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:59.4920109Z Received 1131740 of 26297564 (4.3%), 1.1 MBs/sec
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:59.8949442Z Received 26297564 of 26297564 (100.0%), 17.9 MBs/sec
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:59.8950538Z Cache Size: ~25 MB (26297564 B)
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:55:59.8985008Z [command]/usr/bin/tar -xf /home/runner/work/_temp/5e556770-d5b5-4bac-be44-1acea587b47c/cache.tzst -P -C /home/runner/work/nahcnuj.github.io/nahcnuj.github.io --use-compress-program unzstd
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0433616Z Cache restored successfully
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0526034Z Cache restored from key: Rclone-v1.74.3-Linux-X64
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0688343Z ##[group]Run AnimMouse/tool-cache@v1
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0688644Z with:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0688844Z   folder_name: Rclone
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0689066Z   cache_hit: true
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0689281Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0723631Z ##[group]Run $GITHUB_ACTION_PATH/scripts/add-to-path/Unix-like.sh
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0724111Z ^[[36;1m$GITHUB_ACTION_PATH/scripts/add-to-path/Unix-like.sh^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0755402Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0755766Z env:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0755962Z   folder_name: Rclone
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.0756201Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.1071372Z ##[group]Adding Rclone tool cache folder to path
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.1072037Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.1130823Z ##[group]Run $GITHUB_ACTION_PATH/scripts/sign-in/Unix-like.sh
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.1131290Z ^[[36;1m$GITHUB_ACTION_PATH/scripts/sign-in/Unix-like.sh^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.1165148Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.1165518Z env:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.1167038Z   rclone_config: ***
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.1167277Z   disable_base64: 
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.1167480Z   zstd_config: 
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.1167679Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.1646931Z ##[group]Signing in to Rclone using Rclone config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4600334Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4699049Z ##[group]Run AnimMouse/setup-rclone/service-account-file@v1
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4699656Z with:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4699952Z   service_account_filename: service-account-file.json
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4833457Z   service_account_file: ***
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4834057Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4855104Z ##[group]Run echo "$service_account_file" | base64 -d > "$HOME/.config/rclone/$service_account_filename"
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4855825Z ^[[36;1mecho "$service_account_file" | base64 -d > "$HOME/.config/rclone/$service_account_filename"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4886979Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4887336Z env:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4887596Z   service_account_filename: service-account-file.json
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4992449Z   service_account_file: ***
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.4992741Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.5312456Z ##[group]Run mkdir -p ./temp_download
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.5313021Z ^[[36;1mmkdir -p ./temp_download^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.5313533Z ^[[36;1mrclone sync remote: ./temp_download^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.5354709Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:00.5355322Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7284820Z ##[group]Run # Create a Perl script to process files
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7285260Z ^[[36;1m# Create a Perl script to process files^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7285594Z ^[[36;1mcat > /tmp/process_mdx.pl << 'PERLEOF'^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7285892Z ^[[36;1muse strict;^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7286114Z ^[[36;1muse warnings;^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7286333Z ^[[36;1m^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7286536Z ^[[36;1mmy $file = $ARGV[0];^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7286785Z ^[[36;1mmy $target = $ARGV[1];^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7287031Z ^[[36;1m^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7287300Z ^[[36;1mopen(my $fh, '<', $file) or die "Cannot open $file: $!";^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7287664Z ^[[36;1mmy $content = do { local $/; <$fh> };^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7288329Z ^[[36;1mclose($fh);^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7288575Z ^[[36;1m^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7288787Z ^[[36;1m# 1. <blockquote> 繧ｿ繧ｰ繧定､・焚陦後↓謨ｴ蠖｢^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7289120Z ^[[36;1m$content =~ s/(<blockquote[^>]*>)([^\n])/$1\n$2/g;^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7289485Z ^[[36;1m$content =~ s/([^\n])(<\/blockquote>)/$1\n$2/g;^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7289787Z ^[[36;1m^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7289988Z ^[[36;1m# 2. aligned 竊・align* 縺ｫ螟画鋤^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7290306Z ^[[36;1m$content =~ s/\\begin\{aligned\}/\\begin{align*}/g;^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7290685Z ^[[36;1m$content =~ s/\\end\{aligned\}/\\end{align*}/g;^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7290993Z ^[[36;1m^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7291187Z ^[[36;1m# 3. align* 迺ｰ蠅・・縺ｮ & 險伜捷繧貞炎髯､^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7291500Z ^[[36;1m$content =~ s/\\begin\{align\*\}(.*?)\\end\{align\*\}/^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7291838Z ^[[36;1m  my $math = $1;^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7292073Z ^[[36;1m  $math =~ s\/&\s*\/\/g;^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7292348Z ^[[36;1m  "\\\\begin{align*}$math\\\\end{align*}"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7292636Z ^[[36;1m/gse;^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7292833Z ^[[36;1m^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7293032Z ^[[36;1m# Write to target^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7293357Z ^[[36;1mopen($fh, '>', $target) or die "Cannot write $target: $!";^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7293706Z ^[[36;1mprint $fh $content;^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7293945Z ^[[36;1mclose($fh);^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7294167Z ^[[36;1m^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7294374Z ^[[36;1mprint "笨・Processed: $target\n";^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7294648Z ^[[36;1mPERLEOF^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7294854Z ^[[36;1m^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7295145Z ^[[36;1m# Exclude top-level underscore-prefixed directories during find^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7295800Z ^[[36;1mfind ./temp_download -path './temp_download/_*' -prune -o -name '*.md' -type f -print | while read -r file; do^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7296357Z ^[[36;1m  relative_path="${file#./temp_download/}"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7296652Z ^[[36;1m  ^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7296860Z ^[[36;1m  # 諡｡蠑ｵ蟄舌ｒ .md 竊・.html.mdx 縺ｫ螟画峩^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7297156Z ^[[36;1m  new_path="${relative_path%.md}.html.mdx"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7297450Z ^[[36;1m  ^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7297679Z ^[[36;1m  # app/routes驟堺ｸ九↓驟咲ｽｮ^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7298587Z ^[[36;1m  target_path="app/routes/$new_path"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7298890Z ^[[36;1m  ^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7299094Z ^[[36;1m  # 繝・ぅ繝ｬ繧ｯ繝医Μ繧剃ｽ懈・^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7299493Z ^[[36;1m  mkdir -p "$(dirname "$target_path")"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7299792Z ^[[36;1m  ^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7300006Z ^[[36;1m  # Perl繧ｹ繧ｯ繝ｪ繝励ヨ縺ｧ蜃ｦ逅・[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7300302Z ^[[36;1m  perl /tmp/process_mdx.pl "$file" "$target_path"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7300618Z ^[[36;1mdone^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7332026Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7332386Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7481441Z 笨・Processed: app/routes/works/2017/01_softdon.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7545257Z 笨・Processed: app/routes/works/2012/01_breaking-enemies.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7608804Z 笨・Processed: app/routes/works/2011/01_funny-breakout.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7671753Z 笨・Processed: app/routes/works/2011/02_change-seats.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7734520Z 笨・Processed: app/routes/works/2013/01_ochimono.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7799637Z 笨・Processed: app/routes/essays/feel/revalue-myself/00_intro.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7862498Z 笨・Processed: app/routes/essays/work/weekday-schedule.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7926350Z 笨・Processed: app/routes/essays/math/is-sqrt-of-squared-x-pm-x.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.7990384Z 笨・Processed: app/routes/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8052718Z 笨・Processed: app/routes/essays/math/curry--howard/0-intro/2-statement.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8114918Z 笨・Processed: app/routes/essays/math/curry--howard/0-intro/1-isomorphism.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8176237Z 笨・Processed: app/routes/essays/math/curry--howard/index.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8240931Z 笨・Processed: app/routes/essays/programming/functional/andthen-and-then-monad.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8302771Z 笨・Processed: app/routes/essays/edu/arith_mul-comm.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8365942Z 笨・Processed: app/routes/diary/2025/02/24.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8430377Z 笨・Processed: app/routes/diary/2025/02/26.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8495288Z 笨・Processed: app/routes/diary/2024/03/23.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8560513Z 笨・Processed: app/routes/diary/2024/03/20.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8626596Z 笨・Processed: app/routes/diary/2024/03/28.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8690649Z 笨・Processed: app/routes/diary/2024/04/11.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8754028Z 笨・Processed: app/routes/diary/2024/10/16.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8818902Z 笨・Processed: app/routes/diary/2020/07/04.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8884970Z 笨・Processed: app/routes/diary/2020/07/20.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.8950990Z 笨・Processed: app/routes/diary/2026/05/2026-05-09.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9016588Z 笨・Processed: app/routes/diary/2026/03/2026-03-01.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9082815Z 笨・Processed: app/routes/diary/2026/02/2026-02-02.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9147572Z 笨・Processed: app/routes/diary/2026/02/2026-02-03.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9216711Z 笨・Processed: app/routes/diary/2026/04/2026-04-26.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9246944Z ##[group]Run copied_dirs=()
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9247259Z ^[[36;1mcopied_dirs=()^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9247633Z ^[[36;1m# Exclude top-level underscore-prefixed directories during find^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9248373Z ^[[36;1mwhile IFS= read -r dir; do^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9248692Z ^[[36;1m  relative_path="${dir#./temp_download/}"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9248998Z ^[[36;1m  ^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9249227Z ^[[36;1m  # public繝・ぅ繝ｬ繧ｯ繝医Μ驟堺ｸ九↓驟咲ｽｮ^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9249650Z ^[[36;1m  target_parent="public/$(dirname "$relative_path")"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9249984Z ^[[36;1m  ^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9250181Z ^[[36;1m  # 隕ｪ繝・ぅ繝ｬ繧ｯ繝医Μ繧剃ｽ懈・^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9250440Z ^[[36;1m  mkdir -p "$target_parent/images"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9250725Z ^[[36;1m  ^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9250922Z ^[[36;1m  # 繝・ぅ繝ｬ繧ｯ繝医Μ繧貞酔譛溘さ繝斐・ (蜑企勁繧ょ渚譏)^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9251238Z ^[[36;1m  rsync -a --delete "$dir"/ "$target_parent/images/"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9251568Z ^[[36;1m  ^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9252017Z ^[[36;1m  echo "Copied: $relative_path 竊・$target_parent/images"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9252403Z ^[[36;1m  copied_dirs+=("$target_parent/images")^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9253041Z ^[[36;1mdone < <(find ./temp_download -path './temp_download/_*' -prune -o -type d -name 'images' -print)^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9253512Z ^[[36;1m^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9253710Z ^[[36;1mecho ""^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9254008Z ^[[36;1mecho "Total images directories copied: ${#copied_dirs[@]}"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9254363Z ^[[36;1mecho ""^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9254596Z ^[[36;1mecho "All images directories:"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9254908Z ^[[36;1mprintf '%s\n' "${copied_dirs[@]}" | sort^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9286079Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9286436Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:04.9869354Z Copied: essays/work/images 竊・public/essays/work/images
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0366460Z Copied: diary/2026/05/images 竊・public/diary/2026/05/images
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0367086Z 
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0367281Z Total images directories copied: 2
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0367563Z 
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0368212Z All images directories:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0387156Z public/diary/2026/05/images
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0387599Z public/essays/work/images
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0417243Z ##[group]Run echo "Total MDX files restored:"
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0417607Z ^[[36;1mecho "Total MDX files restored:"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0418169Z ^[[36;1mfind app/routes -name "*.mdx" -type f | wc -l^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0418503Z ^[[36;1mecho ""^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0418725Z ^[[36;1mecho "All restored files:"^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0419032Z ^[[36;1mfind app/routes -name "*.mdx" -type f | sort^[[0m
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0451094Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0451450Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0506355Z Total MDX files restored:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0525882Z 28
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0527424Z 
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0527589Z All restored files:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0547269Z app/routes/diary/2020/07/04.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0547661Z app/routes/diary/2020/07/20.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0548457Z app/routes/diary/2024/03/20.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0549012Z app/routes/diary/2024/03/23.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0549509Z app/routes/diary/2024/03/28.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0549972Z app/routes/diary/2024/04/11.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0550427Z app/routes/diary/2024/10/16.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0550883Z app/routes/diary/2025/02/24.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0551144Z app/routes/diary/2025/02/26.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0551582Z app/routes/diary/2026/02/2026-02-02.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0552124Z app/routes/diary/2026/02/2026-02-03.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0552636Z app/routes/diary/2026/03/2026-03-01.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0552969Z app/routes/diary/2026/04/2026-04-26.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0553276Z app/routes/diary/2026/05/2026-05-09.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0553581Z app/routes/essays/edu/arith_mul-comm.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0553945Z app/routes/essays/feel/revalue-myself/00_intro.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0554376Z app/routes/essays/math/curry--howard/0-intro/1-isomorphism.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0554847Z app/routes/essays/math/curry--howard/0-intro/2-statement.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0555251Z app/routes/essays/math/curry--howard/index.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0555759Z app/routes/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0556297Z app/routes/essays/math/is-sqrt-of-squared-x-pm-x.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0556760Z app/routes/essays/programming/functional/andthen-and-then-monad.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0557196Z app/routes/essays/work/weekday-schedule.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0557528Z app/routes/works/2011/01_funny-breakout.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0558235Z app/routes/works/2011/02_change-seats.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0558595Z app/routes/works/2012/01_breaking-enemies.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0559159Z app/routes/works/2013/01_ochimono.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0559472Z app/routes/works/2017/01_softdon.html.mdx
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0610524Z ##[group]Run actions/upload-artifact@v7
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0611028Z with:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0611232Z   name: workspace
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0611477Z   path: **/*.mdx
+prepare / prepare	UNKNOWN STEP	public/**/images/**
+prepare / prepare	UNKNOWN STEP	
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0611782Z   if-no-files-found: warn
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0612041Z   compression-level: 6
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0612283Z   overwrite: false
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0612516Z   include-hidden-files: false
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0612783Z   archive: true
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.0612992Z ##[endgroup]
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.2572288Z With the provided path, there will be 39 files uploaded
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.2577684Z Artifact name is valid!
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.2578783Z Root directory input is valid!
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.6194520Z Uploading artifact: workspace.zip
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:05.6238582Z Beginning upload of artifact content to blob storage
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:06.4512080Z Uploaded bytes 964400
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:06.5300328Z Finished uploading artifact content to blob storage!
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:06.5302275Z SHA256 digest of uploaded artifact is 63fad9275c3a825dd01bc20087d39c5827a3491e5d3038e31efbfd00c5cac0dc
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:06.5303415Z Finalizing artifact upload
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:06.9179309Z Artifact workspace successfully finalized. Artifact ID 7720038975
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:06.9180520Z Artifact workspace has been successfully uploaded! Final size is 964400 bytes. Artifact ID is 7720038975
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:06.9185060Z Artifact download URL: https://github.com/nahcnuj/nahcnuj.github.io/actions/runs/27751546664/artifacts/7720038975
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:06.9376260Z Post job cleanup.
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0220623Z [command]/usr/bin/git version
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0259783Z git version 2.54.0
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0333944Z Temporarily overriding HOME='/home/runner/work/_temp/6974f8c9-b37f-4942-9c7c-898da24afcd4' before making global git config changes
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0335010Z Adding repository directory to the temporary git global config as a safe directory
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0340215Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/nahcnuj.github.io/nahcnuj.github.io
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0372627Z Removing SSH command configuration
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0379720Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0415636Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0649031Z Removing HTTP extra header
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0654241Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0690869Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0917046Z Removing includeIf entries pointing to credentials config files
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0924081Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0950918Z includeif.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git.path
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0951719Z includeif.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git/worktrees/*.path
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0952305Z includeif.gitdir:/github/workspace/.git.path
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0952714Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0960914Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git.path
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0982847Z /home/runner/work/_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.0995102Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git.path /home/runner/work/_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.1029916Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git/worktrees/*.path
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.1052286Z /home/runner/work/_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.1061750Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.1093522Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.1114681Z /github/runner_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.1123161Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.1153907Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.1175255Z /github/runner_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.1185142Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.1217026Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.1442487Z Removing credentials config '/home/runner/work/_temp/git-credentials-3b5bf293-6010-4718-90ac-5d0775c0dcc6.config'
+prepare / prepare	UNKNOWN STEP	2026-06-18T09:56:07.1585086Z Cleaning up orphan processes
+update	Set up job	・ｿ2026-06-18T09:56:13.1262761Z Current runner version: '2.335.1'
+update	Set up job	2026-06-18T09:56:13.1290570Z ##[group]Runner Image Provisioner
+update	Set up job	2026-06-18T09:56:13.1291671Z Hosted Compute Agent
+update	Set up job	2026-06-18T09:56:13.1292316Z Version: 20260611.554
+update	Set up job	2026-06-18T09:56:13.1292971Z Commit: 5e0782fdc9014723d3be820dd114dd31555c2bd1
+update	Set up job	2026-06-18T09:56:13.1293805Z Build Date: 2026-06-11T21:40:46Z
+update	Set up job	2026-06-18T09:56:13.1294521Z Worker ID: {3493a085-50c7-4541-a6c8-b341bcea67b8}
+update	Set up job	2026-06-18T09:56:13.1295339Z Azure Region: eastus2
+update	Set up job	2026-06-18T09:56:13.1295960Z ##[endgroup]
+update	Set up job	2026-06-18T09:56:13.1297566Z ##[group]Operating System
+update	Set up job	2026-06-18T09:56:13.1298331Z Ubuntu
+update	Set up job	2026-06-18T09:56:13.1298882Z 24.04.4
+update	Set up job	2026-06-18T09:56:13.1299403Z LTS
+update	Set up job	2026-06-18T09:56:13.1300276Z ##[endgroup]
+update	Set up job	2026-06-18T09:56:13.1300851Z ##[group]Runner Image
+update	Set up job	2026-06-18T09:56:13.1301568Z Image: ubuntu-24.04
+update	Set up job	2026-06-18T09:56:13.1302164Z Version: 20260615.205.1
+update	Set up job	2026-06-18T09:56:13.1303252Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260615.205/images/ubuntu/Ubuntu2404-Readme.md
+update	Set up job	2026-06-18T09:56:13.1305085Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260615.205
+update	Set up job	2026-06-18T09:56:13.1306184Z ##[endgroup]
+update	Set up job	2026-06-18T09:56:13.1307346Z ##[group]GITHUB_TOKEN Permissions
+update	Set up job	2026-06-18T09:56:13.1309587Z Contents: read
+update	Set up job	2026-06-18T09:56:13.1310480Z Metadata: read
+update	Set up job	2026-06-18T09:56:13.1311296Z ##[endgroup]
+update	Set up job	2026-06-18T09:56:13.1313458Z Secret source: Actions
+update	Set up job	2026-06-18T09:56:13.1314286Z Prepare workflow directory
+update	Set up job	2026-06-18T09:56:13.1655925Z Prepare all required actions
+update	Set up job	2026-06-18T09:56:13.1694586Z Getting action download info
+update	Set up job	2026-06-18T09:56:13.4387434Z Download action repository 'actions/checkout@v6' (SHA:df4cb1c069e1874edd31b4311f1884172cec0e10)
+update	Set up job	2026-06-18T09:56:13.5113887Z Download action repository 'actions/setup-node@v6' (SHA:48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e)
+update	Set up job	2026-06-18T09:56:13.6083365Z Download action repository 'actions/download-artifact@v8' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+update	Set up job	2026-06-18T09:56:13.8452734Z Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+update	Set up job	2026-06-18T09:56:13.9866093Z Download action repository 'actions/upload-artifact@v7' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+update	Set up job	2026-06-18T09:56:14.0643926Z Download action repository 'actions/upload-pages-artifact@v5.0.0' (SHA:fc324d3547104276b827a68afc52ff2a11cc49c9)
+update	Set up job	2026-06-18T09:56:14.3192900Z Getting action download info
+update	Set up job	2026-06-18T09:56:14.4280383Z Download action repository 'actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f' (SHA:bbbca2ddaa5d8feaa63e36b76fdaad77386f024f)
+update	Set up job	2026-06-18T09:56:14.5292656Z Complete job name: update
+update	Run actions/checkout@v6	・ｿ2026-06-18T09:56:14.6173841Z ##[group]Run actions/checkout@v6
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6174809Z with:
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6175334Z   fetch-depth: 0
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6175903Z   repository: nahcnuj/nahcnuj.github.io
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6180714Z   token: ***
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6181253Z   ssh-strict: true
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6181792Z   ssh-user: git
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6182333Z   persist-credentials: true
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6182949Z   clean: true
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6183492Z   sparse-checkout-cone-mode: true
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6184112Z   fetch-tags: false
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6184651Z   show-progress: true
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6185195Z   lfs: false
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6185700Z   submodules: false
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6186268Z   set-safe-directory: true
+update	Run actions/checkout@v6	2026-06-18T09:56:14.6187047Z ##[endgroup]
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7196158Z Syncing repository: nahcnuj/nahcnuj.github.io
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7198242Z ##[group]Getting Git version info
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7199400Z Working directory is '/home/runner/work/nahcnuj.github.io/nahcnuj.github.io'
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7201187Z [command]/usr/bin/git version
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7234427Z git version 2.54.0
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7288568Z ##[endgroup]
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7304526Z Temporarily overriding HOME='/home/runner/work/_temp/f969ff9b-3deb-40b1-8973-0dfbe570d270' before making global git config changes
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7307002Z Adding repository directory to the temporary git global config as a safe directory
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7310614Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/nahcnuj.github.io/nahcnuj.github.io
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7358197Z Deleting the contents of '/home/runner/work/nahcnuj.github.io/nahcnuj.github.io'
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7362384Z ##[group]Determining repository object format
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7364802Z ##[endgroup]
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7365717Z ##[group]Initializing the repository
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7369618Z [command]/usr/bin/git init /home/runner/work/nahcnuj.github.io/nahcnuj.github.io
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7455048Z hint: Using 'master' as the name for the initial branch. This default branch name
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7456837Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7458463Z hint: to use in all of your new repositories, which will suppress this warning,
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7460298Z hint: call:
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7461059Z hint:
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7461783Z hint: 	git config --global init.defaultBranch <name>
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7462551Z hint:
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7463245Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7464308Z hint: 'development'. The just-created branch can be renamed via this command:
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7465156Z hint:
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7465778Z hint: 	git branch -m <name>
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7466645Z hint:
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7467479Z hint: Disable this message with "git config set advice.defaultBranchName false"
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7468739Z Initialized empty Git repository in /home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git/
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7471942Z [command]/usr/bin/git remote add origin https://github.com/nahcnuj/nahcnuj.github.io
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7514753Z ##[endgroup]
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7516135Z ##[group]Disabling automatic garbage collection
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7517703Z [command]/usr/bin/git config --local gc.auto 0
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7547726Z ##[endgroup]
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7548709Z ##[group]Setting up auth
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7549437Z Removing SSH command configuration
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7555072Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7588911Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7913883Z Removing HTTP extra header
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7921336Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+update	Run actions/checkout@v6	2026-06-18T09:56:14.7954264Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+update	Run actions/checkout@v6	2026-06-18T09:56:14.8187060Z Removing includeIf entries pointing to credentials config files
+update	Run actions/checkout@v6	2026-06-18T09:56:14.8193160Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+update	Run actions/checkout@v6	2026-06-18T09:56:14.8226039Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+update	Run actions/checkout@v6	2026-06-18T09:56:14.8467205Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+update	Run actions/checkout@v6	2026-06-18T09:56:14.8507019Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git.path /home/runner/work/_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config
+update	Run actions/checkout@v6	2026-06-18T09:56:14.8543115Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config
+update	Run actions/checkout@v6	2026-06-18T09:56:14.8573055Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config
+update	Run actions/checkout@v6	2026-06-18T09:56:14.8605329Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config
+update	Run actions/checkout@v6	2026-06-18T09:56:14.8634912Z ##[endgroup]
+update	Run actions/checkout@v6	2026-06-18T09:56:14.8635824Z ##[group]Fetching the repository
+update	Run actions/checkout@v6	2026-06-18T09:56:14.8643828Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +546bfd96a2446e6305e5f124e0ab3829190bc611:refs/remotes/pull/711/merge
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2890314Z From https://github.com/nahcnuj/nahcnuj.github.io
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2893311Z  * [new branch]      copilot/add-banner-for-makamujo-project  -> origin/copilot/add-banner-for-makamujo-project
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2895805Z  * [new branch]      copilot/feat-rss                         -> origin/copilot/feat-rss
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2898219Z  * [new branch]      dependabot/npm_and_yarn/biomejs/biome-2.5.0 -> origin/dependabot/npm_and_yarn/biomejs/biome-2.5.0
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2901542Z  * [new branch]      dependabot/npm_and_yarn/patch-72fe2bc309 -> origin/dependabot/npm_and_yarn/patch-72fe2bc309
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2904621Z  * [new branch]      dependabot/npm_and_yarn/playwright-1.61.0 -> origin/dependabot/npm_and_yarn/playwright-1.61.0
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2907307Z  * [new branch]      dependabot/npm_and_yarn/types/node-24.13.2 -> origin/dependabot/npm_and_yarn/types/node-24.13.2
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2909947Z  * [new branch]      feat/katex                               -> origin/feat/katex
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2911938Z  * [new branch]      source                                   -> origin/source
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2914261Z  * [new ref]         546bfd96a2446e6305e5f124e0ab3829190bc611 -> pull/711/merge
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2933609Z ##[endgroup]
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2935115Z ##[group]Determining the checkout info
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2936842Z ##[endgroup]
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2942465Z [command]/usr/bin/git sparse-checkout disable
+update	Run actions/checkout@v6	2026-06-18T09:56:16.2991069Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3021529Z ##[group]Checking out the ref
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3024130Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/711/merge
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3276709Z Note: switching to 'refs/remotes/pull/711/merge'.
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3277914Z 
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3278801Z You are in 'detached HEAD' state. You can look around, make experimental
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3281624Z changes and commit them, and you can discard any commits you make in this
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3284692Z state without impacting any branches by switching back to a branch.
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3287023Z 
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3288297Z If you want to create a new branch to retain commits you create, you may
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3291468Z do so (now or later) by using -c with the switch command. Example:
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3293214Z 
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3293941Z   git switch -c <new-branch-name>
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3295098Z 
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3295770Z Or undo this operation with:
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3296838Z 
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3297471Z   git switch -
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3298231Z 
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3299809Z Turn off this advice by setting config variable advice.detachedHead to false
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3301520Z 
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3303159Z HEAD is now at 546bfd9 Merge a5e5d2d9a695d36a38258aa13312e07f483c96af into 59be4f0cbe1c05e613e6c1caecd91df79fdbb643
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3308654Z ##[endgroup]
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3335990Z [command]/usr/bin/git log -1 --format=%H
+update	Run actions/checkout@v6	2026-06-18T09:56:16.3364476Z 546bfd96a2446e6305e5f124e0ab3829190bc611
+update	Run actions/setup-node@v6	・ｿ2026-06-18T09:56:16.3734373Z ##[group]Run actions/setup-node@v6
+update	Run actions/setup-node@v6	2026-06-18T09:56:16.3735512Z with:
+update	Run actions/setup-node@v6	2026-06-18T09:56:16.3736366Z   node-version-file: .nvmrc
+update	Run actions/setup-node@v6	2026-06-18T09:56:16.3737354Z   cache: npm
+update	Run actions/setup-node@v6	2026-06-18T09:56:16.3738190Z   check-latest: false
+update	Run actions/setup-node@v6	2026-06-18T09:56:16.3748748Z   token: ***
+update	Run actions/setup-node@v6	2026-06-18T09:56:16.3749623Z   package-manager-cache: true
+update	Run actions/setup-node@v6	2026-06-18T09:56:16.3751109Z ##[endgroup]
+update	Run actions/setup-node@v6	2026-06-18T09:56:16.5334983Z Node version file is not JSON file
+update	Run actions/setup-node@v6	2026-06-18T09:56:16.5336657Z Resolved .nvmrc as 24.11.1
+update	Run actions/setup-node@v6	2026-06-18T09:56:16.5361999Z Attempting to download 24.11.1...
+update	Run actions/setup-node@v6	2026-06-18T09:56:17.0164008Z Acquiring 24.11.1 - x64 from https://github.com/actions/node-versions/releases/download/24.11.1-19282993875/node-24.11.1-linux-x64.tar.gz
+update	Run actions/setup-node@v6	2026-06-18T09:56:17.4577455Z Extracting ...
+update	Run actions/setup-node@v6	2026-06-18T09:56:17.4697035Z [command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/90c2da5e-d034-4ecc-b8cd-15129888d114 -f /home/runner/work/_temp/c37ef659-6d6a-4df8-a36a-42940deac072
+update	Run actions/setup-node@v6	2026-06-18T09:56:18.7711893Z Adding to the cache ...
+update	Run actions/setup-node@v6	2026-06-18T09:56:20.5577888Z ##[group]Environment details
+update	Run actions/setup-node@v6	2026-06-18T09:56:20.7911427Z node: v24.11.1
+update	Run actions/setup-node@v6	2026-06-18T09:56:20.7911794Z npm: 11.6.2
+update	Run actions/setup-node@v6	2026-06-18T09:56:20.7912012Z yarn: 1.22.22
+update	Run actions/setup-node@v6	2026-06-18T09:56:20.7912856Z ##[endgroup]
+update	Run actions/setup-node@v6	2026-06-18T09:56:20.7931948Z [command]/opt/hostedtoolcache/node/24.11.1/x64/bin/npm config get cache
+update	Run actions/setup-node@v6	2026-06-18T09:56:20.8877702Z /home/runner/.npm
+update	Run actions/setup-node@v6	2026-06-18T09:56:21.0505334Z Cache hit for: node-cache-Linux-x64-npm-98d2106fe9f916eb8e5bed691bf49c22b254e701c317dbfd6a1dce6a9acea431
+update	Run actions/setup-node@v6	2026-06-18T09:56:21.6316646Z Received 122245833 of 122245833 (100.0%), 223.8 MBs/sec
+update	Run actions/setup-node@v6	2026-06-18T09:56:21.6317467Z Cache Size: ~117 MB (122245833 B)
+update	Run actions/setup-node@v6	2026-06-18T09:56:21.6378932Z [command]/usr/bin/tar -xf /home/runner/work/_temp/c397d65a-9571-4967-8ae2-f29ee9d113b8/cache.tzst -P -C /home/runner/work/nahcnuj.github.io/nahcnuj.github.io --use-compress-program unzstd
+update	Run actions/setup-node@v6	2026-06-18T09:56:21.9006781Z Cache restored successfully
+update	Run actions/setup-node@v6	2026-06-18T09:56:21.9074659Z Cache restored from key: node-cache-Linux-x64-npm-98d2106fe9f916eb8e5bed691bf49c22b254e701c317dbfd6a1dce6a9acea431
+update	Download workspace	・ｿ2026-06-18T09:56:21.9356264Z ##[group]Run actions/download-artifact@v8
+update	Download workspace	2026-06-18T09:56:21.9356593Z with:
+update	Download workspace	2026-06-18T09:56:21.9356804Z   name: workspace
+update	Download workspace	2026-06-18T09:56:21.9357026Z   path: .
+update	Download workspace	2026-06-18T09:56:21.9357245Z   merge-multiple: false
+update	Download workspace	2026-06-18T09:56:21.9357522Z   repository: nahcnuj/nahcnuj.github.io
+update	Download workspace	2026-06-18T09:56:21.9357805Z   run-id: 27751546664
+update	Download workspace	2026-06-18T09:56:21.9358057Z   skip-decompress: false
+update	Download workspace	2026-06-18T09:56:21.9358300Z   digest-mismatch: error
+update	Download workspace	2026-06-18T09:56:21.9358540Z ##[endgroup]
+update	Download workspace	2026-06-18T09:56:22.0802481Z Downloading single artifact
+update	Download workspace	2026-06-18T09:56:22.1824924Z Preparing to download the following artifacts:
+update	Download workspace	2026-06-18T09:56:22.1826016Z - workspace (ID: 7720038975, Size: 964400, Expected Digest: sha256:63fad9275c3a825dd01bc20087d39c5827a3491e5d3038e31efbfd00c5cac0dc)
+update	Download workspace	2026-06-18T09:56:22.4013529Z Redirecting to blob download url: https://productionresultssa13.blob.core.windows.net/actions-results/ce2d1882-bcdc-49cf-a8e1-52b605bf6d02/workflow-job-run-83992124-1c97-5476-a2a6-5a5dbc1e7ebc/artifacts/21a3230e03772a58aff1b3709a9e232850916337e1fba95c434076b6668c6e08.zip
+update	Download workspace	2026-06-18T09:56:22.4015073Z Starting download of artifact to: /home/runner/work/nahcnuj.github.io/nahcnuj.github.io
+update	Download workspace	2026-06-18T09:56:22.4587419Z (node:2334) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+update	Download workspace	2026-06-18T09:56:22.4588558Z (Use `node --trace-deprecation ...` to show where the warning was created)
+update	Download workspace	2026-06-18T09:56:22.5339977Z SHA256 digest of downloaded artifact is 63fad9275c3a825dd01bc20087d39c5827a3491e5d3038e31efbfd00c5cac0dc
+update	Download workspace	2026-06-18T09:56:22.5341290Z Artifact download completed successfully.
+update	Download workspace	2026-06-18T09:56:22.5341793Z Total of 1 artifact(s) downloaded
+update	Download workspace	2026-06-18T09:56:22.5346124Z Download artifact has finished successfully
+update	Install Japanese fonts	・ｿ2026-06-18T09:56:22.5504676Z ##[group]Run # Update both sources.list and apt-mirrors.txt if they exist
+update	Install Japanese fonts	2026-06-18T09:56:22.5505296Z ^[[36;1m# Update both sources.list and apt-mirrors.txt if they exist^[[0m
+update	Install Japanese fonts	2026-06-18T09:56:22.5506085Z ^[[36;1msudo sed -i 's|https\?://[^/]*\.archive\.ubuntu\.com|http://ftp.jaist.ac.jp/pub/Linux/ubuntu|g' /etc/apt/sources.list 2>/dev/null || true^[[0m
+update	Install Japanese fonts	2026-06-18T09:56:22.5507017Z ^[[36;1msudo sed -i 's|https\?://[^/]*\.archive\.ubuntu\.com|http://ftp.jaist.ac.jp/pub/Linux/ubuntu|g' /etc/apt/apt-mirrors.txt 2>/dev/null || true^[[0m
+update	Install Japanese fonts	2026-06-18T09:56:22.5507828Z ^[[36;1msudo apt-get update^[[0m
+update	Install Japanese fonts	2026-06-18T09:56:22.5508133Z ^[[36;1msudo apt-get install -y fonts-noto-cjk^[[0m
+update	Install Japanese fonts	2026-06-18T09:56:22.5658653Z shell: /usr/bin/bash -e {0}
+update	Install Japanese fonts	2026-06-18T09:56:22.5658975Z ##[endgroup]
+update	Install Japanese fonts	2026-06-18T09:56:22.6857124Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [152 B]
+update	Install Japanese fonts	2026-06-18T09:56:22.7244784Z Hit:6 https://packages.microsoft.com/repos/azure-cli noble InRelease
+update	Install Japanese fonts	2026-06-18T09:56:22.7246251Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+update	Install Japanese fonts	2026-06-18T09:56:22.7709423Z Get:8 https://dl.google.com/linux/chrome-stable/deb stable InRelease [1825 B]
+update	Install Japanese fonts	2026-06-18T09:56:22.8413935Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [146 kB]
+update	Install Japanese fonts	2026-06-18T09:56:22.8571197Z Get:10 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [11.6 kB]
+update	Install Japanese fonts	2026-06-18T09:56:22.8603833Z Get:11 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [176 kB]
+update	Install Japanese fonts	2026-06-18T09:56:22.9148357Z Get:12 https://dl.google.com/linux/chrome-stable/deb stable/main amd64 Packages [1208 B]
+update	Install Japanese fonts	2026-06-18T09:56:23.3756818Z Hit:2 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble InRelease
+update	Install Japanese fonts	2026-06-18T09:56:23.5493861Z Get:3 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-updates InRelease [126 kB]
+update	Install Japanese fonts	2026-06-18T09:56:24.4114855Z Get:4 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-backports InRelease [126 kB]
+update	Install Japanese fonts	2026-06-18T09:56:24.9296679Z Get:5 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-security InRelease [126 kB]
+update	Install Japanese fonts	2026-06-18T09:56:25.4496358Z Get:13 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-updates/main amd64 Packages [1031 kB]
+update	Install Japanese fonts	2026-06-18T09:56:27.3454561Z Get:14 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-updates/main Translation-en [259 kB]
+update	Install Japanese fonts	2026-06-18T09:56:27.6923240Z Get:15 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-updates/main amd64 Components [181 kB]
+update	Install Japanese fonts	2026-06-18T09:56:28.0378275Z Get:16 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-updates/main amd64 c-n-f Metadata [17.4 kB]
+update	Install Japanese fonts	2026-06-18T09:56:28.2121652Z Get:17 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-updates/universe amd64 Packages [1656 kB]
+update	Install Japanese fonts	2026-06-18T09:56:29.5934229Z Get:18 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-updates/universe Translation-en [326 kB]
+update	Install Japanese fonts	2026-06-18T09:56:29.9399675Z Get:19 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-updates/universe amd64 Components [388 kB]
+update	Install Japanese fonts	2026-06-18T09:56:30.2921745Z Get:20 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-updates/universe amd64 c-n-f Metadata [34.8 kB]
+update	Install Japanese fonts	2026-06-18T09:56:30.4656697Z Get:21 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-updates/multiverse amd64 Components [940 B]
+update	Install Japanese fonts	2026-06-18T09:56:30.6461315Z Get:22 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-backports/main amd64 Components [5784 B]
+update	Install Japanese fonts	2026-06-18T09:56:31.1034399Z Get:23 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-backports/universe amd64 Components [10.5 kB]
+update	Install Japanese fonts	2026-06-18T09:56:31.2781630Z Get:24 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-security/main amd64 Packages [779 kB]
+update	Install Japanese fonts	2026-06-18T09:56:31.7970819Z Get:25 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-security/main Translation-en [178 kB]
+update	Install Japanese fonts	2026-06-18T09:56:31.9717528Z Get:26 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-security/main amd64 Components [44.9 kB]
+update	Install Japanese fonts	2026-06-18T09:56:32.1456050Z Get:27 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-security/main amd64 c-n-f Metadata [11.5 kB]
+update	Install Japanese fonts	2026-06-18T09:56:32.3202000Z Get:28 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-security/universe amd64 Packages [1170 kB]
+update	Install Japanese fonts	2026-06-18T09:56:33.0131650Z Get:29 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-security/universe Translation-en [229 kB]
+update	Install Japanese fonts	2026-06-18T09:56:33.4118633Z Get:30 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-security/universe amd64 Components [76.3 kB]
+update	Install Japanese fonts	2026-06-18T09:56:33.5998282Z Get:31 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble-security/universe amd64 c-n-f Metadata [24.1 kB]
+update	Install Japanese fonts	2026-06-18T09:56:37.7299654Z Fetched 7141 kB in 11s (652 kB/s)
+update	Install Japanese fonts	2026-06-18T09:56:38.4239941Z Reading package lists...
+update	Install Japanese fonts	2026-06-18T09:56:38.4561198Z Reading package lists...
+update	Install Japanese fonts	2026-06-18T09:56:38.6343645Z Building dependency tree...
+update	Install Japanese fonts	2026-06-18T09:56:38.6351531Z Reading state information...
+update	Install Japanese fonts	2026-06-18T09:56:38.8024321Z Suggested packages:
+update	Install Japanese fonts	2026-06-18T09:56:38.8024737Z   fonts-noto-cjk-extra
+update	Install Japanese fonts	2026-06-18T09:56:38.8213207Z The following NEW packages will be installed:
+update	Install Japanese fonts	2026-06-18T09:56:38.8219113Z   fonts-noto-cjk
+update	Install Japanese fonts	2026-06-18T09:56:38.8407045Z 0 upgraded, 1 newly installed, 0 to remove and 6 not upgraded.
+update	Install Japanese fonts	2026-06-18T09:56:38.8407817Z Need to get 61.2 MB of archives.
+update	Install Japanese fonts	2026-06-18T09:56:38.8408381Z After this operation, 93.2 MB of additional disk space will be used.
+update	Install Japanese fonts	2026-06-18T09:56:38.8408910Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [152 B]
+update	Install Japanese fonts	2026-06-18T09:56:39.3756680Z Get:2 http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ubuntu noble/main amd64 fonts-noto-cjk all 1:20230817+repack1-3 [61.2 MB]
+update	Install Japanese fonts	2026-06-18T09:56:50.4621068Z Fetched 61.2 MB in 11s (5384 kB/s)
+update	Install Japanese fonts	2026-06-18T09:56:50.4845958Z Selecting previously unselected package fonts-noto-cjk.
+update	Install Japanese fonts	2026-06-18T09:56:50.5088790Z (Reading database ... 
+update	Install Japanese fonts	2026-06-18T09:56:50.5089355Z (Reading database ... 5%
+update	Install Japanese fonts	2026-06-18T09:56:50.5089840Z (Reading database ... 10%
+update	Install Japanese fonts	2026-06-18T09:56:50.5090573Z (Reading database ... 15%
+update	Install Japanese fonts	2026-06-18T09:56:50.5091248Z (Reading database ... 20%
+update	Install Japanese fonts	2026-06-18T09:56:50.5091657Z (Reading database ... 25%
+update	Install Japanese fonts	2026-06-18T09:56:50.5092105Z (Reading database ... 30%
+update	Install Japanese fonts	2026-06-18T09:56:50.5092595Z (Reading database ... 35%
+update	Install Japanese fonts	2026-06-18T09:56:50.5093033Z (Reading database ... 40%
+update	Install Japanese fonts	2026-06-18T09:56:50.5093288Z (Reading database ... 45%
+update	Install Japanese fonts	2026-06-18T09:56:50.5093582Z (Reading database ... 50%
+update	Install Japanese fonts	2026-06-18T09:56:50.5135056Z (Reading database ... 55%
+update	Install Japanese fonts	2026-06-18T09:56:50.6157228Z (Reading database ... 60%
+update	Install Japanese fonts	2026-06-18T09:56:50.8051092Z (Reading database ... 65%
+update	Install Japanese fonts	2026-06-18T09:56:51.0094032Z (Reading database ... 70%
+update	Install Japanese fonts	2026-06-18T09:56:51.1066046Z (Reading database ... 75%
+update	Install Japanese fonts	2026-06-18T09:56:51.1641225Z (Reading database ... 80%
+update	Install Japanese fonts	2026-06-18T09:56:51.3763513Z (Reading database ... 85%
+update	Install Japanese fonts	2026-06-18T09:56:51.5629306Z (Reading database ... 90%
+update	Install Japanese fonts	2026-06-18T09:56:51.7197459Z (Reading database ... 95%
+update	Install Japanese fonts	2026-06-18T09:56:51.7198048Z (Reading database ... 100%
+update	Install Japanese fonts	2026-06-18T09:56:51.7198738Z (Reading database ... 202324 files and directories currently installed.)
+update	Install Japanese fonts	2026-06-18T09:56:51.7248355Z Preparing to unpack .../fonts-noto-cjk_1%3a20230817+repack1-3_all.deb ...
+update	Install Japanese fonts	2026-06-18T09:56:51.7488503Z Unpacking fonts-noto-cjk (1:20230817+repack1-3) ...
+update	Install Japanese fonts	2026-06-18T09:56:52.5787405Z Setting up fonts-noto-cjk (1:20230817+repack1-3) ...
+update	Install Japanese fonts	2026-06-18T09:56:52.8159005Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+update	Install Japanese fonts	2026-06-18T09:56:53.5222576Z 
+update	Install Japanese fonts	2026-06-18T09:56:53.5223728Z Running kernel seems to be up-to-date.
+update	Install Japanese fonts	2026-06-18T09:56:53.5224427Z 
+update	Install Japanese fonts	2026-06-18T09:56:53.5224889Z No services need to be restarted.
+update	Install Japanese fonts	2026-06-18T09:56:53.5225339Z 
+update	Install Japanese fonts	2026-06-18T09:56:53.5225689Z No containers need to be restarted.
+update	Install Japanese fonts	2026-06-18T09:56:53.5226030Z 
+update	Install Japanese fonts	2026-06-18T09:56:53.5226346Z No user sessions are running outdated binaries.
+update	Install Japanese fonts	2026-06-18T09:56:53.5226685Z 
+update	Install Japanese fonts	2026-06-18T09:56:53.5227008Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+update	Install dependencies	・ｿ2026-06-18T09:56:54.5367211Z ##[group]Run npm ci --omit dev --ignore-scripts --prefer-offline
+update	Install dependencies	2026-06-18T09:56:54.5367743Z ^[[36;1mnpm ci --omit dev --ignore-scripts --prefer-offline^[[0m
+update	Install dependencies	2026-06-18T09:56:54.5402209Z shell: /usr/bin/bash -e {0}
+update	Install dependencies	2026-06-18T09:56:54.5402500Z ##[endgroup]
+update	Install dependencies	2026-06-18T09:56:57.1967215Z 
+update	Install dependencies	2026-06-18T09:56:57.1968085Z added 258 packages, and audited 259 packages in 3s
+update	Install dependencies	2026-06-18T09:56:57.1968546Z 
+update	Install dependencies	2026-06-18T09:56:57.1968807Z 144 packages are looking for funding
+update	Install dependencies	2026-06-18T09:56:57.1969486Z   run `npm fund` for details
+update	Install dependencies	2026-06-18T09:56:57.2037018Z 
+update	Install dependencies	2026-06-18T09:56:57.2037665Z 1 high severity vulnerability
+update	Install dependencies	2026-06-18T09:56:57.2038020Z 
+update	Install dependencies	2026-06-18T09:56:57.2038231Z To address all issues, run:
+update	Install dependencies	2026-06-18T09:56:57.2039061Z   npm audit fix
+update	Install dependencies	2026-06-18T09:56:57.2039277Z 
+update	Install dependencies	2026-06-18T09:56:57.2039474Z Run `npm audit` for details.
+update	Restore dist cache	・ｿ2026-06-18T09:56:57.4504171Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+update	Restore dist cache	2026-06-18T09:56:57.4505607Z ##[group]Run actions/cache/restore@v4
+update	Restore dist cache	2026-06-18T09:56:57.4505918Z with:
+update	Restore dist cache	2026-06-18T09:56:57.4506146Z   path: dist
+update	Restore dist cache	2026-06-18T09:56:57.4506584Z   key: update-dist-Linux-9c4beb04f9769745021546c51a3d6d2d86bb419d1878a54bca32ca974aa2c990
+update	Restore dist cache	2026-06-18T09:56:57.4507112Z   enableCrossOsArchive: false
+update	Restore dist cache	2026-06-18T09:56:57.4507409Z   fail-on-cache-miss: false
+update	Restore dist cache	2026-06-18T09:56:57.4507681Z   lookup-only: false
+update	Restore dist cache	2026-06-18T09:56:57.4507944Z ##[endgroup]
+update	Restore dist cache	2026-06-18T09:56:57.5631661Z (node:2896) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+update	Restore dist cache	2026-06-18T09:56:57.5632643Z (Use `node --trace-deprecation ...` to show where the warning was created)
+update	Restore dist cache	2026-06-18T09:56:57.6584326Z Cache not found for input keys: update-dist-Linux-9c4beb04f9769745021546c51a3d6d2d86bb419d1878a54bca32ca974aa2c990
+update	Build	・ｿ2026-06-18T09:56:57.6727639Z ##[group]Run npm run build
+update	Build	2026-06-18T09:56:57.6728208Z ^[[36;1mnpm run build^[[0m
+update	Build	2026-06-18T09:56:57.6763340Z shell: /usr/bin/bash -e {0}
+update	Build	2026-06-18T09:56:57.6763782Z ##[endgroup]
+update	Build	2026-06-18T09:56:57.7815927Z 
+update	Build	2026-06-18T09:56:57.7816578Z > build
+update	Build	2026-06-18T09:56:57.7817153Z > vite build --mode client && vite build
+update	Build	2026-06-18T09:56:57.7817529Z 
+update	Build	2026-06-18T09:56:58.8134080Z ^[[36mvite v8.0.16 ^[[32mbuilding client environment for client...^[[36m^[[39m
+update	Build	2026-06-18T09:56:58.8246139Z ^[[2K
+update	Build	2026-06-18T09:56:58.8342670Z transforming...笨・33 modules transformed.
+update	Build	2026-06-18T09:56:58.8479581Z rendering chunks...
+update	Build	2026-06-18T09:56:58.8590439Z computing gzip size...
+update	Build	2026-06-18T09:56:58.8596007Z dist/.vite/manifest.json              1.24 kB 笏・gzip: 0.31 kB
+update	Build	2026-06-18T09:56:58.8596863Z dist/static/EssayList-DMrIFxWf.js     0.21 kB 笏・gzip: 0.18 kB
+update	Build	2026-06-18T09:56:58.8597458Z dist/static/DiaryList-BB3zoPM6.js     0.25 kB 笏・gzip: 0.21 kB
+update	Build	2026-06-18T09:56:58.8597992Z dist/static/AIDiaryList-I8CzJNAU.js   0.27 kB 笏・gzip: 0.22 kB
+update	Build	2026-06-18T09:56:58.8598596Z dist/static/runtime-D8__DoGj.js       2.01 kB 笏・gzip: 0.97 kB
+update	Build	2026-06-18T09:56:58.8599106Z dist/static/client-DkPmJ4bt.js       19.54 kB 笏・gzip: 8.12 kB
+update	Build	2026-06-18T09:56:58.8599351Z 
+update	Build	2026-06-18T09:56:58.8599708Z ^[[32m笨・built in 45ms^[[39m
+update	Build	2026-06-18T09:56:59.6025382Z ^[[36mvite v8.0.16 ^[[32mbuilding client environment for production...^[[36m^[[39m
+update	Build	2026-06-18T09:56:59.6140372Z ^[[2K
+update	Build	2026-06-18T09:56:59.6152772Z transforming...笨・2 modules transformed.
+update	Build	2026-06-18T09:56:59.6242022Z rendering chunks...
+update	Build	2026-06-18T09:57:02.0235847Z [remarkAlign] Summary: 1 math nodes, 0 aligned conversions, 0 HTML nodes
+update	Build	2026-06-18T09:57:02.0903799Z [remarkAlign] Summary: 1 math nodes, 0 aligned conversions, 0 HTML nodes
+update	Build	2026-06-18T09:57:03.7604118Z [remarkAlign] Summary: 1 math nodes, 0 aligned conversions, 0 HTML nodes
+update	Build	2026-06-18T09:57:04.3434319Z ^[[32mGET^[[0m  /feed.xml
+update	Build	2026-06-18T09:57:04.3435220Z ^[[32mGET^[[0m  /
+update	Build	2026-06-18T09:57:04.3436134Z ^[[32mGET^[[0m  /sitemap.xml
+update	Build	2026-06-18T09:57:04.3436871Z ^[[32mGET^[[0m  /works/index.html
+update	Build	2026-06-18T09:57:04.3437672Z ^[[32mGET^[[0m  /ogp/:path{.+}
+update	Build	2026-06-18T09:57:04.3438219Z ^[[32mGET^[[0m  /essays/index.html
+update	Build	2026-06-18T09:57:04.3438802Z ^[[32mGET^[[0m  /essays/feel/2025/02/08.html
+update	Build	2026-06-18T09:57:04.3439389Z ^[[32mGET^[[0m  /diary/index.html
+update	Build	2026-06-18T09:57:04.3439898Z ^[[32mGET^[[0m  /diary/2020-07-04
+update	Build	2026-06-18T09:57:04.3440563Z ^[[32mGET^[[0m  /diary/2020-07-20
+update	Build	2026-06-18T09:57:04.3441093Z ^[[32mGET^[[0m  /diary/2025/02/08.html
+update	Build	2026-06-18T09:57:04.3441686Z ^[[32mGET^[[0m  /works/2017/01_softdon.html
+update	Build	2026-06-18T09:57:04.3442282Z ^[[32mGET^[[0m  /works/2013/01_ochimono.html
+update	Build	2026-06-18T09:57:04.3442953Z ^[[32mGET^[[0m  /works/2012/01_breaking-enemies.html
+update	Build	2026-06-18T09:57:04.3444116Z ^[[32mGET^[[0m  /works/2011/01_funny-breakout.html
+update	Build	2026-06-18T09:57:04.3444556Z ^[[32mGET^[[0m  /works/2011/02_change-seats.html
+update	Build	2026-06-18T09:57:04.3444991Z ^[[32mGET^[[0m  /essays/work/weekday-schedule.html
+update	Build	2026-06-18T09:57:04.3445501Z ^[[32mGET^[[0m  /essays/math/is-sqrt-of-squared-x-pm-x.html
+update	Build	2026-06-18T09:57:04.3445993Z ^[[32mGET^[[0m  /essays/edu/arith_mul-comm.html
+update	Build	2026-06-18T09:57:04.3446558Z ^[[32mGET^[[0m  /essays/programming/functional/andthen-and-then-monad.html
+update	Build	2026-06-18T09:57:04.3447265Z ^[[32mGET^[[0m  /essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html
+update	Build	2026-06-18T09:57:04.3447875Z ^[[32mGET^[[0m  /essays/math/curry--howard/index.html
+update	Build	2026-06-18T09:57:04.3448349Z ^[[32mGET^[[0m  /essays/feel/revalue-myself/00_intro.html
+update	Build	2026-06-18T09:57:04.3448780Z ^[[32mGET^[[0m  /diary/2026/05/2026-05-09.html
+update	Build	2026-06-18T09:57:04.3449166Z ^[[32mGET^[[0m  /diary/2026/04/2026-04-26.html
+update	Build	2026-06-18T09:57:04.3449545Z ^[[32mGET^[[0m  /diary/2026/03/2026-03-01.html
+update	Build	2026-06-18T09:57:04.3450214Z ^[[32mGET^[[0m  /diary/2026/02/2026-02-02.html
+update	Build	2026-06-18T09:57:04.3450849Z ^[[32mGET^[[0m  /diary/2026/02/2026-02-03.html
+update	Build	2026-06-18T09:57:04.3451336Z ^[[32mGET^[[0m  /diary/2025/02/24.html
+update	Build	2026-06-18T09:57:04.3451700Z ^[[32mGET^[[0m  /diary/2025/02/26.html
+update	Build	2026-06-18T09:57:04.3452033Z ^[[32mGET^[[0m  /diary/2024/10/16.html
+update	Build	2026-06-18T09:57:04.3452709Z ^[[32mGET^[[0m  /diary/2024/04/11.html
+update	Build	2026-06-18T09:57:04.3453038Z ^[[32mGET^[[0m  /diary/2024/03/20.html
+update	Build	2026-06-18T09:57:04.3453377Z ^[[32mGET^[[0m  /diary/2024/03/23.html
+update	Build	2026-06-18T09:57:04.3453711Z ^[[32mGET^[[0m  /diary/2024/03/28.html
+update	Build	2026-06-18T09:57:04.3454044Z ^[[32mGET^[[0m  /diary/2020/07/04.html
+update	Build	2026-06-18T09:57:04.3454376Z ^[[32mGET^[[0m  /diary/2020/07/20.html
+update	Build	2026-06-18T09:57:04.3454856Z ^[[32mGET^[[0m  /essays/math/curry--howard/0-intro/1-isomorphism.html
+update	Build	2026-06-18T09:57:04.3455413Z ^[[32mGET^[[0m  /essays/math/curry--howard/0-intro/2-statement.html
+update	Build	2026-06-18T09:57:05.7332174Z LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+update	Build	2026-06-18T09:57:05.7339829Z LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+update	Build	2026-06-18T09:57:05.7437416Z LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+update	Build	2026-06-18T09:57:05.7440250Z LaTeX-incompatible input and strict mode is set to 'warn': In LaTeX, \\ or \newline does nothing in display mode [newLineInDisplayMode]
+update	Build	2026-06-18T09:57:08.7211614Z computing gzip size...
+update	Build	2026-06-18T09:57:08.7238330Z dist/diary/2020-07-04.html                                                         0.38 kB 笏・gzip:  0.20 kB
+update	Build	2026-06-18T09:57:08.7239267Z dist/diary/2020-07-20.html                                                         0.38 kB 笏・gzip:  0.20 kB
+update	Build	2026-06-18T09:57:08.7240326Z dist/diary/2025/02/08.html                                                         0.40 kB 笏・gzip:  0.20 kB
+update	Build	2026-06-18T09:57:08.7241784Z dist/essays/feel/2025/02/08.html                                                   0.46 kB 笏・gzip:  0.21 kB
+update	Build	2026-06-18T09:57:08.7242622Z dist/sitemap.xml                                                                   7.11 kB 笏・gzip:  0.61 kB
+update	Build	2026-06-18T09:57:08.7243388Z dist/works/2017/01_softdon.html                                                   11.29 kB 笏・gzip:  4.07 kB
+update	Build	2026-06-18T09:57:08.7244778Z dist/works/2012/01_breaking-enemies.html                                          11.53 kB 笏・gzip:  4.23 kB
+update	Build	2026-06-18T09:57:08.7245519Z dist/diary/2020/07/04.html                                                        11.65 kB 笏・gzip:  4.33 kB
+update	Build	2026-06-18T09:57:08.7246259Z dist/essays/work/weekday-schedule.html                                            11.76 kB 笏・gzip:  4.42 kB
+update	Build	2026-06-18T09:57:08.7247070Z dist/essays/math/curry--howard/0-intro/1-isomorphism.html                         11.80 kB 笏・gzip:  4.32 kB
+update	Build	2026-06-18T09:57:08.7247876Z dist/works/2011/02_change-seats.html                                              11.83 kB 笏・gzip:  4.31 kB
+update	Build	2026-06-18T09:57:08.7248936Z dist/works/2011/01_funny-breakout.html                                            11.93 kB 笏・gzip:  4.44 kB
+update	Build	2026-06-18T09:57:08.7249654Z dist/essays/index.html                                                            12.08 kB 笏・gzip:  4.38 kB
+update	Build	2026-06-18T09:57:08.7250578Z dist/index.html                                                                   12.16 kB 笏・gzip:  4.45 kB
+update	Build	2026-06-18T09:57:08.7251592Z dist/works/2013/01_ochimono.html                                                  12.25 kB 笏・gzip:  4.47 kB
+update	Build	2026-06-18T09:57:08.7252855Z dist/diary/2026/03/2026-03-01.html                                                12.40 kB 笏・gzip:  4.52 kB
+update	Build	2026-06-18T09:57:08.7254053Z dist/works/index.html                                                             12.41 kB 笏・gzip:  4.21 kB
+update	Build	2026-06-18T09:57:08.7255121Z dist/diary/2026/02/2026-02-03.html                                                12.72 kB 笏・gzip:  4.54 kB
+update	Build	2026-06-18T09:57:08.7255824Z dist/feed.xml                                                                     12.93 kB 笏・gzip:  3.36 kB
+update	Build	2026-06-18T09:57:08.7256426Z dist/ogp/diary/index.png                                                          12.96 kB
+update	Build	2026-06-18T09:57:08.7257023Z dist/ogp/essays/index.png                                                         13.09 kB
+update	Build	2026-06-18T09:57:08.7258013Z dist/essays/edu/arith_mul-comm.html                                               13.13 kB 笏・gzip:  4.87 kB
+update	Build	2026-06-18T09:57:08.7258646Z dist/ogp/works/index.png                                                          13.17 kB
+update	Build	2026-06-18T09:57:08.7259348Z dist/diary/2025/02/24.html                                                        13.53 kB 笏・gzip:  4.85 kB
+update	Build	2026-06-18T09:57:08.7259961Z dist/ogp/works/2017/01_softdon.png                                                14.22 kB
+update	Build	2026-06-18T09:57:08.7260856Z dist/ogp/essays/math/is-sqrt-of-squared-x-pm-x.png                                14.39 kB
+update	Build	2026-06-18T09:57:08.7261617Z dist/diary/2024/03/20.html                                                        14.49 kB 笏・gzip:  5.35 kB
+update	Build	2026-06-18T09:57:08.7262456Z dist/ogp/essays/math/curry--howard/0-intro/1-isomorphism.png                      14.57 kB
+update	Build	2026-06-18T09:57:08.7263820Z dist/essays/math/curry--howard/index.html                                         14.96 kB 笏・gzip:  4.54 kB
+update	Build	2026-06-18T09:57:08.7265039Z dist/diary/2020/07/20.html                                                        14.99 kB 笏・gzip:  5.21 kB
+update	Build	2026-06-18T09:57:08.7265762Z dist/diary/2024/10/16.html                                                        15.49 kB 笏・gzip:  5.63 kB
+update	Build	2026-06-18T09:57:08.7266443Z dist/diary/2024/03/28.html                                                        15.60 kB 笏・gzip:  5.48 kB
+update	Build	2026-06-18T09:57:08.7267129Z dist/diary/2024/04/11.html                                                        16.12 kB 笏・gzip:  5.31 kB
+update	Build	2026-06-18T09:57:08.7267821Z dist/diary/2026/05/2026-05-09.html                                                16.25 kB 笏・gzip:  5.90 kB
+update	Build	2026-06-18T09:57:08.7268552Z dist/diary/2026/04/2026-04-26.html                                                16.73 kB 笏・gzip:  5.97 kB
+update	Build	2026-06-18T09:57:08.7269731Z ^[[33m^[[33m[PLUGIN_TIMINGS] ^[[0mYour build spent significant time in plugin `@hono/vite-ssg`. See https://rolldown.rs/options/checks#plugintimings for more details.
+update	Build	2026-06-18T09:57:08.7271287Z ^[[39m
+update	Build	2026-06-18T09:57:08.7271848Z dist/diary/index.html                                                             17.00 kB 笏・gzip:  5.39 kB
+update	Build	2026-06-18T09:57:08.7272565Z dist/diary/2026/02/2026-02-02.html                                                17.51 kB 笏・gzip:  5.78 kB
+update	Build	2026-06-18T09:57:08.7273209Z dist/ogp/works/2012/01_breaking-enemies.png                                       17.59 kB
+update	Build	2026-06-18T09:57:08.7273846Z dist/ogp/works/2011/01_funny-breakout.png                                         18.20 kB
+update	Build	2026-06-18T09:57:08.7274465Z dist/ogp/diary/2020/07/04.png                                                     18.56 kB
+update	Build	2026-06-18T09:57:08.7275318Z dist/ogp/essays/work/weekday-schedule.png                                         18.88 kB
+update	Build	2026-06-18T09:57:08.7276075Z dist/diary/2025/02/26.html                                                        19.25 kB 笏・gzip:  7.08 kB
+update	Build	2026-06-18T09:57:08.7276665Z dist/ogp/diary/2020/07/20.png                                                     19.44 kB
+update	Build	2026-06-18T09:57:08.7277310Z dist/ogp/works/2013/01_ochimono.png                                               19.88 kB
+update	Build	2026-06-18T09:57:08.7277911Z dist/ogp/index.png                                                                20.42 kB
+update	Build	2026-06-18T09:57:08.7278484Z dist/ogp/works/2011/02_change-seats.png                                           21.05 kB
+update	Build	2026-06-18T09:57:08.7279195Z dist/diary/2024/03/23.html                                                        21.09 kB 笏・gzip:  6.07 kB
+update	Build	2026-06-18T09:57:08.7279946Z dist/essays/feel/revalue-myself/00_intro.html                                     22.05 kB 笏・gzip:  8.18 kB
+update	Build	2026-06-18T09:57:08.7281108Z dist/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html     23.15 kB 笏・gzip:  6.55 kB
+update	Build	2026-06-18T09:57:08.7281860Z dist/ogp/essays/math/curry--howard/index.png                                      23.32 kB
+update	Build	2026-06-18T09:57:08.7282467Z dist/ogp/diary/2024/03/20.png                                                     25.41 kB
+update	Build	2026-06-18T09:57:08.7283170Z dist/ogp/diary/2025/02/26.png                                                     25.82 kB
+update	Build	2026-06-18T09:57:08.7283771Z dist/ogp/essays/feel/revalue-myself/00_intro.png                                  26.06 kB
+update	Build	2026-06-18T09:57:08.7284379Z dist/ogp/diary/2026/05/2026-05-09.png                                             26.22 kB
+update	Build	2026-06-18T09:57:08.7284948Z dist/ogp/diary/2024/03/23.png                                                     26.27 kB
+update	Build	2026-06-18T09:57:08.7285579Z dist/ogp/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.png  26.38 kB
+update	Build	2026-06-18T09:57:08.7286469Z dist/essays/programming/functional/andthen-and-then-monad.html                    29.04 kB 笏・gzip: 10.35 kB
+update	Build	2026-06-18T09:57:08.7287168Z dist/ogp/diary/2024/10/16.png                                                     29.38 kB
+update	Build	2026-06-18T09:57:08.7287768Z dist/ogp/diary/2024/03/28.png                                                     29.60 kB
+update	Build	2026-06-18T09:57:08.7288375Z dist/ogp/diary/2026/04/2026-04-26.png                                             30.84 kB
+update	Build	2026-06-18T09:57:08.7288974Z dist/ogp/diary/2026/02/2026-02-02.png                                             31.07 kB
+update	Build	2026-06-18T09:57:08.7289552Z dist/ogp/diary/2026/02/2026-02-03.png                                             31.86 kB
+update	Build	2026-06-18T09:57:08.7290594Z dist/ogp/essays/programming/functional/andthen-and-then-monad.png                 33.21 kB
+update	Build	2026-06-18T09:57:08.7291292Z dist/ogp/diary/2026/03/2026-03-01.png                                             34.87 kB
+update	Build	2026-06-18T09:57:08.7291905Z dist/ogp/diary/2024/04/11.png                                                     35.71 kB
+update	Build	2026-06-18T09:57:08.7292475Z dist/ogp/diary/2025/02/24.png                                                     37.66 kB
+update	Build	2026-06-18T09:57:08.7293078Z dist/ogp/essays/edu/arith_mul-comm.png                                            40.27 kB
+update	Build	2026-06-18T09:57:08.7293895Z dist/essays/math/is-sqrt-of-squared-x-pm-x.html                                   63.21 kB 笏・gzip:  8.90 kB
+update	Build	2026-06-18T09:57:08.7294274Z 
+update	Build	2026-06-18T09:57:08.7294462Z ^[[32m笨・built in 9.12s^[[39m
+update	Check for KaTeX errors	・ｿ2026-06-18T09:57:08.8063310Z ##[group]Run if [ ! -d dist ]; then
+update	Check for KaTeX errors	2026-06-18T09:57:08.8063712Z ^[[36;1mif [ ! -d dist ]; then^[[0m
+update	Check for KaTeX errors	2026-06-18T09:57:08.8064106Z ^[[36;1m  echo "笞・・ dist directory not found, skipping KaTeX error check"^[[0m
+update	Check for KaTeX errors	2026-06-18T09:57:08.8064525Z ^[[36;1m  exit 0^[[0m
+update	Check for KaTeX errors	2026-06-18T09:57:08.8064750Z ^[[36;1mfi^[[0m
+update	Check for KaTeX errors	2026-06-18T09:57:08.8065054Z ^[[36;1mif grep -r "katex-error" dist/ > /dev/null 2>&1; then^[[0m
+update	Check for KaTeX errors	2026-06-18T09:57:08.8065455Z ^[[36;1m  echo "笶・KaTeX errors found in build output"^[[0m
+update	Check for KaTeX errors	2026-06-18T09:57:08.8066038Z ^[[36;1m  grep -r "katex-error" dist/ | head -20^[[0m
+update	Check for KaTeX errors	2026-06-18T09:57:08.8066418Z ^[[36;1m  exit 1^[[0m
+update	Check for KaTeX errors	2026-06-18T09:57:08.8066632Z ^[[36;1mfi^[[0m
+update	Check for KaTeX errors	2026-06-18T09:57:08.8066873Z ^[[36;1mecho "笨・No KaTeX errors found"^[[0m
+update	Check for KaTeX errors	2026-06-18T09:57:08.8101979Z shell: /usr/bin/bash -e {0}
+update	Check for KaTeX errors	2026-06-18T09:57:08.8102286Z ##[endgroup]
+update	Check for KaTeX errors	2026-06-18T09:57:08.8219489Z 笶・KaTeX errors found in build output
+update	Check for KaTeX errors	2026-06-18T09:57:08.8275298Z dist/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html:<span class="katex-error" title="ParseError: KaTeX parse error: Can&#39;t use function &#39;$&#39; in math mode at position 296: 窶ｦ
+update	Check for KaTeX errors	2026-06-18T09:57:08.8289393Z ##[error]Process completed with exit code 1.
+update	Run ./.github/actions/notify-failure	・ｿ2026-06-18T09:57:08.8356116Z Prepare all required actions
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:08.8356588Z Getting action download info
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:08.9542533Z Download action repository 'rtCamp/action-slack-notify@v2' (SHA:33ca3be66c6f378fe1610fd1d5258632dbed5e58)
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.0567860Z Getting action download info
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.1416716Z Download action repository 'LoveToKnow/slackify-markdown-action@698a1d4d0ff1794152a93c03ee8ca5e03a310d4e' (SHA:698a1d4d0ff1794152a93c03ee8ca5e03a310d4e)
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.3939160Z ##[group]Run ./.github/actions/notify-failure
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.3939510Z with:
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.3940376Z   slack-webhook-url: ***
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.3940733Z ##[endgroup]
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.4017187Z ##[group]Pull down action image 'ghcr.io/rtcamp/action-slack-notify@sha256:17fac87b8ea4ffec1f90b8557f88e8fd69ec8568f690f4ea24d5a408eeee419a'
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.4120281Z ##[command]/usr/bin/docker pull ghcr.io/rtcamp/action-slack-notify@sha256:17fac87b8ea4ffec1f90b8557f88e8fd69ec8568f690f4ea24d5a408eeee419a
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.6446193Z ghcr.io/rtcamp/action-slack-notify@sha256:17fac87b8ea4ffec1f90b8557f88e8fd69ec8568f690f4ea24d5a408eeee419a: Pulling from rtcamp/action-slack-notify
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.7040310Z 6a0ac1617861: Pulling fs layer
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.7040785Z 61fbab4dba45: Pulling fs layer
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.7041207Z b273ee13f55a: Pulling fs layer
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.7041505Z 0c6e96ad0e49: Pulling fs layer
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.7041758Z e53d3ca845c0: Pulling fs layer
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.7042131Z e0fe85840eba: Pulling fs layer
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.7042384Z 8d2a849623b6: Pulling fs layer
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.7042640Z e53d3ca845c0: Waiting
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.7042988Z 8d2a849623b6: Waiting
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.7043217Z e0fe85840eba: Waiting
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.7043440Z 0c6e96ad0e49: Waiting
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.8363496Z 6a0ac1617861: Verifying Checksum
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.8364567Z 6a0ac1617861: Download complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.8431920Z 61fbab4dba45: Verifying Checksum
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.8433590Z 61fbab4dba45: Download complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.9158694Z e53d3ca845c0: Verifying Checksum
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.9160397Z e53d3ca845c0: Download complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.9368085Z b273ee13f55a: Verifying Checksum
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.9368578Z b273ee13f55a: Download complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.9920426Z 6a0ac1617861: Pull complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.9993994Z e0fe85840eba: Verifying Checksum
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:09.9994674Z e0fe85840eba: Download complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:10.0182888Z 8d2a849623b6: Verifying Checksum
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:10.0183339Z 8d2a849623b6: Download complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:10.0953312Z 0c6e96ad0e49: Verifying Checksum
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:10.0953801Z 0c6e96ad0e49: Download complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:10.6708230Z 61fbab4dba45: Pull complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:11.9029205Z b273ee13f55a: Pull complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3342848Z 0c6e96ad0e49: Pull complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3455746Z e53d3ca845c0: Pull complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3525250Z e0fe85840eba: Pull complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3596322Z 8d2a849623b6: Pull complete
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3631622Z Digest: sha256:17fac87b8ea4ffec1f90b8557f88e8fd69ec8568f690f4ea24d5a408eeee419a
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3637231Z Status: Downloaded newer image for ghcr.io/rtcamp/action-slack-notify@sha256:17fac87b8ea4ffec1f90b8557f88e8fd69ec8568f690f4ea24d5a408eeee419a
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3645771Z ghcr.io/rtcamp/action-slack-notify@sha256:17fac87b8ea4ffec1f90b8557f88e8fd69ec8568f690f4ea24d5a408eeee419a
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3672177Z ##[endgroup]
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3764184Z ##[group]Run rtCamp/action-slack-notify@v2
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3764506Z env:
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3765044Z   SLACK_WEBHOOK: ***
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3765304Z   SLACK_TITLE: Failed workflow
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3765592Z   SLACK_COLOR: danger
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3765833Z   MSG_MINIMAL: actions url
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3766089Z ##[endgroup]
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3821895Z ##[group]Run docker://ghcr.io/rtcamp/action-slack-notify@sha256:17fac87b8ea4ffec1f90b8557f88e8fd69ec8568f690f4ea24d5a408eeee419a
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3822520Z env:
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3823268Z   SLACK_WEBHOOK: ***
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3823526Z   SLACK_TITLE: Failed workflow
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3823799Z   SLACK_COLOR: danger
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3824040Z   MSG_MINIMAL: actions url
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3824454Z   GITHUB_RUN: https://github.com/nahcnuj/nahcnuj.github.io/actions/runs/27751546664
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3824890Z ##[endgroup]
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.3923893Z ##[command]/usr/bin/docker run --name ghcriortcampactionslacknotifysha25617fac87b8ea4ffec1f90b8557f88e8fd69ec8568f690f4ea24d5a408eeee419a_dbd6bb --label aa6aff --workdir /github/workspace --rm -e "SLACK_WEBHOOK" -e "SLACK_TITLE" -e "SLACK_COLOR" -e "MSG_MINIMAL" -e "GITHUB_RUN" -e "HOME" -e "GITHUB_JOB" -e "GITHUB_REF" -e "GITHUB_SHA" -e "GITHUB_REPOSITORY" -e "GITHUB_REPOSITORY_OWNER" -e "GITHUB_REPOSITORY_OWNER_ID" -e "GITHUB_RUN_ID" -e "GITHUB_RUN_NUMBER" -e "GITHUB_RETENTION_DAYS" -e "GITHUB_RUN_ATTEMPT" -e "GITHUB_ACTOR_ID" -e "GITHUB_ACTOR" -e "GITHUB_WORKFLOW" -e "GITHUB_HEAD_REF" -e "GITHUB_BASE_REF" -e "GITHUB_EVENT_NAME" -e "GITHUB_SERVER_URL" -e "GITHUB_API_URL" -e "GITHUB_GRAPHQL_URL" -e "GITHUB_REF_NAME" -e "GITHUB_REF_PROTECTED" -e "GITHUB_REF_TYPE" -e "GITHUB_WORKFLOW_REF" -e "GITHUB_WORKFLOW_SHA" -e "GITHUB_REPOSITORY_ID" -e "GITHUB_TRIGGERING_ACTOR" -e "GITHUB_WORKSPACE" -e "GITHUB_ACTION" -e "GITHUB_EVENT_PATH" -e "GITHUB_ACTION_REPOSITORY" -e "GITHUB_ACTION_REF" -e "GITHUB_PATH" -e "GITHUB_ENV" -e "GITHUB_STEP_SUMMARY" -e "GITHUB_STATE" -e "GITHUB_OUTPUT" -e "GITHUB_ACTION_PATH" -e "RUNNER_OS" -e "RUNNER_ARCH" -e "RUNNER_NAME" -e "RUNNER_ENVIRONMENT" -e "RUNNER_TOOL_CACHE" -e "RUNNER_TEMP" -e "RUNNER_WORKSPACE" -e "ACTIONS_RUNTIME_URL" -e "ACTIONS_RUNTIME_TOKEN" -e "ACTIONS_CACHE_URL" -e "ACTIONS_RESULTS_URL" -e "ACTIONS_ORCHESTRATION_ID" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work/_temp":"/github/runner_temp" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" -v "/home/runner/work/_temp/_runner_file_commands":"/github/file_commands" -v "/home/runner/work/nahcnuj.github.io/nahcnuj.github.io":"/github/workspace" ghcr.io/rtcamp/action-slack-notify@sha256:17fac87b8ea4ffec1f90b8557f88e8fd69ec8568f690f4ea24d5a408eeee419a
+update	Run ./.github/actions/notify-failure	2026-06-18T09:57:12.8609767Z Successfully sent the message!
+update	Post Run actions/checkout@v6	・ｿ2026-06-18T09:57:12.8743171Z Post job cleanup.
+update	Post Run actions/checkout@v6	2026-06-18T09:57:12.9598835Z [command]/usr/bin/git version
+update	Post Run actions/checkout@v6	2026-06-18T09:57:12.9668118Z git version 2.54.0
+update	Post Run actions/checkout@v6	2026-06-18T09:57:12.9707330Z Temporarily overriding HOME='/home/runner/work/_temp/f2e61d76-a0ce-459f-941a-e15047c3dbfa' before making global git config changes
+update	Post Run actions/checkout@v6	2026-06-18T09:57:12.9708736Z Adding repository directory to the temporary git global config as a safe directory
+update	Post Run actions/checkout@v6	2026-06-18T09:57:12.9712317Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/nahcnuj.github.io/nahcnuj.github.io
+update	Post Run actions/checkout@v6	2026-06-18T09:57:12.9744290Z Removing SSH command configuration
+update	Post Run actions/checkout@v6	2026-06-18T09:57:12.9751003Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+update	Post Run actions/checkout@v6	2026-06-18T09:57:12.9785747Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0022625Z Removing HTTP extra header
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0028236Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0061675Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0292485Z Removing includeIf entries pointing to credentials config files
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0298868Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0327657Z includeif.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git.path
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0328472Z includeif.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git/worktrees/*.path
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0329033Z includeif.gitdir:/github/workspace/.git.path
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0329549Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0336438Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git.path
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0359597Z /home/runner/work/_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0369756Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git.path /home/runner/work/_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0407582Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git/worktrees/*.path
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0430823Z /home/runner/work/_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0440311Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/nahcnuj.github.io/nahcnuj.github.io/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0472072Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0493471Z /github/runner_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0501443Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0532422Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0553636Z /github/runner_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0562402Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0593869Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+update	Post Run actions/checkout@v6	2026-06-18T09:57:13.0841285Z Removing credentials config '/home/runner/work/_temp/git-credentials-71fb83f7-64bb-45cd-b7de-eeff6810b39f.config'
+update	Complete job	・ｿ2026-06-18T09:57:13.0994440Z Cleaning up orphan processes
+update	Complete job	2026-06-18T09:57:13.1365856Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache/restore@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

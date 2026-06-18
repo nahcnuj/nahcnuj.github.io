@@ -48,7 +48,7 @@ runs:
           # ファイルを処理: sed で複数の変換
           sed -e 's/\\begin{aligned}/\\begin{align*}/g' \
               -e 's/\\end{aligned}/\\end{align*}/g' \
-              -e 's/&\s*//g' \
+              -e 's/\&\s*//g' \
               "$file" > "$target_path"
           
           echo "Restored: $relative_path → $target_path"

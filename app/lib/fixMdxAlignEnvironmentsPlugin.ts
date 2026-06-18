@@ -1,6 +1,6 @@
-import type { Plugin } from 'vite'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import type { Plugin } from 'vite'
 
 /**
  * Convert aligned to align* for KaTeX compatibility
@@ -33,11 +33,11 @@ import { resolve } from 'node:path'
  */
 export function fixMdxAlignEnvironmentsPlugin(): Plugin {
   const mdxFiles = new Map<string, { original: string; processed: string }>()
-  
+
   const processContent = (code: string, id: string) => {
     // Check for both escaped and unescaped forms
     const hasAligned = code.includes('\\begin{aligned}') || code.includes('\\\\begin{aligned}')
-    
+
     if (!hasAligned) return code
 
     let modified = code
@@ -46,11 +46,14 @@ export function fixMdxAlignEnvironmentsPlugin(): Plugin {
     if (modified.includes('\\begin{aligned}')) {
       modified = modified.replace(/\\begin\{aligned\}/g, '\\begin{align*}')
       modified = modified.replace(/\\end\{aligned\}/g, '\\end{align*}')
-      
+
       // Remove & alignment markers (not needed in align*)
-      modified = modified.replace(/\$\$([\s\S]*?)\\begin\{align\*\}([\s\S]*?)\\end\{align\*\}([\s\S]*?)\$\$/g, (match) => {
-        return match.replace(/&\s*/g, '')
-      })
+      modified = modified.replace(
+        /\$\$([\s\S]*?)\\begin\{align\*\}([\s\S]*?)\\end\{align\*\}([\s\S]*?)\$\$/g,
+        (match) => {
+          return match.replace(/&\s*/g, '')
+        },
+      )
     }
 
     if (modified !== code) {
@@ -60,10 +63,10 @@ export function fixMdxAlignEnvironmentsPlugin(): Plugin {
     }
     return code
   }
-  
+
   return {
     name: 'fix-mdx-align-environments-load',
-    
+
     // Use resolveId to intercept .mdx files
     resolveId(id) {
       if (id.endsWith('.mdx') || id.endsWith('.md')) {
@@ -73,24 +76,24 @@ export function fixMdxAlignEnvironmentsPlugin(): Plugin {
       }
       return undefined
     },
-    
+
     // Use load hook to read and process files
     load(id) {
       if (!id.endsWith('.mdx') && !id.endsWith('.md')) return null
-      
+
       try {
         // Resolve the actual file path
         const filePath = resolve(id)
-        
+
         // Read the file
         const content = readFileSync(filePath, 'utf-8')
-        
+
         // Process for aligned environments
         const processed = processContent(content, id)
-        
+
         // Store for later verification
         mdxFiles.set(id, { original: content, processed })
-        
+
         // Return processed content
         if (processed !== content) {
           return processed
@@ -99,7 +102,7 @@ export function fixMdxAlignEnvironmentsPlugin(): Plugin {
         // Silently ignore errors and let normal loading happen
         console.log(`[fixMdxAlign] Could not load file: ${id}`)
       }
-      
+
       return null
     },
   }
