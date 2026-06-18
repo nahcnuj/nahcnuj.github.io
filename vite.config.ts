@@ -24,16 +24,21 @@ function fixMdxAlignEnvironmentsPlugin(): Plugin {
       const before = code
       let modified = code
 
-      // Remove & characters BEFORE converting environments
-      // This ensures all alignment markers are gone before KaTeX sees the code
+      // Remove all & characters first
       modified = modified.replace(/&/g, '')
 
-      // Now convert aligned to array for better KaTeX support
-      modified = modified.replace(/\\begin\{aligned\}/g, '\\begin{array}{ll}')
-      modified = modified.replace(/\\end\{aligned\}/g, '\\end{array}')
+      // Flatten aligned environments: remove unnecessary newlines/whitespace
+      // This helps KaTeX parse the content more reliably
+      modified = modified.replace(/\$\$\n\\begin\{aligned\}([\s\S]*?)\n\\end\{aligned\}\$\$/g, (match) => {
+        // Remove internal newlines but preserve \\ for line breaks in math
+        let flattened = match
+          .replace(/\n\s+/g, ' ')  // newline + spaces -> single space
+          .replace(/\s+\n/g, ' ')  // spaces + newline -> single space
+        return flattened
+      })
 
       if (modified !== before) {
-        console.log(`[fixMdxAlign] removed & and converted aligned to array in ${id.substring(id.lastIndexOf('/'))}`)
+        console.log(`[fixMdxAlign] flattened aligned blocks and removed & in ${id.substring(id.lastIndexOf('/'))}`)
         return { code: modified }
       }
       return null
