@@ -16,6 +16,10 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
       if (typeof node.value === 'string') {
         let value = node.value
         let conversions = 0
+        
+        // DEBUG: log input
+        const hasAmp = value.includes('&')
+        console.log(`[remarkAlignEnvironments] processing math node, has &: ${hasAmp}, length: ${value.length}`)
 
         // CRITICAL FIX: Remove ALL & alignment markers from aligned/aligned/gathered/etc
         // KaTeX has a parse error when & appears at position 1: "Expected 'EOF', got '&'"
@@ -23,9 +27,11 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
         
         // Remove ALL & characters globally - they cause KaTeX parse errors
         if (value.includes('&')) {
+          const beforeLength = value.length
           value = value.replace(/&/g, ' ')
+          const afterLength = value.length
           conversions++
-          console.log(`[remarkAlignEnvironments] removed ALL & alignment markers`)
+          console.log(`[remarkAlignEnvironments] removed ALL & alignment markers (${beforeLength} -> ${afterLength})`)
         }
 
         // Still convert unsupported environments to supported ones for compatibility
@@ -54,7 +60,14 @@ export const remarkAlignEnvironments: Plugin<[], Root> = () => {
           console.log(`[remarkAlignEnvironments] total conversions=${conversions}`)
         }
 
+        // DEBUG: verify value before assignment
+        const valueHasAmpAfter = value.includes('&')
+        console.log(`[remarkAlignEnvironments] before node.value assignment, has &: ${valueHasAmpAfter}`)
+        
         node.value = value
+        
+        // DEBUG: verify value after assignment
+        console.log(`[remarkAlignEnvironments] after node.value assignment, node.value has &: ${node.value.includes('&')}`)
       }
     })
   }
