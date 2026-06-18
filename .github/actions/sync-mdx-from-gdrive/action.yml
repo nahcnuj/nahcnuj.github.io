@@ -45,8 +45,8 @@ runs:
           # ディレクトリを作成
           mkdir -p "$(dirname "$target_path")"
           
-          # ファイルを処理: Perl で複数行対応の変換
-          perl -ne 's/\\begin\{aligned\}/\\begin{align*}/g; s/\\end\{aligned\}/\\end{align*}/g; print' "$file" > "$target_path"
+          # ファイルを処理: Perl で複数行対応の変換 (& も削除)
+          perl -ne 's/\\begin\{aligned\}/\\begin{align*}/g; s/\\end\{aligned\}/\\end{align*}/g; s/&\s*//g; print' "$file" > "$target_path"
           
           echo "Restored: $relative_path → $target_path"
         done

@@ -1,0 +1,132 @@
+---
+title: Node.jsのRust製バージョンマネージャーfnm
+description: 久しぶりにNode.jsのダウンロードページを見に行ったら新しいバージョンマネージャー fnm というものが推奨されていた。
+tags:
+  - Node.js
+  - fnm
+  - Windows
+published: 2025-02-26
+---
+# 2025年2月26日
+
+## Node.jsのRust製バージョンマネージャーfnm
+
+<div style="min-height:600px;display:flex;align-items:center;justify-content:center">
+  <blockquote class="twitter-tweet">
+    <p lang="en" dir="ltr">
+      Is <a href="https://twitter.com/hashtag/fnm?src=hash&amp;ref_src=twsrc%5Etfw">#fnm</a> the new standard?
+      <a href="https://twitter.com/hashtag/nodejs?src=hash&amp;ref_src=twsrc%5Etfw">#nodejs</a>
+      <a href="https://t.co/qpSgm9FHXc">https://t.co/qpSgm9FHXc</a>
+      <a href="https://t.co/a7cnnbJyGg">pic.twitter.com/a7cnnbJyGg</a>
+    </p>
+    &mdash; jun (@pronahcnuj) <a href="https://twitter.com/pronahcnuj/status/1894727921094500569?ref_src=twsrc%5Etfw">February 26, 2025</a>
+    </blockquote>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+
+久しぶりに[Node.jsのダウンロードページ](https://nodejs.org/ja/download)にアクセスしたら新しいバージョンマネージャー**fnm**の利用が推奨されていました。
+Rust製で高速らしいです。
+ちなみに、公式の方法として他に従来の`nvm`やDockerイメージがあるようですが、`nvm`はグレーアウトして選択できませんでした。
+
+fnmのインストールにはサイトの指示通りにコマンドを実行すれば良いのですが、自分のWindows環境では`fnm install`の後に環境変数の設定が必要でした。
+具体的には下記コマンドの実行が必要でした。
+
+```ps1
+fnm env | Invoke-Expression
+```
+
+上記のコマンドはPowershellのプロファイル`$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`にも追加し、Powershellの起動時に自動で設定されるようにしました。
+
+### 調査メモ
+
+`fnm install`しただけで再起動しても`node`や`npm`コマンドが実行できなかったため、調査したところ以下のようでした。
+
+```
+PS C:\Users\nahcnuj\ghq\github.com\nahcnuj\nahcnuj.github.io> npm -v
+npm : 用語 'npm' は、コマンドレット、関数、スクリプト ファイル、または操作可能なプログラムの名前として認識されません。名前が正しく記述されていることを確認し、パスが含まれている場合はそのパスが正しいことを確認してから、再試行してください。
+発生場所 行:1 文字:1
++ npm -v
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (npm:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\nahcnuj\ghq\github.com\nahcnuj\nahcnuj.github.io> fnm current
+error: `fnm env` was not applied in this context.
+Can't find fnm's environment variables
+PS C:\Users\nahcnuj\ghq\github.com\nahcnuj\nahcnuj.github.io> fnm env --help
+Print and set up required environment variables for fnm
+
+This command generates a series of shell commands that should be evaluated by your shell to create a fnm-ready environment.
+
+Each shell has its own syntax of evaluating a dynamic expression. For example, evaluating fnm on Bash and Zsh would look like `eval "$(fnm env)"`. In Fish, evaluating would look like `fnm env | source`
+
+Usage: fnm env [OPTIONS]
+
+Options:
+      --node-dist-mirror <NODE_DIST_MIRROR>
+          <https://nodejs.org/dist/> mirror
+
+          [env: FNM_NODE_DIST_MIRROR]
+          [default: https://nodejs.org/dist]
+
+      --shell <SHELL>
+          The shell syntax to use. Infers when missing
+
+          [possible values: bash, zsh, fish, powershell, cmd]
+
+      --fnm-dir <BASE_DIR>
+          The root directory of fnm installations
+
+          [env: FNM_DIR]
+
+      --json
+          Print JSON instead of shell commands
+
+      --log-level <LOG_LEVEL>
+          The log level of fnm commands
+
+          [env: FNM_LOGLEVEL]
+          [default: info]
+          [possible values: quiet, error, info]
+
+      --use-on-cd
+          Print the script to change Node versions every directory change
+
+      --arch <ARCH>
+          Override the architecture of the installed Node binary. Defaults to arch of fnm binary
+
+          [env: FNM_ARCH]
+
+      --version-file-strategy <VERSION_FILE_STRATEGY>
+          A strategy for how to resolve the Node version. Used whenever `fnm use` or `fnm install` is called without a version, or when `--use-on-cd` is configured on evaluation
+
+          [env: FNM_VERSION_FILE_STRATEGY]
+          [default: local]
+
+          Possible values:
+          - local:     Use the local version of Node defined within the current directory
+          - recursive: Use the version of Node defined within the current directory and all parent directories
+
+      --corepack-enabled
+          Enable corepack support for each new installation. This will make fnm call `corepack enable` on every Node.js installation. For more information about corepack see <https://nodejs.org/api/corepack.html>
+
+          [env: FNM_COREPACK_ENABLED]
+
+      --resolve-engines [<RESOLVE_ENGINES>]
+          Resolve `engines.node` field in `package.json` whenever a `.node-version` or `.nvmrc` file is not present.
+          This feature is enabled by default. To disable it, provide `--resolve-engines=false`.
+
+          Note: `engines.node` can be any semver range, with the latest satisfying version being resolved.
+          Note 2: If you disable it, please open an issue on GitHub describing _why_ you disabled it.
+                  In the future, disabling it might be a no-op, so it's worth knowing any reason to
+                  do that.
+
+          [env: FNM_RESOLVE_ENGINES]
+          [possible values: true, false]
+
+  -h, --help
+          Print help (see a summary with '-h')
+```
+
+Powershellにおけるevalについては次の記事を参照しました：
+[eval的なものの必要性とInvoke\-Expressionについて](https://zenn.dev/oto/articles/dda9a578eb3cbb)
