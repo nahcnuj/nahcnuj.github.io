@@ -13,11 +13,26 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { globSync } from 'glob'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const distDir = path.resolve(__dirname, '../dist')
+
+// Recursively find all HTML files
+function findHtmlFiles(dir, files = []) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true })
+  for (const entry of entries) {
+    if (entry.isDirectory()) {
+      // Skip common non-content directories
+      if (!['_nuxt', 'node_modules', '.git'].includes(entry.name)) {
+        findHtmlFiles(path.join(dir, entry.name), files)
+      }
+    } else if (entry.name.endsWith('.html')) {
+      files.push(path.join(dir, entry.name))
+    }
+  }
+  return files
+}
 
 // Error patterns to detect
 const errorPatterns = [
@@ -69,10 +84,9 @@ if (!fs.existsSync(distDir)) {
 console.log(`📂 Scanning for KaTeX errors in: ${distDir}\n`)
 
 // Find all HTML files
-const htmlFiles = globSync('**/*.html', {
-  cwd: distDir,
-  ignore: ['_nuxt/**', 'node_modules/**']
-})
+const htmlFiles = findHtmlFiles(distDir)
+  .map(f => path.relative(distDir, f))
+  .sort()
 
 console.log(`📄 Found ${htmlFiles.length} HTML files to check\n`)
 
