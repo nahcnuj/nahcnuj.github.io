@@ -1,5 +1,5 @@
-import katex from 'katex'
 import { fromHtml } from 'hast-util-from-html'
+import katex from 'katex'
 import { visit } from 'unist-util-visit'
 
 /**
@@ -20,10 +20,11 @@ export function rehypeKatexCustom() {
       if (!hasLanguageMath && !isMathDisplay && !isMathInline) return
 
       // Extract math content
-      const mathContent = node.children
-        ?.filter((child: any) => child.type === 'text')
-        .map((child: any) => child.value)
-        .join('') ?? ''
+      const mathContent =
+        node.children
+          ?.filter((child: any) => child.type === 'text')
+          .map((child: any) => child.value)
+          .join('') ?? ''
 
       if (!mathContent.trim()) return
 

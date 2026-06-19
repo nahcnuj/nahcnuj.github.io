@@ -10,9 +10,9 @@
  * 4. Various KaTeX rendering failures
  */
 
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -96,12 +96,9 @@ htmlFiles.forEach((file) => {
   try {
     const content = fs.readFileSync(filePath, 'utf-8')
     
-    let fileHasErrors = false
-    
     errorPatterns.forEach((pattern) => {
       const matches = content.match(pattern.pattern)
       if (matches) {
-        fileHasErrors = true
         results.files_with_errors.add(file)
         
         if (!results.pattern_counts[pattern.name]) {
