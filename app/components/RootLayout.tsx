@@ -133,7 +133,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   ${props.headInjection}\
   ${
     props.useMath &&
-    html`<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib" crossorigin="anonymous">`
+    html`<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-fnlJXXJ2CG0O1vNxKESYK8+hJvfQaFLVP0fMBkN9zNHqMXOSE7QXJVXqrFSKJQ/5" crossorigin="anonymous">`
   }\
 </head>
 <body>

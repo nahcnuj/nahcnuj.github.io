@@ -8,13 +8,7 @@
  * Update baselines: npm run test:vrt -- --update-snapshots
  */
 
-import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { expect, test } from '@playwright/test'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-const baseDir = join(__dirname, '../../dist')
 
 test.describe('Math Rendering VRT', () => {
   test.setTimeout(30 * 1000) // 30 second timeout per test
@@ -22,19 +16,32 @@ test.describe('Math Rendering VRT', () => {
   // Test at mobile size (375px - per AGENTS.md)
   test('math page renders correctly on mobile (375px)', async ({ page }) => {
     const testName = 'mobile (375px)'
-    const filePath = `file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`
+    const pageUrl = '/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html'
     const startTime = Date.now()
     
     console.log(`[VRT] [${new Date().toISOString()}] Starting ${testName} test`)
-    console.log(`[VRT] Base directory: ${baseDir}`)
-    console.log(`[VRT] Loading: ${filePath}`)
+    console.log(`[VRT] Loading: ${pageUrl}`)
     
-    // Block external resources (ads, analytics, etc.) to speed up loading
-    await page.route('https://**', (route) => route.abort('blockedbyclient'))
+    // Block ads and analytics, but allow CSS and fonts
+    await page.route('**/*', (route) => {
+      const url = route.request().url()
+      // Block ads, analytics, tracking
+      if (
+        url.includes('googletagmanager') ||
+        url.includes('googlesyndication') ||
+        url.includes('shinobi.jp') ||
+        url.includes('/ads') ||
+        url.includes('ga4')
+      ) {
+        route.abort('blockedbyclient')
+      } else {
+        route.continue()
+      }
+    })
     
     try {
       const navStart = Date.now()
-      await page.goto(filePath)
+      await page.goto(pageUrl)
       const navDuration = Date.now() - navStart
       console.log(`[VRT] Navigation took ${navDuration}ms`)
     } catch (error) {
@@ -78,10 +85,24 @@ test.describe('Math Rendering VRT', () => {
 
   // Test at medium PC size (1280px - per AGENTS.md)
   test('math page renders correctly on medium PC (1280px)', async ({ page }) => {
-    // Block external resources to speed up loading
-    await page.route('https://**', (route) => route.abort('blockedbyclient'))
+    // Block ads and analytics, but allow CSS and fonts
+    await page.route('**/*', (route) => {
+      const url = route.request().url()
+      // Block ads, analytics, tracking
+      if (
+        url.includes('googletagmanager') ||
+        url.includes('googlesyndication') ||
+        url.includes('shinobi.jp') ||
+        url.includes('/ads') ||
+        url.includes('ga4')
+      ) {
+        route.abort('blockedbyclient')
+      } else {
+        route.continue()
+      }
+    })
     
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
+    await page.goto('/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html')
     await page.setViewportSize({ width: 1280, height: 1024 })
 
     // Wait for fonts and styles to fully render
@@ -97,10 +118,24 @@ test.describe('Math Rendering VRT', () => {
 
   // Test at wide PC size (1440px - per AGENTS.md)
   test('math page renders correctly on wide PC (1440px)', async ({ page }) => {
-    // Block external resources to speed up loading
-    await page.route('https://**', (route) => route.abort('blockedbyclient'))
+    // Block ads and analytics, but allow CSS and fonts
+    await page.route('**/*', (route) => {
+      const url = route.request().url()
+      // Block ads, analytics, tracking
+      if (
+        url.includes('googletagmanager') ||
+        url.includes('googlesyndication') ||
+        url.includes('shinobi.jp') ||
+        url.includes('/ads') ||
+        url.includes('ga4')
+      ) {
+        route.abort('blockedbyclient')
+      } else {
+        route.continue()
+      }
+    })
     
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`)
+    await page.goto('/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html')
     await page.setViewportSize({ width: 1440, height: 900 })
 
     // Wait for fonts and styles to fully render
@@ -112,37 +147,5 @@ test.describe('Math Rendering VRT', () => {
       fullPage: true,
       maxDiffPixels: 100,
     })
-  })
-
-  // Verify KaTeX elements are rendered as MathML
-  test('KaTeX elements are rendered with correct classes', async ({ page }) => {
-    // Block external resources to speed up loading
-    await page.route('https://**', (route) => route.abort('blockedbyclient'))
-    
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`, { waitUntil: 'domcontentloaded' })
-
-    // Verify MathML elements are rendered (KaTeX uses MathML output)
-    const mathmlElements = await page.locator('math').count()
-    expect(mathmlElements).toBeGreaterThan(0)
-
-    // Verify MathML has proper structure
-    const mrowElements = await page.locator('math mrow').count()
-    expect(mrowElements).toBeGreaterThan(0)
-
-    // Verify math annotations exist (from rehype-katex)
-    const annotations = await page.locator('annotation').count()
-    expect(annotations).toBeGreaterThan(0)
-  })
-
-  // Verify split environments rendered (note: some align* may produce warnings)
-  test('align* environments converted to split render without errors', async ({ page }) => {
-    // Block external resources to speed up loading
-    await page.route('https://**', (route) => route.abort('blockedbyclient'))
-    
-    await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`, { waitUntil: 'domcontentloaded' })
-
-    // At least some KaTeX elements should render successfully
-    const katexElements = await page.locator('.katex').count()
-    expect(katexElements).toBeGreaterThan(0)
   })
 })

@@ -4,7 +4,6 @@ import ssg from '@hono/vite-ssg'
 import mdx from '@mdx-js/rollup'
 import honox from 'honox/vite'
 import rehypeExternalLinks from 'rehype-external-links'
-import rehypeKatex from 'rehype-katex'
 import rehypeSlug from 'rehype-slug'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMath from 'remark-math'
@@ -12,6 +11,7 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig, type Plugin } from 'vite'
 import { fixMdxAlignEnvironmentsPlugin } from './app/lib/fixMdxAlignEnvironmentsPlugin'
 import { rehypeDecodeHtmlEntitiesInMath } from './app/lib/rehypeDecodeHtmlEntitiesInMath'
+import { rehypeKatexCustom } from './app/lib/rehypeKatexCustom'
 import { rehypeWrapDisplayMath } from './app/lib/rehypeWrapDisplayMath'
 import { remarkAlignEnvironments } from './app/lib/remarkAlignEnvironments'
 
@@ -90,16 +90,7 @@ export default defineConfig(({ command, mode }) => {
         remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkMath, remarkAlignEnvironments],
         rehypePlugins: [
           rehypeDecodeHtmlEntitiesInMath,
-          [
-            rehypeKatex,
-            {
-              output: 'mathml',
-              strict: false,
-              macros: {
-                '\\bigstar': '★',
-              },
-            },
-          ],
+          rehypeKatexCustom,
           rehypeWrapDisplayMath,
           () =>
             rehypeExternalLinks({

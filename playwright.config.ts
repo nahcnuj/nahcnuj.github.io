@@ -21,7 +21,7 @@ export default defineConfig({
     },
   },
   use: {
-    baseURL: 'file://',
+    baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
     navigationTimeout: 30000,
     actionTimeout: 10000,
@@ -41,5 +41,10 @@ export default defineConfig({
     },
   ],
 
-  webServer: undefined, // Tests use local file:// URLs, no web server needed
+  webServer: {
+    command: 'npm run dev',
+    url: 'http://localhost:5173',
+    timeout: 120000,
+    reuseExistingServer: !process.env.CI,
+  },
 })

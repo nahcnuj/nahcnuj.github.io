@@ -31,11 +31,11 @@ export function rehypeKatexCustom() {
       try {
         const displayMode = isMathDisplay || (parent?.tagName === 'pre' && hasLanguageMath)
 
-        // Render using KaTeX 0.17.0
+        // Render using KaTeX 0.17.0 with CSS classes for Computer Modern font
         const html = katex.renderToString(mathContent, {
           displayMode,
           throwOnError: false,
-          output: 'mathml',
+          output: 'html',
           trust: true,
         })
 
