@@ -123,10 +123,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   ${import.meta.env.PROD ? ninjaAccessSnippets.head : html`<!-- -->\n`}\
   ${import.meta.env.PROD ? adsenseSnippet : html`<!-- -->\n`}\
   ${props.headInjection}\
-  ${
-    props.useMath &&
-    html`<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib" crossorigin="anonymous">`
-  }\
+  <style>.tml-left{text-align:left}</style>\
 </head>
 <body>
   ${props.children}
