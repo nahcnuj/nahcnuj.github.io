@@ -23,12 +23,10 @@ describe('escapeXml', () => {
   })
 
   it('escapes single quotes', () => {
-    expect(escapeXml("it's")).toBe("it&apos;s")
+    expect(escapeXml("it's")).toBe('it&apos;s')
   })
 
   it('escapes all special characters together', () => {
-    expect(escapeXml('<a href="x&y">it\'s</a>')).toBe(
-      '&lt;a href=&quot;x&amp;y&quot;&gt;it&apos;s&lt;/a&gt;',
-    )
+    expect(escapeXml('<a href="x&y">it\'s</a>')).toBe('&lt;a href=&quot;x&amp;y&quot;&gt;it&apos;s&lt;/a&gt;')
   })
 })

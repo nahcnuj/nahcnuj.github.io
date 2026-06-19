@@ -12,7 +12,9 @@ app.get('/index.html', (c: Context) => {
   const title = `Junichi Hayashi's Diary`
   const description = 'There is the diary Junichi Hayashi wrote.'
 
-  const diaries = articlesByDirectory.diary.map(({ path, title, description }) => [path, { title, description }] as const)
+  const diaries = articlesByDirectory.diary.map(
+    ({ path, title, description }) => [path, { title, description }] as const,
+  )
 
   return c.render(
     <>

@@ -104,9 +104,7 @@ export default createRoute((c) => {
       <MakamujoBanner />
 
       {/* トップページから個別ページへの回遊を促すサンプルリンク（ビルド時固定） */}
-      <RelatedArticles
-        articles={sampleLinks.map((l) => ({ path: l.href, title: l.label, icon: l.icon }))}
-      />
+      <RelatedArticles articles={sampleLinks.map((l) => ({ path: l.href, title: l.label, icon: l.icon }))} />
     </div>,
     { frontmatter: { title, description, showHeaderAd: false } },
   )

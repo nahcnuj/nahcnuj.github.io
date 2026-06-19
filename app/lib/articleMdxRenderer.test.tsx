@@ -6,7 +6,11 @@ import { articleMdxRenderer } from './articleMdxRenderer'
 type AnyProps = any
 
 function MockLayout({ children }: AnyProps) {
-  return <html lang="ja"><body>{children}</body></html>
+  return (
+    <html lang="ja">
+      <body>{children}</body>
+    </html>
+  )
 }
 
 function makeApp(frontmatter?: unknown) {

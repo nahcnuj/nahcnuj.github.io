@@ -176,4 +176,3 @@ ${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.j
     </article>
   )
 }
-

@@ -3,11 +3,7 @@ import { setupScrollDepthTracking } from './scrollDepthTracker'
 
 type ScrollHandler = () => void
 
-function makeOptions(
-  scrollTop: number,
-  maxScrollTop: number,
-  opts?: { scheduleFrame?: (fn: () => void) => void },
-) {
+function makeOptions(scrollTop: number, maxScrollTop: number, opts?: { scheduleFrame?: (fn: () => void) => void }) {
   const gtagFn = vi.fn()
   let scrollHandler: ScrollHandler | undefined
   let frameCallback: (() => void) | undefined
