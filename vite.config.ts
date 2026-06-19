@@ -1,11 +1,13 @@
 import { cpSync, mkdirSync, readdirSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
+import rehypeMathML from '@daiji256/rehype-mathml'
 import ssg from '@hono/vite-ssg'
 import mdx from '@mdx-js/rollup'
 import honox from 'honox/vite'
 import rehypeExternalLinks from 'rehype-external-links'
 import rehypeSlug from 'rehype-slug'
 import remarkFrontmatter from 'remark-frontmatter'
+import remarkMath from 'remark-math'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig, type Plugin } from 'vite'
 
@@ -77,8 +79,9 @@ export default defineConfig(({ command, mode }) => {
       ssg({ entry }),
       mdx({
         jsxImportSource: 'hono/jsx',
-        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
+        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkMath],
         rehypePlugins: [
+          rehypeMathML,
           () =>
             rehypeExternalLinks({
               rel: ['nofollow', 'noopener', 'noreferrer'],

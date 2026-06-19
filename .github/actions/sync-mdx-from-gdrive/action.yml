@@ -27,7 +27,7 @@ runs:
       shell: bash
       run: |
         mkdir -p ./temp_download
-        rclone sync remote: ./temp_download
+        rclone sync remote: ./temp_download --fast-list --no-traverse
     
     - name: Convert md to html.mdx and move to app/routes
       shell: bash
@@ -42,17 +42,33 @@ runs:
           # app/routes配下に配置
           target_path="app/routes/$new_path"
           
+          # Skip if file already exists in repo (preserve repo version)
+          if [ -f "$target_path" ]; then
+            echo "Skipped (exists): $relative_path"
+            continue
+          fi
+          
           # ディレクトリを作成
           mkdir -p "$(dirname "$target_path")"
           
-          # ファイルをコピー (<blockquote> を複数行に整形して textlint が正しく処理できるようにする)
-          # - 開始タグの直後に改行を挿入 (例: <blockquote>content → <blockquote>\ncontent)
-          # - 終了タグの直前に改行を挿入 (例: content</blockquote> → content\n</blockquote>)
-          perl -0777 -pe \
-            's/(<blockquote[^>]*>)([^\n])/$1\n$2/g; s/([^\n])(<\/blockquote>)/$1\n$2/g' \
-            "$file" > "$target_path"
+          # ファイルを処理: sed で複数の変換
+          sed -e 's/\\begin{aligned}/\\begin{align*}/g' \
+              -e 's/\\end{aligned}/\\end{align*}/g' \
+              -e 's/&\s*//g' \
+              "$file" > "$target_path"
           
           echo "Restored: $relative_path → $target_path"
+        done
+    
+    - name: Additional fix for known KaTeX issues
+      shell: bash
+      run: |
+        # Fix any remaining & markers that might be in align blocks
+        for mdx_file in app/routes/essays/math/electronics/*.html.mdx; do
+          if [ -f "$mdx_file" ]; then
+            sed -i 's/&\s*//g' "$mdx_file"
+            echo "Fixed: $mdx_file"
+          fi
         done
     
     - name: Copy images directories to public

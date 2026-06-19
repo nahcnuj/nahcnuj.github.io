@@ -25,5 +25,5 @@ jobs:
         with:
           name: workspace
           path: |
-            **/*.mdx
+            app/routes/**/*.mdx
             public/**/images/**

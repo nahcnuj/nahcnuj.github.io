@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "type": "command",
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .github/hooks/validate-protected-files.ps1",
+        "timeout": 5,
+        "windows": "powershell -NoProfile -ExecutionPolicy Bypass -File .github/hooks/validate-protected-files.ps1",
+        "linux": "bash .github/hooks/validate-protected-files.sh",
+        "osx": "bash .github/hooks/validate-protected-files.sh"
+      }
+    ]
+  }
+}
