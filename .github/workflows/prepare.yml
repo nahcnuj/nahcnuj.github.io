@@ -20,6 +20,23 @@ jobs:
         with:
           rclone-config: ${{ secrets.RCLONE_CONFIG_BASE64 }}
           service-account-file: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON_BASE64 }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Install dependencies
+        run: npm ci
+      - name: Auto-update usemath frontmatter
+        run: npm run update:usemath
+      - name: Commit usemath changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff-index --quiet HEAD --; then
+            git commit -m "chore: auto-update usemath frontmatter from synced content"
+            git push
+          fi
       - name: Upload workspace
         uses: actions/upload-artifact@v7
         with:
