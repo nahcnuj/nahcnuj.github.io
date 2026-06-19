@@ -28,38 +28,47 @@ published: 2021-05-06
 
 まず、$x$に関する積分と$y$に関する積分とを分離する。
 
-$$\begin{align*}
+$$
+\begin{align*}
 \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} e^{-\frac{x^2+y^2}{2\sigma^2}} e^{-j2\pi(ux+vy)} dx dy \\
 {}={} \int_{-\infty}^{\infty} \exp\!{\left(-\frac{x^2}{2\sigma^2}-j2\pi ux\right)} dx
   \int_{-\infty}^{\infty} \exp\!{\left(-\frac{y^2}{2\sigma^2}-j2\pi vy\right)} dy
   .
-\end{align*}$$
+\end{align*}
+$$
 
 左の被積分関数の指数を$f(x, u)$と置いて平方完成すると以下のようになる。
 
-$$\begin{align*}
+$$
+\begin{align*}
 f(x, u) := {} -\frac{x^2}{2\sigma^2} - j2\pi ux \\
 {}={} -\frac{1}{2\sigma^2} (x^2 + j4\pi\sigma^2 ux) \\
 {}={} -\frac{1}{2\sigma^2}\!\left( (x+j2\sigma^2\pi u)^2+(2\pi\sigma^2)^2u^2 \right)\!.
-\end{align*}$$
+\end{align*}
+$$
 
 これを用いて被積分関数$\exp(f(x, u))$は以下のように整理できる。
 
-$$\begin{align*}
+$$
+\begin{align*}
 \exp(f(x, u)) = {} \exp\!{\left( -\frac{1}{2\sigma^2}\!\left( (x+j2\sigma^2\pi u)^2+(2\pi\sigma^2)^2u^2 \right) \right)} \\
 {}={} \exp\!{\left( -\frac{1}{2\sigma^2} (x+j2\sigma^2\pi u)^2 \right)} \exp{(-2\pi^2\sigma^2 u^2)} .
-\end{align*}$$
+\end{align*}
+$$
 
 右の指数関数はその指数に積分変数$x$を含まないから定数とみなせることに注意して、ガウス積分の結果を使えば以下のように積分できる。
 
-$$\begin{align*}
+$$
+\begin{align*}
 \int_{-\infty}^{\infty} \exp(f(x, u)) \, dx ={} \exp{(-2\pi^2\sigma^2 u^2)} \int_{-\infty}^{\infty} \exp\!{\left(-\frac{1}{2\sigma^2} (x+j2\pi\sigma^2 u)^2 \right)} dx \\
 {}={} \exp{(-2\pi^2\sigma^2 u^2)} \sqrt{2\pi\sigma^2} .
-\end{align*}$$
+\end{align*}
+$$
 
 したがって以下の通り解が得られる。
 
-$$\begin{align*}
+$$
+\begin{align*}
 F( h_{\mathrm{g}}(x, y) ) = {} \frac{1}{2\pi\sigma^2}
   \int_{-\infty}^{\infty} \exp\!{\left(f(x, u) \right)} \, dx
   \int_{-\infty}^{\infty} \exp\!{\left(f(y, v) \right)} \, dy \\
@@ -67,4 +76,5 @@ F( h_{\mathrm{g}}(x, y) ) = {} \frac{1}{2\pi\sigma^2}
   \cdot \exp{(-2\pi^2\sigma^2 u^2)} \sqrt{2\pi\sigma^2} 
   \cdot \exp{(-2\pi^2\sigma^2 v^2)} \sqrt{2\pi\sigma^2} \\
 {}={} \exp\!{\left( -2 \pi^2 \sigma^2 (u^2 + v^2) \right)} .
-\end{align*}$$
+\end{align*}
+$$
