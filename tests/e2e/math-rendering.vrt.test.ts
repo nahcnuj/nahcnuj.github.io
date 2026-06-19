@@ -114,24 +114,24 @@ test.describe('Math Rendering VRT', () => {
     })
   })
 
-  // Verify KaTeX elements are rendered
+  // Verify KaTeX elements are rendered as MathML
   test('KaTeX elements are rendered with correct classes', async ({ page }) => {
     // Block external resources to speed up loading
     await page.route('https://**', (route) => route.abort('blockedbyclient'))
     
     await page.goto(`file://${baseDir}/essays/math/electronics/derive-fourier-transform-of-gaussian-filter.html`, { waitUntil: 'domcontentloaded' })
 
-    // Check for KaTeX elements
-    const katexElements = await page.locator('.katex').count()
-    expect(katexElements).toBeGreaterThan(0)
-
-    // Check for display math styling
-    const displayMathElements = await page.locator('.katex-display').count()
-    expect(displayMathElements).toBeGreaterThan(0)
-
-    // Verify MathML annotation exists
+    // Verify MathML elements are rendered (KaTeX uses MathML output)
     const mathmlElements = await page.locator('math').count()
     expect(mathmlElements).toBeGreaterThan(0)
+
+    // Verify MathML has proper structure
+    const mrowElements = await page.locator('math mrow').count()
+    expect(mrowElements).toBeGreaterThan(0)
+
+    // Verify math annotations exist (from rehype-katex)
+    const annotations = await page.locator('annotation').count()
+    expect(annotations).toBeGreaterThan(0)
   })
 
   // Verify split environments rendered (note: some align* may produce warnings)
