@@ -15,7 +15,8 @@
     "lint:text:fix": "textlint --fix ./app/routes/**/*.mdx",
     "test": "vitest run",
     "test:e2e": "vitest run --config vitest.config.e2e.ts",
-    "test:vrt": "playwright test --config playwright.config.ts"
+    "test:vrt": "playwright test --config playwright.config.ts",
+    "update:usemath": "node scripts/update-usemath-frontmatter.mjs"
   },
   "dependencies": {
     "@hono/vite-ssg": "^0.3.3",
