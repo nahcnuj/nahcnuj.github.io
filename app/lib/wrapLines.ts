@@ -8,7 +8,11 @@
  * splitting so every returned line is bounded by `maxLen`.
  */
 export function wrapLines(text: string, maxLen = 20): string[] {
-  if (text.includes('\n')) return text.split('\n').slice(0, 3).map((l) => l.trim())
+  if (text.includes('\n'))
+    return text
+      .split('\n')
+      .slice(0, 3)
+      .map((l) => l.trim())
 
   if (text.length <= maxLen) return [text]
 

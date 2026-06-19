@@ -50,7 +50,8 @@ describe('wrapLines', () => {
 
   it('truncates the third CJK line with an ellipsis when text remains', () => {
     // 61 characters → 3 full chunks of 20 + 1 leftover → 3rd chunk must be truncated
-    const title = 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんあいうえおかきくけこさしすせそ'
+    const title =
+      'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんあいうえおかきくけこさしすせそ'
     const result = wrapLines(title)
     expect(result.length).toBe(3)
     expect(result[2].endsWith('…')).toBe(true)

@@ -58,7 +58,9 @@ describe('MakamujoBanner E2E: click navigation', () => {
           try {
             if (pid) process.kill(-pid, 'SIGKILL')
             else devProcess.kill('SIGKILL')
-          } catch { /* already dead */ }
+          } catch {
+            /* already dead */
+          }
         }, 5_000)
         devProcess.on('close', () => {
           clearTimeout(killTimeout)
@@ -67,7 +69,9 @@ describe('MakamujoBanner E2E: click navigation', () => {
         try {
           if (pid) process.kill(-pid, 'SIGTERM')
           else devProcess.kill('SIGTERM')
-        } catch { /* already dead */ }
+        } catch {
+          /* already dead */
+        }
       })
     }
   }, 30_000)
@@ -114,7 +118,9 @@ describe('MakamujoBanner E2E: click navigation', () => {
             if (prefix === '[gtag]' && command === 'event' && typeof eventName === 'string') {
               resolve(eventName)
             }
-          } catch { /* ignore serialization errors */ }
+          } catch {
+            /* ignore serialization errors */
+          }
         })()
       })
     })

@@ -23,7 +23,7 @@ export interface ArticleLink {
   title: string
   description?: string
   /** The icon emoji for this article's directory. */
-  icon?: typeof DIRECTORY_ICON[keyof typeof DIRECTORY_ICON]
+  icon?: (typeof DIRECTORY_ICON)[keyof typeof DIRECTORY_ICON]
 }
 
 export interface ArticleFeedItem extends Pick<ArticleFrontmatter, 'title' | 'description' | 'published'> {
