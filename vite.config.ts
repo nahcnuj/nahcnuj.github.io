@@ -97,7 +97,37 @@ export default defineConfig(({ command, mode }) => {
               trust: true,
               output: 'htmlAndMathml',
               macros: {
+                // Symbol macros
                 '\\bigstar': '★',
+                '\\circledR': '®',
+                '\\circledS': 'Ⓢ',
+                '\\copyright': '©',
+                '\\degree': '°',
+                '\\dagger': '†',
+                '\\ddagger': '‡',
+                '\\diamondsuit': '♦',
+                '\\heartsuit': '♥',
+                '\\spadesuit': '♠',
+                '\\clubsuit': '♣',
+
+                // Logic and set macros
+                '\\implies': '\\Rightarrow',
+                '\\iff': '\\Leftrightarrow',
+                '\\emptyset': '\\varnothing',
+                '\\complement': '^c',
+                '\\intersection': '\\cap',
+                '\\union': '\\cup',
+
+                // Common mathematical abbreviations
+                '\\Im': '\\text{Im}',
+                '\\Re': '\\text{Re}',
+
+                // Blackboard bold (if supported)
+                '\\N': '\\mathbb{N}',
+                '\\Z': '\\mathbb{Z}',
+                '\\Q': '\\mathbb{Q}',
+                '\\R': '\\mathbb{R}',
+                '\\C': '\\mathbb{C}',
               },
             },
           ],
