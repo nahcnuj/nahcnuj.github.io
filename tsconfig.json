@@ -6,7 +6,6 @@
     // Hono types but the package exports its own declarations so it's no
     // longer necessary.
     "moduleResolution": "Bundler",
-    "baseUrl": ".",
     "strict": true,
     "lib": ["ESNext", "DOM"],
     "types": ["vite/client"],
