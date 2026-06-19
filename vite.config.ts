@@ -96,6 +96,9 @@ export default defineConfig(({ command, mode }) => {
               strict: false,
               trust: true,
               output: 'htmlAndMathml',
+              macros: {
+                '\\bigstar': '★',
+              },
             },
           ],
           rehypeWrapDisplayMath,
