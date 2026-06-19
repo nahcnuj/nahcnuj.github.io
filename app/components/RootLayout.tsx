@@ -122,6 +122,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   ${import.meta.env.PROD ? gtagSnippets.head : html`<!-- -->\n`}\
   ${import.meta.env.PROD ? ninjaAccessSnippets.head : html`<!-- -->\n`}\
   ${import.meta.env.PROD ? adsenseSnippet : html`<!-- -->\n`}\
+  ${props.useMath && html`<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap">`}\
   ${props.headInjection}\
   <style>.tml-left{text-align:left}</style>\
 </head>
