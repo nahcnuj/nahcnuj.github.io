@@ -66,7 +66,7 @@ export function prepareDownloadAdPopup(popover: HTMLElement, href: string, downl
   }
 }
 
-/** Programmatically starts a download from a transient anchor element. */
+/** Programmatically starts a download from a transient anchor element (see E2E download-link tests). */
 export function startDownload(href: string, download?: string, newTab = false): void {
   const anchor = document.createElement('a')
   anchor.href = href
@@ -75,9 +75,7 @@ export function startDownload(href: string, download?: string, newTab = false): 
     anchor.target = '_blank'
     anchor.rel = 'noopener noreferrer'
   }
-  document.body.appendChild(anchor)
   anchor.click()
-  anchor.remove()
 }
 
 function defaultFindDownloadButton(target: EventTarget | null): HTMLButtonElement | null {

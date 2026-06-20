@@ -1,8 +1,10 @@
 /**
- * E2E tests for Markdown download links on app/fixtures/essays/download-link.mdx.
+ * E2E tests for Markdown download links.
  *
  * Verifies that Markdown links like [ダウンロード](./test.pdf) become popover
- * buttons, start downloading immediately on click, and show an AdSense popup.
+ * buttons and that clicking the button actually starts a download (or opens a
+ * new tab for cross-origin links). Download triggering is not unit-tested;
+ * browser behavior is covered here via Playwright `download` / `popup` events.
  */
 import { type ChildProcess, spawn } from 'node:child_process'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
@@ -121,7 +123,7 @@ describe('Download link E2E: popup and download flow', () => {
     await page.close()
   }, 30_000)
 
-  it('starts downloading and opens a popup when the download link is clicked', async () => {
+  it('starts a real download from the button click (transient anchor, no DOM attachment)', async () => {
     const page = await openFixturePage()
 
     const [download] = await Promise.all([
