@@ -106,10 +106,6 @@ const articleClass = css`
   & p code {
     font-size: 1rem;
   }
-
-  & math, & math * {
-    font-family: 'Noto Sans Math', 'STIX Two Math', serif;
-  }
 `
 
 export default function Article({
