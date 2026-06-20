@@ -11,8 +11,9 @@ dist
 .dev.vars
 .hono
 
-# MDX files copied from app/fixtures to app/routes during `npm run dev`
+# Files copied from app/fixtures to app/routes during `npm run dev`
 app/routes/**/*.mdx
+app/routes/**/*.pdf
 
 # Change them to your taste:
 wrangler.toml
