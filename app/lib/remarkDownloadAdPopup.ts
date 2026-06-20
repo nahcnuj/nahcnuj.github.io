@@ -22,7 +22,9 @@ export function remarkDownloadAdPopup() {
     if (!hasDownloadLink) return
 
     const yamlNode = tree.children.find((node) => node.type === 'yaml')
-    if (!yamlNode || yamlNode.type !== 'yaml') return
+    if (yamlNode?.type !== 'yaml') {
+      throw new Error('MDX pages with download links must include YAML frontmatter')
+    }
 
     const yaml = String(yamlNode.value).trimEnd()
     if (yaml.includes(`${DOWNLOAD_AD_POPUP_FRONTMATTER_KEY}:`)) return

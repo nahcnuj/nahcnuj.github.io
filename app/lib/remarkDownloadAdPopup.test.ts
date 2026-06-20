@@ -35,6 +35,26 @@ describe('remarkDownloadAdPopup', () => {
     expect((tree.children[0] as { value: string }).value).toContain(`${DOWNLOAD_AD_POPUP_FRONTMATTER_KEY}: true`)
   })
 
+  it('throws when a download link is present but YAML frontmatter is missing', () => {
+    const tree: Root = {
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'link',
+              url: 'https://example.com/file.zip',
+              children: [{ type: 'text', value: 'ファイルをダウンロード' }],
+            },
+          ],
+        },
+      ],
+    }
+
+    expect(() => applyPlugin(tree)).toThrow('MDX pages with download links must include YAML frontmatter')
+  })
+
   it('does not modify frontmatter when link text contains ダウンロード but href has no file extension', () => {
     const tree: Root = {
       type: 'root',
