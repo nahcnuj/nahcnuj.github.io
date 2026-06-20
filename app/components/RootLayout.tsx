@@ -1,7 +1,7 @@
 import { css, Style } from 'hono/css'
 import { html } from 'hono/html'
 import type { PropsWithChildren } from 'hono/jsx'
-import { Script } from 'honox/server'
+import ClientScript from './ClientScript'
 import { ADSENSE_CLIENT_ID, THEME_BASE_COLOR, THEME_MAIN_COLOR } from '../lib/site'
 
 interface OpenGraphData {
@@ -181,7 +181,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   ${props.openGraph?.url && html`<link rel="canonical" href="${props.openGraph.url}">`}
   ${props.openGraph && <OpenGraph url={props.openGraph.url} image={props.openGraph.image} />}
   <meta name="twitter:card" content="summary_large_image">
-  ${<Script src="/app/client.ts" async />}
+  ${<ClientScript async />}
   ${<Style>{rootStyle}</Style>}
   <link rel="alternate" type="application/rss+xml" title="www.nahcnuj.work" href="/feed.xml">
   ${import.meta.env.PROD && gtagSnippets.head}\
