@@ -1,4 +1,6 @@
 import { html } from 'hono/html'
+import { trackFileDownload } from '../lib/downloadTracker'
+import type { GtagFn } from '../lib/scrollDepthTracker'
 import { ADSENSE_CLIENT_ID, DOWNLOAD_AD_SLOT } from '../lib/site'
 import {
   DOWNLOAD_AD_DATA_ATTR,
@@ -32,6 +34,10 @@ export interface DownloadAdPopupOptions {
   hasDownloadUi?: () => boolean
   /** @internal Test override for resolving relative `data-download-href` values. */
   baseUrl?: string
+  /** Sends GA4 `file_download` events when a download button is clicked. */
+  gtagFn?: GtagFn
+  /** @internal Test override for the current page path sent as `link_id`. */
+  getPagePath?: () => string
 }
 
 function defaultHasDownloadUi(): boolean {
@@ -101,6 +107,8 @@ export function setupDownloadAdPopup({
   addClickListener = (handler) => document.addEventListener('click', handler),
   hasDownloadUi = defaultHasDownloadUi,
   baseUrl,
+  gtagFn,
+  getPagePath = () => (typeof window !== 'undefined' ? window.location.pathname : ''),
 }: DownloadAdPopupOptions): void {
   whenReady(() => {
     if (!hasDownloadUi()) return
@@ -117,6 +125,10 @@ export function setupDownloadAdPopup({
       const popover = getPopupElement()
       if (popover) {
         prepareDownloadAdPopup(popover, href, download)
+      }
+      if (gtagFn) {
+        const linkText = button.textContent?.trim() ?? ''
+        trackFileDownload(gtagFn, href, linkText, getPagePath())
       }
       startDownloadFn(href, download, newTab)
     })

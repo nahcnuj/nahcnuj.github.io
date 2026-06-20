@@ -83,4 +83,4 @@ setupMakamujoBannerTracking({
   maxDelayMs: 500,
 })
 
-setupDownloadAdPopup({ whenReady })
+setupDownloadAdPopup({ whenReady, gtagFn })

@@ -7,6 +7,7 @@ import {
   DOWNLOAD_HREF_DATA_ATTR,
   DOWNLOAD_NEW_TAB_DATA_ATTR,
 } from '../lib/downloadLinkPlugin'
+import { FILE_DOWNLOAD_EVENT } from '../lib/downloadTracker'
 import { ADSENSE_CLIENT_ID, DOWNLOAD_AD_SLOT } from '../lib/site'
 import DownloadAdDialog, {
   DOWNLOAD_AD_FALLBACK_ID,
@@ -52,6 +53,7 @@ async function renderDownloadAdDialog(): Promise<string> {
 type FakeButton = {
   getAttribute: (name: string) => string | null
   hasAttribute: (name: string) => boolean
+  textContent?: string
 }
 
 function makeFakeButton(
@@ -93,6 +95,9 @@ function makeSetup(
     popover?: HTMLElement | null
     startDownload?: ReturnType<typeof vi.fn>
     hasDownloadUi?: () => boolean
+    gtagFn?: ReturnType<typeof vi.fn>
+    getPagePath?: () => string
+    baseUrl?: string
   } = {},
 ) {
   const whenReady = opts.whenReady ?? ((fn) => fn())
@@ -112,6 +117,9 @@ function makeSetup(
       clickHandler = handler
     },
     startDownload: startDownloadFn,
+    gtagFn: opts.gtagFn,
+    getPagePath: opts.getPagePath,
+    baseUrl: opts.baseUrl,
   })
 
   return { startDownloadFn, triggerClick: () => clickHandler?.({ target: button } as Event) }
@@ -220,6 +228,38 @@ describe('setupDownloadAdPopup', () => {
 
     triggerClick()
     expect(startDownloadFn).toHaveBeenCalledWith('https://example.com/file.zip', '', false)
+  })
+
+  it('fires a file_download GA event when gtagFn is provided', () => {
+    const button = {
+      ...makeFakeButton('./test.pdf'),
+      textContent: 'ダウンロード',
+    }
+    const gtagFn = vi.fn()
+    const { triggerClick } = makeSetup(button, {
+      gtagFn,
+      getPagePath: () => '/essays/download-link',
+      baseUrl: 'http://localhost:5173/essays/download-link',
+    })
+
+    triggerClick()
+
+    expect(gtagFn).toHaveBeenCalledWith('event', FILE_DOWNLOAD_EVENT, {
+      file_name: 'test.pdf',
+      file_extension: 'pdf',
+      link_url: 'http://localhost:5173/essays/test.pdf',
+      link_text: 'ダウンロード',
+      link_id: '/essays/download-link',
+    })
+  })
+
+  it('does not fire GA events when gtagFn is omitted', () => {
+    const button = makeFakeButton()
+    const gtagFn = vi.fn()
+    const { triggerClick } = makeSetup(button)
+
+    triggerClick()
+    expect(gtagFn).not.toHaveBeenCalled()
   })
 
   it('opens cross-origin downloads in a new tab', () => {

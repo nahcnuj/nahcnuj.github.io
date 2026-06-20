@@ -193,6 +193,50 @@ describe('Download link E2E: popup and download flow', () => {
     await page.close()
   }, 30_000)
 
+  it('fires a file_download GA event when the download button is clicked', async () => {
+    const page = await openFixturePage()
+
+    const gtagEventPromise = new Promise<{ eventName: string; params: Record<string, unknown> }>((resolve) => {
+      page.on('console', (msg) => {
+        if (msg.type() !== 'log') return
+        const args = msg.args()
+        if (args.length < 4) return
+        void (async () => {
+          try {
+            const [prefix, command, eventName, params] = await Promise.all([
+              args[0].jsonValue(),
+              args[1].jsonValue(),
+              args[2].jsonValue(),
+              args[3].jsonValue(),
+            ])
+            if (prefix === '[gtag]' && command === 'event' && eventName === 'file_download') {
+              resolve({ eventName, params: params as Record<string, unknown> })
+            }
+          } catch {
+            /* ignore serialization errors */
+          }
+        })()
+      })
+    })
+
+    await Promise.all([
+      page.waitForEvent('download'),
+      page.getByRole('button', { name: DOWNLOAD_BUTTON_TEXT }).click(),
+    ])
+
+    const { eventName, params } = await gtagEventPromise
+    expect(eventName).toBe('file_download')
+    expect(params).toMatchObject({
+      file_name: 'test.pdf',
+      file_extension: 'pdf',
+      link_text: DOWNLOAD_BUTTON_TEXT,
+      link_id: FIXTURE_ROUTE,
+    })
+    expect(params.link_url).toMatch(/\/essays\/test\.pdf$/)
+
+    await page.close()
+  }, 30_000)
+
   it('starts a real download from the button click (transient anchor, no DOM attachment)', async () => {
     const page = await openFixturePage()
 
