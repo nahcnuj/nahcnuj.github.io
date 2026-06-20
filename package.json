@@ -14,7 +14,9 @@
     "lint:text": "textlint -f pretty-error ./app/routes/**/*.mdx",
     "lint:text:fix": "textlint --fix ./app/routes/**/*.mdx",
     "test": "vitest run",
-    "test:e2e": "vitest run --config vitest.config.e2e.ts"
+    "test:e2e": "vitest run --config vitest.config.e2e.ts && npm run test:vrt",
+    "test:vrt": "playwright test",
+    "test:vrt:update": "playwright test --update-snapshots"
   },
   "dependencies": {
     "@daiji256/rehype-mathml": "^1.2.2",
@@ -33,6 +35,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.16",
+    "@playwright/test": "^1.61.0",
     "@types/katex": "^0.16.8",
     "@types/node": "^24.13.2",
     "playwright": "^1.61.0",
