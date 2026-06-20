@@ -7,7 +7,9 @@
 import { type ChildProcess, spawn } from 'node:child_process'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { chromium, type Browser, type Page } from 'playwright'
+import { expectDownloadAdDialogHtml } from '../../app/lib/downloadAdExpectations'
 import { DOWNLOAD_FALLBACK_LINK_TEXT } from '../../app/lib/downloadAd'
+import { ADSENSE_CLIENT_ID } from '../../app/lib/site'
 
 const FIXTURE_ROUTE = '/essays/download-link'
 const DOWNLOAD_BUTTON_TEXT = 'ダウンロード'
@@ -93,25 +95,15 @@ describe('Download link E2E: popup and download flow', () => {
     return page
   }
 
-  it('includes literal AdSense snippets in the HTML output', async () => {
+  it('includes required AdSense loader and download popup markup in the HTML output', async () => {
     const response = await browser.newContext().then((context) => context.request.get(`${baseUrl}${FIXTURE_ROUTE}`))
     expect(response.status()).toBe(200)
 
     const html = await response.text()
-    expect(html).toContain(
-      `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1645913691678081"
-     crossorigin="anonymous"></script>`,
+    expect(html).toMatch(
+      new RegExp(`<script[^>]*src="[^"]*adsbygoogle\\.js\\?client=${ADSENSE_CLIENT_ID}"[^>]*>`),
     )
-    expect(html).toContain(`<!-- ポップアップ用 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-1645913691678081"
-     data-ad-slot="2208436912"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>`)
+    expectDownloadAdDialogHtml(html)
   }, 30_000)
 
   it('serves the fixture page with a popover download button', async () => {
