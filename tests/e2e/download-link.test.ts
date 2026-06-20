@@ -10,8 +10,41 @@
 import { type ChildProcess, spawn } from 'node:child_process'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { chromium, type Browser, type Page } from 'playwright'
-import { expectDownloadAdDialogHtml } from '../../app/components/downloadAdDialogExpectations'
-import { ADSENSE_CLIENT_ID } from '../../app/lib/site'
+import {
+  DOWNLOAD_AD_FALLBACK_ID,
+  DOWNLOAD_DIALOG_CLASS,
+  DOWNLOAD_DIALOG_LABEL,
+  DOWNLOAD_FALLBACK_LINK_TEXT,
+} from '../../app/components/DownloadAdDialog'
+import { DOWNLOAD_AD_POPUP_ID } from '../../app/lib/downloadLinkPlugin'
+import { ADSENSE_CLIENT_ID, DOWNLOAD_AD_SLOT } from '../../app/lib/site'
+
+function assertDefined<T>(value: T | undefined, message: string): asserts value is T {
+  expect(value, message).toBeDefined()
+  if (value === undefined) {
+    throw new Error(message)
+  }
+}
+
+function htmlAttr(tag: string, name: string): string | undefined {
+  const match = tag.match(new RegExp(`${name}="([^"]*)"`))
+  return match?.[1]
+}
+
+function firstHtmlTag(html: string, selector: string): string | undefined {
+  if (selector.startsWith('#')) {
+    const id = selector.slice(1)
+    const match = html.match(new RegExp(`<[^>]+id="${id}"[^>]*>`, 'i'))
+    return match?.[0]
+  }
+  if (selector.startsWith('.')) {
+    const className = selector.slice(1)
+    const match = html.match(new RegExp(`<[^>]+class="${className}"[^>]*>`, 'i'))
+    return match?.[0]
+  }
+  const match = html.match(new RegExp(`<${selector}[^>]*>`, 'i'))
+  return match?.[0]
+}
 
 const FIXTURE_ROUTE = '/essays/download-link'
 const MULTI_FIXTURE_ROUTE = '/essays/download-links'
@@ -110,7 +143,41 @@ describe('Download link E2E: popup and download flow', () => {
     expect(html).toMatch(
       new RegExp(`<script[^>]*src="[^"]*adsbygoogle\\.js\\?client=${ADSENSE_CLIENT_ID}"[^>]*>`),
     )
-    expectDownloadAdDialogHtml(html)
+
+    const popover = firstHtmlTag(html, `#${DOWNLOAD_AD_POPUP_ID}`)
+    assertDefined(popover, 'download popover element')
+    expect(htmlAttr(popover, 'popover')).toBe('auto')
+    expect(htmlAttr(popover, 'class')).toBe(DOWNLOAD_DIALOG_CLASS)
+    expect(htmlAttr(popover, 'aria-label')).toBe(DOWNLOAD_DIALOG_LABEL)
+
+    const closeIcon = html.match(/<button[^>]*class="download-ad-close-icon"[^>]*>/i)?.[0]
+    assertDefined(closeIcon, 'close icon button')
+    expect(htmlAttr(closeIcon, 'type')).toBe('button')
+    expect(htmlAttr(closeIcon, 'popovertarget')).toBe(DOWNLOAD_AD_POPUP_ID)
+    expect(htmlAttr(closeIcon, 'popovertargetaction')).toBe('hide')
+    expect(htmlAttr(closeIcon, 'aria-label')).toBe('閉じる（×）')
+
+    const fallback = firstHtmlTag(html, `#${DOWNLOAD_AD_FALLBACK_ID}`)
+    assertDefined(fallback, 'fallback download link')
+    expect(htmlAttr(fallback, 'href')).toBe('#')
+    expect(html).toContain(DOWNLOAD_FALLBACK_LINK_TEXT)
+    expect(html).toContain('ダウンロードを開始しました。')
+
+    const ins = firstHtmlTag(html, 'ins')
+    assertDefined(ins, 'AdSense ins element')
+    expect(htmlAttr(ins, 'class')).toBe('adsbygoogle')
+    expect(htmlAttr(ins, 'style')).toBe('display:block')
+    expect(htmlAttr(ins, 'data-ad-client')).toBe(ADSENSE_CLIENT_ID)
+    expect(htmlAttr(ins, 'data-ad-slot')).toBe(DOWNLOAD_AD_SLOT)
+    expect(htmlAttr(ins, 'data-ad-format')).toBe('auto')
+    expect(htmlAttr(ins, 'data-full-width-responsive')).toBe('true')
+    expect(html).toContain('(adsbygoogle = window.adsbygoogle || []).push({})')
+
+    const closeButton = html.match(/<button[^>]*class="download-ad-close"[^>]*>/i)?.[0]
+    assertDefined(closeButton, 'close button')
+    expect(htmlAttr(closeButton, 'type')).toBe('button')
+    expect(htmlAttr(closeButton, 'popovertarget')).toBe(DOWNLOAD_AD_POPUP_ID)
+    expect(htmlAttr(closeButton, 'popovertargetaction')).toBe('hide')
   }, 30_000)
 
   it('serves the fixture page with a popover download button', async () => {

@@ -4,7 +4,6 @@ import { setupDownloadAdPopup } from './components/DownloadAdDialog'
 import { setupMakamujoBannerTracking } from './lib/makamujoBannerTracker'
 import { type GtagFn, setupScrollDepthTracking } from './lib/scrollDepthTracker'
 
-
 createClient()
 
 const gtagFn: GtagFn = import.meta.env.PROD
