@@ -14,7 +14,7 @@
     "lint:text": "textlint -f pretty-error ./app/routes/**/*.mdx",
     "lint:text:fix": "textlint --fix ./app/routes/**/*.mdx",
     "test": "vitest run",
-    "test:e2e": "vitest run --config vitest.config.e2e.ts && npm run test:vrt",
+    "test:e2e": "vitest run --config vitest.config.e2e.ts",
     "test:vrt": "playwright test",
     "test:vrt:update": "playwright test --update-snapshots"
   },
@@ -38,7 +38,6 @@
     "@playwright/test": "^1.61.0",
     "@types/katex": "^0.16.8",
     "@types/node": "^24.13.2",
-    "playwright": "^1.61.0",
     "textlint": "^15.7.1",
     "textlint-filter-rule-comments": "^1.3.0",
     "textlint-filter-rule-node-types": "^1.1.0",
