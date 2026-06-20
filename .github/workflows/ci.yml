@@ -33,7 +33,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Verify client script on pages without islands
-        run: grep -E 'src="/static/client-[^"]+\\.js"' dist/index.html
+        run: node scripts/verify-client-script.mjs
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:

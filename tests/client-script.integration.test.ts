@@ -1,17 +1,19 @@
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import { verifyClientScriptOnIslandFreePages } from '../scripts/verify-client-script.mjs'
 
-const INDEX_HTML = join(process.cwd(), 'dist/index.html')
+const DIST_DIR = join(process.cwd(), 'dist')
 
 describe('production HTML includes global client script without islands', () => {
-  it('index.html references the built client bundle', () => {
-    if (!existsSync(INDEX_HTML)) {
+  it('every island-free page references the built client bundle', () => {
+    if (!existsSync(DIST_DIR)) {
       // Run after `npm run build` to verify SSG output.
       return
     }
 
-    const html = readFileSync(INDEX_HTML, 'utf8')
-    expect(html).toMatch(/<script[^>]*type="module"[^>]*src="\/static\/client-[^"]+\.js"/)
+    const { checked, missing } = verifyClientScriptOnIslandFreePages(DIST_DIR)
+    expect(checked).toBeGreaterThan(0)
+    expect(missing).toEqual([])
   })
 })
