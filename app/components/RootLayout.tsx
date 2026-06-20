@@ -31,8 +31,10 @@ const rootStyle = css`
   }
 
   * {
-    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
     text-decoration-thickness: from-font;
+    text-underline-offset: 0.1rem;
+    text-underline-position: from-font;
   }
 
   html, body { margin: 0; padding: 0; }
