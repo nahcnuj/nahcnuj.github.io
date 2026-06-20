@@ -1,16 +1,12 @@
 import { renderToReadableStream } from 'hono/jsx/dom/server'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
+  DOWNLOAD_AD_DATA_ATTR,
   DOWNLOAD_ATTR_DATA_ATTR,
   DOWNLOAD_HREF_DATA_ATTR,
   DOWNLOAD_NEW_TAB_DATA_ATTR,
 } from '../lib/downloadLinkPlugin'
-import DownloadAdDialog, {
-  DOWNLOAD_AD_FALLBACK_ID,
-  prepareDownloadAdPopup,
-  resolveDownloadHref,
-  setupDownloadAdPopup,
-} from './DownloadAdDialog'
+import DownloadAdDialog, { resolveDownloadHref, setupDownloadAdPopup } from './DownloadAdDialog'
 import { expectDownloadAdDialogHtml } from './downloadAdDialogExpectations'
 
 async function renderDownloadAdDialog(): Promise<string> {
@@ -41,22 +37,17 @@ function makeFakeButton(
   }
 }
 
-function makeFakePopover() {
-  const fallback = {
-    download: '',
-    removeAttribute: vi.fn(),
-    set href(value: string) {
-      this._href = value
-    },
-    get href() {
-      return this._href
-    },
-    _href: '#',
-  }
+const DOWNLOAD_BUTTON_SELECTOR = `button[${DOWNLOAD_AD_DATA_ATTR}]`
+const MULTI_LINK_BASE_URL = 'http://localhost:5173/essays/download-links'
 
+function makeClickableButton(
+  href: string,
+  opts: { sameOrigin?: boolean; newTab?: boolean } = {},
+): FakeButton & { closest: (selector: string) => FakeButton | null } {
+  const button = makeFakeButton(href, opts)
   return {
-    querySelector: (selector: string) => (selector === `#${DOWNLOAD_AD_FALLBACK_ID}` ? fallback : null),
-    fallback,
+    ...button,
+    closest: (selector) => (selector === DOWNLOAD_BUTTON_SELECTOR ? button : null),
   }
 }
 
@@ -64,20 +55,23 @@ function makeSetup(
   button: FakeButton | null,
   opts: {
     whenReady?: (fn: () => void) => void
-    popover?: ReturnType<typeof makeFakePopover> | null
+    popover?: HTMLElement | null
     startDownload?: ReturnType<typeof vi.fn>
     hasDownloadUi?: () => boolean
   } = {},
 ) {
   const whenReady = opts.whenReady ?? ((fn) => fn())
-  const popover = opts.popover === undefined ? makeFakePopover() : opts.popover
+  const popover =
+    opts.popover === undefined
+      ? ({ querySelector: () => null } as unknown as HTMLElement)
+      : opts.popover
   const startDownloadFn = opts.startDownload ?? vi.fn()
   let clickHandler: ((event: Event) => void) | undefined
 
   setupDownloadAdPopup({
     whenReady,
     hasDownloadUi: opts.hasDownloadUi ?? (() => true),
-    getPopupElement: () => popover as unknown as HTMLElement | null,
+    getPopupElement: () => popover,
     findDownloadButton: () => (button ? (button as unknown as HTMLButtonElement) : null),
     addClickListener: (handler) => {
       clickHandler = handler
@@ -85,7 +79,47 @@ function makeSetup(
     startDownload: startDownloadFn,
   })
 
-  return { popover, startDownloadFn, triggerClick: () => clickHandler?.({ target: button } as Event) }
+  return { startDownloadFn, triggerClick: () => clickHandler?.({ target: button } as Event) }
+}
+
+function makeDelegatingSetup(
+  opts: {
+    whenReady?: (fn: () => void) => void
+    popover?: HTMLElement | null
+    startDownload?: ReturnType<typeof vi.fn>
+    hasDownloadUi?: () => boolean
+    baseUrl?: string
+  } = {},
+) {
+  const whenReady = opts.whenReady ?? ((fn) => fn())
+  const popover =
+    opts.popover === undefined
+      ? ({ querySelector: () => null } as unknown as HTMLElement)
+      : opts.popover
+  const startDownloadFn = opts.startDownload ?? vi.fn()
+  let clickHandler: ((event: Event) => void) | undefined
+
+  setupDownloadAdPopup({
+    whenReady,
+    hasDownloadUi: opts.hasDownloadUi ?? (() => true),
+    getPopupElement: () => popover,
+    findDownloadButton: (target) => {
+      if (!target || typeof target !== 'object' || !('closest' in target)) return null
+      const button = (target as { closest: (selector: string) => unknown }).closest(DOWNLOAD_BUTTON_SELECTOR)
+      return button instanceof Object ? (button as HTMLButtonElement) : null
+    },
+    addClickListener: (handler) => {
+      clickHandler = handler
+    },
+    startDownload: startDownloadFn,
+    baseUrl: opts.baseUrl ?? MULTI_LINK_BASE_URL,
+  })
+
+  return {
+    startDownloadFn,
+    triggerClick: (button: ReturnType<typeof makeClickableButton>) =>
+      clickHandler?.({ target: button } as Event),
+  }
 }
 
 describe('DownloadAdDialog', () => {
@@ -106,26 +140,16 @@ describe('resolveDownloadHref', () => {
   })
 })
 
-describe('prepareDownloadAdPopup', () => {
-  it('updates the fallback link href and download attribute', () => {
-    const popover = makeFakePopover()
-    prepareDownloadAdPopup(popover as unknown as HTMLElement, 'https://example.com/test.pdf', '')
-    expect(popover.fallback.href).toBe('https://example.com/test.pdf')
-    expect(popover.fallback.download).toBe('')
-  })
-})
-
 describe('setupDownloadAdPopup', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  it('updates the fallback link and starts the download without opening the popover in script', () => {
+  it('starts the download without opening the popover in script', () => {
     const button = makeFakeButton('https://example.com/file.zip')
-    const { popover, startDownloadFn, triggerClick } = makeSetup(button)
+    const { startDownloadFn, triggerClick } = makeSetup(button)
 
     triggerClick()
-    expect(popover?.fallback.href).toBe('https://example.com/file.zip')
     expect(startDownloadFn).toHaveBeenCalledWith('https://example.com/file.zip', '', false)
   })
 
@@ -150,6 +174,41 @@ describe('setupDownloadAdPopup', () => {
     const { startDownloadFn, triggerClick } = makeSetup(button, { hasDownloadUi: () => false })
 
     triggerClick()
+    expect(startDownloadFn).not.toHaveBeenCalled()
+  })
+
+  it('starts the download for each button when multiple links share one popover', () => {
+    const firstButton = makeClickableButton('./test.pdf')
+    const secondButton = makeClickableButton('./test.pdf')
+    const { startDownloadFn, triggerClick } = makeDelegatingSetup()
+
+    triggerClick(firstButton)
+    triggerClick(secondButton)
+
+    const resolvedTestPdf = new URL('./test.pdf', MULTI_LINK_BASE_URL).href
+
+    expect(startDownloadFn).toHaveBeenCalledTimes(2)
+    expect(startDownloadFn).toHaveBeenNthCalledWith(1, resolvedTestPdf, '', false)
+    expect(startDownloadFn).toHaveBeenNthCalledWith(2, resolvedTestPdf, '', false)
+  })
+
+  it('routes delegated clicks to the clicked download button', () => {
+    const firstButton = makeClickableButton('./first.pdf')
+    const secondButton = makeClickableButton('./second.pdf', { sameOrigin: false, newTab: true })
+    const { startDownloadFn, triggerClick } = makeDelegatingSetup()
+
+    triggerClick(secondButton)
+    triggerClick(firstButton)
+
+    expect(startDownloadFn).toHaveBeenNthCalledWith(1, new URL('./second.pdf', MULTI_LINK_BASE_URL).href, undefined, true)
+    expect(startDownloadFn).toHaveBeenNthCalledWith(2, new URL('./first.pdf', MULTI_LINK_BASE_URL).href, '', false)
+  })
+
+  it('ignores clicks that are not on download buttons', () => {
+    const unrelatedTarget = { closest: () => null }
+    const { startDownloadFn, triggerClick } = makeDelegatingSetup()
+
+    triggerClick(unrelatedTarget as unknown as ReturnType<typeof makeClickableButton>)
     expect(startDownloadFn).not.toHaveBeenCalled()
   })
 

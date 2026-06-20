@@ -2,20 +2,23 @@
  * E2E tests for Markdown download links.
  *
  * Verifies that Markdown links like [ダウンロード](./test.pdf) become popover
- * buttons and that clicking the button actually starts a download (or opens a
- * new tab for cross-origin links). Download triggering is not unit-tested;
- * browser behavior is covered here via Playwright `download` / `popup` events.
+ * buttons and that clicking the button starts a download (or opens a new tab
+ * for cross-origin links) via a transient anchor in client script. The fallback
+ * link inside the ad dialog is a normal anchor for manual retry; its click
+ * behavior is the browser's responsibility and is not tested here.
  */
 import { type ChildProcess, spawn } from 'node:child_process'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { chromium, type Browser, type Page } from 'playwright'
-import { DOWNLOAD_FALLBACK_LINK_TEXT } from '../../app/components/DownloadAdDialog'
 import { expectDownloadAdDialogHtml } from '../../app/components/downloadAdDialogExpectations'
 import { ADSENSE_CLIENT_ID } from '../../app/lib/site'
 
 const FIXTURE_ROUTE = '/essays/download-link'
+const MULTI_FIXTURE_ROUTE = '/essays/download-links'
 const CROSS_ORIGIN_FIXTURE_ROUTE = '/works/download-link-test'
 const DOWNLOAD_BUTTON_TEXT = 'ダウンロード'
+const FIRST_MULTI_DOWNLOAD_BUTTON_TEXT = 'PDFをダウンロード'
+const SECOND_MULTI_DOWNLOAD_BUTTON_TEXT = '同じPDFをダウンロード'
 const CROSS_ORIGIN_DOWNLOAD_BUTTON_TEXT = 'サンプルファイルをダウンロード'
 const POPOVER_SELECTOR = '[popover][aria-label="ダウンロード時の広告"]:popover-open'
 
@@ -136,29 +139,8 @@ describe('Download link E2E: popup and download flow', () => {
     const popover = page.locator(POPOVER_SELECTOR)
     expect(await popover.count()).toBe(1)
     expect(await popover.getByText('ダウンロードを開始しました。').isVisible()).toBe(true)
-    expect(await popover.getByRole('link', { name: DOWNLOAD_FALLBACK_LINK_TEXT }).isVisible()).toBe(true)
     expect(await popover.getByRole('button', { name: '閉じる（×）' }).isVisible()).toBe(true)
     expect(await popover.getByRole('button', { name: '閉じる', exact: true }).isVisible()).toBe(true)
-
-    await page.close()
-  }, 30_000)
-
-  it('does not open another popup when the fallback link is clicked', async () => {
-    const page = await openFixturePage()
-    await page.getByRole('button', { name: DOWNLOAD_BUTTON_TEXT }).click()
-
-    const popover = page.locator(POPOVER_SELECTOR)
-    const fallbackLink = popover.getByRole('link', { name: DOWNLOAD_FALLBACK_LINK_TEXT })
-    expect(await fallbackLink.getAttribute('data-download-ad')).toBeNull()
-    expect(await fallbackLink.getAttribute('download')).toBe('')
-
-    const [download] = await Promise.all([
-      page.waitForEvent('download'),
-      fallbackLink.click(),
-    ])
-
-    expect(download.suggestedFilename()).toBe('test.pdf')
-    expect(await page.locator(POPOVER_SELECTOR).count()).toBe(1)
 
     await page.close()
   }, 30_000)
@@ -170,6 +152,50 @@ describe('Download link E2E: popup and download flow', () => {
     const popover = page.locator(POPOVER_SELECTOR)
     await popover.getByRole('button', { name: '閉じる', exact: true }).click()
     expect(await popover.count()).toBe(0)
+
+    await page.close()
+  }, 30_000)
+
+  it('serves a fixture with multiple popover download buttons sharing one popup', async () => {
+    const page = await browser.newPage()
+    const res = await page.goto(`${baseUrl}${MULTI_FIXTURE_ROUTE}`)
+    expect(res?.status()).toBe(200)
+
+    const buttons = page.getByRole('button', { name: /ダウンロード/ })
+    expect(await buttons.count()).toBe(2)
+
+    const first = page.getByRole('button', { name: FIRST_MULTI_DOWNLOAD_BUTTON_TEXT, exact: true })
+    const second = page.getByRole('button', { name: SECOND_MULTI_DOWNLOAD_BUTTON_TEXT, exact: true })
+    for (const button of [first, second]) {
+      expect(await button.getAttribute('data-download-ad')).toBe('')
+      expect(await button.getAttribute('data-download-href')).toBe('./test.pdf')
+      expect(await button.getAttribute('data-download')).toBe('')
+      expect(await button.getAttribute('popovertarget')).toBe('download-ad-popup')
+      expect(await button.getAttribute('popovertargetaction')).toBe('show')
+    }
+
+    expect(await page.locator('[popover]#download-ad-popup').count()).toBe(1)
+
+    await page.close()
+  }, 30_000)
+
+  it('starts a download from each button when multiple links point at the same file', async () => {
+    const page = await browser.newPage()
+    await page.goto(`${baseUrl}${MULTI_FIXTURE_ROUTE}`)
+
+    const first = page.getByRole('button', { name: FIRST_MULTI_DOWNLOAD_BUTTON_TEXT, exact: true })
+    const second = page.getByRole('button', { name: SECOND_MULTI_DOWNLOAD_BUTTON_TEXT, exact: true })
+
+    const [firstDownload] = await Promise.all([page.waitForEvent('download'), first.click()])
+    expect(firstDownload.suggestedFilename()).toBe('test.pdf')
+    expect(await page.locator(POPOVER_SELECTOR).count()).toBe(1)
+
+    await page.keyboard.press('Escape')
+    expect(await page.locator(POPOVER_SELECTOR).count()).toBe(0)
+
+    const [secondDownload] = await Promise.all([page.waitForEvent('download'), second.click()])
+    expect(secondDownload.suggestedFilename()).toBe('test.pdf')
+    expect(await page.locator(POPOVER_SELECTOR).count()).toBe(1)
 
     await page.close()
   }, 30_000)

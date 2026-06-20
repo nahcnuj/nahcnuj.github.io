@@ -118,6 +118,44 @@ describe('remarkDownloadAdPopup', () => {
     expect((tree.children[0] as { value: string }).value).not.toContain(`${DOWNLOAD_AD_POPUP_FRONTMATTER_KEY}:`)
   })
 
+  it('adds downloadAdPopup: true once when multiple download links are present', () => {
+    const tree: MdastRoot = {
+      type: 'root',
+      children: [
+        {
+          type: 'yaml',
+          value: 'title: Download test\npublished: 2026-06-20\n',
+        },
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'link',
+              url: './test.pdf',
+              children: [{ type: 'text', value: 'PDFをダウンロード' }],
+            },
+          ],
+        },
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'link',
+              url: './test.pdf',
+              children: [{ type: 'text', value: '同じPDFをダウンロード' }],
+            },
+          ],
+        },
+      ],
+    }
+
+    applyRemark(tree)
+
+    const yaml = (tree.children[0] as { value: string }).value
+    expect(yaml).toContain(`${DOWNLOAD_AD_POPUP_FRONTMATTER_KEY}: true`)
+    expect(yaml.match(new RegExp(`${DOWNLOAD_AD_POPUP_FRONTMATTER_KEY}: true`, 'g'))).toHaveLength(1)
+  })
+
   it('overwrites downloadAdPopup: false when a download link is present', () => {
     const tree: MdastRoot = {
       type: 'root',
@@ -273,6 +311,33 @@ describe('rehypeDownloadLinks', () => {
     const button = tree.children[0] as Element
     expect(button.children).toHaveLength(1)
     expect(button.children[0]).toMatchObject({ type: 'text', value: 'ダウンロード' })
+  })
+
+  it('replaces every download anchor on the page with a popover button', () => {
+    const tree: HastRoot = {
+      type: 'root',
+      children: [
+        makeLink('./test.pdf', 'PDFをダウンロード'),
+        makeLink('./test.pdf', '同じPDFをダウンロード'),
+        makeLink('https://example.com/file.zip', 'ファイルを開く'),
+      ],
+    }
+
+    applyRehype(tree)
+
+    const first = tree.children[0] as Element
+    const second = tree.children[1] as Element
+    const regular = tree.children[2] as Element
+
+    expect(first.tagName).toBe('button')
+    expect(first.properties.popovertarget).toBe(DOWNLOAD_AD_POPUP_ID)
+    expect(first.properties[DOWNLOAD_HREF_DATA_ATTR]).toBe('./test.pdf')
+
+    expect(second.tagName).toBe('button')
+    expect(second.properties.popovertarget).toBe(DOWNLOAD_AD_POPUP_ID)
+    expect(second.properties[DOWNLOAD_HREF_DATA_ATTR]).toBe('./test.pdf')
+
+    expect(regular.tagName).toBe('a')
   })
 
   it('does not modify links without ダウンロード in the text', () => {

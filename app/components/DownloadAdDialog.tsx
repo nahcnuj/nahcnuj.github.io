@@ -30,6 +30,8 @@ export interface DownloadAdPopupOptions {
   addClickListener?: (handler: (event: Event) => void) => void
   /** @internal Test override for whether the page includes download-popup markup. */
   hasDownloadUi?: () => boolean
+  /** @internal Test override for resolving relative `data-download-href` values. */
+  baseUrl?: string
 }
 
 function defaultHasDownloadUi(): boolean {
@@ -98,6 +100,7 @@ export function setupDownloadAdPopup({
   findDownloadButton = defaultFindDownloadButton,
   addClickListener = (handler) => document.addEventListener('click', handler),
   hasDownloadUi = defaultHasDownloadUi,
+  baseUrl,
 }: DownloadAdPopupOptions): void {
   whenReady(() => {
     if (!hasDownloadUi()) return
@@ -106,7 +109,7 @@ export function setupDownloadAdPopup({
       const button = findDownloadButton(event.target)
       if (!button) return
 
-      const href = resolveDownloadHref(button)
+      const href = resolveDownloadHref(button, baseUrl)
       if (!href) return
 
       const download = button.hasAttribute(DOWNLOAD_ATTR_DATA_ATTR) ? '' : undefined
