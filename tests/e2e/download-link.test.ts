@@ -7,7 +7,7 @@
 import { type ChildProcess, spawn } from 'node:child_process'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { chromium, type Browser, type Page } from 'playwright'
-import { DOWNLOAD_FALLBACK_LINK_TEXT } from '../../app/lib/downloadAdPopup'
+import { DOWNLOAD_FALLBACK_LINK_TEXT } from '../../app/lib/downloadAd'
 
 const FIXTURE_ROUTE = '/essays/download-link'
 const DOWNLOAD_BUTTON_TEXT = 'ダウンロード'
