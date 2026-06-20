@@ -23,7 +23,8 @@ export default defineConfig({
   webServer: {
     command: `npm run dev -- --port ${DEV_PORT} --strictPort`,
     url: `http://localhost:${DEV_PORT}`,
-    reuseExistingServer: !process.env.CI,
+    // Vitest E2E may leave `npm run dev` on this port; reuse it when available.
+    reuseExistingServer: true,
     timeout: 120_000,
   },
 })
