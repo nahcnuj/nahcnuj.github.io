@@ -3,7 +3,7 @@ import type { Root as MdastRoot } from 'mdast'
 import { toString as hastToString } from 'hast-util-to-string'
 import { toString as mdastToString } from 'mdast-util-to-string'
 import { visit } from 'unist-util-visit'
-import { SITE_URL } from '../lib/site'
+import { SITE_URL } from './site'
 
 export const DOWNLOAD_AD_POPUP_ID = 'download-ad-popup'
 export const DOWNLOAD_AD_BUTTON_CLASS = 'download-ad-button'

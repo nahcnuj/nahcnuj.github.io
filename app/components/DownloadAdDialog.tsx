@@ -6,7 +6,7 @@ import {
   DOWNLOAD_ATTR_DATA_ATTR,
   DOWNLOAD_HREF_DATA_ATTR,
   DOWNLOAD_NEW_TAB_DATA_ATTR,
-} from './downloadLinkPlugin'
+} from '../lib/downloadLinkPlugin'
 
 export const DOWNLOAD_AD_FALLBACK_ID = 'download-ad-fallback'
 
