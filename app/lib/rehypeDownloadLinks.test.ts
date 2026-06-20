@@ -59,10 +59,10 @@ describe('stripExternalLinkIndicator', () => {
 })
 
 describe('rehypeDownloadLinks', () => {
-  it('adds download and data-download-ad attributes', () => {
+  it('adds download and data-download-ad attributes for same-origin links', () => {
     const tree: Root = {
       type: 'root',
-      children: [makeLink('https://example.com/file.zip', 'ファイルをダウンロード')],
+      children: [makeLink('./test.pdf', 'ファイルをダウンロード')],
     }
 
     applyPlugin(tree)
@@ -71,7 +71,19 @@ describe('rehypeDownloadLinks', () => {
     expect(link.properties[DOWNLOAD_AD_DATA_ATTR]).toBe('')
   })
 
-  it('removes target added for external links', () => {
+  it('removes target for same-origin download links', () => {
+    const tree: Root = {
+      type: 'root',
+      children: [makeLink('/files/sample.pdf', 'ダウンロードする')],
+    }
+
+    applyPlugin(tree)
+    const link = tree.children[0] as Element
+    expect(link.properties.target).toBeUndefined()
+    expect(link.properties.download).toBe('')
+  })
+
+  it('keeps target for cross-origin download links', () => {
     const tree: Root = {
       type: 'root',
       children: [makeLink('https://example.com/file.zip', 'ダウンロードする')],
@@ -79,7 +91,9 @@ describe('rehypeDownloadLinks', () => {
 
     applyPlugin(tree)
     const link = tree.children[0] as Element
-    expect(link.properties.target).toBeUndefined()
+    expect(link.properties.target).toBe('_blank')
+    expect(link.properties.download).toBeUndefined()
+    expect(link.properties[DOWNLOAD_AD_DATA_ATTR]).toBe('')
   })
 
   it('does not modify links without ダウンロード in the text', () => {
