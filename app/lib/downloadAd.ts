@@ -95,9 +95,15 @@ export function remarkDownloadAdPopup() {
     }
 
     const yaml = String(yamlNode.value).trimEnd()
-    if (yaml.includes(`${DOWNLOAD_AD_POPUP_FRONTMATTER_KEY}:`)) return
+    const key = DOWNLOAD_AD_POPUP_FRONTMATTER_KEY
+    if (new RegExp(`^${key}:\\s*true\\s*$`, 'm').test(yaml)) return
 
-    yamlNode.value = `${yaml}\n${DOWNLOAD_AD_POPUP_FRONTMATTER_KEY}: true\n`
+    if (new RegExp(`^${key}:`, 'm').test(yaml)) {
+      yamlNode.value = `${yaml.replace(new RegExp(`^${key}:.*$`, 'm'), `${key}: true`)}\n`
+      return
+    }
+
+    yamlNode.value = `${yaml}\n${key}: true\n`
   }
 }
 
@@ -125,9 +131,10 @@ export function rehypeDownloadLinks() {
         [DOWNLOAD_HREF_DATA_ATTR]: href,
       }
 
+      node.children = stripExternalLinkIndicator(node.children)
+
       if (sameOrigin) {
         node.properties[DOWNLOAD_ATTR_DATA_ATTR] = ''
-        node.children = stripExternalLinkIndicator(node.children)
       } else {
         node.properties[DOWNLOAD_NEW_TAB_DATA_ATTR] = ''
       }
@@ -209,9 +216,6 @@ export function setupDownloadAdPopup({
   addClickListener = (handler) => document.addEventListener('click', handler),
 }: DownloadAdPopupOptions): void {
   whenReady(() => {
-    const popover = getPopupElement()
-    if (!popover) return
-
     addClickListener((event) => {
       const button = findDownloadButton(event.target)
       if (!button) return
@@ -221,7 +225,10 @@ export function setupDownloadAdPopup({
 
       const download = button.hasAttribute(DOWNLOAD_ATTR_DATA_ATTR) ? '' : undefined
       const newTab = button.hasAttribute(DOWNLOAD_NEW_TAB_DATA_ATTR)
-      prepareDownloadAdPopup(popover, href, download)
+      const popover = getPopupElement()
+      if (popover) {
+        prepareDownloadAdPopup(popover, href, download)
+      }
       startDownloadFn(href, download, newTab)
     })
   })

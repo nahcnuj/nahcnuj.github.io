@@ -122,6 +122,32 @@ describe('remarkDownloadAdPopup', () => {
     applyRemark(tree)
     expect((tree.children[0] as { value: string }).value).not.toContain(`${DOWNLOAD_AD_POPUP_FRONTMATTER_KEY}:`)
   })
+
+  it('overwrites downloadAdPopup: false when a download link is present', () => {
+    const tree: MdastRoot = {
+      type: 'root',
+      children: [
+        {
+          type: 'yaml',
+          value: 'title: Download test\npublished: 2026-06-20\ndownloadAdPopup: false\n',
+        },
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'link',
+              url: './test.pdf',
+              children: [{ type: 'text', value: 'ダウンロード' }],
+            },
+          ],
+        },
+      ],
+    }
+
+    applyRemark(tree)
+    expect((tree.children[0] as { value: string }).value).toContain(`${DOWNLOAD_AD_POPUP_FRONTMATTER_KEY}: true`)
+    expect((tree.children[0] as { value: string }).value).not.toContain(`${DOWNLOAD_AD_POPUP_FRONTMATTER_KEY}: false`)
+  })
 })
 
 // --- rehype plugin ---
@@ -217,6 +243,27 @@ describe('rehypeDownloadLinks', () => {
     expect(button.properties[DOWNLOAD_NEW_TAB_DATA_ATTR]).toBe('')
     expect(button.properties[DOWNLOAD_ATTR_DATA_ATTR]).toBeUndefined()
     expect(button.properties.target).toBeUndefined()
+  })
+
+  it('strips the external-link indicator from cross-origin download buttons', () => {
+    const tree: HastRoot = {
+      type: 'root',
+      children: [
+        makeLink('https://example.com/file.zip', 'ダウンロード', [
+          {
+            type: 'element',
+            tagName: 'span',
+            properties: { 'aria-label': 'open in new window' },
+            children: [{ type: 'text', value: ' ⧉' }],
+          },
+        ]),
+      ],
+    }
+
+    applyRehype(tree)
+    const button = tree.children[0] as Element
+    expect(button.children).toHaveLength(1)
+    expect(button.children[0]).toMatchObject({ type: 'text', value: 'ダウンロード' })
   })
 
   it('does not modify links without ダウンロード in the text', () => {
@@ -341,12 +388,12 @@ describe('setupDownloadAdPopup', () => {
     expect(startDownloadFn).toHaveBeenCalledWith('https://example.com/file.zip', undefined, true)
   })
 
-  it('does nothing when the pre-rendered popover is missing', () => {
+  it('still starts the download when the pre-rendered popover is missing', () => {
     const button = makeFakeButton()
     const { startDownloadFn, triggerClick } = makeSetup(button, { popover: null })
 
     triggerClick()
-    expect(startDownloadFn).not.toHaveBeenCalled()
+    expect(startDownloadFn).toHaveBeenCalledWith('https://example.com/file.zip', '', false)
   })
 
   it('does not attach listeners before whenReady fires', () => {
