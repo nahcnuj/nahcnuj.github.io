@@ -38,12 +38,10 @@ function makeFakePopover() {
     _href: '#',
   }
 
-  const trigger = { click: vi.fn() }
-
   return {
+    showPopover: vi.fn(),
     querySelector: (selector: string) => (selector === `#${DOWNLOAD_AD_FALLBACK_ID}` ? fallback : null),
     fallback,
-    trigger,
   }
 }
 
@@ -52,10 +50,8 @@ function makeSetup(
   opts: {
     whenReady?: (fn: () => void) => void
     popover?: ReturnType<typeof makeFakePopover> | null
-    showPopup?: ReturnType<typeof vi.fn>
   } = {},
 ) {
-  const showPopup = opts.showPopup ?? vi.fn()
   const whenReady = opts.whenReady ?? ((fn) => fn())
   const popover = opts.popover === undefined ? makeFakePopover() : opts.popover
 
@@ -63,11 +59,9 @@ function makeSetup(
     whenReady,
     getDownloadLinks: () => links as unknown as HTMLAnchorElement[],
     getPopupElement: () => popover as unknown as HTMLElement | null,
-    getShowTrigger: () => (popover ? popover.trigger : null) as unknown as HTMLButtonElement | null,
-    showPopup: showPopup as never,
   })
 
-  return { showPopup, popover }
+  return { popover }
 }
 
 describe('prepareDownloadAdPopup', () => {
@@ -86,50 +80,34 @@ describe('setupDownloadAdPopup', () => {
 
   it('does not block the native download and opens the popover on click', () => {
     const link = makeFakeLink()
-    const { showPopup, popover } = makeSetup([link])
+    const { popover } = makeSetup([link])
 
     const { preventDefault } = link.triggerClick()
     expect(preventDefault).not.toHaveBeenCalled()
     expect(popover?.fallback.href).toBe('https://example.com/file.zip')
-    expect(showPopup).toHaveBeenCalledOnce()
+    expect(popover?.showPopover).toHaveBeenCalledOnce()
   })
 
   it('does nothing when the pre-rendered popover is missing', () => {
     const link = makeFakeLink()
-    const { showPopup } = makeSetup([link], { popover: null })
+    makeSetup([link], { popover: null })
 
-    link.triggerClick()
-    expect(showPopup).not.toHaveBeenCalled()
-  })
-
-  it('clicks the declarative show trigger by default', () => {
-    const link = makeFakeLink()
-    const popover = makeFakePopover()
-
-    setupDownloadAdPopup({
-      whenReady: (fn) => fn(),
-      getDownloadLinks: () => [link as unknown as HTMLAnchorElement],
-      getPopupElement: () => popover as unknown as HTMLElement,
-      getShowTrigger: () => popover.trigger as unknown as HTMLButtonElement,
-    })
-
-    link.triggerClick()
-    expect(popover.trigger.click).toHaveBeenCalledOnce()
+    expect(() => link.triggerClick()).not.toThrow()
   })
 
   it('does not attach listeners before whenReady fires', () => {
     let readyFn: (() => void) | undefined
     const link = makeFakeLink()
-    const { showPopup } = makeSetup([link], {
+    const { popover } = makeSetup([link], {
       whenReady: (fn) => {
         readyFn = fn
       },
     })
 
     link.triggerClick()
-    expect(showPopup).not.toHaveBeenCalled()
+    expect(popover?.showPopover).not.toHaveBeenCalled()
     readyFn?.()
     link.triggerClick()
-    expect(showPopup).toHaveBeenCalledOnce()
+    expect(popover?.showPopover).toHaveBeenCalledOnce()
   })
 })

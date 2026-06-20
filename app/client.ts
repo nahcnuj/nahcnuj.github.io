@@ -2,7 +2,6 @@ import { createClient } from 'honox/client'
 import { setupAdControl } from './lib/adControl'
 import {
   DOWNLOAD_AD_POPUP_SELECTOR,
-  DOWNLOAD_AD_TRIGGER_SELECTOR,
   DOWNLOAD_LINK_SELECTOR,
   setupDownloadAdPopup,
 } from './lib/downloadAdPopup'
@@ -93,5 +92,4 @@ setupDownloadAdPopup({
   whenReady,
   getDownloadLinks: () => Array.from(document.querySelectorAll<HTMLAnchorElement>(DOWNLOAD_LINK_SELECTOR)),
   getPopupElement: () => document.querySelector<HTMLElement>(DOWNLOAD_AD_POPUP_SELECTOR),
-  getShowTrigger: () => document.querySelector<HTMLButtonElement>(DOWNLOAD_AD_TRIGGER_SELECTOR),
 })

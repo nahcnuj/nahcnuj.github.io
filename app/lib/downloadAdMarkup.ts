@@ -7,8 +7,6 @@ import { ADSENSE_CLIENT_ID, DOWNLOAD_AD_SLOT } from './site'
 
 export const DOWNLOAD_AD_POPUP_ID = 'download-ad-popup'
 export const DOWNLOAD_AD_FALLBACK_ID = 'download-ad-fallback'
-/** Hidden button that opens the popover via `popovertargetaction="show"`. */
-export const DOWNLOAD_AD_TRIGGER_ID = 'download-ad-trigger'
 
 /** Literal AdSense loader for `<head>`. */
 export function adsenseLoaderMarkup(): string {
@@ -32,8 +30,7 @@ export function downloadAdPopupMarkup(): string {
 
 /** Literal popover markup appended to pages that contain download links. */
 export function downloadAdDialogMarkup(): string {
-  return `<button type="button" id="${DOWNLOAD_AD_TRIGGER_ID}" popovertarget="${DOWNLOAD_AD_POPUP_ID}" popovertargetaction="show" hidden tabindex="-1" aria-hidden="true"></button>
-<div id="${DOWNLOAD_AD_POPUP_ID}" popover="auto" class="${DOWNLOAD_DIALOG_CLASS}" aria-label="${DOWNLOAD_DIALOG_LABEL}">
+  return `<div id="${DOWNLOAD_AD_POPUP_ID}" popover="auto" class="${DOWNLOAD_DIALOG_CLASS}" aria-label="${DOWNLOAD_DIALOG_LABEL}">
 <button type="button" popovertarget="${DOWNLOAD_AD_POPUP_ID}" popovertargetaction="hide" class="download-ad-close-icon" aria-label="閉じる（×）">×</button>
 <p>ダウンロードを開始しました。<a id="${DOWNLOAD_AD_FALLBACK_ID}" href="#">${DOWNLOAD_FALLBACK_LINK_TEXT}</a></p>
 <div class="download-ad-container">
