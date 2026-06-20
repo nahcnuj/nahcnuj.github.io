@@ -118,13 +118,20 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   <meta name="twitter:card" content="summary_large_image">
   ${<Script src="/app/client.ts" async />}
   ${<Style>{rootStyle}</Style>}
-  <link rel="alternate" type="application/rss+xml" title="nahcnuj.work" href="/feed.xml">
-  ${import.meta.env.PROD ? gtagSnippets.head : html`<!-- -->\n`}\
-  ${import.meta.env.PROD ? ninjaAccessSnippets.head : html`<!-- -->\n`}\
-  ${import.meta.env.PROD ? adsenseSnippet : html`<!-- -->\n`}\
-  ${props.useMath && html`<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap">`}\
+  <link rel="alternate" type="application/rss+xml" title="www.nahcnuj.work" href="/feed.xml">
+  ${import.meta.env.PROD && gtagSnippets.head}\
+  ${import.meta.env.PROD && ninjaAccessSnippets.head}\
+  ${import.meta.env.PROD && adsenseSnippet}\
+  ${props.useMath && html`\
+  <link rel="preload" href="https://mathfonts.github.io/LatinModern/latinmodern-math.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://mathfonts.github.io/LatinModern/mathfonts.css">
+  <style>
+    math{font-family:Latin Modern Math,serif}
+    math[display=block]{margin-block:1rem}
+    .tml-left{text-align:left}
+  </style>
+`}\
   ${props.headInjection}\
-  <style>.tml-left{text-align:left}</style>\
 </head>
 <body>
   ${props.children}
