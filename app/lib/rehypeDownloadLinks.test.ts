@@ -30,6 +30,10 @@ describe('isDownloadLinkText', () => {
     expect(isDownloadLinkText(makeLink('/files/sample.pdf', 'PDFを開く'))).toBe(false)
   })
 
+  it('returns false when link text contains ダウンロード but href has no file extension', () => {
+    expect(isDownloadLinkText(makeLink('/download-page', 'ダウンロードページへ'))).toBe(false)
+  })
+
   it('returns false when href is missing', () => {
     const node: Element = {
       type: 'element',

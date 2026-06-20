@@ -6,6 +6,22 @@ import { SITE_URL } from './site'
 export const DOWNLOAD_LINK_MARKER = 'ダウンロード'
 export const DOWNLOAD_AD_DATA_ATTR = 'data-download-ad'
 
+/** Returns true when link text contains 「ダウンロード」. */
+export function hasDownloadLinkMarker(text: string): boolean {
+  return text.includes(DOWNLOAD_LINK_MARKER)
+}
+
+/** Returns true when the href looks like a direct file download (has a file extension). */
+export function hasDownloadableExtension(href: string): boolean {
+  const path = href.split(/[?#]/)[0] ?? ''
+  return /\.[a-zA-Z0-9]{1,8}$/.test(path)
+}
+
+/** Returns true for a 「ダウンロード」 link whose href points at a downloadable file. */
+export function isDownloadLink(href: string, text: string): boolean {
+  return href.length > 0 && hasDownloadLinkMarker(text) && hasDownloadableExtension(href)
+}
+
 /** Returns true when the browser can honour the `download` attribute for this href. */
 export function isSameOriginDownloadHref(href: string): boolean {
   if (href.startsWith('/') || href.startsWith('./') || href.startsWith('../')) return true
@@ -21,7 +37,7 @@ export function isDownloadLinkText(element: Element): boolean {
   if (element.tagName !== 'a') return false
   const href = element.properties?.href
   if (typeof href !== 'string' || href.length === 0) return false
-  return hastToString(element).includes(DOWNLOAD_LINK_MARKER)
+  return isDownloadLink(href, hastToString(element))
 }
 
 /** Removes the external-link indicator span injected by rehype-external-links. */

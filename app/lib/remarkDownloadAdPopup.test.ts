@@ -35,6 +35,31 @@ describe('remarkDownloadAdPopup', () => {
     expect((tree.children[0] as { value: string }).value).toContain(`${DOWNLOAD_AD_POPUP_FRONTMATTER_KEY}: true`)
   })
 
+  it('does not modify frontmatter when link text contains ダウンロード but href has no file extension', () => {
+    const tree: Root = {
+      type: 'root',
+      children: [
+        {
+          type: 'yaml',
+          value: 'title: Regular article\npublished: 2026-06-20\n',
+        },
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'link',
+              url: '/download-page',
+              children: [{ type: 'text', value: 'ダウンロードページへ' }],
+            },
+          ],
+        },
+      ],
+    }
+
+    applyPlugin(tree)
+    expect((tree.children[0] as { value: string }).value).not.toContain(`${DOWNLOAD_AD_POPUP_FRONTMATTER_KEY}:`)
+  })
+
   it('does not modify frontmatter when no download link is present', () => {
     const tree: Root = {
       type: 'root',
