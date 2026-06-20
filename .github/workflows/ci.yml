@@ -32,6 +32,8 @@ jobs:
         run: npm ci --omit dev --ignore-scripts --prefer-offline
       - name: Build
         run: npm run build
+      - name: Verify client script on pages without islands
+        run: node scripts/verify-client-script.mjs
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:

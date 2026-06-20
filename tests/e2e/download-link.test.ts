@@ -140,6 +140,7 @@ describe('Download link E2E: popup and download flow', () => {
     expect(response.status()).toBe(200)
 
     const html = await response.text()
+    expect(html).toMatch(/<script[^>]*type="module"[^>]*src="\/app\/client\.ts"/)
     expect(html).toMatch(
       new RegExp(`<script[^>]*src="[^"]*adsbygoogle\\.js\\?client=${ADSENSE_CLIENT_ID}"[^>]*>`),
     )

@@ -16,7 +16,8 @@
     "test": "vitest run",
     "test:e2e": "vitest run --config vitest.config.e2e.ts",
     "test:vrt": "playwright test",
-    "test:vrt:update": "playwright test --update-snapshots"
+    "test:vrt:update": "playwright test --update-snapshots",
+    "verify:client-script": "node scripts/verify-client-script.mjs"
   },
   "dependencies": {
     "@daiji256/rehype-mathml": "^1.2.2",
