@@ -20,7 +20,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v6
@@ -43,7 +43,7 @@ jobs:
         run: npm ci --omit dev --ignore-scripts --prefer-offline
       - name: Restore dist cache
         id: dist-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: dist
           key: update-dist-${{ runner.os }}-${{ hashFiles('package-lock.json', 'vite.config.ts', 'tsconfig.json', 'app/**/*.ts', 'app/**/*.tsx', 'app/**/*.mdx', 'renderers/**/*.ts', 'public/**') }}
@@ -52,7 +52,7 @@ jobs:
         run: npm run build
       - name: Save dist cache
         if: steps.dist-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: dist
           key: ${{ steps.dist-cache.outputs.cache-primary-key }}
