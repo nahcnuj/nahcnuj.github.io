@@ -1,6 +1,6 @@
 import { createClient } from 'honox/client'
 import { setupAdControl } from './lib/adControl'
-import { setupDownloadAdPopup } from './lib/downloadAd'
+import { setupDownloadAdPopup } from './components/DownloadAdDialog'
 import { setupMakamujoBannerTracking } from './lib/makamujoBannerTracker'
 import { type GtagFn, setupScrollDepthTracking } from './lib/scrollDepthTracker'
 

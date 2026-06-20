@@ -7,8 +7,8 @@
 import { type ChildProcess, spawn } from 'node:child_process'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { chromium, type Browser, type Page } from 'playwright'
-import { expectDownloadAdDialogHtml } from '../../app/lib/downloadAdExpectations'
-import { DOWNLOAD_FALLBACK_LINK_TEXT } from '../../app/lib/downloadAd'
+import { DOWNLOAD_FALLBACK_LINK_TEXT } from '../../app/components/DownloadAdDialog'
+import { expectDownloadAdDialogHtml } from '../../app/components/DownloadAdDialog.test'
 import { ADSENSE_CLIENT_ID } from '../../app/lib/site'
 
 const FIXTURE_ROUTE = '/essays/download-link'
