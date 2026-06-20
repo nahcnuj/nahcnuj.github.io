@@ -39,6 +39,7 @@ function makeFakeDialog() {
   }
 
   return {
+    open: false,
     showModal: vi.fn(),
     querySelector: (selector: string) => (selector === `#${DOWNLOAD_AD_FALLBACK_ID}` ? fallback : null),
     fallback,
@@ -97,6 +98,17 @@ describe('setupDownloadAdPopup', () => {
 
     link.triggerClick()
     expect(showPopup).not.toHaveBeenCalled()
+  })
+
+  it('does not call showModal when the dialog is already open', () => {
+    const link = makeFakeLink()
+    const dialog = makeFakeDialog()
+    dialog.open = true
+    makeSetup([link], { dialog })
+
+    link.triggerClick()
+    expect(dialog.showModal).not.toHaveBeenCalled()
+    expect(dialog.fallback.href).toBe('https://example.com/file.zip')
   })
 
   it('does not attach listeners before whenReady fires', () => {

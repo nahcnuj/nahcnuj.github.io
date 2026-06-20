@@ -43,7 +43,7 @@ export function setupDownloadAdPopup({
   getDownloadLinks,
   getPopupDialog,
   showPopup = (dialog) => {
-    dialog.showModal()
+    if (!dialog.open) dialog.showModal()
   },
 }: DownloadAdPopupOptions): void {
   whenReady(() => {
