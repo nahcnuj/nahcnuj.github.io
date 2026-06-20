@@ -122,55 +122,18 @@ export default function Article({
   relatedArticles?: ArticleLink[]
   currentPath?: string
 }) {
-  // biome-ignore lint/suspicious/noExplicitAny: internal traversal of JSX tree
-  const childArray = children && Array.isArray((children as any).children) ? (children as any).children : undefined
-
-  if (Array.isArray(childArray)) {
-    const newChildren = []
-    let paragraphCount = 0
-
-    for (const child of childArray) {
-      if (
-        child.type === 'p' ||
-        child.type === 'h3' ||
-        child.type === 'h4' ||
-        child.type === 'pre' ||
-        child.type === 'div'
-      ) {
-        paragraphCount++
-        if (paragraphCount >= 7) {
-          newChildren.push(
-            <AdMax height="270px">
-              {html`
-<!-- admax -->
-<div class="admax-switch" data-admax-id="70a63675255ffbb9d4ac3fedd2a19b3d" style="display:inline-block;"></div>
-<script type="text/javascript">
-(admaxads = window.admaxads || []).push({admax_id: "70a63675255ffbb9d4ac3fedd2a19b3d",type: "switch"});</script>
-${'' /*<script type="text/javascript" charset="utf-8" src="https://adm.shinobi.jp/st/t.js" async></script>*/}\
-<!-- admax -->
-`}
-            </AdMax>,
-          )
-          paragraphCount = 0
-        }
-      }
-      newChildren.push(child)
-    }
-    children.children = newChildren
-  }
-
   const isIndexPage = currentPath?.endsWith('/index.html') ?? false
 
   return (
     <article class={articleClass}>
       {children}
-      {!isIndexPage && <MakamujoBanner />}
       {relatedArticles && relatedArticles.length > 0 && currentPath && (
         <>
           <h2>他の記事</h2>
           <RelatedArticles articles={relatedArticles} />
         </>
       )}
+      {!isIndexPage && <MakamujoBanner />}
     </article>
   )
 }
