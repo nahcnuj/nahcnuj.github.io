@@ -21,7 +21,3 @@ wrangler.toml
 yarn.lock
 pnpm-lock.yaml
 bun.lockb
-
-# Grok Build
-terminals/
-/*.html
