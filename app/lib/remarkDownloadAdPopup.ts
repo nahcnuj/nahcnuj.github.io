@@ -1,5 +1,5 @@
 import type { Root } from 'mdast'
-import { toString } from 'mdast-util-to-string'
+import { toString as mdastToString } from 'mdast-util-to-string'
 import { visit } from 'unist-util-visit'
 import { DOWNLOAD_LINK_MARKER } from './rehypeDownloadLinks'
 
@@ -14,7 +14,7 @@ export function remarkDownloadAdPopup() {
     let hasDownloadLink = false
 
     visit(tree, 'link', (node) => {
-      if (toString(node).includes(DOWNLOAD_LINK_MARKER)) {
+      if (mdastToString(node).includes(DOWNLOAD_LINK_MARKER)) {
         hasDownloadLink = true
       }
     })

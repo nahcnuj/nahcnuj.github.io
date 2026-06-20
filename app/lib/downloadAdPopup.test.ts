@@ -27,7 +27,6 @@ function makeFakeLink(href = 'https://example.com/file.zip', download: string | 
 
 function makeFakeDialog() {
   const fallback = {
-    href: '#',
     download: '',
     removeAttribute: vi.fn(),
     set href(value: string) {
