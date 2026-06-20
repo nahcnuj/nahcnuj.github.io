@@ -60,6 +60,19 @@ export function resolveDownloadHref(button: HTMLButtonElement, baseUrl?: string)
   }
 }
 
+/** Resolves the `download` attribute value; empty string means "use the URL filename". */
+export function resolveDownloadFilename(href: string, download?: string): string | undefined {
+  if (download === undefined) return undefined
+  if (download.length > 0) return download
+
+  try {
+    const base = typeof document !== 'undefined' ? document.baseURI : 'https://www.nahcnuj.work/'
+    return new URL(href, base).pathname.split('/').filter(Boolean).pop() ?? ''
+  } catch {
+    return ''
+  }
+}
+
 /** Updates the fallback link inside the pre-rendered download popover. */
 export function prepareDownloadAdPopup(popover: HTMLElement, href: string, download?: string): void {
   const fallback = popover.querySelector(`#${DOWNLOAD_AD_FALLBACK_ID}`)
@@ -67,23 +80,30 @@ export function prepareDownloadAdPopup(popover: HTMLElement, href: string, downl
 
   const anchor = fallback as HTMLAnchorElement
   anchor.href = href
-  if (download !== undefined) {
-    anchor.download = download
+  const filename = resolveDownloadFilename(href, download)
+  if (filename !== undefined) {
+    anchor.download = filename
   } else {
     anchor.removeAttribute('download')
   }
 }
 
-/** Programmatically starts a download from a transient anchor element (see E2E download-link tests). */
+/** Programmatically starts a download via a short-lived anchor in `document.body`. */
 export function startDownload(href: string, download?: string, newTab = false): void {
   const anchor = document.createElement('a')
   anchor.href = href
-  if (download !== undefined) anchor.download = download
+  const filename = resolveDownloadFilename(href, download)
+  if (filename !== undefined) {
+    anchor.download = filename
+  }
   if (newTab) {
     anchor.target = '_blank'
     anchor.rel = 'noopener noreferrer'
   }
+  anchor.style.display = 'none'
+  document.body.appendChild(anchor)
   anchor.click()
+  anchor.remove()
 }
 
 function defaultFindDownloadButton(target: EventTarget | null): HTMLButtonElement | null {
@@ -104,7 +124,7 @@ export function setupDownloadAdPopup({
   startDownload: startDownloadFn = startDownload,
   getPopupElement = () => document.querySelector<HTMLElement>(DOWNLOAD_AD_POPUP_SELECTOR),
   findDownloadButton = defaultFindDownloadButton,
-  addClickListener = (handler) => document.addEventListener('click', handler),
+  addClickListener = (handler) => document.addEventListener('click', handler, { capture: true }),
   hasDownloadUi = defaultHasDownloadUi,
   baseUrl,
   gtagFn,

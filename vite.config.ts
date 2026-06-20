@@ -56,7 +56,8 @@ function devFixturesPlugin(): Plugin {
         }
         res.setHeader('Content-Type', contentTypes[ext] ?? 'application/octet-stream')
         if (ext === '.pdf') {
-          res.setHeader('Content-Disposition', 'inline')
+          const filename = relativePath.split('/').pop() ?? 'download.pdf'
+          res.setHeader('Content-Disposition', `attachment; filename="${filename}"`)
         }
 
         const stream = createReadStream(fixturePath)

@@ -14,6 +14,7 @@ import DownloadAdDialog, {
   DOWNLOAD_DIALOG_CLASS,
   DOWNLOAD_DIALOG_LABEL,
   DOWNLOAD_FALLBACK_LINK_TEXT,
+  resolveDownloadFilename,
   resolveDownloadHref,
   setupDownloadAdPopup,
 } from './DownloadAdDialog'
@@ -203,6 +204,20 @@ describe('DownloadAdDialog', () => {
     expect(htmlAttr(closeButton, 'type')).toBe('button')
     expect(htmlAttr(closeButton, 'popovertarget')).toBe(DOWNLOAD_AD_POPUP_ID)
     expect(htmlAttr(closeButton, 'popovertargetaction')).toBe('hide')
+  })
+})
+
+describe('resolveDownloadFilename', () => {
+  it('returns an explicit filename when provided', () => {
+    expect(resolveDownloadFilename('https://example.com/a.pdf', 'custom.pdf')).toBe('custom.pdf')
+  })
+
+  it('derives the filename from the href when download is an empty string', () => {
+    expect(resolveDownloadFilename('https://example.com/path/test.pdf', '')).toBe('test.pdf')
+  })
+
+  it('returns undefined when download is omitted', () => {
+    expect(resolveDownloadFilename('https://example.com/test.pdf')).toBeUndefined()
   })
 })
 
