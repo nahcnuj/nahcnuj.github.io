@@ -10,8 +10,6 @@ import { prepareDownloadAdPopup, resolveDownloadHref, setupDownloadAdPopup } fro
 type FakeButton = {
   getAttribute: (name: string) => string | null
   hasAttribute: (name: string) => boolean
-  addEventListener: (event: string, handler: (e: Event) => void) => void
-  triggerClick: () => { preventDefault: ReturnType<typeof vi.fn> }
 }
 
 function makeFakeButton(
@@ -19,7 +17,6 @@ function makeFakeButton(
   opts: { sameOrigin?: boolean; newTab?: boolean } = {},
 ): FakeButton {
   const { sameOrigin = true, newTab = false } = opts
-  let clickHandler: ((e: Event) => void) | undefined
   return {
     getAttribute: (name) => {
       if (name === DOWNLOAD_HREF_DATA_ATTR) return href
@@ -29,14 +26,6 @@ function makeFakeButton(
       if (name === DOWNLOAD_ATTR_DATA_ATTR) return sameOrigin
       if (name === DOWNLOAD_NEW_TAB_DATA_ATTR) return newTab
       return false
-    },
-    addEventListener: (event, handler) => {
-      if (event === 'click') clickHandler = handler
-    },
-    triggerClick: () => {
-      const e = { preventDefault: vi.fn() }
-      clickHandler?.(e as unknown as Event)
-      return e
     },
   }
 }
@@ -61,7 +50,7 @@ function makeFakePopover() {
 }
 
 function makeSetup(
-  buttons: FakeButton[],
+  button: FakeButton | null,
   opts: {
     whenReady?: (fn: () => void) => void
     popover?: ReturnType<typeof makeFakePopover> | null
@@ -71,15 +60,19 @@ function makeSetup(
   const whenReady = opts.whenReady ?? ((fn) => fn())
   const popover = opts.popover === undefined ? makeFakePopover() : opts.popover
   const startDownloadFn = opts.startDownload ?? vi.fn()
+  let clickHandler: ((event: Event) => void) | undefined
 
   setupDownloadAdPopup({
     whenReady,
-    getDownloadButtons: () => buttons as unknown as HTMLButtonElement[],
     getPopupElement: () => popover as unknown as HTMLElement | null,
+    findDownloadButton: () => (button ? (button as unknown as HTMLButtonElement) : null),
+    addClickListener: (handler) => {
+      clickHandler = handler
+    },
     startDownload: startDownloadFn,
   })
 
-  return { popover, startDownloadFn }
+  return { popover, startDownloadFn, triggerClick: () => clickHandler?.({ target: button } as Event) }
 }
 
 describe('resolveDownloadHref', () => {
@@ -107,45 +100,44 @@ describe('setupDownloadAdPopup', () => {
     vi.clearAllMocks()
   })
 
-  it('updates the fallback link and starts the download on button click', () => {
+  it('updates the fallback link and starts the download without opening the popover in script', () => {
     const button = makeFakeButton('https://example.com/file.zip')
-    const { popover, startDownloadFn } = makeSetup([button])
+    const { popover, startDownloadFn, triggerClick } = makeSetup(button)
 
-    const { preventDefault } = button.triggerClick()
-    expect(preventDefault).not.toHaveBeenCalled()
+    triggerClick()
     expect(popover?.fallback.href).toBe('https://example.com/file.zip')
     expect(startDownloadFn).toHaveBeenCalledWith('https://example.com/file.zip', '', false)
   })
 
   it('opens cross-origin downloads in a new tab', () => {
     const button = makeFakeButton('https://example.com/file.zip', { sameOrigin: false, newTab: true })
-    const { startDownloadFn } = makeSetup([button])
+    const { startDownloadFn, triggerClick } = makeSetup(button)
 
-    button.triggerClick()
+    triggerClick()
     expect(startDownloadFn).toHaveBeenCalledWith('https://example.com/file.zip', undefined, true)
   })
 
   it('does nothing when the pre-rendered popover is missing', () => {
     const button = makeFakeButton()
-    const { startDownloadFn } = makeSetup([button], { popover: null })
+    const { startDownloadFn, triggerClick } = makeSetup(button, { popover: null })
 
-    button.triggerClick()
+    triggerClick()
     expect(startDownloadFn).not.toHaveBeenCalled()
   })
 
   it('does not attach listeners before whenReady fires', () => {
     let readyFn: (() => void) | undefined
     const button = makeFakeButton()
-    const { startDownloadFn } = makeSetup([button], {
+    const { startDownloadFn, triggerClick } = makeSetup(button, {
       whenReady: (fn) => {
         readyFn = fn
       },
     })
 
-    button.triggerClick()
+    triggerClick()
     expect(startDownloadFn).not.toHaveBeenCalled()
     readyFn?.()
-    button.triggerClick()
+    triggerClick()
     expect(startDownloadFn).toHaveBeenCalledOnce()
   })
 })

@@ -1,10 +1,6 @@
 import { createClient } from 'honox/client'
 import { setupAdControl } from './lib/adControl'
-import {
-  DOWNLOAD_AD_POPUP_SELECTOR,
-  DOWNLOAD_LINK_SELECTOR,
-  setupDownloadAdPopup,
-} from './lib/downloadAdPopup'
+import { setupDownloadAdPopup } from './lib/downloadAdPopup'
 import { setupMakamujoBannerTracking } from './lib/makamujoBannerTracker'
 import { type GtagFn, setupScrollDepthTracking } from './lib/scrollDepthTracker'
 
@@ -88,8 +84,4 @@ setupMakamujoBannerTracking({
   maxDelayMs: 500,
 })
 
-setupDownloadAdPopup({
-  whenReady,
-  getDownloadButtons: () => Array.from(document.querySelectorAll<HTMLButtonElement>(DOWNLOAD_LINK_SELECTOR)),
-  getPopupElement: () => document.querySelector<HTMLElement>(DOWNLOAD_AD_POPUP_SELECTOR),
-})
+setupDownloadAdPopup({ whenReady })

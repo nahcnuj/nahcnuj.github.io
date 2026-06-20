@@ -15,12 +15,14 @@ export {
 export interface DownloadAdPopupOptions {
   /** Calls `fn` once the DOM is ready to be queried. */
   whenReady: (fn: () => void) => void
-  /** Returns download buttons produced by the rehype plugin. */
-  getDownloadButtons: () => HTMLButtonElement[]
-  /** Returns the pre-rendered download popover element. */
-  getPopupElement: () => HTMLElement | null
-  /** Starts a file download without blocking the popover trigger. */
+  /** Starts a file download (buttons cannot download natively). */
   startDownload?: (href: string, download?: string, newTab?: boolean) => void
+  /** @internal Test override for the pre-rendered popover element. */
+  getPopupElement?: () => HTMLElement | null
+  /** @internal Test override for resolving a clicked download button. */
+  findDownloadButton?: (target: EventTarget | null) => HTMLButtonElement | null
+  /** @internal Test override for registering the delegated click handler. */
+  addClickListener?: (handler: (event: Event) => void) => void
 }
 
 /** Resolves a button's `data-download-href` against the current document URL. */
@@ -61,32 +63,42 @@ export function startDownload(href: string, download?: string, newTab = false): 
   anchor.click()
 }
 
+function defaultFindDownloadButton(target: EventTarget | null): HTMLButtonElement | null {
+  if (!(target instanceof Element)) return null
+  const button = target.closest(DOWNLOAD_LINK_SELECTOR)
+  return button instanceof HTMLButtonElement ? button : null
+}
+
 /**
  * Wires download buttons to the pre-rendered AdSense popover.
- * The popover opens declaratively via `popovertarget`; this script only updates
- * the fallback link and starts the file download.
+ *
+ * Popover open/close (including re-clicks while already open) is handled
+ * declaratively by `popovertarget` / `popovertargetaction` on the buttons.
+ * This script only updates the fallback link and starts the file download.
  */
 export function setupDownloadAdPopup({
   whenReady,
-  getDownloadButtons,
-  getPopupElement,
   startDownload: startDownloadFn = startDownload,
+  getPopupElement = () => document.querySelector<HTMLElement>(DOWNLOAD_AD_POPUP_SELECTOR),
+  findDownloadButton = defaultFindDownloadButton,
+  addClickListener = (handler) => document.addEventListener('click', handler),
 }: DownloadAdPopupOptions): void {
   whenReady(() => {
     const popover = getPopupElement()
     if (!popover) return
 
-    for (const button of getDownloadButtons()) {
-      button.addEventListener('click', () => {
-        const href = resolveDownloadHref(button)
-        if (!href) return
+    addClickListener((event) => {
+      const button = findDownloadButton(event.target)
+      if (!button) return
 
-        const download = button.hasAttribute(DOWNLOAD_ATTR_DATA_ATTR) ? '' : undefined
-        const newTab = button.hasAttribute(DOWNLOAD_NEW_TAB_DATA_ATTR)
-        prepareDownloadAdPopup(popover, href, download)
-        startDownloadFn(href, download, newTab)
-      })
-    }
+      const href = resolveDownloadHref(button)
+      if (!href) return
+
+      const download = button.hasAttribute(DOWNLOAD_ATTR_DATA_ATTR) ? '' : undefined
+      const newTab = button.hasAttribute(DOWNLOAD_NEW_TAB_DATA_ATTR)
+      prepareDownloadAdPopup(popover, href, download)
+      startDownloadFn(href, download, newTab)
+    })
   })
 }
 
