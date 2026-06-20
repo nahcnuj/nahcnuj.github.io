@@ -56,6 +56,7 @@ const rootStyle = css`
   }
 
   .download-ad-dialog {
+    position: relative;
     box-sizing: border-box;
     width: min(100% - 2rem, 28rem);
     margin: auto;
