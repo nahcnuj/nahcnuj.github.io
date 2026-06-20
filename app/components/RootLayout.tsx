@@ -2,7 +2,7 @@ import { css, Style } from 'hono/css'
 import { html } from 'hono/html'
 import type { PropsWithChildren } from 'hono/jsx'
 import { Script } from 'honox/server'
-import { THEME_BASE_COLOR, THEME_MAIN_COLOR } from '../lib/site'
+import { ADSENSE_CLIENT_ID, THEME_BASE_COLOR, THEME_MAIN_COLOR } from '../lib/site'
 
 interface OpenGraphData {
   url?: string
@@ -52,6 +52,71 @@ const rootStyle = css`
   a:active, a:hover {
     color: var(--theme-accent-color);
   }
+
+  .download-ad-dialog {
+    box-sizing: border-box;
+    width: min(100% - 2rem, 28rem);
+    margin: auto;
+    padding: 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: var(--theme-base-color, #e6e6ff);
+    color: var(--theme-main-color, #000047);
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
+    font-family: inherit;
+  }
+
+  .download-ad-dialog::backdrop {
+    background: rgba(0, 0, 71, 0.45);
+  }
+
+  .download-ad-dialog form {
+    margin: 0;
+  }
+
+  .download-ad-dialog p {
+    margin: 0 0 1rem;
+    padding-inline-end: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .download-ad-dialog .download-ad-container {
+    min-height: 250px;
+    margin-block-end: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .download-ad-dialog .download-ad-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .download-ad-dialog .download-ad-close-icon {
+    border: 1pt solid currentColor;
+    border-radius: 0.25rem;
+    padding: 0.1rem 0.45rem;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    line-height: 1;
+    font-size: 1.25rem;
+  }
+
+  .download-ad-dialog .download-ad-close {
+    border: 1pt solid currentColor;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
 `
 
 const GA4_MEASUREMENT_ID = 'G-RMH8Q8RB96'
@@ -82,9 +147,9 @@ const OpenGraph = ({ url, image }: OpenGraphData) =>
   ) : null
 
 const adsenseSnippet = html`\
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1645913691678081"
-    crossorigin="anonymous"></script>
-  `
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}"
+     crossorigin="anonymous"></script>
+`
 
 const Layout = (props: PropsWithChildren<Meta>) => html`
 <html lang="ja">
@@ -104,7 +169,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   ${<Style>{rootStyle}</Style>}
   <link rel="alternate" type="application/rss+xml" title="www.nahcnuj.work" href="/feed.xml">
   ${import.meta.env.PROD && gtagSnippets.head}\
-  ${import.meta.env.PROD && adsenseSnippet}\
+  ${adsenseSnippet}\
   ${
     props.useMath &&
     html`\

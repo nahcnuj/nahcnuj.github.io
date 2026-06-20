@@ -1,11 +1,13 @@
-import { cpSync, mkdirSync, readdirSync, rmSync } from 'node:fs'
-import { join } from 'node:path'
+import { cpSync, createReadStream, existsSync, mkdirSync, readdirSync, rmSync, statSync } from 'node:fs'
+import { extname, join } from 'node:path'
 import rehypeMathML from '@daiji256/rehype-mathml'
 import ssg from '@hono/vite-ssg'
 import mdx from '@mdx-js/rollup'
 import honox from 'honox/vite'
 import rehypeExternalLinks from 'rehype-external-links'
 import rehypeSlug from 'rehype-slug'
+import { rehypeDownloadLinks } from './app/lib/rehypeDownloadLinks'
+import { remarkDownloadAdPopup } from './app/lib/remarkDownloadAdPopup'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMath from 'remark-math'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
@@ -19,25 +21,38 @@ function devFixturesPlugin(): Plugin {
       const fixturesDir = join(process.cwd(), 'app/fixtures')
       const routesDir = join(process.cwd(), 'app/routes')
 
-      function copyMdxFiles(srcDir: string, destDir: string) {
-        let destDirCreated = false
+      function copyFixtureFiles(srcDir: string, destDir: string) {
         for (const entry of readdirSync(srcDir, { withFileTypes: true })) {
           const srcPath = join(srcDir, entry.name)
           const destPath = join(destDir, entry.name)
           if (entry.isDirectory()) {
-            copyMdxFiles(srcPath, destPath)
-          } else if (entry.name.endsWith('.mdx')) {
-            if (!destDirCreated) {
-              mkdirSync(destDir, { recursive: true })
-              destDirCreated = true
-            }
+            copyFixtureFiles(srcPath, destPath)
+          } else if (!entry.name.startsWith('.')) {
+            mkdirSync(destDir, { recursive: true })
             cpSync(srcPath, destPath)
             copiedPaths.push(destPath)
           }
         }
       }
 
-      copyMdxFiles(fixturesDir, routesDir)
+      copyFixtureFiles(fixturesDir, routesDir)
+
+      server.middlewares.use((req, res, next) => {
+        const pathname = decodeURIComponent((req.url ?? '').split('?')[0] ?? '')
+        const relativePath = pathname.replace(/^\//, '')
+        if (!relativePath || relativePath.includes('..')) {
+          next()
+          return
+        }
+
+        const fixturePath = join(fixturesDir, relativePath)
+        if (!existsSync(fixturePath) || !statSync(fixturePath).isFile() || extname(fixturePath) === '.mdx') {
+          next()
+          return
+        }
+
+        createReadStream(fixturePath).pipe(res)
+      })
 
       server.httpServer?.once('close', () => {
         for (const file of copiedPaths) {
@@ -79,7 +94,7 @@ export default defineConfig(({ command, mode }) => {
       ssg({ entry }),
       mdx({
         jsxImportSource: 'hono/jsx',
-        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkMath],
+        remarkPlugins: [remarkFrontmatter, remarkDownloadAdPopup, remarkMdxFrontmatter, remarkMath],
         rehypePlugins: [
           rehypeMathML,
           () =>
@@ -92,6 +107,7 @@ export default defineConfig(({ command, mode }) => {
                 style: 'padding-inline-end:0.5ex;font-size:small;vertical-align:middle',
               },
             }),
+          rehypeDownloadLinks,
           rehypeSlug,
         ],
       }),

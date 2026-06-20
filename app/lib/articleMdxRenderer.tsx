@@ -2,6 +2,7 @@ import { HTTPException } from 'hono/http-exception'
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { X_HONO_DISABLE_SSG_HEADER_KEY } from 'hono/ssg'
 import Article from '../components/Article'
+import DownloadAdDialog from '../components/DownloadAdDialog'
 import { DIRECTORY_ICON, articlesByDirectory, normalizePublished } from './articles'
 import type { ArticleLink } from './articles'
 import { pickRandomN } from './random'
@@ -39,6 +40,7 @@ export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }
     <Layout frontmatter={frontmatter}>
       <Article relatedArticles={relatedArticles} currentPath={currentPath}>
         {children}
+        {frontmatter.downloadAdPopup ? <DownloadAdDialog /> : null}
       </Article>
     </Layout>
   )

@@ -1,0 +1,191 @@
+/**
+ * E2E tests for Markdown download links on app/fixtures/essays/download-link.mdx.
+ *
+ * Verifies that links whose text contains 「ダウンロード」 receive the download
+ * attribute, start downloading immediately on click, and show an AdSense popup
+ * at the same time.
+ */
+import { type ChildProcess, spawn } from 'node:child_process'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { chromium, type Browser, type Page } from 'playwright'
+import { DOWNLOAD_FALLBACK_LINK_TEXT } from '../../app/lib/downloadAdPopup'
+
+const FIXTURE_ROUTE = '/essays/download-link'
+const DOWNLOAD_LINK_TEXT = 'PDFファイル（クリックしてダウンロード）'
+const DIALOG_SELECTOR = 'dialog[open][aria-label="ダウンロード時の広告"]'
+
+describe('Download link E2E: popup and download flow', () => {
+  let devProcess: ChildProcess
+  let baseUrl: string
+  let browser: Browser
+
+  beforeAll(async () => {
+    baseUrl = await new Promise<string>((resolve, reject) => {
+      let resolved = false
+      let stderr = ''
+
+      devProcess = spawn('npm', ['run', 'dev'], {
+        stdio: 'pipe',
+        env: { ...process.env, NO_COLOR: '1' },
+        detached: process.platform !== 'win32',
+        shell: process.platform === 'win32',
+      })
+
+      devProcess.stdout?.on('data', (data: Buffer) => {
+        const match = data.toString().match(/https?:\/\/localhost:\d+/)
+        if (match) {
+          resolved = true
+          resolve(match[0])
+        }
+      })
+
+      devProcess.stderr?.on('data', (data: Buffer) => {
+        stderr += data.toString()
+      })
+
+      devProcess.on('error', reject)
+      devProcess.on('close', (code) => {
+        if (!resolved) {
+          reject(new Error(`npm run dev exited with code ${code} before URL was detected\n${stderr}`))
+        }
+      })
+    })
+
+    browser = await chromium.launch()
+  }, 60_000)
+
+  afterAll(async () => {
+    await browser?.close()
+    if (!devProcess) return
+
+    if (process.platform === 'win32') {
+      spawn('taskkill', ['/pid', String(devProcess.pid), '/T', '/F'], { shell: true })
+      return
+    }
+
+    await new Promise<void>((resolve) => {
+      const pid = devProcess.pid
+      const killTimeout = setTimeout(() => {
+        try {
+          if (pid) process.kill(-pid, 'SIGKILL')
+          else devProcess.kill('SIGKILL')
+        } catch {
+          /* already dead */
+        }
+        resolve()
+      }, 5_000)
+      devProcess.on('close', () => {
+        clearTimeout(killTimeout)
+        resolve()
+      })
+      try {
+        if (pid) process.kill(-pid, 'SIGTERM')
+        else devProcess.kill('SIGTERM')
+      } catch {
+        resolve()
+      }
+    })
+  }, 15_000)
+
+  async function openFixturePage(): Promise<Page> {
+    const page = await browser.newPage()
+    const res = await page.goto(`${baseUrl}${FIXTURE_ROUTE}`)
+    expect(res?.status()).toBe(200)
+    return page
+  }
+
+  it('includes literal AdSense snippets in the HTML output', async () => {
+    const response = await browser.newContext().then((context) => context.request.get(`${baseUrl}${FIXTURE_ROUTE}`))
+    expect(response.status()).toBe(200)
+
+    const html = await response.text()
+    expect(html).toContain(
+      `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1645913691678081"
+     crossorigin="anonymous"></script>`,
+    )
+    expect(html).toContain(`<!-- ポップアップ用 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1645913691678081"
+     data-ad-slot="2208436912"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>`)
+  }, 30_000)
+
+  it('serves the fixture page with download attributes on the link', async () => {
+    const page = await openFixturePage()
+    const link = page.getByRole('link', { name: DOWNLOAD_LINK_TEXT })
+
+    expect(await link.getAttribute('download')).toBe('')
+    expect(await link.getAttribute('data-download-ad')).toBe('')
+    expect(await link.getAttribute('target')).toBeNull()
+
+    await page.close()
+  }, 30_000)
+
+  it('starts downloading and opens a popup when the download link is clicked', async () => {
+    const page = await openFixturePage()
+
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.getByRole('link', { name: DOWNLOAD_LINK_TEXT }).click(),
+    ])
+
+    expect(download.suggestedFilename()).toBe('test.pdf')
+
+    const dialog = page.locator(DIALOG_SELECTOR)
+    expect(await dialog.count()).toBe(1)
+    expect(await dialog.getByText('ダウンロードを開始しました。').isVisible()).toBe(true)
+    expect(await dialog.getByRole('link', { name: DOWNLOAD_FALLBACK_LINK_TEXT }).isVisible()).toBe(true)
+    expect(await dialog.getByRole('button', { name: '閉じる（×）' }).isVisible()).toBe(true)
+    expect(await dialog.getByRole('button', { name: '閉じる', exact: true }).isVisible()).toBe(true)
+
+    await page.close()
+  }, 30_000)
+
+  it('does not open another popup when the fallback link is clicked', async () => {
+    const page = await openFixturePage()
+    await page.getByRole('link', { name: DOWNLOAD_LINK_TEXT }).click()
+
+    const dialog = page.locator(DIALOG_SELECTOR)
+    const fallbackLink = dialog.getByRole('link', { name: DOWNLOAD_FALLBACK_LINK_TEXT })
+    expect(await fallbackLink.getAttribute('data-download-ad')).toBeNull()
+    expect(await fallbackLink.getAttribute('download')).toBe('')
+
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      fallbackLink.click(),
+    ])
+
+    expect(download.suggestedFilename()).toBe('test.pdf')
+    expect(await page.locator(DIALOG_SELECTOR).count()).toBe(1)
+
+    await page.close()
+  }, 30_000)
+
+  it('closes the popup when 閉じる is clicked', async () => {
+    const page = await openFixturePage()
+    await page.getByRole('link', { name: DOWNLOAD_LINK_TEXT }).click()
+
+    const dialog = page.locator(DIALOG_SELECTOR)
+    await dialog.getByRole('button', { name: '閉じる', exact: true }).click()
+    expect(await dialog.count()).toBe(0)
+
+    await page.close()
+  }, 30_000)
+
+  it('closes the popup when Escape is pressed', async () => {
+    const page = await openFixturePage()
+    await page.getByRole('link', { name: DOWNLOAD_LINK_TEXT }).click()
+
+    const dialog = page.locator(DIALOG_SELECTOR)
+    expect(await dialog.count()).toBe(1)
+    await page.keyboard.press('Escape')
+    expect(await dialog.count()).toBe(0)
+
+    await page.close()
+  }, 30_000)
+})
