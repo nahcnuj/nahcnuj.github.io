@@ -51,7 +51,18 @@ function devFixturesPlugin(): Plugin {
           return
         }
 
-        createReadStream(fixturePath).pipe(res)
+        const ext = extname(fixturePath).toLowerCase()
+        const contentTypes: Record<string, string> = {
+          '.pdf': 'application/pdf',
+        }
+        res.setHeader('Content-Type', contentTypes[ext] ?? 'application/octet-stream')
+        if (ext === '.pdf') {
+          res.setHeader('Content-Disposition', 'inline')
+        }
+
+        const stream = createReadStream(fixturePath)
+        stream.on('error', (err) => next(err))
+        stream.pipe(res)
       })
 
       server.httpServer?.once('close', () => {
