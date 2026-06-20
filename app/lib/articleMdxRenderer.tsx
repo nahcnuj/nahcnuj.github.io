@@ -40,7 +40,7 @@ export const articleMdxRenderer = jsxRenderer(({ Layout, children, frontmatter }
     <Layout frontmatter={frontmatter}>
       <Article relatedArticles={relatedArticles} currentPath={currentPath}>
         {children}
-        {frontmatter.downloadAdPopup ? <DownloadAdDialog /> : null}
+        {frontmatter.downloadAdPopup === true ? <DownloadAdDialog /> : null}
       </Article>
     </Layout>
   )

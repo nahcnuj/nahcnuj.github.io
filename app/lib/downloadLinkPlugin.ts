@@ -17,15 +17,20 @@ export const DOWNLOAD_ATTR_DATA_ATTR = 'data-download'
 
 const DOWNLOAD_LINK_MARKER = 'ダウンロード'
 
+/** Page-like extensions that should not be treated as direct file downloads. */
+const NON_DOWNLOAD_EXTENSIONS = new Set(['html', 'htm', 'mdx', 'md', 'php', 'asp', 'aspx', 'jsp'])
+
 /** Returns true when link text contains 「ダウンロード」. */
 function hasDownloadLinkMarker(text: string): boolean {
   return text.includes(DOWNLOAD_LINK_MARKER)
 }
 
 /** Returns true when the href looks like a direct file download (has a file extension). */
-function hasDownloadableExtension(href: string): boolean {
+export function hasDownloadableExtension(href: string): boolean {
   const path = href.split(/[?#]/)[0] ?? ''
-  return /\.[a-zA-Z0-9]{1,8}$/.test(path)
+  const match = path.match(/\.([a-zA-Z0-9]{1,8})$/)
+  if (!match) return false
+  return !NON_DOWNLOAD_EXTENSIONS.has(match[1].toLowerCase())
 }
 
 /** Returns true for a 「ダウンロード」 link whose href points at a downloadable file. */

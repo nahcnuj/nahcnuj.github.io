@@ -8,6 +8,7 @@ import {
   DOWNLOAD_ATTR_DATA_ATTR,
   DOWNLOAD_HREF_DATA_ATTR,
   DOWNLOAD_NEW_TAB_DATA_ATTR,
+  hasDownloadableExtension,
   isDownloadLinkText,
   rehypeDownloadLinks,
   remarkDownloadAdPopup,
@@ -158,6 +159,18 @@ function applyRehype(tree: HastRoot): HastRoot {
   return tree
 }
 
+describe('hasDownloadableExtension', () => {
+  it('returns false for HTML page paths', () => {
+    expect(hasDownloadableExtension('./guide.html')).toBe(false)
+    expect(hasDownloadableExtension('/download.htm')).toBe(false)
+  })
+
+  it('returns true for common binary file extensions', () => {
+    expect(hasDownloadableExtension('./test.pdf')).toBe(true)
+    expect(hasDownloadableExtension('/files/archive.zip')).toBe(true)
+  })
+})
+
 describe('isDownloadLinkText', () => {
   it('returns true when link text contains ダウンロード', () => {
     expect(isDownloadLinkText(makeLink('/files/sample.pdf', 'PDFをダウンロード'))).toBe(true)
@@ -173,6 +186,10 @@ describe('isDownloadLinkText', () => {
 
   it('returns false when link text contains ダウンロード but href has no file extension', () => {
     expect(isDownloadLinkText(makeLink('/download-page', 'ダウンロードページへ'))).toBe(false)
+  })
+
+  it('returns false when link text contains ダウンロード but href points at an HTML page', () => {
+    expect(isDownloadLinkText(makeLink('./guide.html', 'ガイドをダウンロード'))).toBe(false)
   })
 
   it('returns false when href is missing', () => {

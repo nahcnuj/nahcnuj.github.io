@@ -71,6 +71,7 @@ const rootStyle = css`
   }
 
   .download-ad-dialog {
+    display: none;
     position: fixed;
     inset: 0;
     width: min(100% - 2rem, 28rem);
@@ -83,6 +84,10 @@ const rootStyle = css`
     color: var(--theme-main-color, #000047);
     box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
     font-family: inherit;
+  }
+
+  .download-ad-dialog:popover-open {
+    display: block;
   }
 
   .download-ad-dialog p {

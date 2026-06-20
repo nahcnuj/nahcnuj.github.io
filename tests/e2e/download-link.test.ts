@@ -8,11 +8,13 @@ import { type ChildProcess, spawn } from 'node:child_process'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { chromium, type Browser, type Page } from 'playwright'
 import { DOWNLOAD_FALLBACK_LINK_TEXT } from '../../app/components/DownloadAdDialog'
-import { expectDownloadAdDialogHtml } from '../../app/components/DownloadAdDialog.test'
+import { expectDownloadAdDialogHtml } from '../../app/components/downloadAdDialogExpectations'
 import { ADSENSE_CLIENT_ID } from '../../app/lib/site'
 
 const FIXTURE_ROUTE = '/essays/download-link'
+const CROSS_ORIGIN_FIXTURE_ROUTE = '/works/download-link-test'
 const DOWNLOAD_BUTTON_TEXT = 'ダウンロード'
+const CROSS_ORIGIN_DOWNLOAD_BUTTON_TEXT = 'サンプルファイルをダウンロード'
 const POPOVER_SELECTOR = '[popover][aria-label="ダウンロード時の広告"]:popover-open'
 
 describe('Download link E2E: popup and download flow', () => {
@@ -179,6 +181,36 @@ describe('Download link E2E: popup and download flow', () => {
     await page.keyboard.press('Escape')
     expect(await popover.count()).toBe(0)
 
+    await page.close()
+  }, 30_000)
+
+  it('serves the cross-origin fixture with a stripped download button', async () => {
+    const page = await browser.newPage()
+    const res = await page.goto(`${baseUrl}${CROSS_ORIGIN_FIXTURE_ROUTE}`)
+    expect(res?.status()).toBe(200)
+
+    const button = page.getByRole('button', { name: CROSS_ORIGIN_DOWNLOAD_BUTTON_TEXT })
+    expect(await button.getAttribute('data-download-ad')).toBe('')
+    expect(await button.getAttribute('data-download-href')).toBe('https://example.com/sample.pdf')
+    expect(await button.getAttribute('data-download-new-tab')).toBe('')
+    expect(await button.getAttribute('data-download')).toBeNull()
+    expect(await button.textContent()).toBe(CROSS_ORIGIN_DOWNLOAD_BUTTON_TEXT)
+
+    await page.close()
+  }, 30_000)
+
+  it('opens a popup for cross-origin download buttons without starting a same-origin download', async () => {
+    const page = await browser.newPage()
+    await page.goto(`${baseUrl}${CROSS_ORIGIN_FIXTURE_ROUTE}`)
+
+    const popupPromise = page.waitForEvent('popup')
+    await page.getByRole('button', { name: CROSS_ORIGIN_DOWNLOAD_BUTTON_TEXT }).click()
+
+    const popup = await popupPromise
+    expect(popup.url()).toBe('https://example.com/sample.pdf')
+    expect(await page.locator(POPOVER_SELECTOR).count()).toBe(1)
+
+    await popup.close()
     await page.close()
   }, 30_000)
 })

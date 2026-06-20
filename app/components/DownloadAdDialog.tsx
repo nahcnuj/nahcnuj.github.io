@@ -28,6 +28,16 @@ export interface DownloadAdPopupOptions {
   findDownloadButton?: (target: EventTarget | null) => HTMLButtonElement | null
   /** @internal Test override for registering the delegated click handler. */
   addClickListener?: (handler: (event: Event) => void) => void
+  /** @internal Test override for whether the page includes download-popup markup. */
+  hasDownloadUi?: () => boolean
+}
+
+function defaultHasDownloadUi(): boolean {
+  if (typeof document === 'undefined') return false
+  return (
+    document.querySelector(DOWNLOAD_LINK_SELECTOR) !== null ||
+    document.querySelector(DOWNLOAD_AD_POPUP_SELECTOR) !== null
+  )
 }
 
 /** Resolves a button's `data-download-href` against the current document URL. */
@@ -65,7 +75,9 @@ export function startDownload(href: string, download?: string, newTab = false): 
     anchor.target = '_blank'
     anchor.rel = 'noopener noreferrer'
   }
+  document.body.appendChild(anchor)
   anchor.click()
+  anchor.remove()
 }
 
 function defaultFindDownloadButton(target: EventTarget | null): HTMLButtonElement | null {
@@ -87,8 +99,11 @@ export function setupDownloadAdPopup({
   getPopupElement = () => document.querySelector<HTMLElement>(DOWNLOAD_AD_POPUP_SELECTOR),
   findDownloadButton = defaultFindDownloadButton,
   addClickListener = (handler) => document.addEventListener('click', handler),
+  hasDownloadUi = defaultHasDownloadUi,
 }: DownloadAdPopupOptions): void {
   whenReady(() => {
+    if (!hasDownloadUi()) return
+
     addClickListener((event) => {
       const button = findDownloadButton(event.target)
       if (!button) return
