@@ -72,7 +72,7 @@ export default jsxRenderer(
   (
     {
       children,
-      frontmatter: { title, description, usemath: useMath, thumbnail, ...props } = { title: 'Untitled' },
+      frontmatter: { title, description, usemath: useMath, thumbnail, downloadAdPopup, ...props } = { title: 'Untitled' },
     }: {
       children?: Child
       frontmatter?: Partial<Frontmatter>
@@ -95,6 +95,7 @@ export default jsxRenderer(
         description={description}
         openGraph={openGraph}
         useMath={useMath}
+        downloadAdPopup={downloadAdPopup === true}
         headInjection={html`\
 <link rel="preload" href="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d" as="script">
 <link rel="preload" href="https://adm.shinobi.jp/st/t.js" as="script">

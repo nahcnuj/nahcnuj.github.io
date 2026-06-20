@@ -18,6 +18,8 @@ type Meta = {
   openGraph?: OpenGraphData
   useMath?: boolean
   headInjection?: unknown
+  /** When true, inject the AdSense loader in non-production builds (e.g. download-link fixtures). */
+  downloadAdPopup?: boolean
 }
 
 const rootStyle = css`
@@ -169,7 +171,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   ${<Style>{rootStyle}</Style>}
   <link rel="alternate" type="application/rss+xml" title="www.nahcnuj.work" href="/feed.xml">
   ${import.meta.env.PROD && gtagSnippets.head}\
-  ${adsenseSnippet}\
+  ${(import.meta.env.PROD || props.downloadAdPopup) && adsenseSnippet}\
   ${
     props.useMath &&
     html`\
