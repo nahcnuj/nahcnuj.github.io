@@ -13,12 +13,7 @@ interface RelatedArticlesProps {
 }
 
 const relatedArticlesClass = css`
-  margin-block-start: 3rem;
   padding: 1.5rem 1rem;
-  width: 80%;
-  @media screen and (max-width: 600px) {
-    margin-block-start: 1rem;
-  }
 
   & ul {
     list-style: none;
