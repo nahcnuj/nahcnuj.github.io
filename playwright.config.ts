@@ -12,7 +12,8 @@ export default defineConfig({
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
   expect: {
     toHaveScreenshot: {
-      maxDiffPixels: 100,
+      // Allow minor font/subpixel drift between local, Docker, and GHA runners.
+      maxDiffPixelRatio: 0.03,
     },
   },
   use: {
