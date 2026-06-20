@@ -1,19 +1,35 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { DOWNLOAD_AD_FALLBACK_ID } from './downloadAdMarkup'
-import { prepareDownloadAdPopup, setupDownloadAdPopup } from './downloadAdPopup'
+import {
+  DOWNLOAD_ATTR_DATA_ATTR,
+  DOWNLOAD_HREF_DATA_ATTR,
+  DOWNLOAD_NEW_TAB_DATA_ATTR,
+} from './rehypeDownloadLinks'
+import { prepareDownloadAdPopup, resolveDownloadHref, setupDownloadAdPopup } from './downloadAdPopup'
 
-type FakeLink = {
-  href?: string
+type FakeButton = {
   getAttribute: (name: string) => string | null
+  hasAttribute: (name: string) => boolean
   addEventListener: (event: string, handler: (e: Event) => void) => void
   triggerClick: () => { preventDefault: ReturnType<typeof vi.fn> }
 }
 
-function makeFakeLink(href = 'https://example.com/file.zip', download: string | null = ''): FakeLink {
+function makeFakeButton(
+  href = 'https://example.com/file.zip',
+  opts: { sameOrigin?: boolean; newTab?: boolean } = {},
+): FakeButton {
+  const { sameOrigin = true, newTab = false } = opts
   let clickHandler: ((e: Event) => void) | undefined
   return {
-    href,
-    getAttribute: (name) => (name === 'download' ? download : null),
+    getAttribute: (name) => {
+      if (name === DOWNLOAD_HREF_DATA_ATTR) return href
+      return null
+    },
+    hasAttribute: (name) => {
+      if (name === DOWNLOAD_ATTR_DATA_ATTR) return sameOrigin
+      if (name === DOWNLOAD_NEW_TAB_DATA_ATTR) return newTab
+      return false
+    },
     addEventListener: (event, handler) => {
       if (event === 'click') clickHandler = handler
     },
@@ -39,30 +55,43 @@ function makeFakePopover() {
   }
 
   return {
-    showPopover: vi.fn(),
     querySelector: (selector: string) => (selector === `#${DOWNLOAD_AD_FALLBACK_ID}` ? fallback : null),
     fallback,
   }
 }
 
 function makeSetup(
-  links: FakeLink[],
+  buttons: FakeButton[],
   opts: {
     whenReady?: (fn: () => void) => void
     popover?: ReturnType<typeof makeFakePopover> | null
+    startDownload?: ReturnType<typeof vi.fn>
   } = {},
 ) {
   const whenReady = opts.whenReady ?? ((fn) => fn())
   const popover = opts.popover === undefined ? makeFakePopover() : opts.popover
+  const startDownloadFn = opts.startDownload ?? vi.fn()
 
   setupDownloadAdPopup({
     whenReady,
-    getDownloadLinks: () => links as unknown as HTMLAnchorElement[],
+    getDownloadButtons: () => buttons as unknown as HTMLButtonElement[],
     getPopupElement: () => popover as unknown as HTMLElement | null,
+    startDownload: startDownloadFn,
   })
 
-  return { popover }
+  return { popover, startDownloadFn }
 }
+
+describe('resolveDownloadHref', () => {
+  it('resolves relative paths against the document base URL', () => {
+    const button = {
+      getAttribute: (name: string) => (name === DOWNLOAD_HREF_DATA_ATTR ? './test.pdf' : null),
+    } as HTMLButtonElement
+    expect(resolveDownloadHref(button, 'http://localhost:5173/essays/download-link')).toBe(
+      'http://localhost:5173/essays/test.pdf',
+    )
+  })
+})
 
 describe('prepareDownloadAdPopup', () => {
   it('updates the fallback link href and download attribute', () => {
@@ -78,36 +107,45 @@ describe('setupDownloadAdPopup', () => {
     vi.clearAllMocks()
   })
 
-  it('does not block the native download and opens the popover on click', () => {
-    const link = makeFakeLink()
-    const { popover } = makeSetup([link])
+  it('updates the fallback link and starts the download on button click', () => {
+    const button = makeFakeButton('https://example.com/file.zip')
+    const { popover, startDownloadFn } = makeSetup([button])
 
-    const { preventDefault } = link.triggerClick()
+    const { preventDefault } = button.triggerClick()
     expect(preventDefault).not.toHaveBeenCalled()
     expect(popover?.fallback.href).toBe('https://example.com/file.zip')
-    expect(popover?.showPopover).toHaveBeenCalledOnce()
+    expect(startDownloadFn).toHaveBeenCalledWith('https://example.com/file.zip', '', false)
+  })
+
+  it('opens cross-origin downloads in a new tab', () => {
+    const button = makeFakeButton('https://example.com/file.zip', { sameOrigin: false, newTab: true })
+    const { startDownloadFn } = makeSetup([button])
+
+    button.triggerClick()
+    expect(startDownloadFn).toHaveBeenCalledWith('https://example.com/file.zip', undefined, true)
   })
 
   it('does nothing when the pre-rendered popover is missing', () => {
-    const link = makeFakeLink()
-    makeSetup([link], { popover: null })
+    const button = makeFakeButton()
+    const { startDownloadFn } = makeSetup([button], { popover: null })
 
-    expect(() => link.triggerClick()).not.toThrow()
+    button.triggerClick()
+    expect(startDownloadFn).not.toHaveBeenCalled()
   })
 
   it('does not attach listeners before whenReady fires', () => {
     let readyFn: (() => void) | undefined
-    const link = makeFakeLink()
-    const { popover } = makeSetup([link], {
+    const button = makeFakeButton()
+    const { startDownloadFn } = makeSetup([button], {
       whenReady: (fn) => {
         readyFn = fn
       },
     })
 
-    link.triggerClick()
-    expect(popover?.showPopover).not.toHaveBeenCalled()
+    button.triggerClick()
+    expect(startDownloadFn).not.toHaveBeenCalled()
     readyFn?.()
-    link.triggerClick()
-    expect(popover?.showPopover).toHaveBeenCalledOnce()
+    button.triggerClick()
+    expect(startDownloadFn).toHaveBeenCalledOnce()
   })
 })

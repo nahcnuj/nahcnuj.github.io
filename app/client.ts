@@ -90,6 +90,6 @@ setupMakamujoBannerTracking({
 
 setupDownloadAdPopup({
   whenReady,
-  getDownloadLinks: () => Array.from(document.querySelectorAll<HTMLAnchorElement>(DOWNLOAD_LINK_SELECTOR)),
+  getDownloadButtons: () => Array.from(document.querySelectorAll<HTMLButtonElement>(DOWNLOAD_LINK_SELECTOR)),
   getPopupElement: () => document.querySelector<HTMLElement>(DOWNLOAD_AD_POPUP_SELECTOR),
 })

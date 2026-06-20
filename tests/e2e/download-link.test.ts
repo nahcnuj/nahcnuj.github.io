@@ -1,9 +1,8 @@
 /**
  * E2E tests for Markdown download links on app/fixtures/essays/download-link.mdx.
  *
- * Verifies that links whose text contains 「ダウンロード」 receive the download
- * attribute, start downloading immediately on click, and show an AdSense popup
- * at the same time.
+ * Verifies that Markdown links like [ダウンロード](./test.pdf) become popover
+ * buttons, start downloading immediately on click, and show an AdSense popup.
  */
 import { type ChildProcess, spawn } from 'node:child_process'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
@@ -11,7 +10,7 @@ import { chromium, type Browser, type Page } from 'playwright'
 import { DOWNLOAD_FALLBACK_LINK_TEXT } from '../../app/lib/downloadAdPopup'
 
 const FIXTURE_ROUTE = '/essays/download-link'
-const DOWNLOAD_LINK_TEXT = 'PDFファイル（クリックしてダウンロード）'
+const DOWNLOAD_BUTTON_TEXT = 'ダウンロード'
 const POPOVER_SELECTOR = '[popover][aria-label="ダウンロード時の広告"]:popover-open'
 
 describe('Download link E2E: popup and download flow', () => {
@@ -115,13 +114,15 @@ describe('Download link E2E: popup and download flow', () => {
 </script>`)
   }, 30_000)
 
-  it('serves the fixture page with download attributes on the link', async () => {
+  it('serves the fixture page with a popover download button', async () => {
     const page = await openFixturePage()
-    const link = page.getByRole('link', { name: DOWNLOAD_LINK_TEXT })
+    const button = page.getByRole('button', { name: DOWNLOAD_BUTTON_TEXT })
 
-    expect(await link.getAttribute('download')).toBe('')
-    expect(await link.getAttribute('data-download-ad')).toBe('')
-    expect(await link.getAttribute('target')).toBeNull()
+    expect(await button.getAttribute('data-download-ad')).toBe('')
+    expect(await button.getAttribute('data-download-href')).toBe('./test.pdf')
+    expect(await button.getAttribute('data-download')).toBe('')
+    expect(await button.getAttribute('popovertarget')).toBe('download-ad-popup')
+    expect(await button.getAttribute('popovertargetaction')).toBe('show')
 
     await page.close()
   }, 30_000)
@@ -131,7 +132,7 @@ describe('Download link E2E: popup and download flow', () => {
 
     const [download] = await Promise.all([
       page.waitForEvent('download'),
-      page.getByRole('link', { name: DOWNLOAD_LINK_TEXT }).click(),
+      page.getByRole('button', { name: DOWNLOAD_BUTTON_TEXT }).click(),
     ])
 
     expect(download.suggestedFilename()).toBe('test.pdf')
@@ -148,7 +149,7 @@ describe('Download link E2E: popup and download flow', () => {
 
   it('does not open another popup when the fallback link is clicked', async () => {
     const page = await openFixturePage()
-    await page.getByRole('link', { name: DOWNLOAD_LINK_TEXT }).click()
+    await page.getByRole('button', { name: DOWNLOAD_BUTTON_TEXT }).click()
 
     const popover = page.locator(POPOVER_SELECTOR)
     const fallbackLink = popover.getByRole('link', { name: DOWNLOAD_FALLBACK_LINK_TEXT })
@@ -168,7 +169,7 @@ describe('Download link E2E: popup and download flow', () => {
 
   it('closes the popup when 閉じる is clicked', async () => {
     const page = await openFixturePage()
-    await page.getByRole('link', { name: DOWNLOAD_LINK_TEXT }).click()
+    await page.getByRole('button', { name: DOWNLOAD_BUTTON_TEXT }).click()
 
     const popover = page.locator(POPOVER_SELECTOR)
     await popover.getByRole('button', { name: '閉じる', exact: true }).click()
@@ -179,7 +180,7 @@ describe('Download link E2E: popup and download flow', () => {
 
   it('closes the popup when Escape is pressed', async () => {
     const page = await openFixturePage()
-    await page.getByRole('link', { name: DOWNLOAD_LINK_TEXT }).click()
+    await page.getByRole('button', { name: DOWNLOAD_BUTTON_TEXT }).click()
 
     const popover = page.locator(POPOVER_SELECTOR)
     expect(await popover.count()).toBe(1)

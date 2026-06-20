@@ -55,6 +55,21 @@ const rootStyle = css`
     color: var(--theme-accent-color);
   }
 
+  .download-ad-button {
+    border: none;
+    padding: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .download-ad-button:active,
+  .download-ad-button:hover {
+    color: var(--theme-accent-color);
+  }
+
   .download-ad-dialog {
     position: fixed;
     inset: 0;

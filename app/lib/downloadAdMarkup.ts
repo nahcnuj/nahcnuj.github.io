@@ -1,12 +1,12 @@
-import {
-  DOWNLOAD_DIALOG_CLASS,
-  DOWNLOAD_DIALOG_LABEL,
-  DOWNLOAD_FALLBACK_LINK_TEXT,
-} from './downloadAdPopup'
 import { ADSENSE_CLIENT_ID, DOWNLOAD_AD_SLOT } from './site'
 
 export const DOWNLOAD_AD_POPUP_ID = 'download-ad-popup'
 export const DOWNLOAD_AD_FALLBACK_ID = 'download-ad-fallback'
+
+export const DOWNLOAD_DIALOG_LABEL = 'ダウンロード時の広告'
+export const DOWNLOAD_DIALOG_CLASS = 'download-ad-dialog'
+export const DOWNLOAD_AD_BUTTON_CLASS = 'download-ad-button'
+export const DOWNLOAD_FALLBACK_LINK_TEXT = '自動でダウンロードされない場合はこちらをクリックしてください'
 
 /** Literal AdSense loader for `<head>`. */
 export function adsenseLoaderMarkup(): string {

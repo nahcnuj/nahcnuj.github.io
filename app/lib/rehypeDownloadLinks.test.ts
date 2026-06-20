@@ -1,7 +1,11 @@
 import type { Element, Root } from 'hast'
 import { describe, expect, it } from 'vitest'
+import { DOWNLOAD_AD_POPUP_ID } from './downloadAdMarkup'
 import {
   DOWNLOAD_AD_DATA_ATTR,
+  DOWNLOAD_ATTR_DATA_ATTR,
+  DOWNLOAD_HREF_DATA_ATTR,
+  DOWNLOAD_NEW_TAB_DATA_ATTR,
   isDownloadLinkText,
   rehypeDownloadLinks,
   stripExternalLinkIndicator,
@@ -24,6 +28,10 @@ function applyPlugin(tree: Root): Root {
 describe('isDownloadLinkText', () => {
   it('returns true when link text contains ダウンロード', () => {
     expect(isDownloadLinkText(makeLink('/files/sample.pdf', 'PDFをダウンロード'))).toBe(true)
+  })
+
+  it('returns true for [ダウンロード](./test.pdf) style links', () => {
+    expect(isDownloadLinkText(makeLink('./test.pdf', 'ダウンロード'))).toBe(true)
   })
 
   it('returns false when link text does not contain ダウンロード', () => {
@@ -63,41 +71,37 @@ describe('stripExternalLinkIndicator', () => {
 })
 
 describe('rehypeDownloadLinks', () => {
-  it('adds download and data-download-ad attributes for same-origin links', () => {
+  it('replaces same-origin download anchors with popover buttons', () => {
     const tree: Root = {
       type: 'root',
-      children: [makeLink('./test.pdf', 'ファイルをダウンロード')],
+      children: [makeLink('./test.pdf', 'ダウンロード')],
     }
 
     applyPlugin(tree)
-    const link = tree.children[0] as Element
-    expect(link.properties.download).toBe('')
-    expect(link.properties[DOWNLOAD_AD_DATA_ATTR]).toBe('')
+    const button = tree.children[0] as Element
+    expect(button.tagName).toBe('button')
+    expect(button.properties.type).toBe('button')
+    expect(button.properties.popovertarget).toBe(DOWNLOAD_AD_POPUP_ID)
+    expect(button.properties.popovertargetaction).toBe('show')
+    expect(button.properties[DOWNLOAD_AD_DATA_ATTR]).toBe('')
+    expect(button.properties[DOWNLOAD_HREF_DATA_ATTR]).toBe('./test.pdf')
+    expect(button.properties[DOWNLOAD_ATTR_DATA_ATTR]).toBe('')
+    expect(button.properties.href).toBeUndefined()
   })
 
-  it('removes target for same-origin download links', () => {
-    const tree: Root = {
-      type: 'root',
-      children: [makeLink('/files/sample.pdf', 'ダウンロードする')],
-    }
-
-    applyPlugin(tree)
-    const link = tree.children[0] as Element
-    expect(link.properties.target).toBeUndefined()
-    expect(link.properties.download).toBe('')
-  })
-
-  it('keeps target for cross-origin download links', () => {
+  it('opens cross-origin download links in a new tab via data attribute', () => {
     const tree: Root = {
       type: 'root',
       children: [makeLink('https://example.com/file.zip', 'ダウンロードする')],
     }
 
     applyPlugin(tree)
-    const link = tree.children[0] as Element
-    expect(link.properties.target).toBe('_blank')
-    expect(link.properties.download).toBeUndefined()
-    expect(link.properties[DOWNLOAD_AD_DATA_ATTR]).toBe('')
+    const button = tree.children[0] as Element
+    expect(button.tagName).toBe('button')
+    expect(button.properties[DOWNLOAD_HREF_DATA_ATTR]).toBe('https://example.com/file.zip')
+    expect(button.properties[DOWNLOAD_NEW_TAB_DATA_ATTR]).toBe('')
+    expect(button.properties[DOWNLOAD_ATTR_DATA_ATTR]).toBeUndefined()
+    expect(button.properties.target).toBeUndefined()
   })
 
   it('does not modify links without ダウンロード in the text', () => {
@@ -105,8 +109,7 @@ describe('rehypeDownloadLinks', () => {
     const tree: Root = { type: 'root', children: [link] }
 
     applyPlugin(tree)
-    expect((tree.children[0] as Element).properties.download).toBeUndefined()
+    expect((tree.children[0] as Element).tagName).toBe('a')
     expect((tree.children[0] as Element).properties.target).toBe('_blank')
   })
-
 })
