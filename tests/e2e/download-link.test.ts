@@ -237,7 +237,7 @@ describe('Download link E2E: popup and download flow', () => {
     await page.close()
   }, 30_000)
 
-  it('starts a real download from the button click (transient anchor, no DOM attachment)', async () => {
+  it('starts a real download from the button click', async () => {
     const page = await openFixturePage()
 
     const [download] = await Promise.all([
