@@ -72,24 +72,6 @@ const gtagSnippets = {
 `,
 } as const
 
-const ninjaAccessSnippets = {
-  head: html`\
-<link rel="preload" href="https://x4.shinobi.jp/ufo/060401300" as="script">
-`,
-  body: html`\
-<script type="text/javascript" src="//x4.shinobi.jp/ufo/060401300"></script>
-<noscript>
-  <a href="//x4.shinobi.jp/bin/gg?060401300" target="_blank" rel="noreferrer">
-    <img src="//x4.shinobi.jp/bin/ll?060401300" border="0" alt="">
-  </a>
-  <br>
-  <span style="font-size:9px">
-    <img style="margin:0;vertical-align:text-bottom;" src="//img.shinobi.jp/tadaima/fj.gif" width="19" height="11" alt="">
-  </span>
-</noscript>
-`,
-} as const
-
 const OpenGraph = ({ url, image }: OpenGraphData) =>
   url || image ? (
     <>
@@ -122,9 +104,10 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   ${<Style>{rootStyle}</Style>}
   <link rel="alternate" type="application/rss+xml" title="www.nahcnuj.work" href="/feed.xml">
   ${import.meta.env.PROD && gtagSnippets.head}\
-  ${import.meta.env.PROD && ninjaAccessSnippets.head}\
   ${import.meta.env.PROD && adsenseSnippet}\
-  ${props.useMath && html`\
+  ${
+    props.useMath &&
+    html`\
   <link rel="preload" href="https://mathfonts.github.io/LatinModern/latinmodern-math.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="https://mathfonts.github.io/LatinModern/mathfonts.css">
   <style>
@@ -132,13 +115,13 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
     math[display=block]{max-width:100%;margin-block:1rem;overflow-x:auto;scrollbar-width:thin}
     .tml-left{text-align:left}
   </style>
-`}\
+`
+  }\
   ${props.headInjection}\
 </head>
 <body>
   ${props.children}
   ${import.meta.env.PROD ? gtagSnippets.body : html`<!-- -->\n`}\
-  ${import.meta.env.PROD ? ninjaAccessSnippets.body : html`<!-- -->\n`}\
 </body>
 </html>
 `
