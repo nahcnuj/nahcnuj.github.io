@@ -1,7 +1,5 @@
 import { css } from 'hono/css'
-import { html } from 'hono/html'
 import type { ArticleLink } from '../lib/articles'
-import AdMax from './AdMax'
 import MakamujoBanner from './MakamujoBanner'
 import RelatedArticles from './RelatedArticles'
 

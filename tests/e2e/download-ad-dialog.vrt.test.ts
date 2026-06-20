@@ -1,0 +1,39 @@
+import { type Page, expect, test } from '@playwright/test'
+
+const FIXTURE_ROUTE = '/essays/download-link'
+const DOWNLOAD_BUTTON_TEXT = 'ダウンロード'
+const POPOVER_SELECTOR = '#download-ad-popup'
+
+const VIEWPORTS = [
+  { name: '375', width: 375, height: 812 },
+  { name: '1280', width: 1280, height: 1024 },
+  { name: '1440', width: 1440, height: 1024 },
+] as const
+
+test.describe.configure({ mode: 'serial' })
+
+test.beforeEach(async ({ page }) => {
+  await page.route('**/adsbygoogle.js**', (route) => route.abort())
+  page.on('download', (download) => {
+    void download.cancel()
+  })
+})
+
+async function openDownloadPopover(page: Page, viewport: { width: number; height: number }): Promise<void> {
+  await page.setViewportSize(viewport)
+  await page.goto(FIXTURE_ROUTE, { waitUntil: 'domcontentloaded' })
+  const downloadButton = page.getByRole('button', { name: DOWNLOAD_BUTTON_TEXT })
+  await expect(downloadButton).toBeVisible()
+  await downloadButton.click()
+  await expect(page.locator(`${POPOVER_SELECTOR}:popover-open`)).toBeVisible()
+}
+
+for (const viewport of VIEWPORTS) {
+  test(`download popover renders correctly on ${viewport.name}px`, async ({ page }) => {
+    await openDownloadPopover(page, viewport)
+
+    await expect(page.locator(POPOVER_SELECTOR)).toHaveScreenshot(`download-popover-${viewport.name}.png`, {
+      mask: [page.locator('.download-ad-container')],
+    })
+  })
+}

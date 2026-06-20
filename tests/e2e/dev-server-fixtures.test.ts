@@ -23,6 +23,8 @@ describe('dev server (npm run dev): all fixture MDX files are routed correctly',
       devProcess = spawn('npm', ['run', 'dev'], {
         stdio: 'pipe',
         env: { ...process.env, NO_COLOR: '1' },
+        detached: process.platform !== 'win32',
+        shell: process.platform === 'win32',
       })
 
       devProcess.stdout?.on('data', (data: Buffer) => {
@@ -41,8 +43,36 @@ describe('dev server (npm run dev): all fixture MDX files are routed correctly',
     })
   }, 60_000)
 
-  afterAll(() => {
-    devProcess?.kill()
+  afterAll(async () => {
+    if (!devProcess) return
+
+    if (process.platform === 'win32') {
+      spawn('taskkill', ['/pid', String(devProcess.pid), '/T', '/F'], { shell: true })
+      return
+    }
+
+    await new Promise<void>((resolve) => {
+      const pid = devProcess.pid
+      const killTimeout = setTimeout(() => {
+        try {
+          if (pid) process.kill(-pid, 'SIGKILL')
+          else devProcess.kill('SIGKILL')
+        } catch {
+          /* already dead */
+        }
+        resolve()
+      }, 5_000)
+      devProcess.on('close', () => {
+        clearTimeout(killTimeout)
+        resolve()
+      })
+      try {
+        if (pid) process.kill(-pid, 'SIGTERM')
+        else devProcess.kill('SIGTERM')
+      } catch {
+        resolve()
+      }
+    })
   })
 
   it('discovers at least one fixture MDX file', () => {

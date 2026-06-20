@@ -18,6 +18,9 @@ export interface Frontmatter {
   showFooter?: boolean
   showHeaderAd?: boolean
 
+  /** Injected by `remarkDownloadAdPopup` when the page contains a download link. */
+  downloadAdPopup?: boolean
+
   /**
    * ISO date string indicating when the article was published.
    * If not exists, those files should be ignored during static rendering.
