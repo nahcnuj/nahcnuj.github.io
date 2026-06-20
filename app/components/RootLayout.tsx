@@ -127,7 +127,7 @@ const Layout = (props: PropsWithChildren<Meta>) => html`
   <link rel="stylesheet" href="https://mathfonts.github.io/LatinModern/mathfonts.css">
   <style>
     math{font-family:Latin Modern Math,serif}
-    math[display=block]{margin-block:1rem}
+    math[display=block]{max-width:100%;margin-block:1rem;overflow-x:auto;scrollbar-width:thin}
     .tml-left{text-align:left}
   </style>
 `}\

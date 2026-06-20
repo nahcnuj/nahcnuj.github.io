@@ -57,6 +57,8 @@ const articleClass = css`
 
   & p, & li, & dd {
     text-align: left;
+    text-autospace: normal;
+    text-autospace: ideograph-alpha ideograph-numeric replace;
   }
 
   & p + p {
