@@ -12,7 +12,7 @@ import { DOWNLOAD_FALLBACK_LINK_TEXT } from '../../app/lib/downloadAdPopup'
 
 const FIXTURE_ROUTE = '/essays/download-link'
 const DOWNLOAD_LINK_TEXT = 'PDFファイル（クリックしてダウンロード）'
-const DIALOG_SELECTOR = 'dialog[open][aria-label="ダウンロード時の広告"]'
+const POPOVER_SELECTOR = '[popover][aria-label="ダウンロード時の広告"]:popover-open'
 
 describe('Download link E2E: popup and download flow', () => {
   let devProcess: ChildProcess
@@ -136,12 +136,12 @@ describe('Download link E2E: popup and download flow', () => {
 
     expect(download.suggestedFilename()).toBe('test.pdf')
 
-    const dialog = page.locator(DIALOG_SELECTOR)
-    expect(await dialog.count()).toBe(1)
-    expect(await dialog.getByText('ダウンロードを開始しました。').isVisible()).toBe(true)
-    expect(await dialog.getByRole('link', { name: DOWNLOAD_FALLBACK_LINK_TEXT }).isVisible()).toBe(true)
-    expect(await dialog.getByRole('button', { name: '閉じる（×）' }).isVisible()).toBe(true)
-    expect(await dialog.getByRole('button', { name: '閉じる', exact: true }).isVisible()).toBe(true)
+    const popover = page.locator(POPOVER_SELECTOR)
+    expect(await popover.count()).toBe(1)
+    expect(await popover.getByText('ダウンロードを開始しました。').isVisible()).toBe(true)
+    expect(await popover.getByRole('link', { name: DOWNLOAD_FALLBACK_LINK_TEXT }).isVisible()).toBe(true)
+    expect(await popover.getByRole('button', { name: '閉じる（×）' }).isVisible()).toBe(true)
+    expect(await popover.getByRole('button', { name: '閉じる', exact: true }).isVisible()).toBe(true)
 
     await page.close()
   }, 30_000)
@@ -150,8 +150,8 @@ describe('Download link E2E: popup and download flow', () => {
     const page = await openFixturePage()
     await page.getByRole('link', { name: DOWNLOAD_LINK_TEXT }).click()
 
-    const dialog = page.locator(DIALOG_SELECTOR)
-    const fallbackLink = dialog.getByRole('link', { name: DOWNLOAD_FALLBACK_LINK_TEXT })
+    const popover = page.locator(POPOVER_SELECTOR)
+    const fallbackLink = popover.getByRole('link', { name: DOWNLOAD_FALLBACK_LINK_TEXT })
     expect(await fallbackLink.getAttribute('data-download-ad')).toBeNull()
     expect(await fallbackLink.getAttribute('download')).toBe('')
 
@@ -161,7 +161,7 @@ describe('Download link E2E: popup and download flow', () => {
     ])
 
     expect(download.suggestedFilename()).toBe('test.pdf')
-    expect(await page.locator(DIALOG_SELECTOR).count()).toBe(1)
+    expect(await page.locator(POPOVER_SELECTOR).count()).toBe(1)
 
     await page.close()
   }, 30_000)
@@ -170,9 +170,9 @@ describe('Download link E2E: popup and download flow', () => {
     const page = await openFixturePage()
     await page.getByRole('link', { name: DOWNLOAD_LINK_TEXT }).click()
 
-    const dialog = page.locator(DIALOG_SELECTOR)
-    await dialog.getByRole('button', { name: '閉じる', exact: true }).click()
-    expect(await dialog.count()).toBe(0)
+    const popover = page.locator(POPOVER_SELECTOR)
+    await popover.getByRole('button', { name: '閉じる', exact: true }).click()
+    expect(await popover.count()).toBe(0)
 
     await page.close()
   }, 30_000)
@@ -181,10 +181,10 @@ describe('Download link E2E: popup and download flow', () => {
     const page = await openFixturePage()
     await page.getByRole('link', { name: DOWNLOAD_LINK_TEXT }).click()
 
-    const dialog = page.locator(DIALOG_SELECTOR)
-    expect(await dialog.count()).toBe(1)
+    const popover = page.locator(POPOVER_SELECTOR)
+    expect(await popover.count()).toBe(1)
     await page.keyboard.press('Escape')
-    expect(await dialog.count()).toBe(0)
+    expect(await popover.count()).toBe(0)
 
     await page.close()
   }, 30_000)

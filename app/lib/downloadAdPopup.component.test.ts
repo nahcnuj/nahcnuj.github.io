@@ -29,11 +29,14 @@ describe('download ad markup (component)', () => {
     )
   })
 
-  it('embeds the literal popup AdSense block inside the dialog markup', () => {
+  it('embeds the literal popup AdSense block inside the popover markup', () => {
     const markup = downloadAdDialogMarkup()
     expect(markup).toContain(downloadAdPopupMarkup())
     expect(markup).toContain('id="download-ad-popup"')
-    expect(markup).toContain('method="dialog"')
+    expect(markup).toContain('popover="auto"')
+    expect(markup).toContain('popovertarget="download-ad-popup"')
+    expect(markup).toContain('popovertargetaction="show"')
+    expect(markup).toContain('popovertargetaction="hide"')
     expect(markup).toContain('ダウンロードを開始しました。')
     expect(markup).toContain('自動でダウンロードされない場合はこちらをクリックしてください')
   })

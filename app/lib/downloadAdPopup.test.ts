@@ -25,7 +25,7 @@ function makeFakeLink(href = 'https://example.com/file.zip', download: string | 
   }
 }
 
-function makeFakeDialog() {
+function makeFakePopover() {
   const fallback = {
     download: '',
     removeAttribute: vi.fn(),
@@ -38,11 +38,12 @@ function makeFakeDialog() {
     _href: '#',
   }
 
+  const trigger = { click: vi.fn() }
+
   return {
-    open: false,
-    showModal: vi.fn(),
     querySelector: (selector: string) => (selector === `#${DOWNLOAD_AD_FALLBACK_ID}` ? fallback : null),
     fallback,
+    trigger,
   }
 }
 
@@ -50,30 +51,31 @@ function makeSetup(
   links: FakeLink[],
   opts: {
     whenReady?: (fn: () => void) => void
-    dialog?: ReturnType<typeof makeFakeDialog> | null
+    popover?: ReturnType<typeof makeFakePopover> | null
     showPopup?: ReturnType<typeof vi.fn>
   } = {},
 ) {
   const showPopup = opts.showPopup ?? vi.fn()
   const whenReady = opts.whenReady ?? ((fn) => fn())
-  const dialog = opts.dialog === undefined ? makeFakeDialog() : opts.dialog
+  const popover = opts.popover === undefined ? makeFakePopover() : opts.popover
 
   setupDownloadAdPopup({
     whenReady,
     getDownloadLinks: () => links as unknown as HTMLAnchorElement[],
-    getPopupDialog: () => dialog as unknown as HTMLDialogElement | null,
+    getPopupElement: () => popover as unknown as HTMLElement | null,
+    getShowTrigger: () => (popover ? popover.trigger : null) as unknown as HTMLButtonElement | null,
     showPopup: showPopup as never,
   })
 
-  return { showPopup, dialog }
+  return { showPopup, popover }
 }
 
 describe('prepareDownloadAdPopup', () => {
   it('updates the fallback link href and download attribute', () => {
-    const dialog = makeFakeDialog()
-    prepareDownloadAdPopup(dialog as unknown as HTMLDialogElement, 'https://example.com/test.pdf', '')
-    expect(dialog.fallback.href).toBe('https://example.com/test.pdf')
-    expect(dialog.fallback.download).toBe('')
+    const popover = makeFakePopover()
+    prepareDownloadAdPopup(popover as unknown as HTMLElement, 'https://example.com/test.pdf', '')
+    expect(popover.fallback.href).toBe('https://example.com/test.pdf')
+    expect(popover.fallback.download).toBe('')
   })
 })
 
@@ -82,33 +84,37 @@ describe('setupDownloadAdPopup', () => {
     vi.clearAllMocks()
   })
 
-  it('does not block the native download and opens the pre-rendered dialog on click', () => {
+  it('does not block the native download and opens the popover on click', () => {
     const link = makeFakeLink()
-    const { showPopup, dialog } = makeSetup([link])
+    const { showPopup, popover } = makeSetup([link])
 
     const { preventDefault } = link.triggerClick()
     expect(preventDefault).not.toHaveBeenCalled()
-    expect(dialog?.fallback.href).toBe('https://example.com/file.zip')
+    expect(popover?.fallback.href).toBe('https://example.com/file.zip')
     expect(showPopup).toHaveBeenCalledOnce()
   })
 
-  it('does nothing when the pre-rendered dialog is missing', () => {
+  it('does nothing when the pre-rendered popover is missing', () => {
     const link = makeFakeLink()
-    const { showPopup } = makeSetup([link], { dialog: null })
+    const { showPopup } = makeSetup([link], { popover: null })
 
     link.triggerClick()
     expect(showPopup).not.toHaveBeenCalled()
   })
 
-  it('does not call showModal when the dialog is already open', () => {
+  it('clicks the declarative show trigger by default', () => {
     const link = makeFakeLink()
-    const dialog = makeFakeDialog()
-    dialog.open = true
-    makeSetup([link], { dialog })
+    const popover = makeFakePopover()
+
+    setupDownloadAdPopup({
+      whenReady: (fn) => fn(),
+      getDownloadLinks: () => [link as unknown as HTMLAnchorElement],
+      getPopupElement: () => popover as unknown as HTMLElement,
+      getShowTrigger: () => popover.trigger as unknown as HTMLButtonElement,
+    })
 
     link.triggerClick()
-    expect(dialog.showModal).not.toHaveBeenCalled()
-    expect(dialog.fallback.href).toBe('https://example.com/file.zip')
+    expect(popover.trigger.click).toHaveBeenCalledOnce()
   })
 
   it('does not attach listeners before whenReady fires', () => {

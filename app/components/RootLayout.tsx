@@ -56,9 +56,10 @@ const rootStyle = css`
   }
 
   .download-ad-dialog {
-    position: relative;
-    box-sizing: border-box;
+    position: fixed;
+    inset: 0;
     width: min(100% - 2rem, 28rem);
+    height: fit-content;
     margin: auto;
     padding: 1.5rem;
     border: none;
@@ -67,14 +68,6 @@ const rootStyle = css`
     color: var(--theme-main-color, #000047);
     box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
     font-family: inherit;
-  }
-
-  .download-ad-dialog::backdrop {
-    background: rgba(0, 0, 71, 0.45);
-  }
-
-  .download-ad-dialog form {
-    margin: 0;
   }
 
   .download-ad-dialog p {
