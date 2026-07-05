@@ -22,6 +22,24 @@ const gtagFn: GtagFn = import.meta.env.PROD
       console.log('[gtag]', command, name, params)
     }
 
+const xPixelFn = import.meta.env.PROD
+  ? () => {
+      const w = window as Window & { twq?: (...args: unknown[]) => void }
+      if (typeof w.twq === 'function') {
+        w.twq('event', 'tw-ov0j6-ov0j9', {})
+      } else {
+        // Queue if the base pixel script has not yet defined twq (mirrors the X base IIFE)
+        const stub = (w.twq = w.twq || ((...args: unknown[]) => {
+          ;(stub as any).queue = (stub as any).queue || []
+          ;(stub as any).queue.push(args)
+        }))
+        stub('event', 'tw-ov0j6-ov0j9', {})
+      }
+    }
+  : () => {
+      console.log('[x-pixel]', 'event', 'tw-ov0j6-ov0j9', {})
+    }
+
 setupScrollDepthTracking({
   gtagFn,
   addScrollListener: (handler) => window.addEventListener('scroll', handler, { passive: true }),
@@ -83,4 +101,4 @@ setupMakamujoBannerTracking({
   maxDelayMs: 500,
 })
 
-setupDownloadAdPopup({ whenReady, gtagFn })
+setupDownloadAdPopup({ whenReady, gtagFn, xPixelFn })
