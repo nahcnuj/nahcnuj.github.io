@@ -114,15 +114,6 @@ export default jsxRenderer(
           </div>
           <main class={mainClass}>
             {(props.showHeader ?? true) && <RootHeader />}
-            {(props.showHeaderAd ?? true) && (
-              <AdMax id="header-ad" height="100px" fullWidth>
-                {html`\
-<!-- admax -->
-<script src="https://adm.shinobi.jp/o/db2462676e3c50aa524806fb285a546d" defer></script>
-<!-- admax -->
-`}
-              </AdMax>
-            )}
             {children}
             <AdMax height="100px" fullWidth>
               {html`\
