@@ -97,6 +97,7 @@ function makeSetup(
     startDownload?: ReturnType<typeof vi.fn>
     hasDownloadUi?: () => boolean
     gtagFn?: ReturnType<typeof vi.fn>
+    xPixelFn?: ReturnType<typeof vi.fn>
     getPagePath?: () => string
     baseUrl?: string
   } = {},
@@ -119,6 +120,7 @@ function makeSetup(
     },
     startDownload: startDownloadFn,
     gtagFn: opts.gtagFn,
+    xPixelFn: opts.xPixelFn,
     getPagePath: opts.getPagePath,
     baseUrl: opts.baseUrl,
   })
@@ -275,6 +277,39 @@ describe('setupDownloadAdPopup', () => {
 
     triggerClick()
     expect(gtagFn).not.toHaveBeenCalled()
+  })
+
+  it('fires X pixel conversion when xPixelFn is provided', () => {
+    const button = {
+      ...makeFakeButton('./test.pdf'),
+      textContent: 'ダウンロード',
+    }
+    const xPixelFn = vi.fn()
+    const { triggerClick } = makeSetup(button, { xPixelFn })
+
+    triggerClick()
+
+    expect(xPixelFn).toHaveBeenCalledTimes(1)
+  })
+
+  it('fires both GA and X pixel on download when both fns provided', () => {
+    const button = makeFakeButton()
+    const gtagFn = vi.fn()
+    const xPixelFn = vi.fn()
+    const { triggerClick } = makeSetup(button, { gtagFn, xPixelFn })
+
+    triggerClick()
+    expect(gtagFn).toHaveBeenCalled()
+    expect(xPixelFn).toHaveBeenCalled()
+  })
+
+  it('does not fire X pixel when xPixelFn is omitted', () => {
+    const button = makeFakeButton()
+    const xPixelFn = vi.fn()
+    const { triggerClick } = makeSetup(button)
+
+    triggerClick()
+    expect(xPixelFn).not.toHaveBeenCalled()
   })
 
   it('opens cross-origin downloads in a new tab', () => {

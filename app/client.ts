@@ -22,6 +22,32 @@ const gtagFn: GtagFn = import.meta.env.PROD
       console.log('[gtag]', command, name, params)
     }
 
+interface Twq {
+  (...args: unknown[]): void
+  queue?: unknown[][]
+}
+
+const xPixelFn = import.meta.env.PROD
+  ? () => {
+      const w = window as Window & { twq?: Twq }
+      if (typeof w.twq === 'function') {
+        w.twq('event', 'tw-ov0j6-ov0j9', {})
+      } else {
+        // Initialize stub + queue if the base X pixel script (uwt.js) has not loaded yet.
+        // Mirrors the queuing behavior of the X base IIFE so early calls are not lost.
+        const queue: unknown[][] = []
+        const stub: Twq = (...args: unknown[]) => {
+          queue.push(args)
+        }
+        stub.queue = queue
+        w.twq = stub
+        stub('event', 'tw-ov0j6-ov0j9', {})
+      }
+    }
+  : () => {
+      console.log('[x-pixel]', 'event', 'tw-ov0j6-ov0j9', {})
+    }
+
 setupScrollDepthTracking({
   gtagFn,
   addScrollListener: (handler) => window.addEventListener('scroll', handler, { passive: true }),
@@ -83,4 +109,4 @@ setupMakamujoBannerTracking({
   maxDelayMs: 500,
 })
 
-setupDownloadAdPopup({ whenReady, gtagFn })
+setupDownloadAdPopup({ whenReady, gtagFn, xPixelFn })

@@ -36,6 +36,8 @@ export interface DownloadAdPopupOptions {
   baseUrl?: string
   /** Sends GA4 `file_download` events when a download button is clicked. */
   gtagFn?: GtagFn
+  /** Sends X Ads conversion event when a download button is clicked. */
+  xPixelFn?: () => void
   /** @internal Test override for the current page path sent as `link_id`. */
   getPagePath?: () => string
 }
@@ -128,6 +130,7 @@ export function setupDownloadAdPopup({
   hasDownloadUi = defaultHasDownloadUi,
   baseUrl,
   gtagFn,
+  xPixelFn,
   getPagePath = () => (typeof window !== 'undefined' ? window.location.pathname : ''),
 }: DownloadAdPopupOptions): void {
   whenReady(() => {
@@ -149,6 +152,9 @@ export function setupDownloadAdPopup({
       if (gtagFn) {
         const linkText = button.textContent?.trim() ?? ''
         trackFileDownload(gtagFn, href, linkText, getPagePath())
+      }
+      if (xPixelFn) {
+        xPixelFn()
       }
       startDownloadFn(href, download, newTab)
     })
