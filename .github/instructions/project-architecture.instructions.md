@@ -144,7 +144,6 @@ Google Drive (www.nahcnuj.work)
 | **e2e** | Ubuntu | E2E テスト (Playwright) |
 | **vrt** | Windows | Visual Regression (Playwright) |
 | **lint** | Ubuntu | Biome linter |
-| **textlint** | Ubuntu | 日本語テキスト品質 |
 
 ### 4. VRT（Visual Regression Testing）の詳細
 
@@ -186,7 +185,6 @@ tests/e2e/math-rendering.vrt.test.ts-snapshots/
 
 ### 開発ツール
 - `biome` - Linter + Formatter（Rust ベース）
-- `textlint` - 日本語テキスト品質チェック
 
 ## ⚙️ npm スクリプト
 
@@ -196,9 +194,7 @@ tests/e2e/math-rendering.vrt.test.ts-snapshots/
   "dev:expose": "vite --host",                     # ネットワーク外部公開
   "build": "vite build --mode client && vite build", # SSG ビルド
   "lint": "biome lint .",                          # Linting
-  "lint:fix": "npm run lint:biome:fix && npm run lint:text:fix",
-  "lint:text": "textlint -f pretty-error ./app/routes/**/*.mdx",
-  "lint:text:fix": "textlint --fix ./app/routes/**/*.mdx",
+  "lint:fix": "npm run lint:biome:fix",
   "test": "vitest run",                            # 単体テスト
   "test:e2e": "vitest run --config vitest.config.e2e.ts",
   "test:vrt": "playwright test --config playwright.config.ts"  # VRT テスト
@@ -249,9 +245,6 @@ GitHub Actions: ci.yml triggered
   │
   ├─ lint job (needs: prepare)
   │   └─ Biome linting
-  │
-  └─ textlint job (needs: prepare)
-      └─ 日本語テキスト品質
 ```
 
 **重要**: VRT テストは **Windows 環境で実行** され、スナップショット比較に失敗すると CI は失敗します。
