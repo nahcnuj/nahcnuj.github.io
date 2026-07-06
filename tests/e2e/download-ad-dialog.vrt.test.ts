@@ -33,7 +33,10 @@ for (const viewport of VIEWPORTS) {
     await openDownloadPopover(page, viewport)
 
     await expect(page.locator(POPOVER_SELECTOR)).toHaveScreenshot(`download-popover-${viewport.name}.png`, {
-      mask: [page.locator('.download-ad-container')],
+      mask: [
+        page.locator('.download-ad-container'),
+        page.locator('img[src*="makamujo"]'),
+      ],
     })
   })
 }
