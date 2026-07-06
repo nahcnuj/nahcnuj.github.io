@@ -99,7 +99,7 @@ const rootStyle = css`
 
   .download-ad-dialog .download-ad-container {
     min-height: 250px;
-    margin-block-end: 1rem;
+    margin-block-end: 0.5rem;
     display: flex;
     justify-content: center;
   }
