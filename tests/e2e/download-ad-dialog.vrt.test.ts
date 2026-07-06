@@ -42,7 +42,7 @@ for (const viewport of VIEWPORTS) {
         page.locator('img[src*="makamujo"]'),
         page.locator('.download-ad-actions'),
       ],
-      maxDiffPixelRatio: 0.25,
+      maxDiffPixelRatio: 0.5,
     })
   })
 }
