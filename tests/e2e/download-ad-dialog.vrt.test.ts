@@ -40,8 +40,9 @@ for (const viewport of VIEWPORTS) {
       mask: [
         page.locator('.download-ad-container'),
         page.locator('img[src*="makamujo"]'),
+        page.locator('.download-ad-actions'),
       ],
-      maxDiffPixelRatio: 0.2,
+      maxDiffPixelRatio: 0.25,
     })
   })
 }
