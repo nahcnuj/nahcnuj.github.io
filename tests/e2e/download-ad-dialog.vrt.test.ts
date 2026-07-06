@@ -30,6 +30,9 @@ async function openDownloadPopover(page: Page, viewport: { width: number; height
   const banner = page.locator(`${POPOVER_SELECTOR} img[src*="makamujo"]`)
   await expect(banner).toBeVisible()
   await banner.evaluate((img: HTMLImageElement) => img.complete || new Promise(r => img.onload = r))
+  // Ensure actions are visible so full height including banner is stable for screenshot
+  await expect(page.locator(`${POPOVER_SELECTOR} .download-ad-actions`)).toBeVisible()
+  await page.waitForTimeout(200) // allow final layout after banner load for consistent height across runs
 }
 
 for (const viewport of VIEWPORTS) {
@@ -42,7 +45,7 @@ for (const viewport of VIEWPORTS) {
         page.locator('img[src*="makamujo"]'),
         page.locator('.download-ad-actions'),
       ],
-      maxDiffPixelRatio: 0.5,
+      maxDiffPixels: 200000,
     })
   })
 }
