@@ -201,6 +201,13 @@ describe('DownloadAdDialog', () => {
     expect(htmlAttr(ins, 'data-full-width-responsive')).toBe('true')
     expect(html).toContain('(adsbygoogle = window.adsbygoogle || []).push({})')
 
+    // Makamujo banner below the ad
+    expect(html).toContain('makamujo/banner.svg')
+    expect(html).toContain('usemap="#download-ad-makamujo"')
+    const mapForPopup = html.match(/<map[^>]*name="download-ad-makamujo"[^>]*>/i)?.[0]
+    assertDefined(mapForPopup, 'makamujo map in dialog')
+    expect(html).toContain('data-gtag-event="click_makamujo_nicovideo"')
+
     const closeButton = html.match(/<button[^>]*class="download-ad-close"[^>]*>/i)?.[0]
     assertDefined(closeButton, 'close button')
     expect(htmlAttr(closeButton, 'type')).toBe('button')

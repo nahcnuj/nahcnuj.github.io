@@ -9,6 +9,7 @@ import {
   DOWNLOAD_HREF_DATA_ATTR,
   DOWNLOAD_NEW_TAB_DATA_ATTR,
 } from '../lib/downloadLinkPlugin'
+import MakamujoBanner from './MakamujoBanner'
 
 export const DOWNLOAD_AD_FALLBACK_ID = 'download-ad-fallback'
 
@@ -193,6 +194,7 @@ export default function DownloadAdDialog() {
         />
         {html`<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>`}
       </div>
+      <MakamujoBanner mapName="download-ad-makamujo" />
       <div class="download-ad-actions">
         <button
           type="button"
