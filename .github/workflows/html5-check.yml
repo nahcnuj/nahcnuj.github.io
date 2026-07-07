@@ -20,10 +20,12 @@ jobs:
         with:
           name: website-build-dist
           path: dist
-          run-id: ${{ github.event.workflow_run.id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          # When triggered via workflow_run we must explicitly request the artifact
-          # from the originating Deploy run.
+          # When the Deploy workflow was itself started via workflow_run (the normal
+          # path from Update/Promote), we must explicitly pull the artifact from the
+          # originating run. For direct pushes to gh-pages the artifact is in the
+          # current run.
+          run-id: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.id || github.run_id }}
+          github-token: ${{ github.event_name == 'workflow_run' && secrets.GITHUB_TOKEN || '' }}
 
       - uses: Cyb3r-Jak3/html5validator-action@4ea5e57383ed7e14432ebbaae1b64893b7c5210b
         with:
