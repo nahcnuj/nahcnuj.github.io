@@ -1,23 +1,35 @@
 name: HTML5 validate
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Deploy"]
+    types:
+      - completed
+    # Note: do not filter on branches here; the head_branch of a Deploy run started
+    # via workflow_run from Update/Promote is often "main", not "gh-pages". The job
+    # guard below is sufficient.
 
 jobs:
   check:
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/download-artifact@v8
+      - name: Download build artifact
+        uses: actions/download-artifact@v8
         with:
-          name: github-pages
-          path: .
+          name: website-build-dist
+          path: dist
+          # When the Deploy workflow was itself started via workflow_run (the normal
+          # path from Update/Promote), we must explicitly pull the artifact from the
+          # originating run. For direct pushes to gh-pages the artifact is in the
+          # current run.
+          ${{ github.event_name == 'workflow_run' && format('run-id: {0}', github.event.workflow_run.id) || '' }}
+          ${{ github.event_name == 'workflow_run' && format('github-token: {0}', secrets.GITHUB_TOKEN) || '' }}
 
       - uses: Cyb3r-Jak3/html5validator-action@4ea5e57383ed7e14432ebbaae1b64893b7c5210b
         with:
-          root: .
+          root: dist
           css: false
           format: json
           skip_git_check: true
