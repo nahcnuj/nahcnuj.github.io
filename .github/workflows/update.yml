@@ -1,12 +1,11 @@
 name: Update
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
+  # Manual trigger (workflow_dispatch) is provided here for rclone/Drive content updates.
+  # Dispatching this will sync from Google Drive, commit to gh-pages, and trigger deploy via workflow_run.
   workflow_dispatch:
 
 jobs:
@@ -14,84 +13,54 @@ jobs:
     uses: ./.github/workflows/prepare.yml
     secrets: inherit
 
-  update:
+  commit-rclone-to-gh-pages:
+    # This workflow's responsibility: run rclone (via prepare) to import Google Drive
+    # markdown/images, place them under app/routes and public, and commit to gh-pages.
     needs: setup
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-      - name: Download workspace
+      - name: Download workspace (files placed by rclone sync under app/routes and public)
         uses: actions/download-artifact@v8
         with:
           name: workspace
           path: .
-      - name: Install Japanese fonts
+      - name: Checkout gh-pages
+        uses: actions/checkout@v7
+        with:
+          ref: gh-pages
+          path: gh-pages-workdir
+          token: ${{ github.token }}
+          fetch-depth: 1
+      - name: Commit rclone-imported sources to gh-pages
         run: |
-          # Update both sources.list and apt-mirrors.txt if they exist
-          sudo sed -i 's|https\?://[^/]*\.archive\.ubuntu\.com|http://ftp.jaist.ac.jp/pub/Linux/ubuntu|g' /etc/apt/sources.list 2>/dev/null
-          sudo sed -i 's|https\?://[^/]*\.archive\.ubuntu\.com|http://ftp.jaist.ac.jp/pub/Linux/ubuntu|g' /etc/apt/apt-mirrors.txt 2>/dev/null
-          sudo apt-get update
-          sudo apt-get install -y fonts-noto-cjk
-      - name: Install dependencies
-        run: npm ci --omit dev --ignore-scripts --prefer-offline
-      - name: Restore dist cache
-        id: dist-cache
-        uses: actions/cache/restore@v6
-        with:
-          path: dist
-          key: update-dist-${{ runner.os }}-${{ hashFiles('package-lock.json', 'vite.config.ts', 'tsconfig.json', 'app/**/*.ts', 'app/**/*.tsx', 'app/**/*.mdx', 'renderers/**/*.ts', 'public/**') }}
-      - name: Build
-        if: steps.dist-cache.outputs.cache-hit != 'true'
-        run: npm run build
-      - name: Save dist cache
-        if: steps.dist-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v6
-        with:
-          path: dist
-          key: ${{ steps.dist-cache.outputs.cache-primary-key }}
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: website-build-dist
-          path: dist
-          if-no-files-found: error
-          retention-days: 7
-      - name: Upload GitHub Pages artifact
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: dist
-      - if: failure()
-        uses: ./.github/actions/notify-failure
-        with:
-          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-  deploy:
-    if: github.event_name != 'pull_request'
-    needs: update
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Download workspace
-        uses: actions/download-artifact@v8
-        with:
-          name: website-build-dist
-          path: .
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+          cd gh-pages-workdir
+          git fetch origin gh-pages --depth=20
+
+          # Overlay only what the rclone sync (prepare) placed:
+          # app/routes/**/*.mdx and public images from Google Drive.
+          # Code merges from main are handled by the promote workflow.
+          rsync -a --delete ../app/routes/ ./app/routes/
+          rsync -a --delete ../public/ ./public/
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No rclone content changes to commit."
+          else
+            git commit -m "chore: rclone sync from Google Drive (app/routes + public)"
+            git push origin gh-pages
+            # Deploy will be triggered via workflow_run listener on "Update" completion (see deploy.yml)
+          fi
+          # NOTE: There is a known race with promote.yml (main merge) which may also push to gh-pages
+          # concurrently after a main push. See review notes for mitigation ideas.
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:
