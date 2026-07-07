@@ -16,7 +16,7 @@ description: "nahcnuj.github.io プロジェクトアーキテクチャと設計
 | **コンテンツソース** | Google Drive（www.nahcnuj.work フォルダ） |
 | **数式レンダリング** | KaTeX（TeX → HTML） |
 | **スタイリング** | Inline CSS in Hono components |
-| **ホスティング** | GitHub Pages （main ブランチ） |
+| **ホスティング** | GitHub Pages（deploy.yml により gh-pages からビルド＆デプロイ） |
 | **Node.js** | 24.x |
 
 ## 🔄 データフロー
@@ -42,7 +42,12 @@ vrt ジョブ: Playwright（ビジュアル回帰テスト）
     ↓
 全テスト合格
     ↓
-GitHub Pages へ デプロイ（別ワークフロー）
+- CI (ci.yml) で検証
+- update.yml: rclone 同期 → gh-pages へコミット（コンテンツ）
+- promote.yml: CI 成功後 main を gh-pages へマージ
+    ↓
+deploy.yml: gh-pages push または Update/Promote 完了時 (workflow_run) でビルド + GitHub Pages デプロイ（Actions）
+  （手動トリガーは update.yml の workflow_dispatch を使用）
 ```
 
 ## 📁 プロジェクト構成
@@ -306,5 +311,7 @@ GitHub Actions: ci.yml triggered
 
 5. **マージ・デプロイ**
    - すべてのチェック合格後、PR マージ
-   - 別ワークフロー（update.yml）が実行
-   - GitHub Pages へデプロイ
+   - CI 成功 → promote.yml が main を gh-pages にマージ
+   - update.yml (rclone) が Drive から配置した app/routes / public を gh-pages にコミット
+   - deploy.yml が gh-pages push または Update/Promote 完了 (workflow_run) でビルド＋デプロイを実行
+   - 手動 (workflow_dispatch) は update.yml に対して行う（rclone 同期＋gh-pages コミット経由）

@@ -1,23 +1,30 @@
 name: HTML5 validate
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Deploy"]
+    types:
+      - completed
     branches:
-      - main
+      - gh-pages
 
 jobs:
   check:
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/download-artifact@v8
+      - name: Download build artifact
+        uses: actions/download-artifact@v8
         with:
-          name: github-pages
-          path: .
+          name: website-build-dist
+          path: dist
+          # Note: when using workflow_run the artifact is from the Deploy run.
+          # If download fails across runs, consider moving validation into deploy.yml.
 
       - uses: Cyb3r-Jak3/html5validator-action@4ea5e57383ed7e14432ebbaae1b64893b7c5210b
         with:
-          root: .
+          root: dist
           css: false
           format: json
           skip_git_check: true

@@ -143,7 +143,10 @@ www.nahcnuj.work/
    - test/e2e/vrt: テスト実行
    - ✅ すべてパス → マージ可能
 
-6. PR マージ後、自動デプロイ
+6. PR マージ後:
+   - promote.yml により main → gh-pages マージ
+   - update.yml により rclone (Google Drive) 同期結果 (app/routes, public) を gh-pages へコミット
+   - deploy.yml により gh-pages イベントでビルド＋GitHub Pages デプロイ
 ```
 
 ### シナリオ 2: 新しいエッセイ追加

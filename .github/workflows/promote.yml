@@ -1,0 +1,49 @@
+name: Promote to gh-pages
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  promote:
+    # Only promote when CI on main succeeded
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          token: ${{ github.token }}
+      - name: Merge main into gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git fetch origin gh-pages --depth=20
+
+          git checkout gh-pages
+
+          # Perform the merge from main (this is the dedicated step for main -> gh-pages)
+          # --no-ff keeps history clean for future local merges from main
+          git merge origin/main --no-ff --no-edit || {
+            git checkout --theirs .
+            git add -A
+            git commit -m "Merge main (auto-resolved)" || true
+          }
+
+          if git diff --quiet HEAD "origin/gh-pages"; then
+            echo "No changes from merge."
+          else
+            git push origin gh-pages
+            # Deploy will be triggered via workflow_run listener on "Promote to gh-pages" completion (see deploy.yml)
+          fi
+      - if: failure()
+        uses: ./.github/actions/notify-failure
+        with:
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
