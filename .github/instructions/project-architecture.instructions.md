@@ -16,7 +16,7 @@ description: "nahcnuj.github.io プロジェクトアーキテクチャと設計
 | **コンテンツソース** | Google Drive（www.nahcnuj.work フォルダ） |
 | **数式レンダリング** | KaTeX（TeX → HTML） |
 | **スタイリング** | Inline CSS in Hono components |
-| **ホスティング** | GitHub Pages （source ブランチ） |
+| **ホスティング** | GitHub Pages （main ブランチ） |
 | **Node.js** | 24.x |
 
 ## 🔄 データフロー
@@ -216,7 +216,7 @@ tests/e2e/math-rendering.vrt.test.ts-snapshots/
 ### PR 作成時の自動実行
 
 ```
-PR created/updated on source branch
+PR created/updated on main branch
   ↓
 GitHub Actions: ci.yml triggered
   ├─ prepare job (重要: Google Drive 同期)
