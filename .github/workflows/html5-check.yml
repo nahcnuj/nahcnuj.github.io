@@ -3,7 +3,7 @@ name: HTML5 validate
 on:
   push:
     branches:
-      - source
+      - main
 
 jobs:
   check:
