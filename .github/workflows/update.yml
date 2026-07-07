@@ -38,10 +38,10 @@ jobs:
           fetch-depth: 1
       - name: Commit rclone-imported sources to gh-pages
         run: |
+          cd gh-pages-workdir
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          cd gh-pages-workdir
           git fetch origin gh-pages --depth=20
 
           # Overlay only what the rclone sync (prepare) placed:
