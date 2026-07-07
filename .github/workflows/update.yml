@@ -16,7 +16,6 @@ jobs:
   commit-rclone-to-gh-pages:
     # This workflow's responsibility: run rclone (via prepare) to import Google Drive
     # markdown/images, place them under app/routes and public, and commit to gh-pages.
-    if: github.event_name != 'pull_request'
     needs: setup
     runs-on: ubuntu-latest
     permissions:
@@ -60,6 +59,8 @@ jobs:
             git push origin gh-pages
             # Deploy will be triggered via workflow_run listener on "Update" completion (see deploy.yml)
           fi
+          # NOTE: There is a known race with promote.yml (main merge) which may also push to gh-pages
+          # concurrently after a main push. See review notes for mitigation ideas.
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:

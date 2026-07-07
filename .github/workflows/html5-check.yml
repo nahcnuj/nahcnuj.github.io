@@ -5,8 +5,9 @@ on:
     workflows: ["Deploy"]
     types:
       - completed
-    branches:
-      - gh-pages
+    # Note: do not filter on branches here; the head_branch of a Deploy run started
+    # via workflow_run from Update/Promote is often "main", not "gh-pages". The job
+    # guard below is sufficient.
 
 jobs:
   check:
@@ -19,8 +20,10 @@ jobs:
         with:
           name: website-build-dist
           path: dist
-          # Note: when using workflow_run the artifact is from the Deploy run.
-          # If download fails across runs, consider moving validation into deploy.yml.
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # When triggered via workflow_run we must explicitly request the artifact
+          # from the originating Deploy run.
 
       - uses: Cyb3r-Jak3/html5validator-action@4ea5e57383ed7e14432ebbaae1b64893b7c5210b
         with:

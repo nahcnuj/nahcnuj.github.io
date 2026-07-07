@@ -43,6 +43,8 @@ jobs:
             git push origin gh-pages
             # Deploy will be triggered via workflow_run listener on "Promote to gh-pages" completion (see deploy.yml)
           fi
+          # NOTE: There is a known race with update.yml (rclone content commit) which may also push to gh-pages
+          # concurrently after a main push. See review notes for mitigation ideas (serialization or unified job).
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:
