@@ -30,6 +30,8 @@ jobs:
           cache: 'npm'
       - name: Install Japanese fonts
         run: |
+          # Remove potentially problematic Microsoft repos (can cause "NOSPLIT" signing errors)
+          sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/azure-cli.list 2>/dev/null || true
           # Update both sources.list and apt-mirrors.txt if they exist
           sudo sed -i 's|https\?://[^/]*\.archive\.ubuntu\.com|http://ftp.jaist.ac.jp/pub/Linux/ubuntu|g' /etc/apt/sources.list 2>/dev/null || true
           sudo sed -i 's|https\?://[^/]*\.archive\.ubuntu\.com|http://ftp.jaist.ac.jp/pub/Linux/ubuntu|g' /etc/apt/apt-mirrors.txt 2>/dev/null || true
