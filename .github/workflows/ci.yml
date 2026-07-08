@@ -161,6 +161,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
           $fonts = @(
             @{ Url = 'https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/Japanese/NotoSansCJKjp-Regular.otf'; Name = 'NotoSansCJKjp-Regular.otf' },
             @{ Url = 'https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/Japanese/NotoSansCJKjp-Bold.otf'; Name = 'NotoSansCJKjp-Bold.otf' }
@@ -170,8 +171,12 @@ jobs:
           $fontsFolder = (New-Object -ComObject Shell.Application).Namespace(0x14)
           foreach ($font in $fonts) {
             $path = Join-Path $fontFolder $font.Name
-            Invoke-WebRequest -Uri $font.Url -OutFile $path
-            $fontsFolder.CopyHere($path, 0x10)
+            try {
+              Invoke-WebRequest -Uri $font.Url -OutFile $path -UseBasicParsing -ErrorAction Stop
+              $fontsFolder.CopyHere($path, 0x10)
+            } catch {
+              Write-Warning "Failed to install font $($font.Name): $_"
+            }
           }
           Start-Sleep -Seconds 10
       - name: Install Playwright browsers
