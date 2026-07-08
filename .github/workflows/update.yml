@@ -36,10 +36,7 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages-workdir
-          # Use a PAT (DEPLOY_GH_TOKEN) so that the push to gh-pages generates
-          # a real 'push' event that triggers the Deploy workflow.
-          # (GITHUB_TOKEN pushes are suppressed and do not trigger workflows.)
-          token: ${{ secrets.DEPLOY_GH_TOKEN }}
+          token: ${{ github.token }}
           fetch-depth: 1
       - name: Commit rclone-imported sources to gh-pages
         run: |
@@ -69,6 +66,12 @@ jobs:
           fi
           # NOTE: There is a known race with promote.yml (main merge) which may also push to gh-pages
           # concurrently after a main push. See review notes for mitigation ideas.
+
+      - name: Dispatch Deploy
+        if: github.event_name != 'pull_request'
+        run: gh workflow run deploy.yml --ref gh-pages
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - if: failure()
         uses: ./.github/actions/notify-failure
