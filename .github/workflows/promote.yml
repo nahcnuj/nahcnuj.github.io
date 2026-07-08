@@ -45,6 +45,13 @@ jobs:
           fi
           # NOTE: There is a known race with update.yml (rclone content commit) which may also push to gh-pages
           # concurrently after a main push. See review notes for mitigation ideas (serialization or unified job).
+
+      - name: Dispatch Deploy workflow
+        if: github.event_name != 'pull_request'
+        run: gh workflow run deploy.yml --ref gh-pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:
