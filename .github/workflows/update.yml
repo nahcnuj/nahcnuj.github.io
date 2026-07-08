@@ -50,7 +50,10 @@ jobs:
           rsync -a --delete ../app/routes/ ./app/routes/
           rsync -a --delete ../public/ ./public/
 
-          git add -A
+          # Force-add the content files. They are intentionally gitignored on main
+          # (to avoid committing dev fixture copies), but we explicitly want them
+          # on gh-pages so the build there has the Drive-sourced MDX.
+          git add -f app/routes/**/*.mdx 'public/**/images/**'
 
           if git diff --cached --quiet; then
             echo "No rclone content changes to commit."
