@@ -5,9 +5,8 @@ on:
     branches:
       - main
   # Manual trigger (workflow_dispatch) is provided here for rclone/Drive content updates.
-  # After committing to gh-pages, we dispatch the Deploy workflow to ensure
-  # deployment happens from the gh-pages commit (GITHUB_TOKEN pushes don't
-  # always trigger workflows).
+  # Content is synced to gh-pages here. Deployment is triggered by Promote
+  # (after main merge) to ensure gh-pages is fully updated before deploy.
   workflow_dispatch:
 
 permissions:
@@ -67,18 +66,12 @@ jobs:
           else
             git commit -m "chore: rclone sync from Google Drive (app/routes + public)"
             git push origin gh-pages
-            # Push to gh-pages by GITHUB_TOKEN does not trigger 'on: push' workflows.
-            # We explicitly dispatch Deploy (defaults to main ref for workflow code)
-            # which checks out gh-pages content for the actual site.
+            # Content update pushed to gh-pages. No dispatch here to avoid
+            # deploying before Promote has merged the latest main commit.
+            # Promote will dispatch Deploy after the gh-pages merge.
           fi
-          # NOTE: There is a known race with promote.yml (main merge) which may also push to gh-pages
-          # concurrently after a main push. See review notes for mitigation ideas.
-
-      - name: Dispatch Deploy workflow
-        if: github.event_name != 'pull_request'
-        run: gh workflow run deploy.yml
-        env:
-          GH_TOKEN: ${{ github.token }}
+          # NOTE: Promote (after CI) will merge main to gh-pages and dispatch Deploy.
+          # This ensures deployment uses gh-pages state after the main merge.
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:
