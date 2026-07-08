@@ -9,9 +9,11 @@ on:
 jobs:
   deploy:
     # Triggered by pushes to gh-pages (if token allows) or by explicit dispatch
-    # from Update/Promote after they push content to gh-pages.
-    # Dispatch runs this workflow from main (to satisfy env protection rules)
-    # while the job checks out the gh-pages ref for Drive-synced + promoted content.
+    # (from Promote after merging main to gh-pages).
+    # We dispatch from Promote (not Update) so that Deploy happens after the
+    # gh-pages branch has the merged commit from main.
+    # Dispatch uses main ref (to satisfy env protection); job checks out gh-pages
+    # for the final Drive-synced + promoted content.
     runs-on: ubuntu-latest
     permissions:
       contents: read
