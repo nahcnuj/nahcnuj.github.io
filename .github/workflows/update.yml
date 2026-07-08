@@ -10,6 +10,10 @@ on:
   # always trigger workflows).
   workflow_dispatch:
 
+permissions:
+  contents: write
+  actions: write
+
 jobs:
   setup:
     uses: ./.github/workflows/prepare.yml
@@ -22,6 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
     steps:
       - uses: actions/checkout@v7
         with:
@@ -62,14 +67,16 @@ jobs:
           else
             git commit -m "chore: rclone sync from Google Drive (app/routes + public)"
             git push origin gh-pages
-            # The push to gh-pages will trigger the Deploy workflow.
+            # Push to gh-pages by GITHUB_TOKEN does not trigger 'on: push' workflows.
+            # We explicitly dispatch Deploy (defaults to main ref for workflow code)
+            # which checks out gh-pages content for the actual site.
           fi
           # NOTE: There is a known race with promote.yml (main merge) which may also push to gh-pages
           # concurrently after a main push. See review notes for mitigation ideas.
 
       - name: Dispatch Deploy workflow
         if: github.event_name != 'pull_request'
-        run: gh workflow run deploy.yml --ref gh-pages
+        run: gh workflow run deploy.yml
         env:
           GH_TOKEN: ${{ github.token }}
       - if: failure()

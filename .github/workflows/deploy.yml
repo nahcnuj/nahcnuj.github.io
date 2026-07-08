@@ -8,9 +8,10 @@ on:
 
 jobs:
   deploy:
-    # Only triggered by pushes to the gh-pages branch.
-    # Update and Promote workflows push content/code changes to gh-pages,
-    # which will trigger this Deploy workflow.
+    # Triggered by pushes to gh-pages (if token allows) or by explicit dispatch
+    # from Update/Promote after they push content to gh-pages.
+    # Dispatch runs this workflow from main (to satisfy env protection rules)
+    # while the job checks out the gh-pages ref for Drive-synced + promoted content.
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -30,6 +31,8 @@ jobs:
           cache: 'npm'
       - name: Install Japanese fonts
         run: |
+          # Remove potentially problematic Microsoft repos (can cause "NOSPLIT" signing errors)
+          sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list /etc/apt/sources.list.d/azure-cli.list 2>/dev/null || true
           # Update both sources.list and apt-mirrors.txt if they exist
           sudo sed -i 's|https\?://[^/]*\.archive\.ubuntu\.com|http://ftp.jaist.ac.jp/pub/Linux/ubuntu|g' /etc/apt/sources.list 2>/dev/null || true
           sudo sed -i 's|https\?://[^/]*\.archive\.ubuntu\.com|http://ftp.jaist.ac.jp/pub/Linux/ubuntu|g' /etc/apt/apt-mirrors.txt 2>/dev/null || true
