@@ -5,9 +5,6 @@ on:
     workflows: ["Deploy"]
     types:
       - completed
-    # Note: do not filter on branches here; the head_branch of a Deploy run started
-    # via workflow_run from Update/Promote is often "main", not "gh-pages". The job
-    # guard below is sufficient.
 
 jobs:
   check:
@@ -20,12 +17,9 @@ jobs:
         with:
           name: website-build-dist
           path: dist
-          # When the Deploy workflow was itself started via workflow_run (the normal
-          # path from Update/Promote), we must explicitly pull the artifact from the
-          # originating run. For direct pushes to gh-pages the artifact is in the
-          # current run.
-          ${{ github.event_name == 'workflow_run' && format('run-id: {0}', github.event.workflow_run.id) || '' }}
-          ${{ github.event_name == 'workflow_run' && format('github-token: {0}', secrets.GITHUB_TOKEN) || '' }}
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # Download the artifact produced by the Deploy run (triggered only by push to gh-pages).
 
       - uses: Cyb3r-Jak3/html5validator-action@4ea5e57383ed7e14432ebbaae1b64893b7c5210b
         with:

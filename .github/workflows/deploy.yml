@@ -4,19 +4,12 @@ on:
   push:
     branches:
       - gh-pages
-  workflow_run:
-    workflows: ["Update", "Promote to gh-pages"]
-    types:
-      - completed
 
 jobs:
   deploy:
-    # Triggered by:
-    # - direct push to gh-pages
-    # - successful completion of "Update" (rclone content commit) or "Promote" (main merge)
-    if: >-
-      github.event_name == 'push' ||
-      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+    # Only triggered by pushes to the gh-pages branch.
+    # Update and Promote workflows push content/code changes to gh-pages,
+    # which will trigger this Deploy workflow.
     runs-on: ubuntu-latest
     permissions:
       contents: read
