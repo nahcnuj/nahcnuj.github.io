@@ -5,8 +5,9 @@ on:
     branches:
       - main
   # Manual trigger (workflow_dispatch) is provided here for rclone/Drive content updates.
-  # Dispatching this will sync from Google Drive and commit the content to gh-pages.
-  # The push to gh-pages will trigger the Deploy workflow.
+  # After committing to gh-pages, we dispatch the Deploy workflow to ensure
+  # deployment happens from the gh-pages commit (GITHUB_TOKEN pushes don't
+  # always trigger workflows).
   workflow_dispatch:
 
 jobs:
@@ -65,6 +66,12 @@ jobs:
           fi
           # NOTE: There is a known race with promote.yml (main merge) which may also push to gh-pages
           # concurrently after a main push. See review notes for mitigation ideas.
+
+      - name: Dispatch Deploy workflow
+        if: github.event_name != 'pull_request'
+        run: gh workflow run deploy.yml --ref gh-pages
+        env:
+          GH_TOKEN: ${{ github.token }}
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:
