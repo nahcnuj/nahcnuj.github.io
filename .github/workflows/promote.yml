@@ -2,7 +2,9 @@ name: Promote to gh-pages
 
 on:
   workflow_run:
-    workflows: ["CI"]
+    # CI and Update run in parallel on push to main.
+    # Promote starts immediately when Update finishes (Drive content already on gh-pages).
+    workflows: ["Update"]
     types:
       - completed
     branches:
@@ -14,7 +16,7 @@ permissions:
 
 jobs:
   promote:
-    # Only promote when CI on main succeeded
+    # Only promote when Update on main succeeded
     if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
@@ -25,36 +27,39 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ github.token }}
-      - name: Wait for Update workflow to complete (to ensure Drive content is on gh-pages)
+
+      # Assume main should be green: wait until CI for this SHA has completed successfully
+      # before merging (CI runs in parallel with Update; Update often finishes first).
+      - name: Wait for CI to be green (parallel with Update; required before promote)
         run: |
           SHA="${{ github.event.workflow_run.head_sha }}"
-          echo "Waiting for Update workflow on SHA $SHA to complete (promote after Update)..."
-          for i in {1..60}; do
-            RUN_JSON=$(gh run list --workflow "Update" --branch main --json headSha,status,conclusion --jq '.[] | select(.headSha == "'$SHA'")')
+          echo "Update already succeeded. Waiting for CI on SHA $SHA to be green..."
+          for i in {1..90}; do
+            RUN_JSON=$(gh run list --workflow "CI" --branch main --json headSha,status,conclusion \
+              --jq --compact-output "[.[] | select(.headSha == \"$SHA\")] | first // empty")
             if [ -n "$RUN_JSON" ]; then
               STATUS=$(echo "$RUN_JSON" | jq -r '.status')
               CONCLUSION=$(echo "$RUN_JSON" | jq -r '.conclusion // empty')
-              echo "Update run status: $STATUS conclusion: ${CONCLUSION:-none}"
+              echo "CI run status: $STATUS conclusion: ${CONCLUSION:-none} (attempt $i)"
               if [ "$STATUS" = "completed" ]; then
-                if [ "$CONCLUSION" = "success" ] || [ -z "$CONCLUSION" ]; then
-                  echo "Update completed successfully for this commit."
-                  break
+                if [ "$CONCLUSION" = "success" ]; then
+                  echo "CI is green for this commit."
+                  exit 0
                 else
-                  echo "Update completed with failure: $CONCLUSION"
+                  echo "CI completed with $CONCLUSION — not promoting."
                   exit 1
                 fi
               fi
             else
-              echo "No Update run found yet for $SHA (attempt $i)"
+              echo "No CI run found yet for $SHA (attempt $i)"
             fi
             sleep 10
           done
-          if [ "$i" -ge 60 ]; then
-            echo "Timed out waiting for Update workflow"
-            exit 1
-          fi
+          echo "Timed out waiting for CI"
+          exit 1
         env:
           GH_TOKEN: ${{ github.token }}
+
       - name: Merge main into gh-pages
         run: |
           git config user.name "github-actions[bot]"
@@ -80,9 +85,9 @@ jobs:
             # We explicitly dispatch Deploy (defaults to main ref for workflow code)
             # which checks out gh-pages content for the actual site.
           fi
-          # NOTE: We explicitly wait for the Update workflow (Drive content sync) to complete before merging.
-          # This ensures gh-pages has the latest content from Update before we promote the code merge from main.
-          # Deploy is dispatched only after this.
+          # Promote is triggered by Update success, then waits for CI green.
+          # So Drive content (Update) is already on gh-pages before the code merge.
+          # Deploy is dispatched only after this merge.
 
       - name: Dispatch Deploy workflow
         if: github.event_name != 'pull_request'
