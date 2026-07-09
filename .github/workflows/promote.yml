@@ -1,12 +1,13 @@
 name: Promote to gh-pages
 
 on:
-  workflow_run:
-    workflows: ["CI"]
-    types:
-      - completed
+  push:
     branches:
       - main
+  # CI and Update also run on push to main (parallel).
+  # Promote merges main → gh-pages immediately (can run before Update).
+  # Assume main is always green — no wait for CI or Update.
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -14,8 +15,6 @@ permissions:
 
 jobs:
   promote:
-    # Only promote when CI on main succeeded
-    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -25,36 +24,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ github.token }}
-      - name: Wait for Update workflow to complete (to ensure Drive content is on gh-pages)
-        run: |
-          SHA="${{ github.event.workflow_run.head_sha }}"
-          echo "Waiting for Update workflow on SHA $SHA to complete (promote after Update)..."
-          for i in {1..60}; do
-            RUN_JSON=$(gh run list --workflow "Update" --branch main --json headSha,status,conclusion --jq '.[] | select(.headSha == "'$SHA'")')
-            if [ -n "$RUN_JSON" ]; then
-              STATUS=$(echo "$RUN_JSON" | jq -r '.status')
-              CONCLUSION=$(echo "$RUN_JSON" | jq -r '.conclusion // empty')
-              echo "Update run status: $STATUS conclusion: ${CONCLUSION:-none}"
-              if [ "$STATUS" = "completed" ]; then
-                if [ "$CONCLUSION" = "success" ] || [ -z "$CONCLUSION" ]; then
-                  echo "Update completed successfully for this commit."
-                  break
-                else
-                  echo "Update completed with failure: $CONCLUSION"
-                  exit 1
-                fi
-              fi
-            else
-              echo "No Update run found yet for $SHA (attempt $i)"
-            fi
-            sleep 10
-          done
-          if [ "$i" -ge 60 ]; then
-            echo "Timed out waiting for Update workflow"
-            exit 1
-          fi
-        env:
-          GH_TOKEN: ${{ github.token }}
+
       - name: Merge main into gh-pages
         run: |
           git config user.name "github-actions[bot]"
@@ -80,9 +50,9 @@ jobs:
             # We explicitly dispatch Deploy (defaults to main ref for workflow code)
             # which checks out gh-pages content for the actual site.
           fi
-          # NOTE: We explicitly wait for the Update workflow (Drive content sync) to complete before merging.
-          # This ensures gh-pages has the latest content from Update before we promote the code merge from main.
-          # Deploy is dispatched only after this.
+          # CI || Update || Promote run in parallel on push to main.
+          # Merge may finish before Update's Drive content push; that is OK.
+          # Deploy is dispatched after this merge.
 
       - name: Dispatch Deploy workflow
         if: github.event_name != 'pull_request'

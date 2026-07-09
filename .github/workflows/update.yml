@@ -5,8 +5,8 @@ on:
     branches:
       - main
   # Manual trigger (workflow_dispatch) is provided here for rclone/Drive content updates.
-  # Content is synced to gh-pages here. Deployment is triggered by Promote
-  # (after main merge) to ensure gh-pages is fully updated before deploy.
+  # CI, Update, and Promote all run in parallel on push to main.
+  # Promote may merge main→gh-pages before this content push; that is OK.
   workflow_dispatch:
 
 permissions:
@@ -66,12 +66,9 @@ jobs:
           else
             git commit -m "chore: rclone sync from Google Drive (app/routes + public)"
             git push origin gh-pages
-            # Content update pushed to gh-pages. No dispatch here to avoid
-            # deploying before Promote has merged the latest main commit.
-            # Promote will dispatch Deploy after the gh-pages merge.
+            # Content update pushed to gh-pages. No Deploy dispatch here —
+            # Promote merges main and dispatches Deploy (may run before or after us).
           fi
-          # NOTE: Promote (after CI) will merge main to gh-pages and dispatch Deploy.
-          # This ensures deployment uses gh-pages state after the main merge.
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:
