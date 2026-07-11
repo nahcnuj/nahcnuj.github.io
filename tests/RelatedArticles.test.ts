@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { renderToReadableStream } from 'hono/jsx/dom/server'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import RelatedArticles, { RELATED_PR_AD, mixRelatedPrAd } from '../app/components/RelatedArticles'
 
 // Load articles from app/fixtures/**/*.mdx
@@ -45,32 +45,21 @@ function loadFixtureArticles() {
 const FIXTURE_ARTICLES = loadFixtureArticles()
 
 describe('mixRelatedPrAd', () => {
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
-
-  it('inserts the PR ad at a random index among articles', () => {
-    // Math.random() === 0 → index 0
-    vi.spyOn(Math, 'random').mockReturnValue(0)
+  it('inserts the PR ad as the second item when articles exist', () => {
     const articles = [
       { path: '/a', title: 'A' },
       { path: '/b', title: 'B' },
+      { path: '/c', title: 'C' },
     ]
-    expect(mixRelatedPrAd(articles).map((a) => a.path)).toEqual([RELATED_PR_AD.path, '/a', '/b'])
+    expect(mixRelatedPrAd(articles).map((a) => a.path)).toEqual(['/a', RELATED_PR_AD.path, '/b', '/c'])
   })
 
-  it('can insert the PR ad at the end', () => {
-    // index = floor(0.999 * 3) = 2
-    vi.spyOn(Math, 'random').mockReturnValue(0.999)
-    const articles = [
-      { path: '/a', title: 'A' },
-      { path: '/b', title: 'B' },
-    ]
-    expect(mixRelatedPrAd(articles).map((a) => a.path)).toEqual(['/a', '/b', RELATED_PR_AD.path])
+  it('appends the PR ad when there is a single article', () => {
+    const articles = [{ path: '/a', title: 'A' }]
+    expect(mixRelatedPrAd(articles).map((a) => a.path)).toEqual(['/a', RELATED_PR_AD.path])
   })
 
   it('does not mutate the original array', () => {
-    vi.spyOn(Math, 'random').mockReturnValue(0)
     const original = [{ path: '/a', title: 'A' }]
     mixRelatedPrAd(original)
     expect(original).toEqual([{ path: '/a', title: 'A' }])
@@ -78,13 +67,7 @@ describe('mixRelatedPrAd', () => {
 })
 
 describe('RelatedArticles', () => {
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
-
-  it('displays articles in the given order with a PR ad mixed in', async () => {
-    // PR at the end
-    vi.spyOn(Math, 'random').mockReturnValue(0.999)
+  it('displays articles with a PR ad mixed in after the first item', async () => {
     const articles = [
       { path: '/z-last', title: 'Z Last' },
       { path: '/a-first', title: 'A First' },
@@ -94,21 +77,20 @@ describe('RelatedArticles', () => {
     const stream = await renderToReadableStream(node)
     const html = await new Response(stream).text()
     const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
-    expect(hrefs).toEqual(['/z-last', '/a-first', '/m-middle', RELATED_PR_AD.path])
+    expect(hrefs).toEqual(['/z-last', RELATED_PR_AD.path, '/a-first', '/m-middle'])
   })
 
   it('displays all provided articles plus one PR ad', async () => {
-    vi.spyOn(Math, 'random').mockReturnValue(0)
     const node = RelatedArticles({ articles: FIXTURE_ARTICLES })
     const stream = await renderToReadableStream(node)
     const html = await new Response(stream).text()
     const hrefs = Array.from(html.matchAll(/href="([^"]+)"/g)).map((m) => m[1])
     expect(hrefs).toHaveLength(FIXTURE_ARTICLES.length + 1)
     expect(hrefs).toContain(RELATED_PR_AD.path)
+    expect(hrefs[1]).toBe(RELATED_PR_AD.path)
   })
 
   it('marks the PR ad as an external sponsored link', async () => {
-    vi.spyOn(Math, 'random').mockReturnValue(0)
     const node = RelatedArticles({ articles: [{ path: '/a', title: 'A' }] })
     const stream = await renderToReadableStream(node)
     const html = await new Response(stream).text()

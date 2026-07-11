@@ -22,10 +22,13 @@ function isExternalPath(path: string): boolean {
   return /^https?:\/\//.test(path)
 }
 
-/** Insert `item` at a random index in `articles` (including before first / after last). */
+/**
+ * Insert the PR entry among related articles at a stable position (second slot when
+ * there is at least one article). Deterministic so SSG/VRT snapshots do not flake.
+ */
 export function mixRelatedPrAd(articles: Article[], item: Article = RELATED_PR_AD): Article[] {
   const items = [...articles]
-  const index = Math.floor(Math.random() * (items.length + 1))
+  const index = items.length > 0 ? 1 : 0
   items.splice(index, 0, item)
   return items
 }
