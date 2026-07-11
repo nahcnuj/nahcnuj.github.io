@@ -12,7 +12,8 @@ const VIEWPORTS = [
   { name: '1440', width: 1440, height: 1024 },
 ] as const
 
-test.describe.configure({ mode: 'serial' })
+// Independent per viewport so one snapshot failure does not skip the rest in CI.
+test.describe.configure({ mode: 'parallel' })
 
 test.beforeEach(async ({ page }) => {
   await page.route('**/adsbygoogle.js**', (route) => route.abort())
@@ -64,6 +65,10 @@ for (const viewport of VIEWPORTS) {
   test(`related articles with PR ad on ${viewport.name}px`, async ({ page }) => {
     await openRelatedSection(page, viewport)
     const clip = await relatedSectionClip(page, viewport.width)
-    await expect(page).toHaveScreenshot(`related-articles-pr-${viewport.name}.png`, { clip })
+    await expect(page).toHaveScreenshot(`related-articles-pr-${viewport.name}.png`, {
+      clip,
+      // Match download-ad-dialog VRT tolerance for font/subpixel drift across runners.
+      maxDiffPixelRatio: 0.1,
+    })
   })
 }
