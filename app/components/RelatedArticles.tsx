@@ -16,6 +16,7 @@ interface RelatedArticlesProps {
 export const RELATED_PR_AD = {
   path: 'https://adf.shinobi.jp/r/4fac3bdc31d17f46c61074e4e72894b6',
   title: '【PR】最短4分で広告を掲載できる『忍者AdMax』',
+  icon: '📢',
 } as const satisfies Article
 
 function isExternalPath(path: string): boolean {

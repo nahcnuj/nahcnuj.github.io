@@ -90,7 +90,7 @@ describe('RelatedArticles', () => {
     expect(hrefs[1]).toBe(RELATED_PR_AD.path)
   })
 
-  it('marks the PR ad as an external sponsored link', async () => {
+  it('marks the PR ad as an external sponsored link with an icon', async () => {
     const node = RelatedArticles({ articles: [{ path: '/a', title: 'A' }] })
     const stream = await renderToReadableStream(node)
     const html = await new Response(stream).text()
@@ -98,6 +98,7 @@ describe('RelatedArticles', () => {
     expect(html).toContain('target="_blank"')
     expect(html).toContain('rel="noopener noreferrer sponsored"')
     expect(html).toContain(RELATED_PR_AD.title)
+    expect(html).toContain(RELATED_PR_AD.icon)
   })
 
   it('returns null when no articles', () => {

@@ -1,10 +1,10 @@
 import { type Page, expect, test } from '@playwright/test'
 
 /**
- * Works has only two fixture articles, so related list content is deterministic
- * (always the other work + PR). Prefer this over essays, where pickRandomN varies.
+ * Diary fixture pages always have a deterministic related set in dev
+ * (the other diary fixtures, sorted by path) plus the mixed-in PR entry.
  */
-const FIXTURE_ROUTE = '/works/fixture-work'
+const FIXTURE_ROUTE = '/diary/2026-02-09'
 
 const VIEWPORTS = [
   { name: '375', width: 375, height: 812 },
@@ -14,21 +14,31 @@ const VIEWPORTS = [
 
 test.describe.configure({ mode: 'serial' })
 
-async function gotoWithRetry(page: Page, url: string, attempts = 3): Promise<void> {
-  let lastError: unknown
-  for (let i = 0; i < attempts; i++) {
-    try {
-      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30_000 })
-      return
-    } catch (error) {
-      lastError = error
-      await page.waitForTimeout(500 * (i + 1))
-    }
-  }
-  throw lastError
+test.beforeEach(async ({ page }) => {
+  await page.route('**/adsbygoogle.js**', (route) => route.abort())
+})
+
+async function openRelatedSection(page: Page, viewport: { width: number; height: number }): Promise<void> {
+  await page.setViewportSize(viewport)
+  const response = await page.goto(FIXTURE_ROUTE, { waitUntil: 'domcontentloaded', timeout: 30_000 })
+  expect(response, `GET ${FIXTURE_ROUTE}`).not.toBeNull()
+  expect(response?.ok(), `GET ${FIXTURE_ROUTE} status ${response?.status()}`).toBe(true)
+
+  const heading = page.getByRole('heading', { name: '他の記事', exact: true })
+  await expect(heading).toBeVisible({ timeout: 15_000 })
+  await heading.scrollIntoViewIfNeeded()
+  await expect(page.getByRole('link', { name: /【PR】/ })).toBeVisible()
+  // PR row should show the same-style list icon as other related items
+  await expect(page.locator('a[href*="adf.shinobi.jp"]').locator('xpath=preceding-sibling::span[1]')).toBeVisible()
+  await page.waitForTimeout(150)
 }
 
-async function relatedSectionClip(page: Page): Promise<{ x: number; y: number; width: number; height: number }> {
+async function relatedSectionClip(page: Page, viewportWidth: number): Promise<{
+  x: number
+  y: number
+  width: number
+  height: number
+}> {
   const box = await page.evaluate(() => {
     const h2 = [...document.querySelectorAll('h2')].find((el) => el.textContent === '他の記事')
     const related = h2?.nextElementSibling as HTMLElement | null
@@ -45,27 +55,15 @@ async function relatedSectionClip(page: Page): Promise<{ x: number; y: number; w
   return {
     x: Math.max(0, box.x - 8),
     y: Math.max(0, box.y - 8),
-    width: box.width + 16,
+    width: Math.min(viewportWidth, box.width + 16),
     height: box.height + 16,
   }
 }
 
-test('related articles with PR ad at 375 / 1280 / 1440', async ({ page }) => {
-  await page.route('**/adsbygoogle.js**', (route) => route.abort())
-
-  await gotoWithRetry(page, FIXTURE_ROUTE)
-  const heading = page.getByRole('heading', { name: '他の記事', exact: true })
-  await expect(heading).toBeVisible()
-  await expect(page.getByRole('link', { name: /【PR】/ })).toBeVisible()
-
-  for (const viewport of VIEWPORTS) {
-    await page.setViewportSize({ width: viewport.width, height: viewport.height })
-    await heading.scrollIntoViewIfNeeded()
-    await page.waitForTimeout(100)
-
-    const clip = await relatedSectionClip(page)
-    clip.width = Math.min(viewport.width, clip.width)
-
+for (const viewport of VIEWPORTS) {
+  test(`related articles with PR ad on ${viewport.name}px`, async ({ page }) => {
+    await openRelatedSection(page, viewport)
+    const clip = await relatedSectionClip(page, viewport.width)
     await expect(page).toHaveScreenshot(`related-articles-pr-${viewport.name}.png`, { clip })
-  }
-})
+  })
+}
