@@ -29,11 +29,11 @@
     "remark-frontmatter": "^5.0.0",
     "remark-math": "^6.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
-    "temporal-polyfill": "^1.0.1",
+    "temporal-polyfill": "^1.0.2",
     "vite": "^8.1.5"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.5",
+    "@biomejs/biome": "2.5.6",
     "@playwright/test": "^1.62.0",
     "@types/katex": "^0.16.8",
     "@types/node": "^26.1.2",
