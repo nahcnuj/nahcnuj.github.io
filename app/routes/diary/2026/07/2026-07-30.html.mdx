@@ -1,0 +1,31 @@
+---
+id: "20260730T21585590"
+title: "WindowsApps の python はスタブなので使えません（2026年7月30日）"
+description: WindowsApps の python はスタブなので使えません
+tags: ["2026/07/30", "2026年7月30日"]
+aliases: ["diary/2026/07/30"]
+created: "2026-07-30T21:58:55"
+updated: "2026-07-30T21:58:55"
+published: 2026-07-30
+---
+# 2026年7月30日
+## WindowsApps の python はスタブなので使えません
+とGrokに言われました。
+
+プロンプト
+
+```sh-session
+PS C:\Users\nahcnuj\ghq\github.com\nahcnuj\makamujo> python apply_transitions.py Python PS C:\Users\nahcnuj\ghq\github.com\nahcnuj\makamujo> Select-String -Path lib\MarkovChainModel\index.ts -Pattern "fromContexts" PS C:\Users\nahcnuj\ghq\github.com\nahcnuj\makamujo> git diff --stat PS C:\Users\nahcnuj\ghq\github.com\nahcnuj\makamujo> bun test lib/MarkovChainModel/index.test.ts
+```
+
+レスポンス
+
+```md
+`python apply_transitions.py` が スクリプトを実行していません。  
+出力が `Python` だけなのは、Windows のストア用スタブか別コマンドです。
+```
+
+### 同様の症状
+- [cmdでpythonコマンドが「Python」とだけ返すときの解決法｜Y\-As](https://note.com/qk01yasu/n/n5c81d4706f91)
+- [Windows11でPython使うまで地味に大変でした｜さめちゃ](https://note.com/satounotsuzuki/n/n68cd0a25d959)
+- [WindowsでのPython環境構築：Microsoft Store版を推奨しない理由 \- InnoBaseLab Tech Blog](https://innobaselab.hatenablog.com/entry/2025/12/27/141746)
