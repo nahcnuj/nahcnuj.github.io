@@ -5,12 +5,14 @@ import ssg from '@hono/vite-ssg'
 import mdx from '@mdx-js/rollup'
 import honox from 'honox/vite'
 import rehypeExternalLinks from 'rehype-external-links'
+import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
-import { rehypeDownloadLinks, remarkDownloadAdPopup } from './app/lib/downloadLinkPlugin'
 import remarkFrontmatter from 'remark-frontmatter'
+import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { defineConfig, type Plugin } from 'vite'
+import { rehypeDownloadLinks, remarkDownloadAdPopup } from './app/lib/downloadLinkPlugin'
 
 function devFixturesPlugin(): Plugin {
   const copiedPaths: string[] = []
@@ -105,9 +107,10 @@ export default defineConfig(({ command, mode }) => {
       ssg({ entry }),
       mdx({
         jsxImportSource: 'hono/jsx',
-        remarkPlugins: [remarkFrontmatter, remarkDownloadAdPopup, remarkMdxFrontmatter, remarkMath],
+        remarkPlugins: [remarkFrontmatter, remarkDownloadAdPopup, remarkMdxFrontmatter, remarkGfm, remarkMath],
         rehypePlugins: [
           rehypeMathML,
+          rehypeHighlight,
           () =>
             rehypeExternalLinks({
               rel: ['nofollow', 'noopener', 'noreferrer'],
