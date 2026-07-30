@@ -2,6 +2,7 @@ import { css } from 'hono/css'
 
 const footerClass = css`
   margin-block-start: 2em;
+  margin-block-end: 5em;
   padding-block: 1em;
   border-top: 2pt solid var(--theme-main-color);
   font-size: smaller;
