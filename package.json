@@ -22,7 +22,7 @@
     "@hono/vite-ssg": "^0.3.3",
     "@mdx-js/rollup": "^3.1.1",
     "@resvg/resvg-js": "^2.6.2",
-    "hono": "^4.13.1",
+    "hono": "^4.13.2",
     "honox": "^0.1.60",
     "rehype-external-links": "^3.0.0",
     "rehype-highlight": "^7.0.2",
@@ -43,5 +43,9 @@
   },
   "engines": {
     "node": "26.x"
-  }
+  },
+  "overrides": {
+    "@hono/node-server": "1.19.17"
+  },
+  "version": ""
 }
