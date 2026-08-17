@@ -31,7 +31,7 @@
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
-    "temporal-polyfill": "^1.0.3",
+    "temporal-polyfill": "^1.0.4",
     "vite": "^8.2.1"
   },
   "devDependencies": {
