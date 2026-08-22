@@ -123,15 +123,15 @@ export default function Article({
   const isIndexPage = currentPath?.endsWith('/index.html') ?? false
 
   return (
-    <article class={articleClass}>
-      {children}
+    <div class={articleClass}>
+      <article>{children}</article>
       {relatedArticles && relatedArticles.length > 0 && currentPath && (
-        <>
+        <aside>
           <h2>他の記事</h2>
           <RelatedArticles articles={relatedArticles} />
-        </>
+        </aside>
       )}
       {!isIndexPage && <MakamujoBanner />}
-    </article>
+    </div>
   )
 }
