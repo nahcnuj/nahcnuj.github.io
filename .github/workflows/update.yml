@@ -78,6 +78,8 @@ jobs:
         run: npm ci --omit dev --ignore-scripts --prefer-offline
       - name: Build site
         run: npm run build
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
       - name: Run readability test on built site
         run: npm run test:reading
       - if: failure()
