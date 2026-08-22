@@ -181,6 +181,8 @@ jobs:
           Start-Sleep -Seconds 10
       - name: Install Playwright browsers
         run: npx playwright install chromium
+      - name: Reading Mode Test
+        run: npm run test:reading
       - name: VRT Test
         run: npm run test:vrt
       - name: Upload test results on failure
