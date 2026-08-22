@@ -13,7 +13,7 @@ dist
 
 # MDX files copied from app/fixtures to app/routes during `npm run dev`
 app/routes/**/*.mdx
-
+!app/routes/essays/programming/functional/andthen-and-then-monad.mdx
 # Change them to your taste:
 wrangler.toml
 # package-lock.json
