@@ -182,7 +182,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install chromium
       - name: VRT Test
-        run: npm run test:vrt
+        run: npm run test:reading
       - name: Upload test results on failure
         if: failure()
         uses: actions/upload-artifact@v7
