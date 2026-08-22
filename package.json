@@ -13,7 +13,8 @@
     "lint:biome:fix": "npm run lint:biome -- --write",
     "test": "vitest run",
     "test:e2e": "vitest run --config vitest.config.e2e.ts",
-    "test:reading": "playwright test",
+    "test:vrt": "playwright test",
+    "test:vrt:update": "playwright test --update-snapshots",
     "verify:client-script": "node scripts/verify-client-script.mjs"
   },
   "dependencies": {
