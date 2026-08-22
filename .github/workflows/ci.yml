@@ -184,7 +184,7 @@ jobs:
       - name: Reading Mode Test
         run: npm run test:reading
       - name: VRT Test
-        run: node scripts/run-readability-test.mjs
+        run: npm run test:vrt
       - name: Upload test results on failure
         if: failure()
         uses: actions/upload-artifact@v7
