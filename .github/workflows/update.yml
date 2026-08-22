@@ -53,8 +53,8 @@ jobs:
           # Overlay only what the rclone sync (prepare) placed:
           # app/routes/**/*.mdx and public images from Google Drive.
           # Code merges from main are handled by the promote workflow.
-          rsync -a --delete ../app/routes/ ./app/routes/
-          rsync -a --delete ../public/ ./public/
+          rsync -a ../app/routes/ ./app/routes/
+          rsync -a ../public/ ./public/
 
           # Force-add the content files. They are intentionally gitignored on main
           # (to avoid committing dev fixture copies), but we explicitly want them
