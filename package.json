@@ -22,7 +22,7 @@
     "@hono/vite-ssg": "^0.3.3",
     "@mdx-js/rollup": "^3.1.1",
     "@resvg/resvg-js": "^2.6.2",
-    "hono": "^4.13.3",
+    "hono": "^4.13.5",
     "honox": "^0.1.61",
     "rehype-external-links": "^3.0.0",
     "rehype-highlight": "^7.0.2",
@@ -32,10 +32,10 @@
     "remark-math": "^6.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
     "temporal-polyfill": "^1.0.4",
-    "vite": "^8.2.1"
+    "vite": "^8.2.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.9",
+    "@biomejs/biome": "2.5.10",
     "@playwright/test": "^1.62.1",
     "@types/katex": "^0.16.8",
     "@types/node": "^26.2.0",
