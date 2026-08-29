@@ -83,7 +83,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install chromium
       - name: Run readability test on built site
-        run: npm run test:reading || echo "Skipped failing tests"
+        run: npm run test:reading
       - if: failure()
         uses: ./.github/actions/notify-failure
         with:
