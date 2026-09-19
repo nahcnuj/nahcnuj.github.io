@@ -1,0 +1,86 @@
+---
+id: "20260919T22322059"
+title: "シルバーウィーク1日目（2026年9月19日）"
+description: "コーディングエージェントにコミットのauthorを任せられるようにした。"
+tags: ["2026/09/19", "2026年9月19日"]
+aliases: ["diary/2026/09/19"]
+thumbnail: "https://www.nahcnuj.work/diary/2026/09/images/2026-09-19-ogp-1200x630.png"
+created: "2026-09-19T22:32:20"
+updated: "2026-09-19T22:32:20"
+published: "2026-09-19"
+---
+# 2026年9月19日（9連休1日目）
+## OpenCodeとの出会い
+Grok BuildやGoogle AIの安いプランではレートリミットが圧倒的に足りない。
+しかし、個人で休日にくらいしか使わないものに高額なプランを契約するのは憚られる。
+
+無料で利用できるモデルが複数提供されているオープンソースのAIコーディングエージェント[OpenCode](https://opencode.ai)を知り、試してみた。
+かなり使える。レートリミットが必ずしも共有されているわけではないらしく、あるモデルでリミットに達した後、別のモデルを選択すると使えるようになった。
+
+趣味ですらプログラムを書かなくなった昨今、AIエージェントが作成したコミットのAuthorが人間で、クレジットが`Co-authored-by`止まりであることに不満が出てきた。
+AIがコミットする時にいちいちGPG鍵のパスワードを入力して再認証してやらないといけないのもダルい。
+
+コミットAuthorをAIエージェント自身にさせることはできないだろうか？
+
+## GitHub Appsにコミットさせる
+GitHub Appsでコミットさせられる予感はあったので、少し調べるとすぐに[からあげ氏](https://github.com/karaage0703)の記事「[GitHub AppをAIエージェントに使わせる方法](https://zenn.dev/karaage0703/articles/f317cc3a51fba1)」を発見した。
+この記事の「方法3」がまさにやりたいことである。
+
+### GitHub Appsを作成
+やり方は記事に書かれている通りであった。
+
+1. GitHubのSettingsページからDeveloper Settingsを開く
+2. 「New GitHub App」ボタンをクリックし、以下を入力する（書いていない項目はデフォルト）
+	- GitHub App name: `conahcnuj`（任意）
+	- Homepage URL: [`https://github.com/nahcnuj`](https://github.com/nahcnuj)（任意）
+	- Webhook: `Active`のチェックを**外す**
+	- Permissions: 無し（後で必要なものを設定する）
+3. 「Create GitHub App」ボタンをクリックする
+4. [作られた `conahcnuj` アプリケーション](https://github.com/settings/apps/conahcnuj)の設定画面で、「Private keys」セクションの「Generate a private key」をクリックする
+5. 秘密鍵ファイルを適当な場所にダウンロードする（ファイルのパーミッションを正しく設定する）
+
+作成したアプリを自分のアカウントにインストールする。
+
+1. 先ほどと同じ設定画面から「Install App」をクリックする
+2. 自身のアカウントにインストールする
+3. [インストール](https://github.com/settings/installations/162902772)されたアプリの設定画面が開く
+
+### OpenCodeが署名付きコミットできるようにする
+さて、記事ではこの後Pythonを使ってGitHub CLIのラッパーを作っているが、Powershellでなんとかしたい。
+早速OpenCodeを使ってそのようなスクリプトを作らせることにした。
+
+nahcnujのcopilotということで[conahcnuj](https://github.com/nahcnuj/conahcnuj)という名前にした。
+
+Powershellなのは `install.ps1` だけで、実際にはシェルスクリプトなのは御愛嬌。Windowsには `bash.exe` があるので問題ない。
+リポジトリルートで以下を実行すると `~/.config/opencode/` 配下にプラグインが配置される（はず...？）。
+
+```sh
+./install.ps1
+```
+
+ラッパースクリプトの中身を知っているOpenCodeは自身の書いたスクリプトを使って、自分名義のコミットを署名付きで作った。
+
+[Add GitHub API commit helper and offline mock tests for CI by conahcnuj\[bot\] · Pull Request \#2 · nahcnuj/conahcnuj](https://github.com/nahcnuj/conahcnuj/pull/2)
+
+リポジトリのオーナーとして正真正銘の[LGTM](https://github.com/nahcnuj/conahcnuj/pull/2#pullrequestreview-5255068644)を付けることが出来た。
+
+### 他のリポジトリにもコントリビュートさせたい
+この仕組みを使って自分の別のリポジトリにも、コーディングエージェント名義で作業を行わせたい。
+目下取り組んでいるところの自作AIストリーマー、[馬可無序](https://www.nahcnuj.work/makamujo/)（まか・むじょ）の [`makamujo` リポジトリ](https://github.com/nahcnuj/makamujo)をターゲットにする。
+適当に立てていたissuesをやってみてもらった。
+
+コーディングエージェントに作業させながらリポジトリにブランチ保護の設定をした。Approveなしにはマージできないようにした。
+
+[1つ](https://github.com/nahcnuj/makamujo/pull/637)はまあ上手く行ったのだが、[もう1つ](https://github.com/nahcnuj/makamujo/pull/638)を（別のモデルに）やらせてみると上手くコミットが出来ない。
+おそらく、コーディングエージェントが`GH_TOKEN`を生成してコミットするラッパースクリプトの存在を認識できず、[「ブランチ保護を外さないとマージできないから外してくれ」](https://x.com/pronahcnuj/status/2101280101560439157)と懇願されるほどだった。
+
+OpenCodeの設定ファイルにコメントでしか書かれていないので多分それが原因なのだろうと思った。
+```jsonc
+  // GitHub App "conahcnuj" (app id 4997044) として git 操作を行います。
+  // 仕組みは plugins/gh-app-token.ts (自動ロード) + gh-app/get-token.sh が
+  // インストールトークンを発行し、shell.env フックで GH_TOKEN と
+  // GIT_CONFIG_* (user.name/user.email/credential.helper/commit.gpgsign) を注入します。
+```
+
+頑張れ、conahcnuj！
+![](diary/2026/09/images/Pasted%20image%2020260919233453.png)
