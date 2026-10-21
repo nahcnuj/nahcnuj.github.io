@@ -32,7 +32,7 @@
     "remark-math": "^6.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
     "temporal-polyfill": "^1.0.5",
-    "vite": "^8.3.1"
+    "vite": "^8.3.4"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
