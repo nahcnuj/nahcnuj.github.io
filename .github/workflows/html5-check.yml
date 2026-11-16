@@ -6,6 +6,9 @@ on:
     types:
       - completed
 
+permissions:
+  actions: read
+
 jobs:
   check:
     if: github.event.workflow_run.conclusion == 'success'
