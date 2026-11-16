@@ -43,13 +43,13 @@ GitHub Appsでコミットさせられる予感はあったので、少し調べ
 
 1. 先ほどと同じ設定画面から「Install App」をクリックする
 2. 自身のアカウントにインストールする
-3. [インストール](https://github.com/settings/installations/162902772)されたアプリの設定画面が開く
+3. インストールされたアプリの設定画面が開く
 
 ### OpenCodeが署名付きコミットできるようにする
 さて、記事ではこの後Pythonを使ってGitHub CLIのラッパーを作っているが、Powershellでなんとかしたい。
 早速OpenCodeを使ってそのようなスクリプトを作らせることにした。
 
-nahcnujのcopilotということで[conahcnuj](https://github.com/nahcnuj/conahcnuj)という名前にした。
+nahcnujのcopilotということで[conahcnuj](https://github.com/conahcnuj/conahcnuj)という名前にした。
 
 Powershellなのは `install.ps1` だけで、実際にはシェルスクリプトなのは御愛嬌。Windowsには `bash.exe` があるので問題ない。
 リポジトリルートで以下を実行すると `~/.config/opencode/` 配下にプラグインが配置される（はず...？）。
