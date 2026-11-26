@@ -22,8 +22,8 @@
     "@hono/vite-ssg": "^0.3.3",
     "@mdx-js/rollup": "^3.1.1",
     "@resvg/resvg-js": "^2.6.2",
-    "hono": "^4.13.17",
-    "honox": "^0.1.62",
+    "hono": "^4.13.21",
+    "honox": "^0.1.63",
     "rehype-external-links": "^3.0.0",
     "rehype-highlight": "^7.0.2",
     "rehype-slug": "^6.0.0",
@@ -32,14 +32,14 @@
     "remark-math": "^6.0.0",
     "remark-mdx-frontmatter": "^6.0.0",
     "temporal-polyfill": "^1.0.8",
-    "vite": "^8.3.7"
+    "vite": "^8.3.8"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.6",
-    "@playwright/test": "^1.65.0",
+    "@biomejs/biome": "2.6.8",
+    "@playwright/test": "^1.65.1",
     "@types/katex": "^0.16.8",
     "@types/node": "^26.6.6",
-    "vitest": "^5.1.0"
+    "vitest": "^5.1.1"
   },
   "engines": {
     "node": "26.x"
